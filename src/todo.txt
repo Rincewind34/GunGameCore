@@ -1,0 +1,43 @@
+Beta-1.2 (Worlds)
+- difficult
+- gamerule mobgriefing
+
+Beta-1.3 (GameFlow)
+- msg für lobbycountdown cancle
+- lobbycountdown abbrechen bei playerleave/playerquit
+- unentschieden
+- start-cmd
+- joinmsg (${player} joined the game! [${current}/${max}]
+- messages für blöcke abbauen/setzten
+
+Version-1.1 (InventoryUpdate)
+- potioneffekte
+- interfaceapi-support
+- toLobby item
+
+Version-1.2 (BeatyUpdate)
+- sounds (cfg enable)
+- firework
+- weather (CLEAR|RAIN)
+- time
+- particle
+- tablist
+- titles
+
+Version-1.3 (PvP Update)
+- onKill: HEAL|REGEN
+- killstreak
+- healthbar bellow name
+- NemisisPlayer
+- Falldmg
+
+Version-1.4 (Chat)
+- chat (vault support)
+
+Version-1.5 (Stats)
+- stats
+- commandlist (Befehle werden bei bestimmten Ereignissen automatisch ausgeführt)
+
+
+
+
