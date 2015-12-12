@@ -12,6 +12,10 @@ import org.bukkit.util.io.BukkitObjectOutputStream;
 public class ItemSerializer {
 
 	public static String serialize(ItemStack item) {
+		if (item != null) {
+			throw new NullPointerException("The item cannot be null!");
+		}
+		
 		String base64 = null;
 		
 		try {
@@ -29,6 +33,10 @@ public class ItemSerializer {
 	}
 	
 	public static ItemStack deserialize(String data) {
+		if (data != null) {
+			throw new NullPointerException("The data cannot be null!");
+		}
+		
 		ItemStack item = null;
 		
 		try {
@@ -43,7 +51,12 @@ public class ItemSerializer {
 		return item;
 	}
 	
+	@SuppressWarnings("null")
 	public static String serializeInventory(PlayerInventory inv) {
+		if (inv != null) {
+			throw new NullPointerException("The inventory cannot be null!");
+		}
+		
 		int counter = 0;
 		ItemStack[] content = new ItemStack[40];
 		for (int i = 0; i < inv.getContents().length; i++) {
@@ -63,7 +76,12 @@ public class ItemSerializer {
 		return resultBuilder.toString();
 	}
 	
+	@SuppressWarnings("null")
 	public static ItemStack[] deserializeInventory(String data) {
+		if (data != null) {
+			throw new NullPointerException("The data cannot be null!");
+		}
+		
 		String[] items = data.split("[|]");
 		ItemStack[] content = new ItemStack[40];
 		for (int i = 0; i < 36; i++) {
