@@ -1,195 +1,59 @@
 package lib.securebit.game;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class GameStateManager {
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+
+public interface GameStateManager extends Iterable<GameState> {
 	
-	private List<GameState> states;
-	private GameState disabledState;
+	public abstract <T extends GameState> T getCurrent(Class<T> cls);
 	
-	private Game game;
+	public abstract List<GameState> getStates();
 	
-	private int index;
-	private int backup;
+	public abstract GameState getState(String name);
 	
-	private boolean created;
+	public abstract GameState getCurrent();
 	
-	public GameStateManager() {
-		this.states = new ArrayList<GameState>();
-	}
+	public abstract GameState getDisabledState();
 	
-	public List<GameState> getStates() {
-		return Collections.unmodifiableList(this.states);
-	}
+	public abstract Game getGame();
 	
-	public void initGame(Game game) {
-		if (this.isCreated()) {
-			throw new GameStateException("The manager was already created!");
-		}
-		
-		this.game = game;
-	}
+	public abstract String getCurrentName();
 	
-	public Game getGame() {
-		return this.game;
-	}
+	public abstract boolean isRunning();
 	
-	public GameState getCurrent() {
-		if (!this.isCreated()) {
-			throw new GameStateException("The manager has to be created!");
-		}
-		
-		if (this.isRunning()) {
-			return this.states.get(this.index);
-		} else {
-			return this.disabledState;
-		}
-	}
+	public abstract boolean isCreated();
 	
-	public GameState getDisabledState() {
-		if (!this.isCreated()) {
-			throw new GameStateException("The manager has to be created!");
-		}
-		
-		return this.disabledState;
-	}
+	public abstract boolean hasNext();
 	
-	public int getIndex() {
-		if (!this.isCreated()) {
-			throw new GameStateException("The manager has to be created!");
-		}
-		
-		return this.index;
-	}
+	public abstract void addGameState(GameState state);
 	
-	public void create() {
-		if (!this.isCreated()) {
-			if (this.states.size() < 1) {
-				throw new GameStateException("The manager has to contain at least one gamestate!");
-			}
-			
-			if (this.disabledState == null) {
-				throw new GameStateException("The manager has to have a disabled-state!");
-			}
-			
-			if (this.game == null) {
-				throw new GameStateException("The manager has to have a game-instance");
-			}
-			
-			this.index = -1;
-			this.backup = 0;
-			this.created = true;
-			this.disabledState.getEnterListener().run();
-		} else {
-			throw new GameStateException("The manager was already created!");
-		}
-	}
+	public abstract void initDisabledState(GameState state);
 	
-	public void addState(GameState state) {
-		if (this.isCreated()) {
-			throw new GameStateException("The manager was already created!");
-		} else {
-			this.states.add(state);
-		}
-	}
+	public abstract void initGame(Game game);
 	
-	public void next() {
-		if (!this.isCreated()) {
-			throw new GameStateException("The manager has to be created!");
-		}
-		
-		if (this.isRunning()) {
-			if (this.hasNext()) {
-				this.getCurrent().getLeaveListener().run();
-				this.index = this.index + 1;
-				this.getCurrent().getEnterListener().run();
-			} else {
-				this.setRunning(false);
-			}
-		}
-	}
+	public abstract void setRunning(boolean running);
 	
-	public void back() {
-		if (!this.isCreated()) {
-			throw new GameStateException("The manager has to be created!");
-		}
-		
-		if (this.isRunning()) {
-			if (this.index != 0) {
-				this.getCurrent().getLeaveListener().run();
-				this.index = this.index - 1;
-				this.getCurrent().getEnterListener().run();
-			} else {
-				this.setRunning(false);
-			}
-		}
-	}
+	public abstract void next();
 	
-	public void setRunning(boolean running, boolean restart) {
-		if (!this.isCreated()) {
-			return;
-		}
-		
-		if (!running && this.isRunning()) {
-			this.backup = this.index;
-			this.getCurrent().getLeaveListener().run();
-			this.index = -1;
-			
-			if (this.hasDisabledGameState()) {
-				this.getCurrent().getEnterListener().run();
-			}
-		} else if (running && !this.isRunning()) {
-			if (this.hasDisabledGameState()) {
-				this.getCurrent().getLeaveListener().run();
-			}
-				
-			if (restart) {
-				this.index = 0;
-			} else {
-				this.index = this.backup;
-			}
-			
-			this.getCurrent().getEnterListener().run();
-		}
-	}
+	public abstract void next(int indexTo);
 	
-	public void setRunning(boolean running) {
-		this.setRunning(running, true);
-	}
+	public abstract void back();
 	
-	public void setDisabledState(GameState disabledState) {
-		if (this.isCreated()) {
-			throw new GameStateException("The manager was already created!");
-		}
-		
-		this.disabledState = disabledState;
-	}
+	public abstract void back(int indexTo);
 	
-	public boolean isRunning() {
-		if (!this.isCreated()) {
-			throw new GameStateException("The manager has to be created!");
-		}
-		
-		return this.index != -1;
-	}
+	public abstract void skip(int count);
 	
-	public boolean isCreated() {
-		return this.created;
-	}
+	public abstract void skipAll();
 	
-	public boolean hasDisabledGameState() {
-		return this.disabledState != null;
-	}
+	public abstract void create();
 	
-	public boolean hasNext() {
-		if (!this.isCreated()) {
-			throw new GameStateException("The manager has to be created!");
-		}
-		
-		return this.states.size() > this.index + 1;
-	}
+	public abstract void create(boolean running);
+	
+	public abstract void addListener(Listener listener);
+	
+	public abstract int getCurrentIndex();
 	
 	
 	@SuppressWarnings("serial")
@@ -204,6 +68,8 @@ public class GameStateManager {
 	public static interface Game {
 		
 		public abstract boolean isReady();
+		
+		public abstract void resetPlayer(Player player);
 		
 	}
 	

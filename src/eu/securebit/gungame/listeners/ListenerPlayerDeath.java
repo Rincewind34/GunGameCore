@@ -1,30 +1,26 @@
 package eu.securebit.gungame.listeners;
 
-import lib.securebit.listener.DefaultListener;
-import lib.securebit.listener.ListenerBundle;
+import lib.securebit.game.StateTarget;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import eu.securebit.gungame.GunGame;
 import eu.securebit.gungame.GunGameScoreboard;
 import eu.securebit.gungame.Main;
 
-public class ListenerPlayerDeath extends DefaultListener {
+@StateTarget(states = { "ingame" })
+public class ListenerPlayerDeath implements Listener {
 	
-	public ListenerPlayerDeath() {
-		super(ListenerPlayerDeath.class, PlayerDeathEvent.getHandlerList());
-	}
-
-	@ListenerBundle(name = { "bundle.ingame" })
-	private static void onDeath(PlayerDeathEvent event) {
+	public void onDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
 		GunGame game = Main.instance().getGame();
 		
 		event.setDeathMessage("");
 
 		if (player.getKiller() != null) {
-			ListenerPlayerDeath.downgrade(player, game);
+			this.downgrade(player, game);
 
 			Player killer = player.getKiller();
 			
@@ -44,7 +40,7 @@ public class ListenerPlayerDeath extends DefaultListener {
 			Main.broadcast(Main.instance().getFileConfig().getMessageNaturalDeath(player));
 			
 			if (Main.instance().getFileConfig().isLevelDowngradeOnNaturalDeath()) {
-				ListenerPlayerDeath.downgrade(player, game);
+				this.downgrade(player, game);
 			}
 		}
 
@@ -56,7 +52,7 @@ public class ListenerPlayerDeath extends DefaultListener {
 		}
 	}
 	
-	private static void downgrade(Player player, GunGame game) {
+	private void downgrade(Player player, GunGame game) {
 		if (Main.instance().getFileConfig().isLevelResetAfterDeath()) {
 			game.resetLevel(player);
 		} else {

@@ -1,9 +1,26 @@
 package lib.securebit.game;
 
-public interface GameState {
+import java.util.ArrayList;
+import java.util.List;
+
+import lib.securebit.InfoLayout;
+
+import org.bukkit.event.Listener;
+
+public abstract class GameState implements Listener {
 	
-	public abstract Runnable getEnterListener();
+	private List<Listener> listeners = new ArrayList<>();
 	
-	public abstract Runnable getLeaveListener();
+	public final List<Listener> getListeners() {
+		return this.listeners;
+	}
+	
+	public abstract void onEnter();
+	
+	public abstract void onLeave();
+	
+	public void stageInformation(InfoLayout layout) {
+		
+	}
 	
 }

@@ -2,25 +2,21 @@ package eu.securebit.gungame.listeners;
 
 import java.util.List;
 
-import lib.securebit.listener.DefaultListener;
-import lib.securebit.listener.ListenerBundle;
+import lib.securebit.game.StateTarget;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.util.Vector;
 
 import eu.securebit.gungame.Main;
 
-public class ListenerPlayerRespawn extends DefaultListener {
+@StateTarget(states = { "ingame" })
+public class ListenerPlayerRespawn implements Listener {
 	
-	public ListenerPlayerRespawn() {
-		super(ListenerPlayerRespawn.class, PlayerRespawnEvent.getHandlerList());
-	}
-	
-	@ListenerBundle(name = { "bundle.ingame" })
-	private static void onRespawnIngame(PlayerRespawnEvent event) {
+	public void onRespawnIngame(PlayerRespawnEvent event) {
 		Player player = event.getPlayer();
 		
 		List<Location> spawns = Main.instance().getFileConfig().getSpawns();
@@ -36,11 +32,6 @@ public class ListenerPlayerRespawn extends DefaultListener {
 				player.sendMessage(message);
 			}
 		}, 1L);
-	}
-	
-	@ListenerBundle(name = { "bundle.end" })
-	private static void onRespawn(PlayerRespawnEvent event) {
-		event.setRespawnLocation(Main.instance().getFileConfig().getLocationLobby());
 	}
 	
 }

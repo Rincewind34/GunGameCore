@@ -6,10 +6,10 @@ import lib.securebit.command.Argument;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import eu.securebit.gungame.Information;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.Messages;
 import eu.securebit.gungame.Permissions;
+import eu.securebit.gungame.Util;
 
 public class ArgumentInfo extends Argument<Main> {
 	
@@ -37,7 +37,7 @@ public class ArgumentInfo extends Argument<Main> {
 		if (args.length == 1) {
 			InfoLayout layout = Main.layout();
 			layout.begin();
-			Information.generalInfo(layout);
+			Util.stageInformation(layout);
 			layout.commit(sender);
 		} else {
 			sender.sendMessage(Messages.syntax(this.getSyntax()));

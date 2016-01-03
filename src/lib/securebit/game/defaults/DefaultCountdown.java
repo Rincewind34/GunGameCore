@@ -1,14 +1,15 @@
-package eu.securebit.gungame.game.countdowns;
+package lib.securebit.game.defaults;
 
 import lib.securebit.game.AbstractCountdown;
 import lib.securebit.game.listener.CountdownListener;
 import lib.securebit.game.listener.TimeListener;
-import eu.securebit.gungame.Main;
 
-public class CountdownGrace extends AbstractCountdown implements CountdownListener, TimeListener {
+import org.bukkit.plugin.Plugin;
 
-	public CountdownGrace() {
-		super(Main.instance(), 15);
+public abstract class DefaultCountdown extends AbstractCountdown implements CountdownListener, TimeListener {
+
+	public DefaultCountdown(Plugin plugin, int seconds) {
+		super(plugin, seconds);
 		
 		this.addCountdownListener(this);
 		this.addTimeListener(this);
@@ -21,9 +22,7 @@ public class CountdownGrace extends AbstractCountdown implements CountdownListen
 
 	@Override
 	public void onStop(int skippedSeconds) {
-		if (skippedSeconds == 0) {
-			Main.instance().getGameStateManager().next();
-		}
+		
 	}
 
 	@Override
@@ -39,11 +38,6 @@ public class CountdownGrace extends AbstractCountdown implements CountdownListen
 	@Override
 	public boolean isAnnounceTime(int secondsLeft) {
 		return TimeListener.defaultAnnounceTime(secondsLeft);
-	}
-
-	@Override
-	public void onAnnounceTime(int secondsLeft) {
-		Main.broadcast(Main.instance().getFileConfig().getMessageGraceCountdown(secondsLeft));
 	}
 
 }

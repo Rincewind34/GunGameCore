@@ -6,7 +6,11 @@ import java.util.Map;
 import lib.securebit.game.GameStateManager.Game;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.util.Vector;
 
 import eu.securebit.gungame.exception.MalformedConfigException;
 import eu.securebit.gungame.game.states.GameStateEnd;
@@ -50,6 +54,23 @@ public class GunGame implements Game {
 		return !Main.instance().getFileConfig().isEditMode();
 	}
 	
+	@Override
+	public void resetPlayer(Player player) {
+		player.setGameMode(GameMode.SURVIVAL);
+		player.setHealth(20.0);
+		player.setVelocity(new Vector(0, 0, 0));
+		player.setFoodLevel(20);
+		player.setExp(0.0F);
+		player.setLevel(0);
+		player.setFireTicks(0);
+		player.getInventory().clear();
+		player.getInventory().setArmorContents(new ItemStack[] { null, null, null, null });
+		
+		for (PotionEffect effect : player.getActivePotionEffects()) {
+			player.removePotionEffect(effect.getType());
+		}
+	}
+	
 	public void handleDisconnect(Player player) {
 		if (this.winner == player) {
 			this.winner = null;
@@ -63,7 +84,7 @@ public class GunGame implements Game {
 	public void calculateGameState() {
 		if (Bukkit.getOnlinePlayers().size() == 1) {
 			while (!(Main.instance().getGameStateManager().getCurrent() instanceof GameStateEnd)) {
-				Main.instance().getGameStateManager().next();
+				Main.instance().getGameStateManager().skipAll();
 			}
 		}
 		
@@ -129,5 +150,5 @@ public class GunGame implements Game {
 	public Player getWinner() {
 		return this.winner;
 	}
-	
+
 }

@@ -19,7 +19,7 @@ public class Messages {
 	}
 	
 	public static String currentGamestate() {
-		return Main.layout().format("\\preCurrent gamestate: *" + Util.getGameStateName() + "*");
+		return Main.layout().format("\\preCurrent gamestate: *" + Main.instance().getGameStateManager().getCurrentName() + "*");
 	}
 	
 	public static String spawnNotExisting(int spawnId) {

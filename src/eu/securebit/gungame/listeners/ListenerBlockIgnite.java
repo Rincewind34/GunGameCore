@@ -1,19 +1,17 @@
-package eu.securebit.gungame.listeners;
+ package eu.securebit.gungame.listeners;
 
-import lib.securebit.listener.DefaultListener;
-import lib.securebit.listener.ListenerBundle;
+import lib.securebit.game.StateTarget;
 
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 
-public class ListenerBlockIgnite extends DefaultListener {
+@StateTarget(states = { "grace", "ingame" })
+public class ListenerBlockIgnite implements Listener {
 	
-	public ListenerBlockIgnite() {
-		super(ListenerBlockIgnite.class, BlockIgniteEvent.getHandlerList());
-	}
-
-	@ListenerBundle(name = { "bundle.grace", "bundle.ingame" })
-	private static void onBlockIgnite(BlockIgniteEvent event) {
+	@EventHandler
+	public void onBlockIgnite(BlockIgniteEvent event) {
 		if (event.getCause() == IgniteCause.SPREAD) {
 			event.setCancelled(true);
 		}
