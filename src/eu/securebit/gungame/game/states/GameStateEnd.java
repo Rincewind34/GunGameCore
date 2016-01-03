@@ -1,58 +1,33 @@
 package eu.securebit.gungame.game.states;
 
 import lib.securebit.InfoLayout;
-import lib.securebit.game.AbstractCountdown;
-import lib.securebit.game.Countdown;
-import lib.securebit.game.GameState;
-import lib.securebit.game.defaults.DefaultCountdown;
-import lib.securebit.game.listeners.ListenerBlocks;
-import lib.securebit.game.listeners.ListenerDamage;
-import lib.securebit.game.listeners.ListenerPlayer;
+import lib.securebit.game.GamePlayer;
+import lib.securebit.game.defaults.DefaultGameStateLobby;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.Messages;
+import eu.securebit.gungame.Permissions;
+import eu.securebit.gungame.Util;
 
-public class GameStateEnd extends GameState {
-	
-	private Countdown countdown;
+public class GameStateEnd extends DefaultGameStateLobby {
 	
 	public GameStateEnd() {
-		this.countdown = new DefaultCountdown(Main.instance(), 20) {
-			
-			@Override
-			public void onAnnounceTime(int secondsLeft) {
-				Main.broadcast(Main.instance().getFileConfig().getMessageCountdownEnd(secondsLeft));
-			}
-		};
-		
-		this.getListeners().add(new ListenerBlocks());
-		this.getListeners().add(new ListenerPlayer());
-		this.getListeners().add(new ListenerDamage() {
-			
-			@Override
-			public void onInWall(EntityDamageEvent event) {
-				this.teleport(event.getEntity());
-			}
-			
-			@Override
-			public void onInVoid(EntityDamageEvent event) {
-				this.teleport(event.getEntity());
-			}
-			
-			private void teleport(Entity entity) {
-				entity.teleport(Main.instance().getFileConfig().getLocationLobby());
-			}
-		});
+		super(Main.instance().getGame(),
+				Main.instance().getFileConfig().getLocationLobby(),
+				Permissions.premium(), Permissions.teammember(),
+				Main.instance().getFileConfig().getMaxPlayers(),
+				Main.instance().getFileConfig().getMinPlayers(),
+				20,
+				false);
 	}
-	
+
 	@Override
-	public void onEnter() {
+	public void start() {
 		Main.layout().message(Bukkit.getConsoleSender(), "Entering gamephase: *End*");
 		
 		if (Main.instance().getGame().getWinner() == null) {
@@ -75,17 +50,18 @@ public class GameStateEnd extends GameState {
 			Main.instance().getGame().resetPlayer(player);
 			player.teleport(Main.instance().getFileConfig().getLocationLobby());
 		}
-		
-		this.countdown.start();
 	}
 
 	@Override
-	public void onLeave() {
-		Main.layout().message(Bukkit.getConsoleSender(), "Leaving gamephase: *End*");
+	public void stop() {
+		super.stop();
 		
-		if (((AbstractCountdown) this.countdown).getSecondsLeft() != 0) {
-			this.countdown.stop();
-		}
+		Main.layout().message(Bukkit.getConsoleSender(), "Leaving gamephase: *End*");
+	}
+	
+	@Override
+	public void unload() {
+		super.unload();
 		
 		if (Main.DEBUG) {
 			Bukkit.reload();
@@ -97,11 +73,47 @@ public class GameStateEnd extends GameState {
 	@Override
 	public void stageInformation(InfoLayout layout) {
 		layout.line("Winner: " + Main.instance().getGame().getWinner());
-		layout.line("Seconds left: " + ((AbstractCountdown) this.countdown).getSecondsLeft());
+		layout.line("Seconds left: " + this.getCountdown().getSecondsLeft());
+	}
+	
+	@Override
+	public void updateScoreboard(GamePlayer player) {
+		// TODO
+	}
+
+	@Override
+	public String getName() {
+		return "end";
+	}
+
+	@Override
+	protected String getKickMessage(int levelKicked) {
+		return null;
+	}
+
+	@Override
+	protected String getMessageServerFull() {
+		return null;
+	}
+
+	@Override
+	protected String getMessageNotJoinable() {
+		return Messages.serverNotJoinable();
+	}
+
+	@Override
+	protected String getMessageCountdown(int secondsLeft) {
+		return Main.instance().getFileConfig().getMessageCountdownEnd(secondsLeft);
+	}
+	
+	@Override
+	protected void onQuit(Player player) {
+		super.onQuit(player);
+		Util.startCalculation(player, 2);
 	}
 	
 	@EventHandler
-	public void onRespawn(PlayerRespawnEvent event) {
+	private void onRespawn(PlayerRespawnEvent event) {
 		event.setRespawnLocation(Main.instance().getFileConfig().getLocationLobby());
 	}
 	

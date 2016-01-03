@@ -1,16 +1,10 @@
 package eu.securebit.gungame.game.states;
 
 import lib.securebit.InfoLayout;
-import lib.securebit.game.GameState;
+import lib.securebit.game.defaults.DefaultGameStateDisabled;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerLoginEvent.Result;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.Messages;
@@ -18,22 +12,24 @@ import eu.securebit.gungame.Permissions;
 import eu.securebit.gungame.Util;
 import eu.securebit.gungame.exception.MalformedConfigException;
 
-public class DisabledStateEdit extends GameState {
+public class DisabledStateEdit extends DefaultGameStateDisabled {
+	
+	public DisabledStateEdit() {
+		super(Main.instance().getGame());
+	}
 	
 	@Override
-	public void onEnter() {
+	public void start() {
 		Main.layout().message(Bukkit.getConsoleSender(), "Entering gamephase: *Edit*");
-		
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			player.setGameMode(GameMode.CREATIVE);
-		}
+		super.start();
 	}
-
+	
 	@Override
-	public void onLeave() {
+	public void stop() {
+		super.stop();
 		Main.layout().message(Bukkit.getConsoleSender(), "Leaving gamephase: *Edit*");
 	}
-	
+
 	@Override
 	public void stageInformation(InfoLayout layout) {
 		try {
@@ -67,24 +63,31 @@ public class DisabledStateEdit extends GameState {
 		}
 	}
 	
-	@EventHandler
-	public void onLogin(PlayerLoginEvent event) {
-		if (!event.getPlayer().hasPermission(Permissions.joinEditMode())) {
-			event.disallow(Result.KICK_OTHER, "The server is currently down for maintenance!");
-		}
+	@Override
+	protected void onJoin(Player player) {
+		super.onJoin(player);
+		Main.layout().broadcast("*" + player + "* joined the server!");
 	}
 	
-	@EventHandler
-	public void onJoin(PlayerJoinEvent event) {
-		event.getPlayer().setGameMode(GameMode.CREATIVE);
-		event.getPlayer().sendMessage(Messages.maintenance());
-		
-		Main.layout().broadcast("*" + event.getPlayer().getName() + "* joined the server!");
+	@Override
+	protected void onQuit(Player player) {
+		super.onQuit(player);
+		Main.layout().broadcast("*" + player + "* left the server!");
 	}
-	
-	@EventHandler
-	public void onQuit(PlayerQuitEvent event) {
-		Main.layout().broadcast("*" + event.getPlayer().getName() + "* left the server!");
+
+	@Override
+	protected String getStaffPermission() {
+		return Permissions.teammember();
+	}
+
+	@Override
+	protected String getMaintenanceKickMessage() {
+		return Messages.maintenanceKick();
+	}
+
+	@Override
+	protected String getMaintenanceAdminMessage() {
+		return Messages.maintenance();
 	}
 	
 }

@@ -2,8 +2,6 @@ package eu.securebit.gungame.listeners;
 
 import java.util.List;
 
-import lib.securebit.game.StateTarget;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -13,7 +11,6 @@ import org.bukkit.util.Vector;
 
 import eu.securebit.gungame.Main;
 
-@StateTarget(states = { "ingame" })
 public class ListenerPlayerRespawn implements Listener {
 	
 	public void onRespawnIngame(PlayerRespawnEvent event) {

@@ -1,8 +1,5 @@
-package lib.securebit.game;
+package lib.securebit.countdown;
 
-import lib.securebit.game.listener.CountdownListener;
-import lib.securebit.game.listener.TickListener;
-import lib.securebit.game.listener.TimeListener;
 
 public interface Countdown {
 	
@@ -23,6 +20,8 @@ public interface Countdown {
 	public abstract void setStartSeconds(int startSeconds);
 	
 	public abstract int getStartSeconds();
+	
+	public abstract int getSecondsLeft();
 	
 	public abstract boolean isRunning();
 	

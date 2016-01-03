@@ -1,4 +1,4 @@
-package lib.securebit.game.listener;
+package lib.securebit.countdown;
 
 public interface CountdownListener {
 	

@@ -1,8 +1,4 @@
-package lib.securebit.game.defaults;
-
-import lib.securebit.game.AbstractCountdown;
-import lib.securebit.game.listener.CountdownListener;
-import lib.securebit.game.listener.TimeListener;
+package lib.securebit.countdown;
 
 import org.bukkit.plugin.Plugin;
 

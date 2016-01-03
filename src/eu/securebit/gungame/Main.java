@@ -4,12 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import lib.securebit.InfoLayout;
-import lib.securebit.command.BasicCommand;
-import lib.securebit.command.LayoutCommandSettings;
-import lib.securebit.game.CraftGameStateManager;
-import lib.securebit.game.GameStateManager;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -26,13 +20,12 @@ import eu.securebit.gungame.io.LevelConfig;
 import eu.securebit.gungame.io.MainConfig;
 import eu.securebit.gungame.io.flatfile.FileConfig;
 import eu.securebit.gungame.io.flatfile.FileLevels;
-import eu.securebit.gungame.listeners.ListenerBlockIgnite;
-import eu.securebit.gungame.listeners.ListenerPlayerDeath;
-import eu.securebit.gungame.listeners.ListenerPlayerJoin;
-import eu.securebit.gungame.listeners.ListenerPlayerLogin;
-import eu.securebit.gungame.listeners.ListenerPlayerQuit;
-import eu.securebit.gungame.listeners.ListenerPlayerRespawn;
 import eu.securebit.gungame.test.CommandTest;
+import lib.securebit.InfoLayout;
+import lib.securebit.command.BasicCommand;
+import lib.securebit.command.LayoutCommandSettings;
+import lib.securebit.game.GameStateManager;
+import lib.securebit.game.impl.CraftGameStateManager;
 
 public class Main extends JavaPlugin {
 	
@@ -64,7 +57,7 @@ public class Main extends JavaPlugin {
 	private MainConfig fileConfig;
 	private LevelConfig fileLevels;
 	
-	private GameStateManager manager;
+	private GameStateManager<GunGame> manager;
 	
 	@Override
 	public void onLoad() {
@@ -84,19 +77,19 @@ public class Main extends JavaPlugin {
 		this.loadFiles();
 		Main.layout.message(sender, "Files loaded!");
 		
-		this.manager = new CraftGameStateManager(this);
-		this.manager.addGameState(new GameStateLobby());
-		this.manager.addGameState(new GameStateGrace());
-		this.manager.addGameState(new GameStateIngame());
-		this.manager.addGameState(new GameStateEnd());
+		this.manager = new CraftGameStateManager<>(this);
+		this.manager.add(new GameStateLobby());
+		this.manager.add(new GameStateGrace());
+		this.manager.add(new GameStateIngame());
+		this.manager.add(new GameStateEnd());
 		this.manager.initGame(new GunGame());
 		this.manager.initDisabledState(new DisabledStateEdit());
-		this.manager.addListener(new ListenerPlayerJoin());
-		this.manager.addListener(new ListenerPlayerQuit());
-		this.manager.addListener(new ListenerBlockIgnite());
-		this.manager.addListener(new ListenerPlayerLogin());
-		this.manager.addListener(new ListenerPlayerDeath());
-		this.manager.addListener(new ListenerPlayerRespawn());
+//		this.manager.addListener(new ListenerPlayerJoin());
+//		this.manager.addListener(new ListenerPlayerQuit());
+//		this.manager.addListener(new ListenerBlockIgnite());
+//		this.manager.addListener(new ListenerPlayerLogin());
+//		this.manager.addListener(new ListenerPlayerDeath());
+//		this.manager.addListener(new ListenerPlayerRespawn());
 		this.manager.create();
 		Main.layout.message(sender, "Game initilized!");
 		
@@ -181,12 +174,12 @@ public class Main extends JavaPlugin {
 		return this.fileLevels;
 	}
 	
-	public GameStateManager getGameStateManager() {
+	public GameStateManager<GunGame> getGameStateManager() {
 		return this.manager;
 	}
 	
 	public GunGame getGame() {
-		return (GunGame) this.manager.getGame();
+		return this.manager.getGame();
 	}
 	
 	public void loadFiles() {

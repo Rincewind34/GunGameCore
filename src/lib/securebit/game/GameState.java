@@ -1,26 +1,45 @@
 package lib.securebit.game;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lib.securebit.InfoLayout;
 
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 
-public abstract class GameState implements Listener {
+public interface GameState extends Listener {
 	
-	private List<Listener> listeners = new ArrayList<>();
+	/*
+	 * GameState Lifecycle:
+	 * 		-> load
+	 * 			-> register listener (optional)
+	 * 			-> start (optional)
+	 * 			-> stop (optinal)
+	 * 			-> unregister listener (optional)
+	 * 		-> unload
+	 * 
+	 */
 	
-	public final List<Listener> getListeners() {
-		return this.listeners;
-	}
+	public abstract void load();
 	
-	public abstract void onEnter();
+	public abstract void registerListener(Plugin plugin);
 	
-	public abstract void onLeave();
+	public abstract void start();
 	
-	public void stageInformation(InfoLayout layout) {
-		
-	}
+	public abstract void stop();
+	
+	public abstract void unregisterListener(Plugin plugin);
+	
+	public abstract void unload();
+	
+	public abstract void updateScoreboard(GamePlayer player);
+	
+	public abstract void stageInformation(InfoLayout layout);
+	
+	public abstract String getName();
+	
+	public abstract Settings getSettings();
+	
+	public abstract List<Listener> getListeners();
 	
 }

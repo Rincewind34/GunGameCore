@@ -2,6 +2,22 @@ package eu.securebit.gungame;
 
 public class Messages {
 	
+	public static String lobbyKickPremium() {  //TODO config
+		return Main.layout().format("\\pre-You were kicked by a premiummember!");
+	}
+	
+	public static String lobbyKickStaffMember() {  //TODO config
+		return Main.layout().format("\\pre-You were kicked by a staffmember!-");
+	}
+	
+	public static String lobbyFull() {  //TODO config
+		return Main.layout().format("\\pre-The server is full!-");
+	}
+	
+	public static String serverNotJoinable() { //TODO config
+		return Main.layout().format("\\pre-The server is not joinable!-");
+	}
+	
 	public static String wrongMode(String mode) {
 		return Main.layout().format("\\pre-You cannot execute that in the- *" + mode + "*-!-");
 	}
@@ -19,7 +35,7 @@ public class Messages {
 	}
 	
 	public static String currentGamestate() {
-		return Main.layout().format("\\preCurrent gamestate: *" + Main.instance().getGameStateManager().getCurrentName() + "*");
+		return Main.layout().format("\\preCurrent gamestate: *" + Main.instance().getGameStateManager().getCurrent().getName() + "*");
 	}
 	
 	public static String spawnNotExisting(int spawnId) {
@@ -98,4 +114,7 @@ public class Messages {
 		return Main.layout().format("\\preThe server is currently under maintenance! GameMode updated!");
 	}
 	
+	public static String maintenanceKick() {
+		return Main.layout().format("\\preThe server is currently under maintenance, please visit us later!"); // TODO Config (User-Message)
+	}
 }

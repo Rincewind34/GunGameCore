@@ -1,11 +1,7 @@
-package lib.securebit.game;
+package lib.securebit.countdown;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import lib.securebit.game.listener.CountdownListener;
-import lib.securebit.game.listener.TickListener;
-import lib.securebit.game.listener.TimeListener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -26,6 +22,14 @@ public class AbstractCountdown implements Countdown {
 	private List<CountdownListener> countdownListeners;
 	
 	public AbstractCountdown(Plugin plugin, int startSeconds) {
+		if (plugin == null) {
+			throw new NullPointerException("The plugin cannot be null!");
+		}
+		
+		if (startSeconds <= 0) {
+			throw new CountdownException("The startseconds can only be greater than null!");
+		}
+		
 		this.startSeconds = startSeconds;
 		this.timeListeners = new ArrayList<>();
 		this.tickListeners = new ArrayList<>();
@@ -40,7 +44,7 @@ public class AbstractCountdown implements Countdown {
 	@Override
 	public void start() {
 		if (this.isRunning()) {
-			return;
+			throw new CountdownException("The countdown is already running!");
 		}
 		
 		this.running = true;
@@ -85,6 +89,12 @@ public class AbstractCountdown implements Countdown {
 
 	@Override
 	public void stop() {
+		if (!this.isRunning()) {
+			throw new CountdownException("The countdown is not running!");
+		}
+		
+		this.running = false;
+		
 		this.countdownListeners.forEach(listener -> {
 			listener.onStop(this.secondsLeft);
 		});
@@ -92,7 +102,6 @@ public class AbstractCountdown implements Countdown {
 		this.task.cancel();
 		this.task = null;
 		this.secondsLeft = 0;
-		this.running = false;
 	}
 
 	@Override
@@ -136,6 +145,7 @@ public class AbstractCountdown implements Countdown {
 		return this.running;
 	}
 	
+	@Override
 	public int getSecondsLeft() {
 		return this.secondsLeft;
 	}

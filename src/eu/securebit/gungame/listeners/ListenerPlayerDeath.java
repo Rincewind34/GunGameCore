@@ -1,7 +1,5 @@
 package eu.securebit.gungame.listeners;
 
-import lib.securebit.game.StateTarget;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -10,7 +8,6 @@ import eu.securebit.gungame.GunGame;
 import eu.securebit.gungame.GunGameScoreboard;
 import eu.securebit.gungame.Main;
 
-@StateTarget(states = { "ingame" })
 public class ListenerPlayerDeath implements Listener {
 	
 	public void onDeath(PlayerDeathEvent event) {

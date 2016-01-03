@@ -3,62 +3,31 @@ package eu.securebit.gungame.game.states;
 import java.util.List;
 
 import lib.securebit.InfoLayout;
-import lib.securebit.game.AbstractCountdown;
-import lib.securebit.game.Countdown;
-import lib.securebit.game.GameState;
-import lib.securebit.game.defaults.DefaultCountdown;
-import lib.securebit.game.listeners.ListenerBlocks;
-import lib.securebit.game.listeners.ListenerDamage;
-import lib.securebit.game.listeners.ListenerPlayer;
+import lib.securebit.game.GamePlayer;
+import lib.securebit.game.defaults.DefaultGameStateGrace;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
 
 import eu.securebit.gungame.GunGameScoreboard;
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.Util;
+import eu.securebit.gungame.listeners.ListenerBlockIgnite;
+import eu.securebit.gungame.listeners.ListenerPlayerLogin;
 
-public class GameStateGrace extends GameState {
-	
-	private Countdown countdown;
+public class GameStateGrace extends DefaultGameStateGrace {
 	
 	public GameStateGrace() {
-		this.countdown = new DefaultCountdown(Main.instance(), 15) {
-			
-			@Override
-			public void onAnnounceTime(int secondsLeft) {
-				Main.broadcast(Main.instance().getFileConfig().getMessageGraceCountdown(secondsLeft));
-			}
-		};
+		super(Main.instance().getGame(), 15);
 		
-		this.getListeners().add(new ListenerBlocks());
-		this.getListeners().add(new ListenerPlayer());
-		this.getListeners().add(new ListenerDamage() {
-			
-			@Override
-			public void onInWall(EntityDamageEvent event) {
-				this.teleport(event.getEntity());
-			}
-			
-			@Override
-			public void onInVoid(EntityDamageEvent event) {
-				this.teleport(event.getEntity());
-			}
-			
-			private void teleport(Entity entity) {
-				List<Location> spawns = Main.instance().getFileConfig().getSpawns();
-				entity.teleport(spawns.get(Main.random().nextInt(spawns.size())));
-			}
-		});
+		this.getListeners().add(new ListenerBlockIgnite());
+		this.getListeners().add(new ListenerPlayerLogin());
 	}
-	
+
 	@Override
-	public void onEnter() {
+	public void start() {
 		Main.layout().message(Bukkit.getConsoleSender(), "Entering gamephase: *Grace*");
-		
-		this.countdown.start();
 		
 		List<Location> spawns = Main.instance().getFileConfig().getSpawns();
 		
@@ -67,7 +36,7 @@ public class GameStateGrace extends GameState {
 			Main.instance().getGame().insertPlayer(player);
 		}
 		
-		if (Main.instance().getFileConfig().isScoreboard()) {
+		if (Main.instance().getFileConfig().isScoreboard()) { //TODO use bitboard
 			GunGameScoreboard.setup();
 		}
 		
@@ -78,19 +47,32 @@ public class GameStateGrace extends GameState {
 	}
 
 	@Override
-	public void onLeave() {
-		Main.layout().message(Bukkit.getConsoleSender(), "Leaving gamephase: *Grace*");
-		
-		if (((AbstractCountdown) this.countdown).getSecondsLeft() != 0) {
-			this.countdown.stop();
-		}
+	public void stop() {
+		super.stop();
 		
 		Bukkit.broadcastMessage(Main.instance().getFileConfig().getMessageGraceEnd());
+		Main.layout().message(Bukkit.getConsoleSender(), "Leaving gamephase: *Grace*");
 	}
 	
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		layout.line("Seconds left: " + ((AbstractCountdown) this.countdown).getSecondsLeft());
+		layout.line("Seconds left: " + this.getCountdown().getSecondsLeft());
+	}
+
+	@Override
+	public void updateScoreboard(GamePlayer player) {
+		// TODO
+	}
+
+	@Override
+	protected String getMessageCountdown(int secondsleft) {
+		return Main.instance().getFileConfig().getMessageGraceCountdown(secondsleft);
+	}
+	
+	@Override
+	protected void onQuit(Player player) {
+		super.onQuit(player);
+		Util.startCalculation(player, 2);
 	}
 	
 }

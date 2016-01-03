@@ -2,12 +2,16 @@ package eu.securebit.gungame;
 
 public class Permissions {
 	
-	public static String joinIngame() {
-		return "gungame.join.ingame";
+	public static String premium() {
+		return "gungame.rank.premium";
 	}
 	
-	public static String joinEditMode() {
-		return "gungame.join.editmode";
+	public static String teammember() {
+		return "gungame.rank.teammember";
+	}
+	
+	public static String joinIngame() {
+		return "gungame.join.ingame";
 	}
 	
 	public static String commandGungame() {
