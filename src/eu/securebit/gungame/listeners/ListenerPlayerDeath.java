@@ -1,6 +1,7 @@
 package eu.securebit.gungame.listeners;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
@@ -10,6 +11,7 @@ import eu.securebit.gungame.Main;
 
 public class ListenerPlayerDeath implements Listener {
 	
+	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
 		GunGame game = Main.instance().getGame();

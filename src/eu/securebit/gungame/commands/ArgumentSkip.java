@@ -1,6 +1,6 @@
 package eu.securebit.gungame.commands;
 
-import lib.securebit.command.Argument;
+import lib.securebit.InfoLayout;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -10,12 +10,8 @@ import eu.securebit.gungame.Messages;
 import eu.securebit.gungame.Permissions;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
 
-public class ArgumentSkip extends Argument<Main> {
+public class ArgumentSkip extends CustomArgument {
 	
-	public ArgumentSkip() {
-		super(Main.instance());
-	}
-
 	@Override
 	public String getSyntax() {
 		return "/gungame skip";
@@ -47,6 +43,11 @@ public class ArgumentSkip extends Argument<Main> {
 		}
 		
 		return true;
+	}
+
+	@Override
+	public void stageInformation(InfoLayout layout) {
+		
 	}
 
 }

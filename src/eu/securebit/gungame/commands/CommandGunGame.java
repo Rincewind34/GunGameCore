@@ -22,8 +22,8 @@ public class CommandGunGame extends BasicCommand implements DefaultExecutor {
 	 * 		
 	 * 		info - prints information about this plugin
 	 * 		
-	 * 		rlcfg
-	 * 		
+	 * 		help [argument]
+	 * 
 	 * 		spawns {
 	 * 			add - adds a new spawn using your current location; you'll get back the generated id
 	 * 			remove <id> - removes a specific spawn by the given id
@@ -50,14 +50,14 @@ public class CommandGunGame extends BasicCommand implements DefaultExecutor {
 		super("gungame", new LayoutCommandSettings(Main.layout()), Main.instance());
 		
 		this.setAliases("gg");
-		this.setDescription("GunGames main command.");
+		this.setDescription("GunGame's main command.");
 		this.setPermission(Permissions.commandGungame());
 		this.setDefaultExecutor(this);
 		this.registerArgument("info", new ArgumentInfo());
+		this.registerArgument("help", new ArgumentHelp(this));
 		this.registerArgument("skip", new ArgumentSkip());
 		this.registerArgument("spawns", new ArgumentSpawns());
 		this.registerArgument("toggle", new ArgumentToggle());
-		this.registerArgument("rlcfg", new ArgumentReloadConfig());
 		this.registerArgument("levels", new ArgumentLevels());
 		this.registerArgument("lobby", new ArgumentLobby());
 	}
@@ -67,12 +67,15 @@ public class CommandGunGame extends BasicCommand implements DefaultExecutor {
 		PluginDescriptionFile desc = Main.instance().getDescription();
 		
 		Main.layout().begin();
+		Main.layout().barrier();
 		Main.layout().line("Version *" + InfoLayout.replaceKeys(desc.getVersion()) + "*");
 		Main.layout().line("Developed by *SecureBit*");
 		Main.layout().line("All rights reserved.");
 		Main.layout().barrier();
 		Main.layout().line("Show documentation for further information.");
+		Main.layout().line("Check */gungame help* out for command information");
 		Main.layout().commit(sender);
+		Main.layout().barrier();
 		return true;
 	}
 

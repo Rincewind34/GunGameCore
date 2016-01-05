@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.io.serialization.ItemSerializer;
+import eu.securebit.gungame.io.util.ItemSerializer;
 
 public class ArgumentTestItemSerializer extends Argument<Main> {
 

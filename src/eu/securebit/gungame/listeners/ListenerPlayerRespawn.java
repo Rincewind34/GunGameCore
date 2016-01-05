@@ -5,6 +5,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.util.Vector;
@@ -13,6 +14,7 @@ import eu.securebit.gungame.Main;
 
 public class ListenerPlayerRespawn implements Listener {
 	
+	@EventHandler
 	public void onRespawnIngame(PlayerRespawnEvent event) {
 		Player player = event.getPlayer();
 		

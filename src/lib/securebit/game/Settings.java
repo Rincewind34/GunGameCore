@@ -2,6 +2,7 @@ package lib.securebit.game;
 
 import java.util.List;
 
+import org.bukkit.Difficulty;
 import org.bukkit.Material;
 
 public interface Settings {
@@ -42,6 +43,8 @@ public interface Settings {
 		public static final Option<String> MESSAGE_JOIN = new Option<>();
 		
 		public static final Option<String> MESSAGE_QUIT = new Option<>();
+		
+		public static final Option<Difficulty> DIFFICULTY = new Option<>();
 		
 	}
 	

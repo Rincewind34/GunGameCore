@@ -1,6 +1,6 @@
 package eu.securebit.gungame.commands;
 
-import lib.securebit.command.Argument;
+import lib.securebit.InfoLayout;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,14 +12,13 @@ import eu.securebit.gungame.Messages;
 import eu.securebit.gungame.Permissions;
 import eu.securebit.gungame.Util;
 
-public class ArgumentLevels extends Argument<Main> {
+public class ArgumentLevels extends CustomArgument {
 
 	private final String descLoad;
 	private final String descSave;
 	private final String descDelete;
 	
 	public ArgumentLevels() {
-		super(Main.instance());
 		this.descLoad = "Sets your inventory items to the given level.";
 		this.descSave = "Saves your inventory as {id}.";
 		this.descDelete = "Deletes {count} levels from the stack.";
@@ -127,5 +126,10 @@ public class ArgumentLevels extends Argument<Main> {
 		Main.layout().suggestion("gungame levels save [id]", this.descSave);
 		Main.layout().suggestion("gungame levels delete [count = 1]", this.descDelete);
 		Main.layout().commit(sender);
+	}
+
+	@Override
+	public void stageInformation(InfoLayout layout) {
+		
 	}
 }

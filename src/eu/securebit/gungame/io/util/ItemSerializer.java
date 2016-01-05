@@ -1,4 +1,4 @@
-package eu.securebit.gungame.io.serialization;
+package eu.securebit.gungame.io.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -12,8 +12,8 @@ import org.bukkit.util.io.BukkitObjectOutputStream;
 public class ItemSerializer {
 
 	public static String serialize(ItemStack item) {
-		if (item != null) {
-			throw new NullPointerException("The item cannot be null!");
+		if (item == null) {
+			return null;
 		}
 		
 		String base64 = null;
@@ -33,8 +33,8 @@ public class ItemSerializer {
 	}
 	
 	public static ItemStack deserialize(String data) {
-		if (data != null) {
-			throw new NullPointerException("The data cannot be null!");
+		if (data == null || data.isEmpty() || data.equals("null")) {
+			return null;
 		}
 		
 		ItemStack item = null;
@@ -51,9 +51,8 @@ public class ItemSerializer {
 		return item;
 	}
 	
-	@SuppressWarnings("null")
 	public static String serializeInventory(PlayerInventory inv) {
-		if (inv != null) {
+		if (inv == null) {
 			throw new NullPointerException("The inventory cannot be null!");
 		}
 		
@@ -76,9 +75,8 @@ public class ItemSerializer {
 		return resultBuilder.toString();
 	}
 	
-	@SuppressWarnings("null")
 	public static ItemStack[] deserializeInventory(String data) {
-		if (data != null) {
+		if (data == null) {
 			throw new NullPointerException("The data cannot be null!");
 		}
 		

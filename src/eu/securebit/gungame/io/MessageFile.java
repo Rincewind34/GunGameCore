@@ -22,9 +22,9 @@ public interface MessageFile {
 	
 	public abstract String getMessageNaturalDeath(Player victim);
 	
-	public abstract String getMessageJoin(Player player);
+	public abstract String getMessageJoin();
 	
-	public abstract String getMessageQuit(Player player);
+	public abstract String getMessageQuit();
 	
 	public abstract String getMessageRespawn(int newLevel);
 	

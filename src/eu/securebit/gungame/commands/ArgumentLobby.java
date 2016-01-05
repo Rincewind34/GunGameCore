@@ -1,6 +1,6 @@
 package eu.securebit.gungame.commands;
 
-import lib.securebit.command.Argument;
+import lib.securebit.InfoLayout;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -11,11 +11,7 @@ import eu.securebit.gungame.Messages;
 import eu.securebit.gungame.Permissions;
 import eu.securebit.gungame.io.MainConfig;
 
-public class ArgumentLobby extends Argument<Main> {
-
-	public ArgumentLobby() {
-		super(Main.instance());
-	}
+public class ArgumentLobby extends CustomArgument {
 
 	@Override
 	public String getSyntax() {
@@ -58,6 +54,11 @@ public class ArgumentLobby extends Argument<Main> {
 		}
 		
 		return true;
+	}
+
+	@Override
+	public void stageInformation(InfoLayout layout) {
+		
 	}
 
 }

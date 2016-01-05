@@ -43,9 +43,10 @@ public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
 		
 		this.items = new ArrayList<>();
 		
+		this.minPl = minPl;
+		this.maxPl = maxPl;
 		this.permPremium = permPremium;
 		this.permStaff = permStaff;
-		
 		this.joinable = joinable;
 		
 		this.countdown = new DefaultCountdown(this.getGame().getPlugin(), countdownLength) {
@@ -73,16 +74,17 @@ public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
 	
 	@Override
 	public void load() {
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			Main.instance().getGame().resetPlayer(player);
+		super.load();
+		
+		for (GamePlayer player : this.getGame().getPlayers()) {
+			Main.instance().getGame().resetPlayer(player.getHandle());
+			player.getHandle().teleport(Main.instance().getFileConfig().getLocationLobby());
 		}
 	}
 	
 	@Override
 	public void start() {
-		for (GamePlayer player : this.getGame().getPlayers()) {
-			this.onJoin(player.getHandle());
-		}
+		
 	}
 
 	@Override
@@ -90,6 +92,10 @@ public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
 		if (this.countdown.isRunning()) {
 			this.countdown.stop();
 		}
+	}
+	
+	public Countdown getCountdown() {
+		return this.countdown;
 	}
 	
 	@Override
@@ -107,8 +113,9 @@ public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
 		}
 	}
 	
-	public Countdown getCountdown() {
-		return this.countdown;
+	@Override
+	protected void onQuit(Player player) {
+		super.onQuit(player);
 	}
 	
 	protected boolean isCountdownAnnounceTime(int secondsLeft) {
@@ -116,7 +123,11 @@ public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
 	}
 	
 	protected void onCountdownStop() {
-		DefaultGameStateLobby.this.getGame().getManager().next();
+		if (this.minPl > this.getGame().getPlayers().size()) {
+			//TODO Message
+		} else {
+			this.getGame().getManager().next();
+		}
 	}
 	
 	protected abstract String getKickMessage(int levelKicked);
@@ -128,7 +139,7 @@ public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
 	protected abstract String getMessageCountdown(int secondsLeft);
 	
 	@EventHandler
-	private void onLogin(PlayerLoginEvent event) {
+	public void onLogin(PlayerLoginEvent event) {
 		this.getGame().getPlayers().forEach((gameplayer) -> {
 			if (!this.joinable) {
 				event.disallow(Result.KICK_OTHER, this.getMessageNotJoinable());
@@ -176,7 +187,7 @@ public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
 	}
 	
 	@EventHandler
-	public void onInteract(PlayerInteractEvent event) {
+	public final void onInteract(PlayerInteractEvent event) {
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			this.getGame().getPlayers().forEach((gameplayer) -> {
 				Player player = event.getPlayer();

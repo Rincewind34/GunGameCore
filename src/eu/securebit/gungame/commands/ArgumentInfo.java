@@ -1,7 +1,6 @@
 package eu.securebit.gungame.commands;
 
 import lib.securebit.InfoLayout;
-import lib.securebit.command.Argument;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -11,12 +10,8 @@ import eu.securebit.gungame.Messages;
 import eu.securebit.gungame.Permissions;
 import eu.securebit.gungame.Util;
 
-public class ArgumentInfo extends Argument<Main> {
+public class ArgumentInfo extends CustomArgument {
 	
-	public ArgumentInfo() {
-		super(Main.instance());
-	}
-
 	@Override
 	public String getSyntax() {
 		return "/gungame info";
@@ -44,6 +39,11 @@ public class ArgumentInfo extends Argument<Main> {
 		}
 		
 		return true;
+	}
+
+	@Override
+	public void stageInformation(InfoLayout layout) {
+		layout.line("Shows information about the current state!");
 	}
 
 }

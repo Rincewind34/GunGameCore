@@ -300,17 +300,17 @@ public class FileConfig extends AbstractFileManager implements MainConfig {
 
 	@Override
 	public String getMessageNaturalDeath(Player victim) {
-		return this.replace(this.prepare(super.config.getString("Messages.NaturalDeath")), "victim", victim.getName());
+		return this.replace(this.prepare(super.config.getString("Messages.NaturalDeath")), "victim", victim.getDisplayName());
 	}
 
 	@Override
-	public String getMessageJoin(Player player) {
-		return this.replace(this.prepare(super.config.getString("Messages.PlayerJoin")), "player", player.getName());
+	public String getMessageJoin() {
+		return this.prepare(super.config.getString("Messages.PlayerJoin"));
 	}
 
 	@Override
-	public String getMessageQuit(Player player) {
-		return this.replace(this.prepare(super.config.getString("Messages.PlayerQuit")), "player", player.getName());
+	public String getMessageQuit() {
+		return this.prepare(super.config.getString("Messages.PlayerQuit"));
 	}
 
 	@Override
@@ -399,7 +399,7 @@ public class FileConfig extends AbstractFileManager implements MainConfig {
 			}
 			
 			if (startLevel > levelCount) {
-				throw new MalformedConfigException("The startlevel has to be smaler than the levelcount (currently: " + levelCount + ")!");
+				throw new MalformedConfigException("The startlevel has to be smaler than the levelcount (currently: " + levelCount + ", levelcount: " + levelCount + ")!");
 			}
 		}
 	}

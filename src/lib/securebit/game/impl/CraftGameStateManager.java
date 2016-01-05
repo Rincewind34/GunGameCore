@@ -214,6 +214,7 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 			}
 			
 			this.created = true;
+			this.plugin.getServer().getPluginManager().registerEvents(this.game, this.plugin);
 			this.setRunning(running, false);
 		} else {
 			throw new GameStateException("The manager was already created!");

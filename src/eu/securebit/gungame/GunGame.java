@@ -13,11 +13,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
 import eu.securebit.gungame.exception.MalformedConfigException;
-import eu.securebit.gungame.game.states.GameStateEnd;
 
 public class GunGame extends CraftGame<GunGamePlayer> {
 
-	private Map<Player, Integer> levels;
+	private Map<Player, Integer> levels; // TODO Improve with GunGamePlayer
 	private Player winner;
 	
 	public GunGame() {
@@ -83,13 +82,15 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 	
 	public void calculateGameState() {
 		if (Bukkit.getOnlinePlayers().size() == 1) {
-			while (!(Main.instance().getGameStateManager().getCurrent() instanceof GameStateEnd)) {
-				Main.instance().getGameStateManager().skipAll();
-			}
+			Main.instance().getGameStateManager().skipAll();
 		}
 		
 		if (Bukkit.getOnlinePlayers().size() == 0) {
-			Main.instance().getGameStateManager().next();
+			if (Main.DEBUG) {
+				Bukkit.reload();
+			} else {
+				Bukkit.shutdown();
+			}
 		}
 	}
 	

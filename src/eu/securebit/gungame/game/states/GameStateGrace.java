@@ -4,6 +4,7 @@ import java.util.List;
 
 import lib.securebit.InfoLayout;
 import lib.securebit.game.GamePlayer;
+import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateGrace;
 
 import org.bukkit.Bukkit;
@@ -23,6 +24,9 @@ public class GameStateGrace extends DefaultGameStateGrace {
 		
 		this.getListeners().add(new ListenerBlockIgnite());
 		this.getListeners().add(new ListenerPlayerLogin());
+		
+		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, Main.instance().getFileConfig().getMessageQuit());
 	}
 
 	@Override
@@ -41,6 +45,9 @@ public class GameStateGrace extends DefaultGameStateGrace {
 		}
 		
 		Main.broadcast(Main.instance().getFileConfig().getMessageMapTeleport());
+		
+		super.start();
+		
 		Main.broadcast(Main.instance().getFileConfig().getMessageGraceStart());
 		
 		Main.instance().getGame().calculateGameState();

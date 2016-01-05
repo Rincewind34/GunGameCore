@@ -2,6 +2,11 @@ package lib.securebit.game.defaults;
 
 import java.util.Arrays;
 
+import lib.securebit.game.Game;
+import lib.securebit.game.GamePlayer;
+import lib.securebit.game.Settings.StateSettings;
+import lib.securebit.game.impl.CraftGameState;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -9,12 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
-
-import lib.securebit.InfoLayout;
-import lib.securebit.game.Game;
-import lib.securebit.game.GamePlayer;
-import lib.securebit.game.Settings.StateSettings;
-import lib.securebit.game.impl.CraftGameState;
 
 public abstract class DefaultGameStateDisabled extends CraftGameState {
 
@@ -43,13 +42,9 @@ public abstract class DefaultGameStateDisabled extends CraftGameState {
 	}
 
 	@Override
-	public void stop() {}
-
-	@Override
-	public void updateScoreboard(GamePlayer player) {}
-
-	@Override
-	public void stageInformation(InfoLayout layout) {}
+	public void stop() {
+		
+	}
 
 	@Override
 	public String getName() {
@@ -59,12 +54,13 @@ public abstract class DefaultGameStateDisabled extends CraftGameState {
 	@Override
 	protected void onJoin(Player player) {
 		super.onJoin(player);
+		
 		player.setGameMode(GameMode.CREATIVE);
 		player.sendMessage(this.getMaintenanceAdminMessage());
 	}
 	
 	@EventHandler
-	public void onLogin(PlayerLoginEvent event) {
+	public final void onLogin(PlayerLoginEvent event) {
 		Player player = event.getPlayer();
 		if (!player.hasPermission(this.getStaffPermission())) {
 			event.disallow(Result.KICK_OTHER, this.getMaintenanceKickMessage());

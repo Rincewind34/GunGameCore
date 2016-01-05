@@ -21,9 +21,13 @@ public abstract class DefaultGameStateIngame extends CraftGameStateArena {
 	}
 	
 	@Override
-	public void start() {}
+	public void start() {
+		
+	}
 	
 	@Override
-	public void stop() {}
+	public void stop() {
+		
+	}
 	
 }

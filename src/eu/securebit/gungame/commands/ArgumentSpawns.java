@@ -1,6 +1,6 @@
 package eu.securebit.gungame.commands;
 
-import lib.securebit.command.Argument;
+import lib.securebit.InfoLayout;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,14 +12,13 @@ import eu.securebit.gungame.Messages;
 import eu.securebit.gungame.Permissions;
 import eu.securebit.gungame.Util;
 
-public class ArgumentSpawns extends Argument<Main> {
+public class ArgumentSpawns extends CustomArgument {
 
 	private final String descTp;
 	private final String descAdd;
 	private final String descRemove;
 	
 	public ArgumentSpawns() {
-		super(Main.instance());
 		this.descTp = "Teleports you to the specified spawn point.";
 		this.descAdd = "Adds a new spawn using your current location, you'll get back the generated id.";
 		this.descRemove = "Removes the specified spawn by its id.";
@@ -109,5 +108,10 @@ public class ArgumentSpawns extends Argument<Main> {
 		Main.layout().suggestion("gungame spawns tp <id>", this.descTp);
 		Main.layout().suggestion("gungame spawns remove <id>", this.descRemove);
 		Main.layout().commit(sender);
+	}
+
+	@Override
+	public void stageInformation(InfoLayout layout) {
+		
 	}
 }

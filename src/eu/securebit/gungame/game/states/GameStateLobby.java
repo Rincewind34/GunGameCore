@@ -2,6 +2,7 @@ package eu.securebit.gungame.game.states;
 
 import lib.securebit.InfoLayout;
 import lib.securebit.game.GamePlayer;
+import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateLobby;
 
 import org.bukkit.Bukkit;
@@ -19,8 +20,11 @@ public class GameStateLobby extends DefaultGameStateLobby {
 				Permissions.premium(), Permissions.teammember(),
 				Main.instance().getFileConfig().getMaxPlayers(),
 				Main.instance().getFileConfig().getMinPlayers(),
-				120,
+				20,
 				true);
+		
+		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, Main.instance().getFileConfig().getMessageJoin());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, Main.instance().getFileConfig().getMessageQuit());
 	}
 
 	@Override
@@ -81,7 +85,7 @@ public class GameStateLobby extends DefaultGameStateLobby {
 	
 	@Override
 	protected void onCountdownStop() {
-		this.getGame().getManager().skip(2);
+		this.getGame().getManager().next(); //TODO skip(2)
 	}
 	
 }

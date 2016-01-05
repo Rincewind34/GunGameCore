@@ -2,6 +2,7 @@ package eu.securebit.gungame.game.states;
 
 import lib.securebit.InfoLayout;
 import lib.securebit.game.GamePlayer;
+import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateIngame;
 
 import org.bukkit.Bukkit;
@@ -24,6 +25,9 @@ public class GameStateIngame extends DefaultGameStateIngame {
 		this.getListeners().add(new ListenerBlockIgnite());
 		this.getListeners().add(new ListenerPlayerLogin());
 		this.getListeners().add(new ListenerPlayerRespawn());
+		
+		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, Main.instance().getFileConfig().getMessageQuit());
 	}
 
 	@Override

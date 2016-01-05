@@ -1,6 +1,8 @@
 package eu.securebit.gungame.game.states;
 
 import lib.securebit.InfoLayout;
+import lib.securebit.game.GamePlayer;
+import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateDisabled;
 
 import org.bukkit.Bukkit;
@@ -16,6 +18,9 @@ public class DisabledStateEdit extends DefaultGameStateDisabled {
 	
 	public DisabledStateEdit() {
 		super(Main.instance().getGame());
+		
+		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, Main.layout().format("\\pre*${player}* joined the server!"));
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, Main.layout().format("\\pre*${player}* left the server!"));
 	}
 	
 	@Override
@@ -29,7 +34,12 @@ public class DisabledStateEdit extends DefaultGameStateDisabled {
 		super.stop();
 		Main.layout().message(Bukkit.getConsoleSender(), "Leaving gamephase: *Edit*");
 	}
-
+	
+	@Override
+	public void updateScoreboard(GamePlayer player) {
+		
+	}
+	
 	@Override
 	public void stageInformation(InfoLayout layout) {
 		try {
@@ -66,13 +76,11 @@ public class DisabledStateEdit extends DefaultGameStateDisabled {
 	@Override
 	protected void onJoin(Player player) {
 		super.onJoin(player);
-		Main.layout().broadcast("*" + player + "* joined the server!");
 	}
 	
 	@Override
 	protected void onQuit(Player player) {
 		super.onQuit(player);
-		Main.layout().broadcast("*" + player + "* left the server!");
 	}
 
 	@Override
@@ -89,5 +97,5 @@ public class DisabledStateEdit extends DefaultGameStateDisabled {
 	protected String getMaintenanceAdminMessage() {
 		return Messages.maintenance();
 	}
-	
+
 }

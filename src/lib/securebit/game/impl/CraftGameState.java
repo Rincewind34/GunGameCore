@@ -22,9 +22,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.plugin.Plugin;
@@ -47,10 +45,14 @@ public abstract class CraftGameState implements GameState {
 	@Override
 	public void load() {
 		this.game.getWorlds().forEach(world -> {
-			world.setStorm((this.settings.getValue(StateSettings.WEATHER) & 0x01) == 0);
-			world.setThundering((this.settings.getValue(StateSettings.WEATHER) & 0x02) == 0);
+			world.setStorm((this.settings.getValue(StateSettings.WEATHER) & 0x01) != 0);
+			world.setThundering((this.settings.getValue(StateSettings.WEATHER) & 0x02) != 0);
 			world.setFullTime((long) this.settings.getValue(StateSettings.TIME));
-			world.setGameRuleValue("doDaylightCycle", "false");
+			world.setDifficulty(this.settings.getValue(StateSettings.DIFFICULTY));
+			
+			if (!this.settings.getValue(StateSettings.DAY_CYCLE)) {
+				world.setGameRuleValue("doDaylightCycle", "false");
+			}
 		});
 	}
 	
@@ -89,8 +91,30 @@ public abstract class CraftGameState implements GameState {
 		return this.settings;
 	}
 	
+	public Game<? extends GamePlayer> getGame() {
+		return this.game;
+	}
+	
+	protected void teleportPlayer(Player player) {
+		
+	}
+	
+	protected void onJoin(Player player) {
+		if (this.settings.getValue(StateSettings.MESSAGE_JOIN) != null) {
+			Bukkit.broadcastMessage(this.settings.getValue(StateSettings.MESSAGE_JOIN).replace("${player}",
+					player.getDisplayName()));
+		}
+	}
+	
+	protected void onQuit(Player player) {
+		if (this.settings.getValue(StateSettings.MESSAGE_QUIT) != null) {
+			Bukkit.broadcastMessage(this.settings.getValue(StateSettings.MESSAGE_QUIT).replace("${player}",
+					player.getDisplayName()));
+		}
+	}
+	
 	@EventHandler
-	private final void onFoodLevelChange(FoodLevelChangeEvent event) {
+	public final void onFoodLevelChange(FoodLevelChangeEvent event) {
 		this.game.getPlayers().forEach((player) -> {
 			if (player.getHandle().equals(event.getEntity())) {
 				event.setCancelled(!this.settings.getValue(StateSettings.PLAYER_FOODLEVEL_CHANGE));
@@ -100,12 +124,12 @@ public abstract class CraftGameState implements GameState {
 	}
 	
 	@EventHandler
-	private final void onBlockPlace(BlockPlaceEvent event) {
+	public final void onBlockPlace(BlockPlaceEvent event) {
 		this.game.getPlayers().forEach((player) -> {
 			if (player.getHandle().equals(event.getPlayer())) {
 				List<Material> list = this.settings.getValue(StateSettings.BLOCK_PLACE);
 				
-				if (list.contains(event.getBlock().getType())) {
+				if (!list.contains(event.getBlock().getType())) {
 					event.setCancelled(true);
 					return;
 				}
@@ -114,12 +138,12 @@ public abstract class CraftGameState implements GameState {
 	}
 	
 	@EventHandler
-	private final void onBreakPlace(BlockBreakEvent event) {
+	public final void onBreakPlace(BlockBreakEvent event) {
 		this.game.getPlayers().forEach((player) -> {
 			if (player.getHandle().equals(event.getPlayer())) {
 				List<Material> list = this.settings.getValue(StateSettings.BLOCK_BREAK);
 				
-				if (list.contains(event.getBlock().getType())) {
+				if (!list.contains(event.getBlock().getType())) {
 					event.setCancelled(true);
 					return;
 				}
@@ -128,7 +152,7 @@ public abstract class CraftGameState implements GameState {
 	}
 	
 	@EventHandler
-	private final void onWeatherChange(WeatherChangeEvent event) {
+	public final void onWeatherChange(WeatherChangeEvent event) {
 		this.game.getWorlds().forEach((world) -> {
 			if (world.equals(event.getWorld())) {
 				event.setCancelled(true);
@@ -138,7 +162,7 @@ public abstract class CraftGameState implements GameState {
 	}
 	
 	@EventHandler
-	private final void onThunderChange(ThunderChangeEvent event) {
+	public final void onThunderChange(ThunderChangeEvent event) {
 		this.game.getWorlds().forEach((world) -> {
 			if (world.equals(event.getWorld())) {
 				event.setCancelled(true);
@@ -148,7 +172,7 @@ public abstract class CraftGameState implements GameState {
 	}
 	
 	@EventHandler
-	private final void onItemDrop(PlayerDropItemEvent event) {
+	public final void onItemDrop(PlayerDropItemEvent event) {
 		this.game.getPlayers().forEach((player) -> {
 			if (player.getHandle().equals(event.getPlayer())) {
 				event.setCancelled(!this.settings.getValue(StateSettings.ITEM_DROP));
@@ -158,7 +182,7 @@ public abstract class CraftGameState implements GameState {
 	}
 	
 	@EventHandler
-	private final void onItemPickup(PlayerPickupItemEvent event) {
+	public final void onItemPickup(PlayerPickupItemEvent event) {
 		this.game.getPlayers().forEach((player) -> {
 			if (player.getHandle().equals(event.getPlayer())) {
 				event.setCancelled(!this.settings.getValue(StateSettings.ITEM_PICKUP));
@@ -168,7 +192,7 @@ public abstract class CraftGameState implements GameState {
 	}
 	
 	@EventHandler
-	private final void onDamageByEntity(EntityDamageByEntityEvent event) {
+	public final void onDamageByEntity(EntityDamageByEntityEvent event) {
 		if (event.getEntity() instanceof Player) {
 			this.game.getPlayers().forEach((player) -> {
 				if (player.getHandle().equals(event.getEntity())) {
@@ -180,7 +204,7 @@ public abstract class CraftGameState implements GameState {
 	}
 	
 	@EventHandler
-	private final void onDamage(EntityDamageEvent event) {
+	public final void onDamage(EntityDamageEvent event) {
 		if (event.getEntity() instanceof Player) {
 			this.game.getPlayers().forEach((player) -> {
 				if (player.getHandle().equals(event.getEntity())) {
@@ -209,58 +233,6 @@ public abstract class CraftGameState implements GameState {
 				}
 			});
 		}
-	}
-	
-	@EventHandler
-	private final void onJoin(PlayerJoinEvent event) {
-		this.game.getPlayers().forEach((player) -> {
-			if (player.getHandle().equals(event.getPlayer())) {
-				event.setJoinMessage("");
-				
-				if (this.settings.getValue(StateSettings.MESSAGE_JOIN) != null) {
-					Bukkit.broadcastMessage(this.settings.getValue(StateSettings.MESSAGE_JOIN).replace("${player}",
-							event.getPlayer().getDisplayName()));
-				}
-				
-				this.onJoin(event.getPlayer());
-				
-				return;
-			}
-		});
-	}
-	
-	@EventHandler
-	private final void onQuit(PlayerQuitEvent event) {
-		this.game.getPlayers().forEach((player) -> {
-			if (player.getHandle().equals(event.getPlayer())) {
-				event.setQuitMessage("");
-				
-				if (this.settings.getValue(StateSettings.MESSAGE_QUIT) != null) {
-					Bukkit.broadcastMessage(this.settings.getValue(StateSettings.MESSAGE_QUIT).replace("${player}",
-							event.getPlayer().getDisplayName()));
-				}
-				
-				this.onJoin(event.getPlayer());
-				
-				return;
-			}
-		});
-	}
-	
-	public Game<? extends GamePlayer> getGame() {
-		return this.game;
-	}
-	
-	protected void teleportPlayer(Player player) {
-		
-	}
-	
-	protected void onJoin(Player player) {
-		
-	}
-	
-	protected void onQuit(Player player) {
-		
 	}
 	
 }

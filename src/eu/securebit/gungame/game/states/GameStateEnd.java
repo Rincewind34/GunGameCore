@@ -2,7 +2,8 @@ package eu.securebit.gungame.game.states;
 
 import lib.securebit.InfoLayout;
 import lib.securebit.game.GamePlayer;
-import lib.securebit.game.defaults.DefaultGameStateLobby;
+import lib.securebit.game.Settings.StateSettings;
+import lib.securebit.game.defaults.DefaultGameStateEnd;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -11,24 +12,21 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.Messages;
-import eu.securebit.gungame.Permissions;
-import eu.securebit.gungame.Util;
 
-public class GameStateEnd extends DefaultGameStateLobby {
+public class GameStateEnd extends DefaultGameStateEnd {
 	
 	public GameStateEnd() {
-		super(Main.instance().getGame(),
-				Main.instance().getFileConfig().getLocationLobby(),
-				Permissions.premium(), Permissions.teammember(),
-				Main.instance().getFileConfig().getMaxPlayers(),
-				Main.instance().getFileConfig().getMinPlayers(),
-				20,
-				false);
+		super(Main.instance().getGame(), Main.instance().getFileConfig().getLocationLobby(), 20);
+		
+		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, Main.instance().getFileConfig().getMessageQuit());
 	}
 
 	@Override
 	public void start() {
 		Main.layout().message(Bukkit.getConsoleSender(), "Entering gamephase: *End*");
+		
+		super.start();
 		
 		if (Main.instance().getGame().getWinner() == null) {
 			int bestLevel = 0;
@@ -45,11 +43,6 @@ public class GameStateEnd extends DefaultGameStateLobby {
 		}
 		
 		Main.broadcast(Main.instance().getFileConfig().getMessageWinner(Main.instance().getGame().getWinner()));
-		
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			Main.instance().getGame().resetPlayer(player);
-			player.teleport(Main.instance().getFileConfig().getLocationLobby());
-		}
 	}
 
 	@Override
@@ -87,16 +80,6 @@ public class GameStateEnd extends DefaultGameStateLobby {
 	}
 
 	@Override
-	protected String getKickMessage(int levelKicked) {
-		return null;
-	}
-
-	@Override
-	protected String getMessageServerFull() {
-		return null;
-	}
-
-	@Override
 	protected String getMessageNotJoinable() {
 		return Messages.serverNotJoinable();
 	}
@@ -104,12 +87,6 @@ public class GameStateEnd extends DefaultGameStateLobby {
 	@Override
 	protected String getMessageCountdown(int secondsLeft) {
 		return Main.instance().getFileConfig().getMessageCountdownEnd(secondsLeft);
-	}
-	
-	@Override
-	protected void onQuit(Player player) {
-		super.onQuit(player);
-		Util.startCalculation(player, 2);
 	}
 	
 	@EventHandler

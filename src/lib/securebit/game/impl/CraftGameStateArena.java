@@ -6,6 +6,7 @@ import lib.securebit.game.Game;
 import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 
+import org.bukkit.Difficulty;
 import org.bukkit.Material;
 
 public abstract class CraftGameStateArena extends CraftGameState {
@@ -27,6 +28,7 @@ public abstract class CraftGameStateArena extends CraftGameState {
 		this.getSettings().setValue(StateSettings.WEATHER, 0);
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
 		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, "§e${player} left the game!");
+		this.getSettings().setValue(StateSettings.DIFFICULTY, Difficulty.PEACEFUL);
 	}
 	
 }

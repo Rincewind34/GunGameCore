@@ -4,10 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import lib.securebit.InfoLayout;
+import lib.securebit.command.BasicCommand;
+import lib.securebit.command.LayoutCommandSettings;
+import lib.securebit.game.GameStateManager;
+import lib.securebit.game.impl.CraftGameStateManager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.securebit.gungame.commands.CommandGunGame;
@@ -20,12 +27,9 @@ import eu.securebit.gungame.io.LevelConfig;
 import eu.securebit.gungame.io.MainConfig;
 import eu.securebit.gungame.io.flatfile.FileConfig;
 import eu.securebit.gungame.io.flatfile.FileLevels;
+import eu.securebit.gungame.listeners.ListenerPlayerJoin;
+import eu.securebit.gungame.listeners.ListenerPlayerQuit;
 import eu.securebit.gungame.test.CommandTest;
-import lib.securebit.InfoLayout;
-import lib.securebit.command.BasicCommand;
-import lib.securebit.command.LayoutCommandSettings;
-import lib.securebit.game.GameStateManager;
-import lib.securebit.game.impl.CraftGameStateManager;
 
 public class Main extends JavaPlugin {
 	
@@ -77,36 +81,27 @@ public class Main extends JavaPlugin {
 		this.loadFiles();
 		Main.layout.message(sender, "Files loaded!");
 		
+		this.getServer().getPluginManager().registerEvents(new ListenerPlayerJoin(), this);
+		this.getServer().getPluginManager().registerEvents(new ListenerPlayerQuit(), this);
+		
 		this.manager = new CraftGameStateManager<>(this);
+		this.manager.initGame(new GunGame());
 		this.manager.add(new GameStateLobby());
 		this.manager.add(new GameStateGrace());
 		this.manager.add(new GameStateIngame());
 		this.manager.add(new GameStateEnd());
-		this.manager.initGame(new GunGame());
 		this.manager.initDisabledState(new DisabledStateEdit());
-//		this.manager.addListener(new ListenerPlayerJoin());
-//		this.manager.addListener(new ListenerPlayerQuit());
-//		this.manager.addListener(new ListenerBlockIgnite());
-//		this.manager.addListener(new ListenerPlayerLogin());
-//		this.manager.addListener(new ListenerPlayerDeath());
-//		this.manager.addListener(new ListenerPlayerRespawn());
-		this.manager.create();
 		Main.layout.message(sender, "Game initilized!");
 		
 		if (this.fileConfig.isScoreboard()) {
 			if (GunGameScoreboard.exists()) {
 				GunGameScoreboard.delete();
 			}
-		}
-		
-		if (this.fileConfig.isScoreboard()) {
+			
 			GunGameScoreboard.create();
 		}
 		
-		{
-			BasicCommand cmd = new CommandGunGame();
-			cmd.create();
-		}
+		new CommandGunGame().create();
 		
 		if (DEBUG) {
 			BasicCommand cmd = new BasicCommand("ggtest", new LayoutCommandSettings(Main.layout), this);
@@ -119,7 +114,6 @@ public class Main extends JavaPlugin {
 		Main.layout.commit(sender);
 		
 		if (this.manager.getGame().isReady()) {
-			Main.layout.message(sender, "*Game will be started!*");
 			Main.layout.message(sender, "Configuring wolrds..");
 			
 			List<World> worlds = new ArrayList<>();
@@ -128,6 +122,7 @@ public class Main extends JavaPlugin {
 				if (!worlds.contains(spawn.getWorld())) {
 					spawn.getWorld().setAutoSave(false);
 					worlds.add(spawn.getWorld());
+					this.getGame().registerWorld(spawn.getWorld());
 				}
 			}
 			
@@ -139,30 +134,33 @@ public class Main extends JavaPlugin {
 			
 			Main.layout.message(sender, "Turned AutoSave to OFF for the worlds: " + strWorlds);
 			Main.layout.message(sender, "+Server is ready! Starting game...+");
-			Main.layout.begin();
-			Main.layout.barrier();
-			Main.layout.commit(sender);
 			
-			this.manager.setRunning(true);
+			this.manager.create(true);
 		} else {
+			this.manager.create(false);
 			Main.layout.message(sender, "+EditMode enabled! Check+ */gungame info* +out, to finish the setup!+");
-			Main.layout.begin();
-			Main.layout.barrier();
-			Main.layout.commit(sender);
 		}
 		
-		Main.layout.message(sender, "");
-		Main.layout.message(sender, "Printing help:");
+		for (Player player : Bukkit.getOnlinePlayers()) { // TODO onlineplayers!!!
+			this.manager.getGame().joinPlayer(new GunGamePlayer(player));
+		}
 		
 		Main.layout.begin();
+		Main.layout.barrier();
+		Main.layout.line("");
+		Main.layout.line("Printing help:");
+		
 		Util.stageInformation(Main.layout);
+		
 		Main.layout.commit(sender);
 	}
 	
 	@Override
 	public void onDisable() {
 		if (this.fileConfig.isScoreboard()) {
-			GunGameScoreboard.delete();
+			if (GunGameScoreboard.exists()) {
+				GunGameScoreboard.delete();
+			}
 		}
 	}
 	

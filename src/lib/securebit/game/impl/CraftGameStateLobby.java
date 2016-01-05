@@ -6,6 +6,7 @@ import lib.securebit.game.Game;
 import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 
+import org.bukkit.Difficulty;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -32,6 +33,7 @@ public abstract class CraftGameStateLobby extends CraftGameState {
 		this.getSettings().setValue(StateSettings.WEATHER, 0);
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, "§e${player} joined the game!");
 		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, "§e${player} left the game!");
+		this.getSettings().setValue(StateSettings.DIFFICULTY, Difficulty.PEACEFUL);
 	}
 	
 	@Override
@@ -41,6 +43,8 @@ public abstract class CraftGameStateLobby extends CraftGameState {
 	
 	@Override
 	protected void onJoin(Player player) {
+		super.onJoin(player);
+		
 		this.getGame().resetPlayer(player);
 		player.teleport(this.lobby);
 	}

@@ -45,13 +45,22 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	}
 
 	@Override
-	public void registerPlayer(P player) {
+	public void joinPlayer(P player) {
 		this.players.add(player);
+		
+		if (this.manager.isCreated()) {
+			((CraftGameState) this.manager.getCurrent()).onJoin(player.getHandle());
+		}
 	}
 
 	@Override
-	public void unregisterPlayer(Player player) {
+	public void quitPlayer(Player player) {
+		if (this.manager.isCreated()) {
+			((CraftGameState) this.manager.getCurrent()).onQuit(player);
+		}
+		
 		Iterator<P> iterator = this.players.iterator();
+		
 		while (iterator.hasNext()) {
 			if (iterator.next().getHandle().getName().equals(player.getName())) {
 				iterator.remove();
@@ -89,6 +98,7 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	@Override
 	public void unregisterWorld(String world) {
 		Iterator<World> iterator = this.worlds.iterator();
+		
 		while (iterator.hasNext()) {
 			if (iterator.next().getName().equals(world)) {
 				iterator.remove();
@@ -104,22 +114,26 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	@Override
 	public boolean containsWorld(String world) {
 		Iterator<World> iterator = this.worlds.iterator();
+		
 		while (iterator.hasNext()) {
 			if (iterator.next().getName().equals(world)) {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean containsPlayer(Player player) {
 		Iterator<P> iterator = this.players.iterator();
+		
 		while (iterator.hasNext()) {
 			if (iterator.next().getHandle().getName().equals(player.getName())) {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 	

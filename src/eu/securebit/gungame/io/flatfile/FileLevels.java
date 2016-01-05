@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import eu.securebit.gungame.exception.InvalidLevelException;
 import eu.securebit.gungame.exception.MalformedConfigException;
 import eu.securebit.gungame.io.LevelConfig;
-import eu.securebit.gungame.io.serialization.ItemSerializer;
+import eu.securebit.gungame.io.util.ItemSerializer;
 
 public class FileLevels extends AbstractFileManager implements LevelConfig {
 	

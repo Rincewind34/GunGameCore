@@ -2,6 +2,8 @@ package eu.securebit.gungame;
 
 public class Messages {
 	
+	/* TODO's */
+	
 	public static String lobbyKickPremium() {  //TODO config
 		return Main.layout().format("\\pre-You were kicked by a premiummember!");
 	}
@@ -16,6 +18,10 @@ public class Messages {
 	
 	public static String serverNotJoinable() { //TODO config
 		return Main.layout().format("\\pre-The server is not joinable!-");
+	}
+	
+	public static String maintenanceKick() {
+		return Main.layout().format("\\preThe server is currently under maintenance, please visit us later!"); // TODO Config (User-Message)
 	}
 	
 	public static String wrongMode(String mode) {
@@ -114,7 +120,4 @@ public class Messages {
 		return Main.layout().format("\\preThe server is currently under maintenance! GameMode updated!");
 	}
 	
-	public static String maintenanceKick() {
-		return Main.layout().format("\\preThe server is currently under maintenance, please visit us later!"); // TODO Config (User-Message)
-	}
 }

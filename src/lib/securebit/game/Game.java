@@ -13,9 +13,9 @@ public interface Game<P extends GamePlayer> extends Listener {
 	
 	public abstract List<World> getWorlds();
 	
-	public abstract void registerPlayer(P player);
+	public abstract void joinPlayer(P player);
 	
-	public abstract void unregisterPlayer(Player player);
+	public abstract void quitPlayer(Player player);
 	
 	public abstract void resetPlayer(Player player);
 		
