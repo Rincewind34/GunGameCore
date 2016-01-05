@@ -11,49 +11,46 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import eu.securebit.gungame.GunGameScoreboard;
+import eu.securebit.gungame.GunGame;
+import eu.securebit.gungame.GunGamePlayer;
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.Permissions;
 import eu.securebit.gungame.Util;
-import eu.securebit.gungame.listeners.ListenerBlockIgnite;
-import eu.securebit.gungame.listeners.ListenerPlayerLogin;
 
-public class GameStateGrace extends DefaultGameStateGrace {
+public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 	
-	public GameStateGrace() {
-		super(Main.instance().getGame(), 15);
-		
-		this.getListeners().add(new ListenerBlockIgnite());
-		this.getListeners().add(new ListenerPlayerLogin());
+	public GameStateGrace(GunGame gungame) {
+		super(gungame, 15);
 		
 		this.getSettings().setValue(StateSettings.ITEM_DROP, false);
 		this.getSettings().setValue(StateSettings.ITEM_PICKUP, false);
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
-		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, Main.instance().getFileConfig().getMessageQuit());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().messages().getServerQuit());
 	}
 
 	@Override
 	public void start() {
 		Main.layout().message(Bukkit.getConsoleSender(), "Entering gamephase: *Grace*");
 		
-		List<Location> spawns = Main.instance().getFileConfig().getSpawns();
+		List<Location> spawns = Util.getSpawns(this.getGame());
 		
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			player.teleport(spawns.get(Main.random().nextInt(spawns.size())));
-			Main.instance().getGame().getPlayer(player).refreshLevel();
+		for (GunGamePlayer player : this.getGame().getPlayers()) {
+			player.getHandle().teleport(spawns.get(Main.random().nextInt(spawns.size())));
+			player.refreshLevel();
 		}
 		
-		if (Main.instance().getFileConfig().isScoreboard()) { //TODO use bitboard
-			GunGameScoreboard.setup();
+		if (this.getGame().getScoreboard().isEnabled()) { //TODO use bitboard
+			this.getGame().getScoreboard().setup();
 		}
 		
-		Main.broadcast(Main.instance().getFileConfig().getMessageMapTeleport());
+		this.getGame().broadcastMessage(this.getGame().getSettings().messages().getMapTeleport());
 		
 		super.start();
 		
-		Main.broadcast(Main.instance().getFileConfig().getMessageGraceStart());
+		this.getGame().broadcastMessage(this.getGame().getSettings().messages().getGracePeriodStarts());
 		
 		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {
-			Main.instance().getGame().calculateGameState();
+			this.getGame().calculateGameState();
 		}, 5L);
 	}
 
@@ -61,7 +58,7 @@ public class GameStateGrace extends DefaultGameStateGrace {
 	public void stop() {
 		super.stop();
 		
-		Bukkit.broadcastMessage(Main.instance().getFileConfig().getMessageGraceEnd());
+		this.getGame().broadcastMessage(this.getGame().getSettings().messages().getGracePeriodStarts());
 		Main.layout().message(Bukkit.getConsoleSender(), "Leaving gamephase: *Grace*");
 	}
 	
@@ -77,13 +74,22 @@ public class GameStateGrace extends DefaultGameStateGrace {
 
 	@Override
 	protected String getMessageCountdown(int secondsleft) {
-		return Main.instance().getFileConfig().getMessageGraceCountdown(secondsleft);
+		return this.getGame().getSettings().messages().getCountdownGrace(secondsleft);
+	}
+	
+	@Override
+	protected String onLogin(Player player) {
+		if (!player.hasPermission(Permissions.joinIngame())) {
+			return "The game is already running!"; //TODO Message
+		} else {
+			return null;
+		}
 	}
 	
 	@Override
 	protected void onQuit(Player player) {
 		super.onQuit(player);
-		Util.startCalculation(player, 2);
+		Util.startCalculation(player, 2, this.getGame());
 	}
 	
 }

@@ -8,13 +8,11 @@ import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.impl.CraftGameStateArena;
 
-import org.bukkit.Bukkit;
-
-public abstract class DefaultGameStateGrace extends CraftGameStateArena {
+public abstract class DefaultGameStateGrace<G extends Game<? extends GamePlayer>> extends CraftGameStateArena<G> {
 
 	private Countdown countdown;
 	
-	public DefaultGameStateGrace(Game<? extends GamePlayer> game, int countdownLength) {
+	public DefaultGameStateGrace(G game, int countdownLength) {
 		super(game);
 		
 		this.countdown = new DefaultCountdown(this.getGame().getPlugin(), countdownLength) {
@@ -24,7 +22,7 @@ public abstract class DefaultGameStateGrace extends CraftGameStateArena {
 				String msg = DefaultGameStateGrace.this.getMessageCountdown(secondsLeft);
 				
 				if (msg != null) {
-					Bukkit.broadcastMessage(msg);
+					DefaultGameStateGrace.this.getGame().broadcastMessage(msg);
 				}
 			}
 			

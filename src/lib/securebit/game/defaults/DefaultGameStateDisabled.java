@@ -7,17 +7,13 @@ import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.impl.CraftGameState;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerLoginEvent.Result;
 
-public abstract class DefaultGameStateDisabled extends CraftGameState {
+public abstract class DefaultGameStateDisabled<G extends Game<? extends GamePlayer>> extends CraftGameState<G> {
 
-	public DefaultGameStateDisabled(Game<? extends GamePlayer> game) {
+	public DefaultGameStateDisabled(G game) {
 		super(game);
 		this.getSettings().setValue(StateSettings.BLOCK_BREAK, Arrays.asList(Material.values()));
 		this.getSettings().setValue(StateSettings.BLOCK_PLACE, Arrays.asList(Material.values()));
@@ -36,8 +32,8 @@ public abstract class DefaultGameStateDisabled extends CraftGameState {
 
 	@Override
 	public void start() {
-		Bukkit.getOnlinePlayers().forEach((player) -> {
-			player.setGameMode(GameMode.CREATIVE);
+		this.getGame().getPlayers().forEach((player) -> {
+			player.getHandle().setGameMode(GameMode.CREATIVE);
 		});
 	}
 
@@ -52,19 +48,20 @@ public abstract class DefaultGameStateDisabled extends CraftGameState {
 	}
 	
 	@Override
+	protected String onLogin(Player player) {
+		if (!player.hasPermission(this.getStaffPermission())) {
+			return this.getMaintenanceKickMessage();
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
 	protected void onJoin(Player player) {
 		super.onJoin(player);
 		
 		player.setGameMode(GameMode.CREATIVE);
 		player.sendMessage(this.getMaintenanceAdminMessage());
-	}
-	
-	@EventHandler
-	public final void onLogin(PlayerLoginEvent event) {
-		Player player = event.getPlayer();
-		if (!player.hasPermission(this.getStaffPermission())) {
-			event.disallow(Result.KICK_OTHER, this.getMaintenanceKickMessage());
-		}
 	}
 	
 	protected abstract String getStaffPermission();

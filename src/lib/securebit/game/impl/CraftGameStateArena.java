@@ -9,9 +9,9 @@ import lib.securebit.game.Settings.StateSettings;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
 
-public abstract class CraftGameStateArena extends CraftGameState {
+public abstract class CraftGameStateArena<G extends Game<? extends GamePlayer>> extends CraftGameState<G> {
 
-	public CraftGameStateArena(Game<? extends GamePlayer> game) {
+	public CraftGameStateArena(G game) {
 		super(game);
 		
 		this.getSettings().setValue(StateSettings.BLOCK_BREAK, Arrays.asList(Material.LEAVES, Material.LEAVES_2, Material.WEB));

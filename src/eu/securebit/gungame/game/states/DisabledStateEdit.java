@@ -1,26 +1,24 @@
 package eu.securebit.gungame.game.states;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import eu.securebit.gungame.GunGame;
+import eu.securebit.gungame.Main;
+import eu.securebit.gungame.Messages;
+import eu.securebit.gungame.Permissions;
 import lib.securebit.InfoLayout;
 import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateDisabled;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
-import eu.securebit.gungame.Main;
-import eu.securebit.gungame.Messages;
-import eu.securebit.gungame.Permissions;
-import eu.securebit.gungame.Util;
-import eu.securebit.gungame.exception.MalformedConfigException;
-
-public class DisabledStateEdit extends DefaultGameStateDisabled {
+public class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
 	
-	public DisabledStateEdit() {
-		super(Main.instance().getGame());
+	public DisabledStateEdit(GunGame gungame) {
+		super(gungame);
 		
-		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, Main.layout().format("\\pre*${player}* joined the server!"));
-		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, Main.layout().format("\\pre*${player}* left the server!"));
+		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, Messages.maintendanceJoin());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, Messages.maintendanceQuit());
 	}
 	
 	@Override
@@ -42,35 +40,7 @@ public class DisabledStateEdit extends DefaultGameStateDisabled {
 	
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		try {
-			Main.instance().getFileConfig().validate();
-			layout.line("config.yml: " + Util.parseBoolean(true, layout));
-		} catch (MalformedConfigException exception) {
-			layout.line("config.yml: " + Util.parseBoolean(false, layout));
-			layout.line("  $- " + InfoLayout.replaceKeys(exception.getMessage()));
-		}
-		
-		try {
-			Main.instance().getFileLevels().validate();
-			layout.line("levels.yml: " + Util.parseBoolean(true, layout));
-		} catch (MalformedConfigException exception) {
-			layout.line("levels.yml: " + Util.parseBoolean(false, layout));
-			layout.line("  $- " + InfoLayout.replaceKeys(exception.getMessage()));
-		}
-		
-		if (Main.instance().getFileConfig().getSpawns().size() < 1) {
-			layout.line("spawns: " + Util.parseBoolean(false, layout));
-			layout.line("  $- You have to set at least one spawn location!");
-		} else {
-			layout.line("spawns: " + Util.parseBoolean(true, layout));
-		}
-		
-		if (Main.instance().getFileConfig().isEditMode()) {
-			layout.line("value: " + Util.parseBoolean(true, layout, true));
-			layout.line("  $- Turn the value 'EditMode' in 'config.yml' to *false*!");
-		} else {
-			layout.line("value: " + Util.parseBoolean(false, layout, true));
-		}
+		this.getGame().stageEditInformation(layout);
 	}
 	
 	@Override
@@ -90,12 +60,12 @@ public class DisabledStateEdit extends DefaultGameStateDisabled {
 
 	@Override
 	protected String getMaintenanceKickMessage() {
-		return Messages.maintenanceKick();
+		return Messages.maintendanceKick();
 	}
 
 	@Override
 	protected String getMaintenanceAdminMessage() {
-		return Messages.maintenance();
+		return Messages.maintendance();
 	}
 
 }

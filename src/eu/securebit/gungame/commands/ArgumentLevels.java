@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.NumberConversions;
 
+import eu.securebit.gungame.GunGame;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.Messages;
 import eu.securebit.gungame.Permissions;
@@ -43,6 +44,13 @@ public class ArgumentLevels extends CustomArgument {
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
 		Player player = (Player) sender;
 		
+		if (!Main.instance().getFrame().isInGame(player)) {
+			player.sendMessage(Messages.notInGame());
+			return true;
+		}
+		
+		GunGame gungame = Main.instance().getFrame().getGame(player);
+		
 		if (args.length == 1) {
 			this.sendSuggestions(player);
 			return true;
@@ -51,10 +59,10 @@ public class ArgumentLevels extends CustomArgument {
 				if (args.length == 3) {
 					if (Util.isInt(args[2])) {
 						int id = NumberConversions.toInt(args[2]);
-						if (id < 1 || id > Main.instance().getFileLevels().getLevelCount()) {
+						if (gungame.getSettings().getLevels().containsKey(id)) {
 							player.sendMessage(Messages.levelNotExists(id));
 						} else {
-							Main.instance().getFileLevels().give(player, id);
+							gungame.getSettings().getLevels().get(id).equip(player);
 							player.sendMessage(Messages.levelGiven(id));
 						}
 					} else {
@@ -65,7 +73,7 @@ public class ArgumentLevels extends CustomArgument {
 				}
 			} else if (args[1].equals("save")) {
 				int id = -1;
-				int nextId = Main.instance().getFileLevels().getLevelCount() + 1;
+				int nextId = gungame.getSettings().getLevels().size() + 1;
 				
 				if (args.length == 2) {
 					id = nextId;
@@ -83,7 +91,7 @@ public class ArgumentLevels extends CustomArgument {
 				
 				if (id <= nextId) {
 					if (id > 0) {
-						Main.instance().getFileLevels().setItems(player, id);
+						gungame.saveLevel(player, id);
 						player.sendMessage(Messages.levelSaved(id));
 					} else {
 						player.sendMessage(Messages.greaterNull());
@@ -107,11 +115,11 @@ public class ArgumentLevels extends CustomArgument {
 				}
 				
 				for (int i = 0; i < count; i++) {
-					if (!Main.instance().getFileLevels().delete()) {
+					if (!gungame.deleteLevel()) {
 						player.sendMessage(Messages.noLevelToRemove());
 						return true;
 					} else {
-						player.sendMessage(Messages.levelDeleted(Main.instance().getFileLevels().getLevelCount()));
+						player.sendMessage(Messages.levelDeleted(gungame.getSettings().getLevels().size()));
 					}
 				}
 			} else {

@@ -12,18 +12,13 @@ import lib.securebit.game.GamePlayer;
 import lib.securebit.game.impl.CraftGameStateLobby;
 import lib.securebit.game.util.HotbarItem;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerLoginEvent.Result;
 
-import eu.securebit.gungame.Main;
-
-public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
+public abstract class DefaultGameStateLobby<G extends Game<? extends GamePlayer>> extends CraftGameStateLobby<G> {
 	
 	private String permPremium;
 	private String permStaff;
@@ -37,7 +32,7 @@ public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
 	
 	private List<HotbarItem> items;
 	
-	public DefaultGameStateLobby(Game<? extends GamePlayer> game, Location lobby, String permPremium,
+	public DefaultGameStateLobby(G game, Location lobby, String permPremium,
 			String permStaff, int maxPl, int minPl, int countdownLength, boolean joinable) {
 		super(game, lobby);
 		
@@ -56,7 +51,7 @@ public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
 				String msg = DefaultGameStateLobby.this.getMessageCountdown(secondsLeft);
 				
 				if (msg != null) {
-					Bukkit.broadcastMessage(msg);
+					DefaultGameStateLobby.this.getGame().broadcastMessage(msg);
 				}
 			}
 			
@@ -77,7 +72,7 @@ public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
 		super.load();
 		
 		for (GamePlayer player : this.getGame().getPlayers()) {
-			Main.instance().getGame().resetPlayer(player.getHandle());
+			this.getGame().resetPlayer(player.getHandle());
 			player.getHandle().teleport(this.getLobby());
 		}
 	}
@@ -96,6 +91,44 @@ public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
 	
 	public Countdown getCountdown() {
 		return this.countdown;
+	}
+	
+	@Override
+	protected String onLogin(Player player) {
+		if (!this.joinable) {
+			return this.getMessageNotJoinable();
+		}
+		
+		int onlinePlayers = this.getGame().getPlayers().size();
+		
+		if (onlinePlayers < this.maxPl) {
+			return null;
+		}
+			
+		if (player.hasPermission(this.permPremium) || player.hasPermission(this.permStaff)) {
+			List<Player> kickable = new ArrayList<>();
+				
+			int levelPermitted = this.getPermissionLevel(player);
+		
+			for (GamePlayer target : this.getGame().getPlayers()) {
+				int levelVictim = this.getPermissionLevel(target.getHandle());
+				
+				if (levelPermitted > levelVictim) {
+					kickable.add(target.getHandle());
+				}
+			}
+			
+			Collections.shuffle(kickable);
+			
+			if (kickable.size() == 0) {
+				return this.getMessageServerFull();
+			}
+			
+			kickable.get(0).kickPlayer(this.getKickMessage(levelPermitted));
+			return null;
+		} else {
+			return this.getMessageServerFull();
+		}
 	}
 	
 	@Override
@@ -137,54 +170,6 @@ public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
 	protected abstract String getMessageNotJoinable();
 
 	protected abstract String getMessageCountdown(int secondsLeft);
-	
-	@EventHandler
-	public void onLogin(PlayerLoginEvent event) {
-		this.getGame().getPlayers().forEach((gameplayer) -> {
-			if (!this.joinable) {
-				event.disallow(Result.KICK_OTHER, this.getMessageNotJoinable());
-				return;
-			}
-			
-			Player player = event.getPlayer();
-			
-			if (player.equals(gameplayer.getHandle())) {
-				int onlinePlayers = this.getGame().getPlayers().size();
-				
-				if (onlinePlayers < this.maxPl) {
-					event.allow();
-				}
-				
-				if (player.hasPermission(this.permPremium) || player.hasPermission(this.permStaff)) {
-					List<Player> kickable = new ArrayList<>();
-					
-					int levelPermitted = this.getPermissionLevel(player);
-					
-					for (GamePlayer target : this.getGame().getPlayers()) {
-						int levelVictim = this.getPermissionLevel(target.getHandle());
-						
-						if (levelPermitted > levelVictim) {
-							kickable.add(target.getHandle());
-						}
-					}
-					
-					Collections.shuffle(kickable);
-					
-					if (kickable.size() == 0) {
-						event.disallow(Result.KICK_FULL, this.getMessageServerFull());
-						return;
-					}
-					
-					kickable.get(0).kickPlayer(this.getKickMessage(levelPermitted));
-					event.allow();
-				} else {
-					event.disallow(Result.KICK_FULL, this.getMessageServerFull());
-				}
-				
-				return;
-			}
-		});
-	}
 	
 	@EventHandler
 	public final void onInteract(PlayerInteractEvent event) {

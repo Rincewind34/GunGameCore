@@ -4,11 +4,11 @@ import java.io.File;
 
 public interface FileConfig {
 
-	void initialize();
+	public abstract void initialize();
 	
-	boolean isValid();
+	public abstract boolean isValid();
 	
-	File getBootFolder();
+	public abstract File getBootFolder();
 	
-	File getFrameJar();
+	public abstract File getFrameJar();
 }

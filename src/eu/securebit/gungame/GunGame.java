@@ -2,22 +2,36 @@ package eu.securebit.gungame;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
+import eu.securebit.gungame.exception.ScoreboardExcepion;
+import lib.securebit.InfoLayout;
 import lib.securebit.game.impl.CraftGame;
 
 public abstract class GunGame extends CraftGame<GunGamePlayer> {
 
-	private Player winner;
+	private GunGamePlayer winner;
 	private Settings settings;
+	
+	private GunGameScoreboard board;
 	
 	public GunGame(Settings settings) {
 		super(Main.instance());
 		
 		this.settings = settings;
+		this.board = new GunGameScoreboard(this, this.getSettings().getUUID());
+		
+		if (this.board.isEnabled()) {
+			if (this.board.exists()) {
+				throw new ScoreboardExcepion("The name '" + this.getSettings().getUUID() + "' is already used by another scoreboard!");
+			} else {
+				this.board.create();
+			}
+		}
 	}
 	
 	@Override
@@ -39,6 +53,10 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 	
 	public Settings getSettings() {
 		return this.settings;
+	}
+	
+	public GunGameScoreboard getScoreboard() {
+		return this.board;
 	}
 	
 //	public boolean isReady() {
@@ -81,29 +99,40 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 	public void calculateGameState() {
 		Main.layout().message(Bukkit.getConsoleSender(), "Calculating...");
 		
-		if (Bukkit.getOnlinePlayers().size() == 1) {
+		if (this.getPlayers().size() == 1) {
 			Main.layout().message(Bukkit.getConsoleSender(), "Skiping all phases!");
-			Main.instance().getGameStateManager().skipAll();
+			this.getManager().skipAll();
 		}
 		
-		if (Bukkit.getOnlinePlayers().size() == 0) {
+		if (this.getPlayers().size() == 0) {
 			Main.layout().message(Bukkit.getConsoleSender(), "Shutdown!");
 			
-			if (Main.DEBUG) {
-				Bukkit.reload();
-			} else {
-				Bukkit.shutdown();
-			}
+			this.shutdown();
 		}
 	}
 	
-	public void initWinner(Player player) {
+	public void initWinner(GunGamePlayer player) {
 		this.winner = player;
 	}
 	
-	public Player getWinner() {
+	public GunGamePlayer getWinner() {
 		return this.winner;
 	}
-
+	
+	public abstract void shutdown();
+	
+	public abstract void stageEditInformation(InfoLayout layout);
+	
+	public abstract void removeSpawn(int id);
+	
+	public abstract void setLobbyLocation(Location lobby);
+	
+	public abstract void saveLevel(Player player, int levelId);
+	
+	public abstract boolean deleteLevel();
+	
 	public abstract boolean isReady();
+	
+	public abstract int addSpawn(Location loc);
+	
 }

@@ -12,37 +12,37 @@ import eu.securebit.gungame.exception.ScoreboardExcepion;
 
 public class GunGameScoreboard {
 	
-	public static final String OBJECTIVE_NAME = "gungame_level";
+	private Scoreboard board;
+	private GunGame gungame;
+	private String name;
 	
-	private static Scoreboard board;
-	
-	static {
-		GunGameScoreboard.board = Bukkit.getScoreboardManager().getMainScoreboard();
+	public GunGameScoreboard(GunGame gungame, String name) {
+		this.board = Bukkit.getScoreboardManager().getMainScoreboard();
+		this.gungame = gungame;
+		this.name = name;
 	}
 	
-	private static String getFormat() {
-		String format = Main.instance().getFileConfig().getScoreboardFormat();
+	private String getFormat() {
+		String format = this.gungame.getSettings().getScoreboardFormat();
 		return ChatColor.translateAlternateColorCodes('&', format);
 	}
 	
-	public static void setup() {
-		if (!Main.instance().getFileConfig().isScoreboard()) {
+	public void setup() {
+		if (!this.isEnabled()) {
 			throw new ScoreboardExcepion("The scoreboard is disabled!");
 		}
 		
-		if (GunGameScoreboard.exists()) {
-			Objective obj = GunGameScoreboard.board.getObjective(GunGameScoreboard.OBJECTIVE_NAME);
+		if (this.exists()) {
+			Objective obj = this.board.getObjective(this.name);
 			
-			String format = GunGameScoreboard.getFormat();
+			String format = this.getFormat();
 			
-			GunGame game = Main.instance().getGame();
-			
-			for (Player target : Bukkit.getOnlinePlayers()) {
+			for (GunGamePlayer target : this.gungame.getPlayers()) {
 				try {
-					obj.getScore(format.replace("${player}", target.getDisplayName())).setScore(game.getPlayer(target).getLevel());
+					obj.getScore(format.replace("${player}", target.getHandle().getDisplayName())).setScore(target.getLevel());
 				} catch (Exception ex) {
 					if (Main.DEBUG) {
-						System.err.println("Error occured while set the score of the player " + target.getName() + " as " + target.getDisplayName());
+						System.err.println("Error occured while set the score of the player " + target.getHandle().getName() + " as " + target.getHandle().getDisplayName());
 						ex.printStackTrace();
 					}
 					
@@ -50,88 +50,90 @@ public class GunGameScoreboard {
 				}
 			}
 			
-			GunGameScoreboard.refresh();
+			this.refresh();
 		} else {
 			throw new ScoreboardExcepion("The objective does not exists!");
 		}
 	}
 	
-	public static void update(Player player) {
-		if (!Main.instance().getFileConfig().isScoreboard()) {
+	public void update(Player player) {
+		if (!this.isEnabled()) {
 			throw new ScoreboardExcepion("The scoreboard is disabled!");
 		}
 		
-		if (GunGameScoreboard.exists()) {
-			Objective obj = GunGameScoreboard.board.getObjective(GunGameScoreboard.OBJECTIVE_NAME);
+		if (this.exists()) {
+			Objective obj = this.board.getObjective(this.name);
 			
-			String format = GunGameScoreboard.getFormat();
+			String format = this.getFormat();
 			
-			GunGame game = Main.instance().getGame();
+			obj.getScore(format.replace("${player}", player.getDisplayName())).setScore(this.gungame.getPlayer(player).getLevel());
 			
-			obj.getScore(format.replace("${player}", player.getDisplayName())).setScore(game.getPlayer(player).getLevel());
-			
-			GunGameScoreboard.refresh();
+			this.refresh();
 		} else {
 			throw new ScoreboardExcepion("The objective does not exists!");
 		}
 	}
 	
-	public static void updateAll() {
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			GunGameScoreboard.update(player);
+	public void updateAll() {
+		for (GunGamePlayer player : this.gungame.getPlayers()) {
+			this.update(player.getHandle());
 		}
 	}
 	
-	public static void delete() {
-		if (!Main.instance().getFileConfig().isScoreboard()) {
+	public void delete() {
+		if (!this.isEnabled()) {
 			throw new ScoreboardExcepion("The scoreboard is disabled!");
 		}
 		
-		if (GunGameScoreboard.exists()) {
-			GunGameScoreboard.board.getObjective(GunGameScoreboard.OBJECTIVE_NAME).unregister();
+		if (this.exists()) {
+			this.board.getObjective(this.name).unregister();
 		} else {
 			throw new ScoreboardExcepion("The objective does not exists!");
 		}
 	}
 	
-	public static void create() {
-		if (!Main.instance().getFileConfig().isScoreboard()) {
+	public void create() {
+		if (!this.isEnabled()) {
 			throw new ScoreboardExcepion("The scoreboard is disabled!");
 		}
 		
-		if (!GunGameScoreboard.exists()) {
-			Objective obj = GunGameScoreboard.board.registerNewObjective(GunGameScoreboard.OBJECTIVE_NAME, "dummy");
-			obj.setDisplayName(Main.instance().getFileConfig().getScoreboardTitle());
+		if (!this.exists()) {
+			Objective obj = this.board.registerNewObjective(this.name, "dummy");
+			obj.setDisplayName(this.gungame.getSettings().getScoreboardTitle());
 			obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		} else {
 			throw new ScoreboardExcepion("The objective does already exists!");
 		}
 	}
 	
-	public static void clearFromPlayers() {
-		if (!Main.instance().getFileConfig().isScoreboard()) {
+	public void clearFromPlayers() {
+		if (!this.isEnabled()) {
 			throw new ScoreboardExcepion("The scoreboard is disabled!");
 		}
 		
-		if (GunGameScoreboard.exists()) {
-			GunGameScoreboard.board.getObjective(GunGameScoreboard.OBJECTIVE_NAME).setDisplaySlot(null);
+		if (this.exists()) {
+			this.board.getObjective(this.name).setDisplaySlot(null);
 		} else {
 			throw new ScoreboardExcepion("The objective does not exists!");
 		}
 	}
 	
-	public static void refresh() {
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			player.setScoreboard(GunGameScoreboard.board);
+	public void refresh() {
+		for (GunGamePlayer player : this.gungame.getPlayers()) {
+			player.getHandle().setScoreboard(this.board);
 		}
 	}
 	
-	public static boolean exists() {
-		if (!Main.instance().getFileConfig().isScoreboard()) {
+	public boolean exists() {
+		if (!this.isEnabled()) {
 			throw new ScoreboardExcepion("The scoreboard is disabled!");
 		}
 		
-		return GunGameScoreboard.board.getObjective(GunGameScoreboard.OBJECTIVE_NAME) != null;
+		return this.board.getObjective(this.name) != null;
+	}
+	
+	public boolean isEnabled() {
+		return this.gungame.getSettings().isScoreboardEnabled();
 	}
 	
 }

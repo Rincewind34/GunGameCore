@@ -1,66 +1,68 @@
 package eu.securebit.gungame.listeners;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import eu.securebit.gungame.GunGame;
-import eu.securebit.gungame.GunGameScoreboard;
-import eu.securebit.gungame.Main;
+import eu.securebit.gungame.GunGamePlayer;
 
 public class ListenerPlayerDeath implements Listener {
 	
+	private GunGame gungame;
+	
+	public ListenerPlayerDeath(GunGame gungame) {
+		this.gungame = gungame;
+	}
+	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
-		Player player = event.getEntity();
-		GunGame game = Main.instance().getGame();
-		
+		GunGamePlayer player = this.gungame.getPlayer(event.getEntity());
 		event.setDeathMessage("");
 
-		if (player.getKiller() != null) {
-			this.downgrade(player, game);
+		if (player.getHandle().getKiller() != null) {
+			this.downgrade(player);
 
-			Player killer = player.getKiller();
+			GunGamePlayer killer = this.gungame.getPlayer(player.getHandle().getKiller());
 			
-			int oldLevel = game.getPlayer(killer).getLevel();
-			int newLevel = game.getPlayer(killer).incrementLevel();
+			int oldLevel = killer.getLevel();
+			int newLevel = killer.incrementLevel();
 			
 			if (oldLevel == newLevel) {
-				Main.instance().getGame().initWinner(killer);
-				Main.instance().getGameStateManager().next();
+				this.gungame.initWinner(killer);
+				this.gungame.getManager().next();
 			} else {
-				Main.broadcast(Main.instance().getFileConfig().getMessageKillBroadcast(killer, player));
+				this.gungame.broadcastMessage(this.gungame.getSettings().messages().getKillBroadcast(player.getHandle(), killer.getHandle()));
 				
-				if (Main.instance().getFileConfig().isScoreboard()) {
-					GunGameScoreboard.update(killer);
+				if (this.gungame.getScoreboard().isEnabled()) {
+					this.gungame.getScoreboard().update(killer.getHandle());
 				}
 			}
 		} else {
-			Main.broadcast(Main.instance().getFileConfig().getMessageNaturalDeath(player));
+			this.gungame.broadcastMessage(this.gungame.getSettings().messages().getDeathBroadcast(player.getHandle()));
 			
-			if (Main.instance().getFileConfig().isLevelDowngradeOnNaturalDeath()) {
-				this.downgrade(player, game);
+			if (this.gungame.getSettings().isDowngradeOnNaturalDeath()) {
+				this.downgrade(player);
 			}
 		}
 
 		event.getDrops().clear();
 		event.setDroppedExp(0);
 		
-		if (Main.instance().getFileConfig().isAutoRespawn()) {
-			player.spigot().respawn();
+		if (this.gungame.getSettings().isAutoRespawn()) {
+			player.getHandle().spigot().respawn();
 		}
 	}
 	
-	private void downgrade(Player player, GunGame game) {
-		if (Main.instance().getFileConfig().isLevelResetAfterDeath()) {
-			game.getPlayer(player).resetLevel();
+	private void downgrade(GunGamePlayer player) {
+		if (this.gungame.getSettings().isLevelReset()) {
+			player.resetLevel();
 		} else {
-			game.getPlayer(player).decrementLevel();
+			player.decrementLevel();
 		}
 		
-		if (Main.instance().getFileConfig().isScoreboard()) {
-			GunGameScoreboard.update(player);
+		if (this.gungame.getScoreboard().isEnabled()) {
+			this.gungame.getScoreboard().update(player.getHandle());
 		}
 	}
 	

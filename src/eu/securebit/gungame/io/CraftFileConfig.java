@@ -22,12 +22,8 @@ public class CraftFileConfig implements FileConfig {
 	@Override
 	public void initialize() {
 		this.cfg = YamlConfiguration.loadConfiguration(this.file);
-		this.cfg.addDefault("path_frame_file", "frame_default.jar");
-		this.cfg.addDefault("path_boot_folder", "frames/default");
-		this.cfg.options().header("######################################");
-		this.cfg.options().header("##### GunGame Core Configuration #####");
-		this.cfg.options().header("######################################");
-		this.cfg.options().copyHeader(true);
+		this.cfg.addDefault("path-frame-file", "frames/frame_default.jar");
+		this.cfg.addDefault("path-boot-folder", "frames/default");
 		this.cfg.options().copyDefaults(true);
 		
 		try {
@@ -40,7 +36,7 @@ public class CraftFileConfig implements FileConfig {
 	@Override
 	public boolean isValid() {
 		try {
-			return this.getBootFolder() == null || this.getFrameJar() == null;
+			return this.getBootFolder() != null && this.getFrameJar() != null;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -49,7 +45,7 @@ public class CraftFileConfig implements FileConfig {
 
 	@Override
 	public File getBootFolder() {
-		File boot = new File(this.plugin.getDataFolder().getPath() + File.pathSeparator + this.cfg.getString("path_boot_folder"));
+		File boot = new File(this.plugin.getDataFolder().getPath() + File.separator + this.cfg.getString("path-boot-folder"));
 		if (!boot.exists() || !boot.isDirectory()) {
 			boot.mkdirs();
 			return null;
@@ -60,7 +56,7 @@ public class CraftFileConfig implements FileConfig {
 
 	@Override
 	public File getFrameJar() {
-		File jar = new File(this.plugin.getDataFolder().getPath() + File.pathSeparator + this.cfg.getString("path_frame_file"));
+		File jar = new File(this.plugin.getDataFolder().getPath() + File.separator + this.cfg.getString("path-frame-file"));
 		if (!jar.exists() || !jar.isFile()) {
 			return null;
 		}

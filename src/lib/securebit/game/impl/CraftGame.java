@@ -45,18 +45,25 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	}
 
 	@Override
+	public void loginPlayer(P player) {
+		if (this.manager.isCreated()) {
+			((CraftGameState<?>) this.manager.getCurrent()).onJoin(player.getHandle());
+		}
+	}
+	
+	@Override
 	public void joinPlayer(P player) {
 		this.players.add(player);
 		
 		if (this.manager.isCreated()) {
-			((CraftGameState) this.manager.getCurrent()).onJoin(player.getHandle());
+			((CraftGameState<?>) this.manager.getCurrent()).onJoin(player.getHandle());
 		}
 	}
 
 	@Override
 	public void quitPlayer(Player player) {
 		if (this.manager.isCreated()) {
-			((CraftGameState) this.manager.getCurrent()).onQuit(player);
+			((CraftGameState<?>) this.manager.getCurrent()).onQuit(player);
 		}
 		
 		Iterator<P> iterator = this.players.iterator();
@@ -65,6 +72,17 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 			if (iterator.next().getHandle().getName().equals(player.getName())) {
 				iterator.remove();
 			}
+		}
+	}
+	
+	@Override
+	public void broadcastMessage(String msg) {
+		if (msg == null) {
+			return;
+		}
+		
+		for (P player : this.players) {
+			player.getHandle().sendMessage(msg);
 		}
 	}
 	

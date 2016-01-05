@@ -10,11 +10,11 @@ import org.bukkit.Difficulty;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public abstract class CraftGameStateLobby extends CraftGameState {
+public abstract class CraftGameStateLobby<G extends Game<? extends GamePlayer>> extends CraftGameState<G> {
 	
 	private Location lobby;
 	
-	public CraftGameStateLobby(Game<? extends GamePlayer> game, Location lobby) {
+	public CraftGameStateLobby(G game, Location lobby) {
 		super(game);
 		
 		this.lobby = lobby;

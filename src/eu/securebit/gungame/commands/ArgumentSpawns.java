@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.NumberConversions;
 
+import eu.securebit.gungame.GunGame;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.Messages;
 import eu.securebit.gungame.Permissions;
@@ -43,14 +44,21 @@ public class ArgumentSpawns extends CustomArgument {
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
 		Player player = (Player) sender;
 		
+		if (!Main.instance().getFrame().isInGame(player)) {
+			player.sendMessage(Messages.notInGame());
+			return true;
+		}
+		
+		GunGame gungame = Main.instance().getFrame().getGame(player);
+		
 		if (args.length <= 1) {
 			this.sendSuggestions(sender);
 			return true;
 		}
 		
 		if (args[1].equalsIgnoreCase("add")) {
-			int create_id = Main.instance().getFileConfig().addSpawn(player.getLocation());
-			sender.sendMessage(Messages.spawnAdded(create_id));
+			int createId = gungame.addSpawn(player.getLocation());
+			sender.sendMessage(Messages.spawnAdded(createId));
 			return true;
 		}
 		
@@ -62,9 +70,10 @@ public class ArgumentSpawns extends CustomArgument {
 			
 			if (Util.isInt(args[2])) {
 				int id = NumberConversions.toInt(args[2]);
-				if (Main.instance().getFileConfig().isSpawn(id)) {
+				
+				if (gungame.getSettings().getSpawnPoints().containsKey(id)) {
 					try {
-						player.teleport(Main.instance().getFileConfig().getSpawnById(id));
+						player.teleport(gungame.getSettings().getSpawnPoints().get(id));
 					} catch (Exception ex) {
 						player.sendMessage(Messages.worldNotFound("spawnworld"));
 					} finally {
@@ -88,8 +97,8 @@ public class ArgumentSpawns extends CustomArgument {
 			
 			if (Util.isInt(args[2])) {
 				int id = NumberConversions.toInt(args[2]);
-				if (Main.instance().getFileConfig().isSpawn(id)) {
-					Main.instance().getFileConfig().removeSpawn(id);
+				if (gungame.getSettings().getSpawnPoints().containsKey(id)) {
+					gungame.removeSpawn(id);
 					player.sendMessage(Messages.spawnRemoved(id));
 				} else {
 					player.sendMessage(Messages.spawnNotExisting(id));
