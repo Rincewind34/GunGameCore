@@ -1,12 +1,13 @@
 package eu.securebit.gungame.commands;
 
+import lib.securebit.InfoLayout;
+import lib.securebit.command.BasicCommand;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.Permissions;
-import lib.securebit.InfoLayout;
-import lib.securebit.command.BasicCommand;
 
 public class ArgumentHelp extends CustomArgument {
 	

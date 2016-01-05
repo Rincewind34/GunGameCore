@@ -1,5 +1,7 @@
 package eu.securebit.gungame;
 
+import lib.securebit.game.impl.CraftGame;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -8,7 +10,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
 import eu.securebit.gungame.exception.MalformedConfigException;
-import lib.securebit.game.impl.CraftGame;
 
 public class GunGame extends CraftGame<GunGamePlayer> {
 
@@ -73,11 +74,16 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 	}
 	
 	public void calculateGameState() {
+		Main.layout().message(Bukkit.getConsoleSender(), "Calculating...");
+		
 		if (Bukkit.getOnlinePlayers().size() == 1) {
+			Main.layout().message(Bukkit.getConsoleSender(), "Skiping all phases!");
 			Main.instance().getGameStateManager().skipAll();
 		}
 		
 		if (Bukkit.getOnlinePlayers().size() == 0) {
+			Main.layout().message(Bukkit.getConsoleSender(), "Shutdown!");
+			
 			if (Main.DEBUG) {
 				Bukkit.reload();
 			} else {

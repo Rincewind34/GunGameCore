@@ -9,6 +9,8 @@ public interface Countdown {
 	
 	public abstract void stop();
 	
+	public abstract void stop(boolean listeneres);
+	
 	public abstract void interrupt();
 	
 	public abstract void addTimeListener(TimeListener listener);

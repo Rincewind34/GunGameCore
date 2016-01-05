@@ -90,7 +90,7 @@ public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
 	@Override
 	public void stop() {
 		if (this.countdown.isRunning()) {
-			this.countdown.stop();
+			this.countdown.stop(false);
 		}
 	}
 	

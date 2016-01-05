@@ -52,7 +52,9 @@ public class GameStateGrace extends DefaultGameStateGrace {
 		
 		Main.broadcast(Main.instance().getFileConfig().getMessageGraceStart());
 		
-		Main.instance().getGame().calculateGameState();
+		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {
+			Main.instance().getGame().calculateGameState();
+		}, 5L);
 	}
 
 	@Override

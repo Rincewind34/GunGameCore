@@ -66,7 +66,7 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onLoad() {
 		Main.instance = this;
-		Main.layout = new InfoLayout("System-GunGame");
+		Main.layout = new InfoLayout("System");
 		Main.random = new Random();
 	}
 	

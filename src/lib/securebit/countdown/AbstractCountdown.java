@@ -86,18 +86,25 @@ public class AbstractCountdown implements Countdown {
 		this.secondsLeft = this.startSeconds;
 		this.start();
 	}
-
+	
 	@Override
 	public void stop() {
+		this.stop(true);
+	}
+	
+	@Override
+	public void stop(boolean force) {
 		if (!this.isRunning()) {
 			throw new CountdownException("The countdown is not running!");
 		}
 		
 		this.running = false;
 		
-		this.countdownListeners.forEach(listener -> {
-			listener.onStop(this.secondsLeft);
-		});
+		if (force) {
+			this.countdownListeners.forEach(listener -> {
+				listener.onStop(this.secondsLeft);
+			});
+		}
 		
 		this.task.cancel();
 		this.task = null;

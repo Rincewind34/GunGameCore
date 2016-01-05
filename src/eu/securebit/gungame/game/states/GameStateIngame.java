@@ -36,6 +36,10 @@ public class GameStateIngame extends DefaultGameStateIngame {
 	public void start() {
 		Main.layout().message(Bukkit.getConsoleSender(), "Entering gamephase: *Ingame*");
 		super.start();
+		
+		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {
+			Main.instance().getGame().calculateGameState();
+		}, 5L);
 	}
 
 	@Override
