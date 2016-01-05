@@ -7,6 +7,7 @@ import lib.securebit.game.defaults.DefaultGameStateLobby;
 
 import org.bukkit.Bukkit;
 
+import eu.securebit.gungame.GunGame;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.Messages;
 import eu.securebit.gungame.Permissions;
@@ -14,17 +15,17 @@ import eu.securebit.gungame.Util;
 
 public class GameStateLobby extends DefaultGameStateLobby {
 	
-	public GameStateLobby() {
-		super(Main.instance().getGame(),
-				Main.instance().getFileConfig().getLocationLobby(),
+	public GameStateLobby(GunGame gungame) {
+		super(gungame,
+				gungame.getSettings().lobby().getLobbyLocation(),
 				Permissions.premium(), Permissions.teammember(),
-				Main.instance().getFileConfig().getMaxPlayers(),
-				Main.instance().getFileConfig().getMinPlayers(),
-				20,
+				gungame.getSettings().getMaxPlayerCount(),
+				gungame.getSettings().getMinPlayerCount(),
+				gungame.getSettings().lobby().getLobbyCountdownLength(),
 				true);
 		
-		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, Main.instance().getFileConfig().getMessageJoin());
-		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, Main.instance().getFileConfig().getMessageQuit());
+		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, gungame.getSettings().lobby().getJoinMessage());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().lobby().getQuitMessage());
 	}
 
 	@Override
@@ -43,7 +44,7 @@ public class GameStateLobby extends DefaultGameStateLobby {
 	
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		layout.line("Enough players: " + Util.parseBoolean(Bukkit.getOnlinePlayers().size() >= Main.instance().getFileConfig().getMinPlayers(), layout));
+		layout.line("Enough players: " + Util.parseBoolean(Bukkit.getOnlinePlayers().size() >= ((GunGame) this.getGame()).getSettings().getMinPlayerCount(), layout));
 		layout.line("Seconds left: " + this.getCountdown().getSecondsLeft());
 	}
 	
@@ -80,7 +81,7 @@ public class GameStateLobby extends DefaultGameStateLobby {
 
 	@Override
 	protected String getMessageCountdown(int secondsLeft) {
-		return Main.instance().getFileConfig().getMessageLobbyCountdown(secondsLeft);
+		return ((GunGame) this.getGame()).getSettings().lobby().getCountdownMessage(secondsLeft);
 	}
 	
 	@Override

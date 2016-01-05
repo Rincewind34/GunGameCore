@@ -1,7 +1,5 @@
 package eu.securebit.gungame;
 
-import lib.securebit.game.impl.CraftGame;
-
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -9,14 +7,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
-import eu.securebit.gungame.exception.MalformedConfigException;
+import lib.securebit.game.impl.CraftGame;
 
-public class GunGame extends CraftGame<GunGamePlayer> {
+public abstract class GunGame extends CraftGame<GunGamePlayer> {
 
 	private Player winner;
+	private Settings settings;
 	
-	public GunGame() {
+	public GunGame(Settings settings) {
 		super(Main.instance());
+		
+		this.settings = settings;
 	}
 	
 	@Override
@@ -36,34 +37,38 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 		}
 	}
 	
-	public boolean isReady() {
-		try {
-			Main.instance().getFileConfig().validate();
-		} catch (MalformedConfigException exception) {
-			if (Main.DEBUG) {
-				System.err.println("Invalid config.yml file! Error: " + exception.getMessage());
-				exception.printStackTrace();
-			}
-			return false;
-		}
-		
-		try {
-			Main.instance().getFileLevels().validate();
-		} catch (MalformedConfigException exception) {
-			if (Main.DEBUG) {
-				System.err.println("Invalid levels.yml file! Error: " + exception.getMessage());
-				exception.printStackTrace();
-			}
-			return false;
-		}
-		
-		if (Main.instance().getFileConfig().getSpawns().size() < 1) {
-			System.err.println("You have to set at least one spawn location!");
-			return false;
-		}
-		
-		return !Main.instance().getFileConfig().isEditMode();
+	public Settings getSettings() {
+		return this.settings;
 	}
+	
+//	public boolean isReady() {
+//		try {
+//			Main.instance().getFileConfig().validate();
+//		} catch (MalformedConfigException exception) {
+//			if (Main.DEBUG) {
+//				System.err.println("Invalid config.yml file! Error: " + exception.getMessage());
+//				exception.printStackTrace();
+//			}
+//			return false;
+//		}
+//		
+//		try {
+//			Main.instance().getFileLevels().validate();
+//		} catch (MalformedConfigException exception) {
+//			if (Main.DEBUG) {
+//				System.err.println("Invalid levels.yml file! Error: " + exception.getMessage());
+//				exception.printStackTrace();
+//			}
+//			return false;
+//		}
+//		
+//		if (Main.instance().getFileConfig().getSpawns().size() < 1) {
+//			System.err.println("You have to set at least one spawn location!");
+//			return false;
+//		}
+//		
+//		return !Main.instance().getFileConfig().isEditMode();
+//	}
 	
 	public void handleDisconnect(Player player) {
 		if (this.winner == player) {
@@ -100,4 +105,5 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 		return this.winner;
 	}
 
+	public abstract boolean isReady();
 }
