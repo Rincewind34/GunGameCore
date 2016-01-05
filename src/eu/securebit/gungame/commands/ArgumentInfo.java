@@ -43,7 +43,7 @@ public class ArgumentInfo extends CustomArgument {
 
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		layout.line("Shows information about the current state!");
+		layout.line("Shows information about the current state");
 	}
 
 }

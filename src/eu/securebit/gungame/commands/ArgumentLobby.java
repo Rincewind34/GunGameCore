@@ -58,7 +58,8 @@ public class ArgumentLobby extends CustomArgument {
 
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		
+		layout.line("Sets the lobby location where players are teleported to after logging in.");
+		layout.line("Teleports you to the defined lobby location.");
 	}
 
 }

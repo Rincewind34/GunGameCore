@@ -52,8 +52,7 @@ public class ArgumentToggle extends CustomArgument {
 
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		// TODO Auto-generated method stub
-		
+		layout.line("Toggles between EditMode / GameMode.");
 	}
 
 }

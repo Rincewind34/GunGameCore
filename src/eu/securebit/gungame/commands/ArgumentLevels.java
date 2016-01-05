@@ -130,6 +130,9 @@ public class ArgumentLevels extends CustomArgument {
 
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		
+		layout.line("This argument provides some methods to manage your levels.");
+		layout.line("/gungame levels load <id> $- " + this.descLoad);
+		layout.line("/gungame levels save [id] $- " + this.descSave);
+		layout.line("/gungame levels delete [count = 1] $- " + this.descDelete);
 	}
 }

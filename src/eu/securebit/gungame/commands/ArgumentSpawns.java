@@ -112,6 +112,9 @@ public class ArgumentSpawns extends CustomArgument {
 
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		
+		layout.line("This argument makes it possible to simply manage spawn points.");
+		layout.line("/gungame spawns add $- " + this.descAdd);
+		layout.line("/gungame spawns tp <id> $- " + this.descTp);
+		layout.line("/gungame spawns remove <id> $- " + this.descRemove);
 	}
 }

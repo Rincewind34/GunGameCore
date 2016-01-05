@@ -47,7 +47,7 @@ public class ArgumentSkip extends CustomArgument {
 
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		
+		layout.line("Skips the current gamestate and jumps to the next.");
 	}
 
 }
