@@ -23,8 +23,8 @@ public class ListenerPlayerDeath implements Listener {
 
 			Player killer = player.getKiller();
 			
-			int oldLevel = game.getPlayer(player).getLevel();
-			int newLevel = game.getPlayer(player).incrementLevel();
+			int oldLevel = game.getPlayer(killer).getLevel();
+			int newLevel = game.getPlayer(killer).incrementLevel();
 			
 			if (oldLevel == newLevel) {
 				Main.instance().getGame().initWinner(killer);

@@ -1,8 +1,8 @@
 package eu.securebit.gungame;
 
-import org.bukkit.entity.Player;
-
 import lib.securebit.game.impl.CraftGamePlayer;
+
+import org.bukkit.entity.Player;
 
 public class GunGamePlayer extends CraftGamePlayer {
 	

@@ -6,12 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import lib.securebit.game.Game;
-import lib.securebit.game.GamePlayer;
 import lib.securebit.game.GameState;
 import lib.securebit.game.GameStateManager;
-import lib.securebit.timer.AbstractTimer;
-import lib.securebit.timer.Timer;
-import lib.securebit.timer.Timer.TimerEntry;
 
 import org.bukkit.plugin.Plugin;
 
@@ -23,7 +19,6 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 	private G game;
 	
 	private Plugin plugin;
-	private Timer timer;
 	
 	private int index;
 	
@@ -32,12 +27,6 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 	public CraftGameStateManager(Plugin plugin) {
 		this.plugin = plugin;
 		this.states = new ArrayList<GameState>();
-		this.timer = new AbstractTimer(2);
-		this.timer.addEntry(new TimerEntry(1, () -> {
-			for (GamePlayer player : this.getGame().getPlayers()) {
-				this.getCurrent().updateScoreboard(player);
-			}
-		}));
 	}
 	
 	@Override
@@ -69,8 +58,6 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 			throw new GameStateException("Cannot load next GameState, because DisabledState is currently active.");
 		}
 		
-		this.timer.interrupt();
-		
 		if (!startStates) {
 			this.getCurrent().stop();
 			this.getCurrent().unregisterListener(this.plugin);
@@ -101,8 +88,6 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 			this.getCurrent().registerListener(this.plugin);
 			this.getCurrent().start();
 		}
-		
-		this.timer.start(this.getGame().getPlugin());
 	}
 
 	@Override
@@ -114,8 +99,6 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 		if (count <= 0) {
 			throw new GameStateException("The count must be positiv!");
 		}
-		
-		this.timer.interrupt();
 		
 		this.getCurrent().stop();
 		this.getCurrent().unregisterListener(this.plugin);
@@ -130,8 +113,6 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 		this.getCurrent().load();
 		this.getCurrent().registerListener(this.plugin);
 		this.getCurrent().start();
-		
-		this.timer.start(this.getGame().getPlugin());
 	}
 	
 	@Override
@@ -308,16 +289,8 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 		}
 	}
 	
-	public Timer getTimer() {
-		return this.timer;
-	}
-	
 	private void setRunning(boolean running, boolean withShutdown) {
 		if (withShutdown) {
-			if (this.timer.isRunning()) {
-				this.timer.stop();
-			}
-			
 			this.getCurrent().stop();
 			this.getCurrent().unregisterListener(this.plugin);
 			this.getCurrent().unload();
@@ -332,10 +305,6 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 		this.getCurrent().load();
 		this.getCurrent().registerListener(this.plugin);
 		this.getCurrent().start();
-		
-		if (running) {
-			this.timer.start(this.getGame().getPlugin());
-		}
 	}
 	
 }

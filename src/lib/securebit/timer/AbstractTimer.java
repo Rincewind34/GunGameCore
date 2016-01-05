@@ -17,6 +17,8 @@ public class AbstractTimer implements Timer {
 	
 	private int period;
 	
+	private boolean running;
+	
 	public AbstractTimer(int period) {
 		this.entries = new ArrayList<>();
 		this.period = period;
@@ -37,6 +39,8 @@ public class AbstractTimer implements Timer {
 		if (this.isRunning()) {
 			throw new RuntimeException("The timer is running!");
 		}
+		
+		this.running = true;
 		
 		this.task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
 			for (TimerEntry entry : this) {
@@ -62,6 +66,7 @@ public class AbstractTimer implements Timer {
 		
 		this.task.cancel();
 		this.task = null;
+		this.running = false;
 	}
 
 	@Override
@@ -76,7 +81,7 @@ public class AbstractTimer implements Timer {
 
 	@Override
 	public boolean isRunning() {
-		return this.task != null;
+		return this.running;
 	}
 
 	@Override

@@ -104,6 +104,10 @@ public class Messages {
 		return Main.layout().format("\\preYou deleted the level *" + levelId + "*!");
 	}
 	
+	public static String levelNotExists(int levelId) {
+		return Main.layout().format("\\preCannot find level with id *" + levelId + "*.");
+	}
+
 	public static String greaterNull() {
 		return Main.layout().format("\\pre-The value hast to be greater than 0!-");
 	}

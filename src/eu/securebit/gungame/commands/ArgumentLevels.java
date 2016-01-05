@@ -51,8 +51,12 @@ public class ArgumentLevels extends CustomArgument {
 				if (args.length == 3) {
 					if (Util.isInt(args[2])) {
 						int id = NumberConversions.toInt(args[2]);
-						Main.instance().getFileLevels().give(player, id);
-						player.sendMessage(Messages.levelGiven(id));
+						if (id < 1 || id > Main.instance().getFileLevels().getLevelCount()) {
+							player.sendMessage(Messages.levelNotExists(id));
+						} else {
+							Main.instance().getFileLevels().give(player, id);
+							player.sendMessage(Messages.levelGiven(id));
+						}
 					} else {
 						player.sendMessage(Messages.invalidNumber(args[2]));
 					}
