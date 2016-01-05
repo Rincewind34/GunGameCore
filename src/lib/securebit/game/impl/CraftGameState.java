@@ -16,7 +16,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -233,6 +235,18 @@ public abstract class CraftGameState implements GameState {
 				}
 			});
 		}
+	}
+	
+	@EventHandler
+	public void onBlockIgnite(BlockIgniteEvent event) {
+		this.game.getWorlds().forEach((world) -> {
+			if (world.equals(event.getBlock().getWorld())) {
+				if (event.getCause() == IgniteCause.SPREAD) {
+					event.setCancelled(!this.settings.getValue(StateSettings.FIRE_SPREAD));
+					return;
+				}
+			}
+		});
 	}
 	
 }

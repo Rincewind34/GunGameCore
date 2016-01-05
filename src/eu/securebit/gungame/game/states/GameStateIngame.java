@@ -26,6 +26,8 @@ public class GameStateIngame extends DefaultGameStateIngame {
 		this.getListeners().add(new ListenerPlayerLogin());
 		this.getListeners().add(new ListenerPlayerRespawn());
 		
+		this.getSettings().setValue(StateSettings.ITEM_DROP, false);
+		this.getSettings().setValue(StateSettings.ITEM_PICKUP, false);
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
 		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, Main.instance().getFileConfig().getMessageQuit());
 	}
@@ -50,7 +52,7 @@ public class GameStateIngame extends DefaultGameStateIngame {
 	@Override
 	public void stageInformation(InfoLayout layout) {
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			layout.line("  $- " + player.getName() + "(" + Main.instance().getGame().getCurrentLevel(player) + ")");
+			layout.line("  $- " + player.getName() + "(" + Main.instance().getGame().getPlayer(player).getLevel() + ")");
 		}
 	}
 

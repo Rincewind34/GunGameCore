@@ -1,10 +1,5 @@
 package eu.securebit.gungame;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import lib.securebit.game.impl.CraftGame;
-
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -13,15 +8,14 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
 import eu.securebit.gungame.exception.MalformedConfigException;
+import lib.securebit.game.impl.CraftGame;
 
 public class GunGame extends CraftGame<GunGamePlayer> {
 
-	private Map<Player, Integer> levels; // TODO Improve with GunGamePlayer
 	private Player winner;
 	
 	public GunGame() {
 		super(Main.instance());
-		this.levels = new HashMap<>();
 	}
 	
 	@Override
@@ -75,8 +69,6 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 			this.winner = null;
 		}
 		
-		this.levels.remove(player);
-		
 		this.calculateGameState();
 	}
 	
@@ -92,56 +84,6 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 				Bukkit.shutdown();
 			}
 		}
-	}
-	
-	public boolean addLevel(Player player) {
-		this.insertPlayer(player);
-		
-		int current = this.getCurrentLevel(player);
-		
-		if (current == Main.instance().getFileLevels().getLevelCount()) {
-			return true;
-		} else {
-			current = current + 1;
-			
-			this.levels.put(player, current);
-			this.refresh(player);
-			
-			return false;
-		}
-	}
-	
-	public void removeLevel(Player player) {
-		this.insertPlayer(player);
-		
-		if (this.levels.get(player) != 1) {
-			this.levels.put(player, this.getCurrentLevel(player) - 1);
-		}
-		
-		this.refresh(player);
-	}
-	
-	public void resetLevel(Player player) {
-		this.insertPlayer(player);
-		this.levels.put(player, Main.instance().getFileConfig().getStartLevel());
-		this.refresh(player);
-	}
-	
-	public void insertPlayer(Player player) {
-		if (!this.levels.containsKey(player)) {
-			this.levels.put(player, Main.instance().getFileConfig().getStartLevel());
-			this.refresh(player);
-		}
-	}
-	
-	public void refresh(Player player) {
-		Main.instance().getFileLevels().give(player, this.getCurrentLevel(player));
-		player.setLevel(this.getCurrentLevel(player));
-		player.setExp((float) (((double) this.getCurrentLevel(player) - 1) / ((double) Main.instance().getFileLevels().getLevelCount())));
-	}
-	
-	public int getCurrentLevel(Player player) {
-		return this.levels.get(player);
 	}
 	
 	public void initWinner(Player player) {

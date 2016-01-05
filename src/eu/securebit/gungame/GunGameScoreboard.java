@@ -39,7 +39,7 @@ public class GunGameScoreboard {
 			
 			for (Player target : Bukkit.getOnlinePlayers()) {
 				try {
-					obj.getScore(format.replace("${player}", target.getDisplayName())).setScore(game.getCurrentLevel(target));
+					obj.getScore(format.replace("${player}", target.getDisplayName())).setScore(game.getPlayer(target).getLevel());
 				} catch (Exception ex) {
 					if (Main.DEBUG) {
 						System.err.println("Error occured while set the score of the player " + target.getName() + " as " + target.getDisplayName());
@@ -68,7 +68,7 @@ public class GunGameScoreboard {
 			
 			GunGame game = Main.instance().getGame();
 			
-			obj.getScore(format.replace("${player}", player.getDisplayName())).setScore(game.getCurrentLevel(player));
+			obj.getScore(format.replace("${player}", player.getDisplayName())).setScore(game.getPlayer(player).getLevel());
 			
 			GunGameScoreboard.refresh();
 		} else {

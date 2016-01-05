@@ -25,6 +25,8 @@ public class GameStateGrace extends DefaultGameStateGrace {
 		this.getListeners().add(new ListenerBlockIgnite());
 		this.getListeners().add(new ListenerPlayerLogin());
 		
+		this.getSettings().setValue(StateSettings.ITEM_DROP, false);
+		this.getSettings().setValue(StateSettings.ITEM_PICKUP, false);
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
 		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, Main.instance().getFileConfig().getMessageQuit());
 	}
@@ -37,7 +39,7 @@ public class GameStateGrace extends DefaultGameStateGrace {
 		
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			player.teleport(spawns.get(Main.random().nextInt(spawns.size())));
-			Main.instance().getGame().insertPlayer(player);
+			Main.instance().getGame().getPlayer(player).refreshLevel();
 		}
 		
 		if (Main.instance().getFileConfig().isScoreboard()) { //TODO use bitboard

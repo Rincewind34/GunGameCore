@@ -34,6 +34,7 @@ public abstract class CraftGameStateLobby extends CraftGameState {
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, "§e${player} joined the game!");
 		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, "§e${player} left the game!");
 		this.getSettings().setValue(StateSettings.DIFFICULTY, Difficulty.PEACEFUL);
+		this.getSettings().setValue(StateSettings.FIRE_SPREAD, false);
 	}
 	
 	@Override

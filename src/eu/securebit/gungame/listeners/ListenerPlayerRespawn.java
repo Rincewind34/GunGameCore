@@ -22,10 +22,10 @@ public class ListenerPlayerRespawn implements Listener {
 		event.setRespawnLocation(spawns.get(Main.random().nextInt(spawns.size())));
 		
 		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {
-			Main.instance().getGame().refresh(event.getPlayer());
+			Main.instance().getGame().getPlayer(player).refreshLevel();
 			player.setVelocity(new Vector(0, 0, 0));
 			
-			String message = Main.instance().getFileConfig().getMessageRespawn(Main.instance().getGame().getCurrentLevel(player));
+			String message = Main.instance().getFileConfig().getMessageRespawn(Main.instance().getGame().getPlayer(player).getLevel());
 			
 			if (message != null) {
 				player.sendMessage(message);

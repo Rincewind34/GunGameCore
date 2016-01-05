@@ -46,6 +46,8 @@ public interface Settings {
 		
 		public static final Option<Difficulty> DIFFICULTY = new Option<>();
 		
+		public static final Option<Boolean> FIRE_SPREAD = new Option<>();
+		
 	}
 	
 }

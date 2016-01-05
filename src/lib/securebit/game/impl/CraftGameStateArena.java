@@ -29,6 +29,7 @@ public abstract class CraftGameStateArena extends CraftGameState {
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
 		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, "§e${player} left the game!");
 		this.getSettings().setValue(StateSettings.DIFFICULTY, Difficulty.PEACEFUL);
+		this.getSettings().setValue(StateSettings.FIRE_SPREAD, false);
 	}
 	
 }

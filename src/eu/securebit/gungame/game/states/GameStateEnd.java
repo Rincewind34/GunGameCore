@@ -33,8 +33,8 @@ public class GameStateEnd extends DefaultGameStateEnd {
 			Player bestPlayer = null;
 			
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (Main.instance().getGame().getCurrentLevel(player) > bestLevel) {
-					bestLevel = Main.instance().getGame().getCurrentLevel(player);
+				if (Main.instance().getGame().getPlayer(player).getLevel() > bestLevel) {
+					bestLevel = Main.instance().getGame().getPlayer(player).getLevel();
 					bestPlayer = player;
 				}
 			}

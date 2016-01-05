@@ -23,9 +23,10 @@ public class ListenerPlayerDeath implements Listener {
 
 			Player killer = player.getKiller();
 			
-			boolean win = game.addLevel(killer);
+			int oldLevel = game.getPlayer(player).getLevel();
+			int newLevel = game.getPlayer(player).incrementLevel();
 			
-			if (win) {
+			if (oldLevel == newLevel) {
 				Main.instance().getGame().initWinner(killer);
 				Main.instance().getGameStateManager().next();
 			} else {
@@ -53,9 +54,9 @@ public class ListenerPlayerDeath implements Listener {
 	
 	private void downgrade(Player player, GunGame game) {
 		if (Main.instance().getFileConfig().isLevelResetAfterDeath()) {
-			game.resetLevel(player);
+			game.getPlayer(player).resetLevel();
 		} else {
-			game.removeLevel(player);
+			game.getPlayer(player).decrementLevel();
 		}
 		
 		if (Main.instance().getFileConfig().isScoreboard()) {

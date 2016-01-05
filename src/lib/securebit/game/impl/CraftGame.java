@@ -143,8 +143,8 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	}
 	
 	@Override
-	public GamePlayer getPlayer(Player player) {
-		for (GamePlayer target : this.players) {
+	public P getPlayer(Player player) {
+		for (P target : this.players) {
 			if (target.getHandle().equals(player)) {
 				return target;
 			}
