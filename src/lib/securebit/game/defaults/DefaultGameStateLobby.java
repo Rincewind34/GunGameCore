@@ -78,7 +78,7 @@ public abstract class DefaultGameStateLobby extends CraftGameStateLobby {
 		
 		for (GamePlayer player : this.getGame().getPlayers()) {
 			Main.instance().getGame().resetPlayer(player.getHandle());
-			player.getHandle().teleport(Main.instance().getFileConfig().getLocationLobby());
+			player.getHandle().teleport(this.getLobby());
 		}
 	}
 	
