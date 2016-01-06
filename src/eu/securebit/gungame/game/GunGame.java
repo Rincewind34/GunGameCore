@@ -1,23 +1,39 @@
-package eu.securebit.gungame;
+package eu.securebit.gungame.game;
+
+import lib.securebit.InfoLayout;
+import lib.securebit.game.impl.CraftGame;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
-import lib.securebit.game.impl.CraftGame;
+import eu.securebit.gungame.Main;
+import eu.securebit.gungame.framework.Settings;
 
 public abstract class GunGame extends CraftGame<GunGamePlayer> {
 
-	private Player winner;
+	private GunGamePlayer winner;
 	private Settings settings;
+	
+	private GunGameScoreboard board;
 	
 	public GunGame(Settings settings) {
 		super(Main.instance());
 		
 		this.settings = settings;
+		this.board = new GunGameScoreboard(this, this.getSettings().getUUID());
+		
+		if (this.board.isEnabled()) {
+			if (this.board.exists()) {
+				this.board.delete();
+			}
+			
+			this.board.create();
+		}
 	}
 	
 	@Override
@@ -41,34 +57,9 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 		return this.settings;
 	}
 	
-//	public boolean isReady() {
-//		try {
-//			Main.instance().getFileConfig().validate();
-//		} catch (MalformedConfigException exception) {
-//			if (Main.DEBUG) {
-//				System.err.println("Invalid config.yml file! Error: " + exception.getMessage());
-//				exception.printStackTrace();
-//			}
-//			return false;
-//		}
-//		
-//		try {
-//			Main.instance().getFileLevels().validate();
-//		} catch (MalformedConfigException exception) {
-//			if (Main.DEBUG) {
-//				System.err.println("Invalid levels.yml file! Error: " + exception.getMessage());
-//				exception.printStackTrace();
-//			}
-//			return false;
-//		}
-//		
-//		if (Main.instance().getFileConfig().getSpawns().size() < 1) {
-//			System.err.println("You have to set at least one spawn location!");
-//			return false;
-//		}
-//		
-//		return !Main.instance().getFileConfig().isEditMode();
-//	}
+	public GunGameScoreboard getScoreboard() {
+		return this.board;
+	}
 	
 	public void handleDisconnect(Player player) {
 		if (this.winner == player) {
@@ -81,29 +72,40 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 	public void calculateGameState() {
 		Main.layout().message(Bukkit.getConsoleSender(), "Calculating...");
 		
-		if (Bukkit.getOnlinePlayers().size() == 1) {
+		if (this.getPlayers().size() == 1) {
 			Main.layout().message(Bukkit.getConsoleSender(), "Skiping all phases!");
-			Main.instance().getGameStateManager().skipAll();
+			this.getManager().skipAll();
 		}
 		
-		if (Bukkit.getOnlinePlayers().size() == 0) {
+		if (this.getPlayers().size() == 0) {
 			Main.layout().message(Bukkit.getConsoleSender(), "Shutdown!");
 			
-			if (Main.DEBUG) {
-				Bukkit.reload();
-			} else {
-				Bukkit.shutdown();
-			}
+			this.shutdown();
 		}
 	}
 	
-	public void initWinner(Player player) {
+	public void initWinner(GunGamePlayer player) {
 		this.winner = player;
 	}
 	
-	public Player getWinner() {
+	public GunGamePlayer getWinner() {
 		return this.winner;
 	}
-
+	
+	public abstract void shutdown();
+	
+	public abstract void stageEditInformation(InfoLayout layout);
+	
+	public abstract void removeSpawn(int id);
+	
+	public abstract void setLobbyLocation(Location lobby);
+	
+	public abstract void saveLevel(Player player, int levelId);
+	
+	public abstract boolean deleteLevel();
+	
 	public abstract boolean isReady();
+	
+	public abstract int addSpawn(Location loc);
+	
 }

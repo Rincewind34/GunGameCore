@@ -5,9 +5,9 @@ import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.impl.CraftGameStateArena;
 
-public abstract class DefaultGameStateIngame extends CraftGameStateArena {
+public abstract class DefaultGameStateIngame<G extends Game<? extends GamePlayer>> extends CraftGameStateArena<G> {
 
-	public DefaultGameStateIngame(Game<? extends GamePlayer> game) {
+	public DefaultGameStateIngame(G game) {
 		super(game);
 		
 		this.getSettings().setValue(StateSettings.PLAYER_DAMAGE_FIGHT, true);

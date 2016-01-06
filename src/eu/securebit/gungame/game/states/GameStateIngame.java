@@ -8,28 +8,26 @@ import lib.securebit.game.defaults.DefaultGameStateIngame;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import eu.securebit.gungame.GunGameScoreboard;
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.Util;
-import eu.securebit.gungame.listeners.ListenerBlockIgnite;
+import eu.securebit.gungame.game.GunGame;
+import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.listeners.ListenerPlayerDeath;
-import eu.securebit.gungame.listeners.ListenerPlayerLogin;
 import eu.securebit.gungame.listeners.ListenerPlayerRespawn;
+import eu.securebit.gungame.util.Permissions;
+import eu.securebit.gungame.util.Util;
 
-public class GameStateIngame extends DefaultGameStateIngame {
+public class GameStateIngame extends DefaultGameStateIngame<GunGame> {
 	
-	public GameStateIngame() {
-		super(Main.instance().getGame());
+	public GameStateIngame(GunGame gungame) {
+		super(gungame);
 		
-		this.getListeners().add(new ListenerPlayerDeath());
-		this.getListeners().add(new ListenerBlockIgnite());
-		this.getListeners().add(new ListenerPlayerLogin());
-		this.getListeners().add(new ListenerPlayerRespawn());
+		this.getListeners().add(new ListenerPlayerDeath(gungame));
+		this.getListeners().add(new ListenerPlayerRespawn(gungame));
 		
 		this.getSettings().setValue(StateSettings.ITEM_DROP, false);
 		this.getSettings().setValue(StateSettings.ITEM_PICKUP, false);
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
-		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, Main.instance().getFileConfig().getMessageQuit());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().messages().getServerQuit());
 	}
 
 	@Override
@@ -38,7 +36,7 @@ public class GameStateIngame extends DefaultGameStateIngame {
 		super.start();
 		
 		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {
-			Main.instance().getGame().calculateGameState();
+			this.getGame().calculateGameState();
 		}, 5L);
 	}
 
@@ -46,8 +44,8 @@ public class GameStateIngame extends DefaultGameStateIngame {
 	public void stop() {
 		super.stop();
 		
-		if (Main.instance().getFileConfig().isScoreboard()) { //TODO use bitboard
-			GunGameScoreboard.clearFromPlayers();
+		if (this.getGame().getScoreboard().isEnabled()) { //TODO use bitboard
+			this.getGame().getScoreboard().clearFromPlayers();
 		}
 		
 		Main.layout().message(Bukkit.getConsoleSender(), "Leaving gamephase: *Ingame*");
@@ -55,8 +53,8 @@ public class GameStateIngame extends DefaultGameStateIngame {
 	
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			layout.line("  $- " + player.getName() + "(" + Main.instance().getGame().getPlayer(player).getLevel() + ")");
+		for (GunGamePlayer player : this.getGame().getPlayers()) {
+			layout.line("  $- " + player.getHandle().getName() + "(" + player.getLevel() + ")");
 		}
 	}
 
@@ -66,9 +64,18 @@ public class GameStateIngame extends DefaultGameStateIngame {
 	}
 	
 	@Override
+	protected String onLogin(Player player) {
+		if (!player.hasPermission(Permissions.joinIngame())) {
+			return "The game is already running!"; //TODO Message
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
 	protected void onQuit(Player player) {
 		super.onQuit(player);
-		Util.startCalculation(player, 2);
+		Util.startCalculation(player, 2, this.getGame());
 	}
 	
 }

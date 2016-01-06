@@ -1,4 +1,4 @@
-package eu.securebit.gungame;
+package eu.securebit.gungame.game;
 
 import lib.securebit.game.impl.CraftGamePlayer;
 
@@ -7,25 +7,28 @@ import org.bukkit.entity.Player;
 public class GunGamePlayer extends CraftGamePlayer {
 	
 	private int level;
+	private GunGame gungame;
 	
-	public GunGamePlayer(Player player) {
+	public GunGamePlayer(Player player, GunGame gungame) {
 		super(player);
-		this.level = Main.instance().getFileConfig().getStartLevel();
+		
+		this.gungame = gungame;
+		this.level = this.gungame.getSettings().getStartLevel().getId();
 	}
 	
 	public void refreshLevel() {
-		Main.instance().getFileLevels().give(super.player, this.level);
+		this.gungame.getSettings().getLevels().get(level).equip(super.player);
 		super.player.setLevel(this.level);
-		super.player.setExp((float) (((double) this.level - 1) / ((double) Main.instance().getFileLevels().getLevelCount())));
+		super.player.setExp((float) (((double) this.level - 1) / ((double) this.gungame.getSettings().getLevels().size())));
 	}
 	
 	public void resetLevel() {
-		this.level = Main.instance().getFileConfig().getStartLevel();
+		this.level = this.gungame.getSettings().getStartLevel().getId();
 		this.refreshLevel();
 	}
 	
 	public int incrementLevel() {
-		if (this.level < Main.instance().getFileLevels().getLevelCount()) {
+		if (this.level < this.gungame.getSettings().getLevels().size()) {
 			++this.level;
 			this.refreshLevel();
 		}

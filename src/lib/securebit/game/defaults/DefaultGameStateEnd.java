@@ -7,19 +7,14 @@ import lib.securebit.game.Game;
 import lib.securebit.game.GamePlayer;
 import lib.securebit.game.impl.CraftGameStateLobby;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerLoginEvent.Result;
+import org.bukkit.entity.Player;
 
-import eu.securebit.gungame.Main;
-
-public abstract class DefaultGameStateEnd extends CraftGameStateLobby {
+public abstract class DefaultGameStateEnd<G extends Game<? extends GamePlayer>> extends CraftGameStateLobby<G> {
 	
 	private Countdown countdown;
 	
-	public DefaultGameStateEnd(Game<? extends GamePlayer> game, Location lobby, int countdownLength) {
+	public DefaultGameStateEnd(G game, Location lobby, int countdownLength) {
 		super(game, lobby);
 		
 		this.countdown = new DefaultCountdown(this.getGame().getPlugin(), countdownLength) {
@@ -29,7 +24,7 @@ public abstract class DefaultGameStateEnd extends CraftGameStateLobby {
 				String msg = DefaultGameStateEnd.this.getMessageCountdown(secondsLeft);
 				
 				if (msg != null) {
-					Bukkit.broadcastMessage(msg);
+					DefaultGameStateEnd.this.getGame().broadcastMessage(msg);
 				}
 			}
 			
@@ -50,7 +45,7 @@ public abstract class DefaultGameStateEnd extends CraftGameStateLobby {
 		super.load();
 		
 		for (GamePlayer player : this.getGame().getPlayers()) {
-			Main.instance().getGame().resetPlayer(player.getHandle());
+			this.getGame().resetPlayer(player.getHandle());
 			player.getHandle().teleport(this.getLobby());
 		}
 	}
@@ -65,6 +60,10 @@ public abstract class DefaultGameStateEnd extends CraftGameStateLobby {
 		if (this.countdown.isRunning()) {
 			this.countdown.stop(false);
 		}
+	}
+	
+	protected String onLogin(Player player) {
+		return this.getMessageNotJoinable();
 	}
 	
 	public Countdown getCountdown() {
@@ -83,12 +82,4 @@ public abstract class DefaultGameStateEnd extends CraftGameStateLobby {
 	
 	protected abstract String getMessageCountdown(int secondsLeft);
 
-	@EventHandler
-	public void onLogin(PlayerLoginEvent event) {
-		this.getGame().getPlayers().forEach((gameplayer) -> {
-			event.disallow(Result.KICK_OTHER, this.getMessageNotJoinable());
-			return;
-		});
-	}
-	
 }

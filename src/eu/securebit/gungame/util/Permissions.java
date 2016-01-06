@@ -1,4 +1,4 @@
-package eu.securebit.gungame;
+package eu.securebit.gungame.util;
 
 public class Permissions {
 	

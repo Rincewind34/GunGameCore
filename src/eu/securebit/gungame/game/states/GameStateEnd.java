@@ -6,20 +6,21 @@ import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateEnd;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.Messages;
+import eu.securebit.gungame.game.GunGame;
+import eu.securebit.gungame.game.GunGamePlayer;
+import eu.securebit.gungame.util.Messages;
 
-public class GameStateEnd extends DefaultGameStateEnd {
+public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 	
-	public GameStateEnd() {
-		super(Main.instance().getGame(), Main.instance().getFileConfig().getLocationLobby(), 20);
+	public GameStateEnd(GunGame gungame) {
+		super(gungame, gungame.getSettings().lobby().getLobbyLocation(), 20);
 		
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
-		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, Main.instance().getFileConfig().getMessageQuit());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().messages().getServerQuit());
 	}
 
 	@Override
@@ -28,21 +29,21 @@ public class GameStateEnd extends DefaultGameStateEnd {
 		
 		super.start();
 		
-		if (Main.instance().getGame().getWinner() == null) {
+		if (this.getGame().getWinner() == null) {
 			int bestLevel = 0;
-			Player bestPlayer = null;
+			GunGamePlayer bestPlayer = null;
 			
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (Main.instance().getGame().getPlayer(player).getLevel() > bestLevel) {
-					bestLevel = Main.instance().getGame().getPlayer(player).getLevel();
+			for (GunGamePlayer player : this.getGame().getPlayers()) {
+				if (player.getLevel() > bestLevel) {
+					bestLevel = player.getLevel();
 					bestPlayer = player;
 				}
 			}
 			
-			Main.instance().getGame().initWinner(bestPlayer);
+			this.getGame().initWinner(bestPlayer);
 		}
 		
-		Main.broadcast(Main.instance().getFileConfig().getMessageWinner(Main.instance().getGame().getWinner()));
+		this.getGame().broadcastMessage(this.getGame().getSettings().messages().getWinner(this.getGame().getWinner().getHandle()));
 	}
 
 	@Override
@@ -56,16 +57,12 @@ public class GameStateEnd extends DefaultGameStateEnd {
 	public void unload() {
 		super.unload();
 		
-		if (Main.DEBUG) {
-			Bukkit.reload();
-		} else {
-			Bukkit.shutdown();
-		}
+		this.getGame().shutdown();
 	}
 	
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		layout.line("Winner: " + Main.instance().getGame().getWinner());
+		layout.line("Winner: " + this.getGame().getWinner());
 		layout.line("Seconds left: " + this.getCountdown().getSecondsLeft());
 	}
 	
@@ -86,12 +83,12 @@ public class GameStateEnd extends DefaultGameStateEnd {
 
 	@Override
 	protected String getMessageCountdown(int secondsLeft) {
-		return Main.instance().getFileConfig().getMessageCountdownEnd(secondsLeft);
+		return this.getGame().getSettings().messages().getCountdownEnd(secondsLeft);
 	}
 	
 	@EventHandler
 	private void onRespawn(PlayerRespawnEvent event) {
-		event.setRespawnLocation(Main.instance().getFileConfig().getLocationLobby());
+		event.setRespawnLocation(this.getGame().getSettings().lobby().getLobbyLocation());
 	}
 	
 }

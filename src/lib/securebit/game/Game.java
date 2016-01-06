@@ -13,11 +13,15 @@ public interface Game<P extends GamePlayer> extends Listener {
 	
 	public abstract List<World> getWorlds();
 	
+	public abstract String loginPlayer(Player player);
+	
 	public abstract void joinPlayer(P player);
 	
 	public abstract void quitPlayer(Player player);
 	
 	public abstract void resetPlayer(Player player);
+	
+	public abstract void broadcastMessage(String msg);
 		
 	public abstract void registerWorld(World world);
 	

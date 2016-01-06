@@ -7,13 +7,13 @@ import lib.securebit.game.defaults.DefaultGameStateLobby;
 
 import org.bukkit.Bukkit;
 
-import eu.securebit.gungame.GunGame;
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.Messages;
-import eu.securebit.gungame.Permissions;
-import eu.securebit.gungame.Util;
+import eu.securebit.gungame.game.GunGame;
+import eu.securebit.gungame.util.Messages;
+import eu.securebit.gungame.util.Permissions;
+import eu.securebit.gungame.util.Util;
 
-public class GameStateLobby extends DefaultGameStateLobby {
+public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	
 	public GameStateLobby(GunGame gungame) {
 		super(gungame,
@@ -44,7 +44,7 @@ public class GameStateLobby extends DefaultGameStateLobby {
 	
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		layout.line("Enough players: " + Util.parseBoolean(Bukkit.getOnlinePlayers().size() >= ((GunGame) this.getGame()).getSettings().getMinPlayerCount(), layout));
+		layout.line("Enough players: " + Util.parseBoolean(this.getGame().getPlayers().size() >= this.getGame().getSettings().getMinPlayerCount(), layout));
 		layout.line("Seconds left: " + this.getCountdown().getSecondsLeft());
 	}
 	
@@ -81,7 +81,7 @@ public class GameStateLobby extends DefaultGameStateLobby {
 
 	@Override
 	protected String getMessageCountdown(int secondsLeft) {
-		return ((GunGame) this.getGame()).getSettings().lobby().getCountdownMessage(secondsLeft);
+		return this.getGame().getSettings().lobby().getCountdownMessage(secondsLeft);
 	}
 	
 	@Override

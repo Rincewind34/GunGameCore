@@ -17,11 +17,10 @@ import lib.securebit.timer.AbstractTimer;
 import lib.securebit.timer.Timer;
 import lib.securebit.timer.Timer.TimerEntry;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public abstract class DefaultGameStateSpawns extends CraftGameStateArena {
+public abstract class DefaultGameStateSpawns<G extends Game<? extends GamePlayer>> extends CraftGameStateArena<G> {
 	
 	private Map<Integer, Location> spawns;
 	private Map<GamePlayer, Integer> players;
@@ -31,7 +30,7 @@ public abstract class DefaultGameStateSpawns extends CraftGameStateArena {
 	
 	private SpawnSpreading spreading;
 	
-	public DefaultGameStateSpawns(Game<? extends GamePlayer> game, List<Location> spawns, SpawnSpreading spreading, int countdownLength) {
+	public DefaultGameStateSpawns(G game, List<Location> spawns, SpawnSpreading spreading, int countdownLength) {
 		super(game);
 		
 		this.spawns = new HashMap<>();
@@ -58,7 +57,7 @@ public abstract class DefaultGameStateSpawns extends CraftGameStateArena {
 				String msg = DefaultGameStateSpawns.this.getMessageCountdown(secondsLeft);
 				
 				if (msg != null) {
-					Bukkit.broadcastMessage(msg);
+					DefaultGameStateSpawns.this.getGame().broadcastMessage(msg);
 				}
 			}
 			

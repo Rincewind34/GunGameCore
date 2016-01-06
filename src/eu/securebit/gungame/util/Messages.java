@@ -1,4 +1,6 @@
-package eu.securebit.gungame;
+package eu.securebit.gungame.util;
+
+import eu.securebit.gungame.Main;
 
 public class Messages {
 	
@@ -20,7 +22,7 @@ public class Messages {
 		return Main.layout().format("\\pre-The server is not joinable!-");
 	}
 	
-	public static String maintenanceKick() {
+	public static String maintendanceKick() {
 		return Main.layout().format("\\preThe server is currently under maintenance, please visit us later!"); // TODO Config (User-Message)
 	}
 	
@@ -40,8 +42,8 @@ public class Messages {
 		return Main.layout().format("\\pre+Gamestate skiped!+");
 	}
 	
-	public static String currentGamestate() {
-		return Main.layout().format("\\preCurrent gamestate: *" + Main.instance().getGameStateManager().getCurrent().getName() + "*");
+	public static String currentGamestate(String name) {
+		return Main.layout().format("\\preCurrent gamestate: *" + name + "*");
 	}
 	
 	public static String spawnNotExisting(int spawnId) {
@@ -120,8 +122,20 @@ public class Messages {
 		return Main.layout().format("\\pre-There is no level remaining to remove.-");
 	}
 	
-	public static String maintenance() {
+	public static String maintendance() {
 		return Main.layout().format("\\preThe server is currently under maintenance! GameMode updated!");
+	}
+	
+	public static String maintendanceJoin() {
+		return Main.layout().format("\\pre*${player}* joined the server!");
+	}
+	
+	public static String maintendanceQuit() {
+		return Main.layout().format("\\pre*${player}* left the server!");
+	}
+	
+	public static String notInGame() {
+		return Main.layout().format("\\pre-You have to be in a game!-");
 	}
 	
 }

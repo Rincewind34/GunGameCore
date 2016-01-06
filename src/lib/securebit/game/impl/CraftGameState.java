@@ -32,15 +32,15 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 
-public abstract class CraftGameState implements GameState {
+public abstract class CraftGameState<G extends Game<? extends GamePlayer>> implements GameState {
 	
 	private List<Listener> listeners;
 	
 	private Settings settings;
 	
-	private Game<? extends GamePlayer> game;
+	private G game;
 	
-	public CraftGameState(Game<? extends GamePlayer> game) {
+	public CraftGameState(G game) {
 		this.listeners = new ArrayList<>();
 		this.settings = new CraftSettings();
 		this.game = game;
@@ -112,7 +112,7 @@ public abstract class CraftGameState implements GameState {
 		return this.settings;
 	}
 	
-	public Game<? extends GamePlayer> getGame() {
+	public G getGame() {
 		return this.game;
 	}
 	
@@ -120,16 +120,20 @@ public abstract class CraftGameState implements GameState {
 		
 	}
 	
+	protected String onLogin(Player player) {
+		return null;
+	}
+	
 	protected void onJoin(Player player) {
 		if (this.settings.getValue(StateSettings.MESSAGE_JOIN) != null) {
-			Bukkit.broadcastMessage(this.settings.getValue(StateSettings.MESSAGE_JOIN).replace("${player}",
+			this.getGame().broadcastMessage(this.settings.getValue(StateSettings.MESSAGE_JOIN).replace("${player}",
 					player.getDisplayName()));
 		}
 	}
 	
 	protected void onQuit(Player player) {
 		if (this.settings.getValue(StateSettings.MESSAGE_QUIT) != null) {
-			Bukkit.broadcastMessage(this.settings.getValue(StateSettings.MESSAGE_QUIT).replace("${player}",
+			this.getGame().broadcastMessage(this.settings.getValue(StateSettings.MESSAGE_QUIT).replace("${player}",
 					player.getDisplayName()));
 		}
 	}
