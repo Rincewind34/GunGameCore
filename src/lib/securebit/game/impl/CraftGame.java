@@ -9,6 +9,7 @@ import lib.securebit.game.GamePlayer;
 import lib.securebit.game.GameStateManager;
 import lib.securebit.game.GameStateManager.GameStateException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -82,6 +83,8 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 		if (msg == null) {
 			return;
 		}
+		
+		Bukkit.getConsoleSender().sendMessage(msg);
 		
 		for (P player : this.players) {
 			player.getHandle().sendMessage(msg);

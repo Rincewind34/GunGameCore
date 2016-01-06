@@ -35,10 +35,17 @@ public class Util {
 	}
 	
 	public static void stageInformation(InfoLayout layout, GunGame gungame) {
+		layout.category("Server");
+		layout.line("Core$-Version: " + InfoLayout.replaceKeys(Main.instance().getDescription().getVersion()));
+		layout.line("Frame$-Name: " + InfoLayout.replaceKeys(Main.instance().getFrame().getName()));
+		layout.line("Frame$-Version: " + InfoLayout.replaceKeys(Main.instance().getFrame().getVersion()));
 		layout.category("Gerneral");
 		layout.line("Running: " + Util.parseBoolean(!(gungame.getManager().getCurrent() instanceof DisabledStateEdit), layout));
 		layout.line("Phase: " + gungame.getManager().getCurrent().getName());
 		layout.line("Online: " + gungame.getPlayers().size());
+		layout.category("Config");
+		layout.line("Spawns: " + gungame.getSettings().getSpawnPoints().size());
+		layout.line("Levels: " + gungame.getSettings().getLevels().size());
 		layout.category("Detail");
 		
 		GameState current = gungame.getManager().getCurrent();

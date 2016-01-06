@@ -7,6 +7,7 @@ import lib.securebit.InfoLayout;
 import lib.securebit.command.BasicCommand;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.securebit.gungame.commands.CommandGunGame;
@@ -20,7 +21,7 @@ import eu.securebit.gungame.io.FrameLoader;
 
 public class Main extends JavaPlugin {
 	
-	public static final boolean DEBUG = true; // Switch debug & release mode
+	public static final boolean DEBUG = false; // Switch debug & release mode
 	
 	private static Main instance;
 	private static InfoLayout layout;
@@ -50,29 +51,39 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		ConsoleCommandSender sender = Bukkit.getConsoleSender();
+		Main.layout.message(sender, "Starting core...");
+		Main.layout.message(sender, "");
+		Main.layout.message(sender, "Running version: " + InfoLayout.replaceKeys(this.getDescription().getVersion()));
+		Main.layout.message(sender, "");
+		
 		this.command = new CommandGunGame();
 		this.command.create();
 		
 		FileConfig config = new CraftFileConfig(this);
 		config.initialize();
 		
+		Main.layout.message(sender, "Loading frame...");
 		boolean shutdown = false;
 		if (config.isValid()) {
 			try {
-				FrameProperties properties = new FrameProperties(config.getBootFolder());
-				
 				FrameLoader loader = new CraftFrameLoader(config.getFrameJar());
 				this.frame = loader.load();
-				this.frame.enable(properties);
 				// At this point, the concrete frame gets control about GunGame
 			} catch (MalformedFrameException e) {
-				e.printStackTrace();
+				if (DEBUG) {
+					e.printStackTrace();
+				}
 				shutdown = true;
 			} catch (IOException e) {
-				e.printStackTrace();
+				if (DEBUG) {
+					e.printStackTrace();
+				}
 				shutdown = true;
 			} catch (Exception e) {
-				e.printStackTrace();
+				if (DEBUG) {
+					e.printStackTrace();
+				}
 				shutdown = true;
 			}
 		} else {
@@ -80,15 +91,32 @@ public class Main extends JavaPlugin {
 		}
 		
 		if (shutdown) {
-			Main.layout.message(Bukkit.getConsoleSender(), "§4Please insert a frame and specify a valid bootfolder!");
-			Main.layout.message(Bukkit.getConsoleSender(), "§4The server goes to sleep!");
+			Main.layout.message(sender, "§4ERROR!");
+			Main.layout.message(sender, "§4Please insert a frame and specify a valid bootfolder!");
+			Main.layout.message(sender, "§4The server goes to sleep!");
 			Bukkit.shutdown();
+			return;
 		}
+		
+		if (this.frame != null) {
+			Main.layout.message(sender, "Enabling frame...");
+			
+			FrameProperties properties = new FrameProperties(config.getBootFolder());
+			
+			this.frame.enable(properties);
+			
+			String name = InfoLayout.replaceKeys(this.frame.getName());
+			String version = InfoLayout.replaceKeys(this.frame.getVersion());
+			Main.layout.message(sender, "Frame '" + name + "' version '" + version + "' enabled!");
+		}
+
+		Main.layout.message(sender, "§aPlugin initialized!");
 	}
 	
 	@Override
 	public void onDisable() {
 		if (this.frame != null) {
+			Main.layout.message(Bukkit.getConsoleSender(), "Disabling frame...");
 			this.frame.disable();
 		}
 	}

@@ -17,7 +17,7 @@ public class GunGamePlayer extends CraftGamePlayer {
 	}
 	
 	public void refreshLevel() {
-		this.gungame.getSettings().getLevels().get(level).equip(super.player);
+		this.gungame.getSettings().getLevels().get(this.level).equip(super.player);
 		super.player.setLevel(this.level);
 		super.player.setExp((float) (((double) this.level - 1) / ((double) this.gungame.getSettings().getLevels().size())));
 	}

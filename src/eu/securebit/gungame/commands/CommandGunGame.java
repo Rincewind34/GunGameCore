@@ -65,8 +65,8 @@ public class CommandGunGame extends BasicCommand implements DefaultExecutor {
 		Main.layout().barrier();
 		Main.layout().line("Show documentation for further information.");
 		Main.layout().line("Check */gungame help* out for command information");
-		Main.layout().commit(sender);
 		Main.layout().barrier();
+		Main.layout().commit(sender);
 		return true;
 	}
 

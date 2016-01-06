@@ -6,19 +6,24 @@ import java.io.IOException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import eu.securebit.gungame.Main;
+import eu.securebit.gungame.exception.GunGameException;
 
 public abstract class AbstractFileManager implements FileManager {
 
 	protected final File file;
 	protected FileConfiguration config;
 	
-	public AbstractFileManager(String fileName) {
-		this.file = new File(Main.instance().getDataFolder(), fileName);
+	public AbstractFileManager(String path) throws GunGameException {
+		this.file = new File(path);
 		this.config = YamlConfiguration.loadConfiguration(this.file);
 		this.config.options().copyDefaults(true);
 		this.addDefaults();
-		this.save();
+		
+		try {
+			this.save();
+		} catch (IOException e) {
+			throw new GunGameException("Cannot save file, because it does not exists!");
+		}
 	}
 	
 	@Override
@@ -27,12 +32,8 @@ public abstract class AbstractFileManager implements FileManager {
 	}
 
 	@Override
-	public void save() {
-		try {
-			this.config.save(this.file);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void save() throws IOException {
+		this.config.save(this.file);
 	}
 
 	@Override
