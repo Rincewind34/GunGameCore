@@ -16,12 +16,6 @@ public class CommandGunGame extends BasicCommand implements DefaultExecutor {
 	
 	/*
 	 * /gungame {
-	 * 		skip - skips current gamestate
-	 * 		
-	 * 		toggle - switches editmode / gamemode
-	 * 		
-	 * 		info - prints information about this plugin
-	 * 		
 	 * 		help [argument]
 	 * 
 	 * 		spawns {
@@ -53,11 +47,8 @@ public class CommandGunGame extends BasicCommand implements DefaultExecutor {
 		this.setDescription("GunGame's main command.");
 		this.setPermission(Permissions.commandGungame());
 		this.setDefaultExecutor(this);
-//		this.registerArgument("info", new ArgumentInfo()); TODO Do it in the frames
 		this.registerArgument("help", new ArgumentHelp(this));
-//		this.registerArgument("skip", new ArgumentSkip());
 		this.registerArgument("spawns", new ArgumentSpawns());
-//		this.registerArgument("toggle", new ArgumentToggle());
 		this.registerArgument("levels", new ArgumentLevels());
 		this.registerArgument("lobby", new ArgumentLobby());
 	}
