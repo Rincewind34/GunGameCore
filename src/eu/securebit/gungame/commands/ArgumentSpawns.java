@@ -21,7 +21,7 @@ public class ArgumentSpawns extends CustomArgument {
 	
 	public ArgumentSpawns() {
 		this.descTp = "Teleports you to the specified spawn point.";
-		this.descAdd = "Adds a new spawn using your current location, you'll get back the generated id.";
+		this.descAdd = "";
 		this.descRemove = "Removes the specified spawn by its id.";
 	}
 
@@ -54,15 +54,11 @@ public class ArgumentSpawns extends CustomArgument {
 		if (args.length <= 1) {
 			this.sendSuggestions(sender);
 			return true;
-		}
-		
-		if (args[1].equalsIgnoreCase("add")) {
+		} else if (args[1].equalsIgnoreCase("add")) {
 			int createId = gungame.addSpawn(player.getLocation());
 			sender.sendMessage(CoreMessages.spawnAdded(createId));
 			return true;
-		}
-		
-		if (args[1].equalsIgnoreCase("tp")) {
+		} else if (args[1].equalsIgnoreCase("tp")) {
 			if (args.length != 3) {
 				sender.sendMessage(CoreMessages.syntax("/gungame spawns tp <id>"));
 				return true;
@@ -87,9 +83,7 @@ public class ArgumentSpawns extends CustomArgument {
 			}
 			
 			return true;
-		}
-		
-		if (args[1].equalsIgnoreCase("remove")) {
+		} else if (args[1].equalsIgnoreCase("remove")) {
 			if (args.length != 3) {
 				sender.sendMessage(CoreMessages.syntax("/gungame spawns remove <id>"));
 				return true;
@@ -106,6 +100,9 @@ public class ArgumentSpawns extends CustomArgument {
 			} else {
 				player.sendMessage(CoreMessages.invalidNumber(args[2]));
 			}
+		} else {
+			this.sendSuggestions(sender);
+			return true;
 		}
 		
 		return true;
@@ -113,14 +110,25 @@ public class ArgumentSpawns extends CustomArgument {
 
 	private void sendSuggestions(CommandSender sender) {
 		Main.layout().begin();
-		Main.layout().suggestion("gungame spawns add", this.descAdd);
-		Main.layout().suggestion("gungame spawns tp <id>", this.descTp);
-		Main.layout().suggestion("gungame spawns remove <id>", this.descRemove);
+		Main.layout().category("Syntax");
+		Main.layout().line("/gungame spawns add");
+		Main.layout().line("/gungame spawns tp <id>");
+		Main.layout().line("/gungame spawns remove <id>");
+		Main.layout().line("");
+		Main.layout().line("Type */gungame help spawns* for further information.");
+		Main.layout().barrier();
 		Main.layout().commit(sender);
 	}
 
 	@Override
 	public void stageInformation(InfoLayout layout) {
+		layout.line("*$-\"$- add*");
+		layout.line("Adds a new spawn using your current location,");
+		layout.line("you'll get back the generated id.");
+		layout.line("");
+		layout.line("*$-\"$- tp <id>*");
+		layout.line("Teleports you to the defined lobby location.");
+		
 		layout.line("This argument makes it possible to simply manage spawn points.");
 		layout.line("/gungame spawns add $- " + this.descAdd);
 		layout.line("/gungame spawns tp <id> $- " + this.descTp);
