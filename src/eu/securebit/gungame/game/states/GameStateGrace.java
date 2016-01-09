@@ -34,10 +34,7 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 	public void start() {
 		this.getGame().playConsoleMessage(Main.layout().format("Entering gamephase: *Grace*"));
 		
-//		List<Location> spawns = Util.getSpawns(this.getGame());
-		
 		for (GunGamePlayer player : this.getGame().getPlayers()) {
-//			player.getHandle().teleport(spawns.get(Main.random().nextInt(spawns.size())));
 			player.refreshLevel();
 		}
 		
