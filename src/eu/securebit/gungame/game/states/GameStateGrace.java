@@ -9,6 +9,8 @@ import lib.securebit.game.defaults.DefaultGameStateGrace;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
@@ -90,6 +92,13 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 	protected void onQuit(Player player) {
 		super.onQuit(player);
 		Util.startCalculation(player, 2, this.getGame());
+	}
+	
+	@Override
+	protected void onBlockBreak(Block block, Player player, boolean allowed) {
+		if (allowed) {
+			block.setType(Material.AIR);
+		}
 	}
 	
 }

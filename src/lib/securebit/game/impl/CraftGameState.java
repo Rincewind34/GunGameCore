@@ -13,6 +13,7 @@ import lib.securebit.game.Settings.StateSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -125,6 +126,14 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		return null;
 	}
 	
+	protected void onBlockPlace(Block block, Player player, boolean allowed) {
+		
+	}
+	
+	protected void onBlockBreak(Block block, Player player, boolean allowed) {
+		
+	}
+	
 	protected void onJoin(Player player) {
 		if (this.settings.getValue(StateSettings.MESSAGE_JOIN) != null) {
 			this.getGame().broadcastMessage(this.settings.getValue(StateSettings.MESSAGE_JOIN).replace("${player}",
@@ -159,6 +168,8 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 					event.setCancelled(true);
 					return;
 				}
+				
+				this.onBlockPlace(event.getBlock(), player.getHandle(), !event.isCancelled());
 			}
 		});
 	}
@@ -173,6 +184,8 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 					event.setCancelled(true);
 					return;
 				}
+				
+				this.onBlockBreak(event.getBlock(), player.getHandle(), !event.isCancelled());
 			}
 		});
 	}

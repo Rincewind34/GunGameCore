@@ -6,6 +6,8 @@ import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateIngame;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
@@ -76,6 +78,14 @@ public class GameStateIngame extends DefaultGameStateIngame<GunGame> {
 	protected void onQuit(Player player) {
 		super.onQuit(player);
 		Util.startCalculation(player, 2, this.getGame());
+	}
+	
+	@Override
+	protected void onBlockBreak(Block block, Player player, boolean allowed) {
+		if (allowed) {
+			System.out.println("ASD");
+			block.setType(Material.AIR);
+		}
 	}
 	
 }
