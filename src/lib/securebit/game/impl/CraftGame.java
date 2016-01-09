@@ -27,6 +27,8 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	
 	private GameStateManager<?> manager;
 	
+	private boolean muted;
+	
 	public CraftGame(Plugin plugin) {
 		this.plugin = plugin;
 		
@@ -52,6 +54,11 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 		} else {
 			throw new GameStateException("The manager has to be created!");
 		}
+	}
+	
+	@Override
+	public void mute(boolean mute) {
+		this.muted = mute;
 	}
 	
 	@Override
@@ -84,7 +91,9 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 			return;
 		}
 		
-		Bukkit.getConsoleSender().sendMessage(msg);
+		if (!this.muted) {
+			Bukkit.getConsoleSender().sendMessage(msg);
+		}
 		
 		for (P player : this.players) {
 			player.getHandle().sendMessage(msg);
@@ -127,6 +136,11 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 				iterator.remove();
 			}
 		}
+	}
+	
+	@Override
+	public boolean isMuted() {
+		return this.muted;
 	}
 
 	@Override

@@ -15,6 +15,8 @@ public interface Game<P extends GamePlayer> extends Listener {
 	
 	public abstract String loginPlayer(Player player);
 	
+	public abstract void mute(boolean mute);
+	
 	public abstract void joinPlayer(P player);
 	
 	public abstract void quitPlayer(Player player);
@@ -28,6 +30,8 @@ public interface Game<P extends GamePlayer> extends Listener {
 	public abstract void unregisterWorld(World world);
 	
 	public abstract void unregisterWorld(String world);
+	
+	public abstract boolean isMuted();
 	
 	public abstract boolean containsWorld(World world);
 	
