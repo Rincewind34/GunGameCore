@@ -21,6 +21,7 @@ import eu.securebit.gungame.game.states.GameStateEnd;
 import eu.securebit.gungame.game.states.GameStateGrace;
 import eu.securebit.gungame.game.states.GameStateIngame;
 import eu.securebit.gungame.game.states.GameStateLobby;
+import eu.securebit.gungame.game.states.GameStateSpawns;
 
 public class Core {
 	
@@ -48,6 +49,7 @@ public class Core {
 		GameStateManager<T> manager = new CraftGameStateManager<T>(Main.instance());
 		manager.initGame(instance);
 		manager.add(new GameStateLobby(instance));
+		manager.add(new GameStateSpawns(instance));
 		manager.add(new GameStateGrace(instance));
 		manager.add(new GameStateIngame(instance));
 		manager.add(new GameStateEnd(instance));

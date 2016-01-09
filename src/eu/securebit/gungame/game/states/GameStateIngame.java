@@ -85,7 +85,6 @@ public class GameStateIngame extends DefaultGameStateIngame<GunGame> {
 	@Override
 	protected void onBlockBreak(Block block, Player player, boolean allowed) {
 		if (allowed) {
-			System.out.println("ASD");
 			block.setType(Material.AIR);
 		}
 	}

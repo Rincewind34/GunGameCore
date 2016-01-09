@@ -1,14 +1,11 @@
 package eu.securebit.gungame.game.states;
 
-import java.util.List;
-
 import lib.securebit.InfoLayout;
 import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateGrace;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -37,14 +34,14 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 	public void start() {
 		this.getGame().playConsoleMessage(Main.layout().format("Entering gamephase: *Grace*"));
 		
-		List<Location> spawns = Util.getSpawns(this.getGame());
+//		List<Location> spawns = Util.getSpawns(this.getGame());
 		
 		for (GunGamePlayer player : this.getGame().getPlayers()) {
-			player.getHandle().teleport(spawns.get(Main.random().nextInt(spawns.size())));
+//			player.getHandle().teleport(spawns.get(Main.random().nextInt(spawns.size())));
 			player.refreshLevel();
 		}
 		
-		if (this.getGame().getScoreboard().isEnabled()) { //TODO use bitboard
+		if (this.getGame().getScoreboard().isEnabled()) {
 			this.getGame().getScoreboard().setup();
 		}
 		

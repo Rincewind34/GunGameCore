@@ -83,7 +83,7 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	
 	@Override
 	protected void onCountdownStop() {
-		this.getGame().getManager().next(); //TODO skip(2)
+		this.getGame().getManager().skip(2); //TODO skip(2)
 	}
 	
 }
