@@ -58,7 +58,7 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 	public void stop() {
 		super.stop();
 		
-		this.getGame().broadcastMessage(this.getGame().getSettings().files().getMessages().getGracePeriodStarts());
+		this.getGame().broadcastMessage(this.getGame().getSettings().files().getMessages().getGracePeriodEnds());
 		this.getGame().playConsoleMessage(Main.layout().format("Leaving gamephase: *Grace*"));
 	}
 	
