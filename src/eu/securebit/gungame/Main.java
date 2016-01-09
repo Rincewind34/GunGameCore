@@ -20,7 +20,7 @@ import eu.securebit.gungame.io.FrameLoader;
 
 public class Main extends JavaPlugin {
 	
-	public static final boolean DEBUG = false; // Switch debug & release mode
+	public static final boolean DEBUG = true; // Switch debug & release mode
 	
 	private static Main instance;
 	private static InfoLayout layout;
@@ -95,7 +95,16 @@ public class Main extends JavaPlugin {
 			
 			FrameProperties properties = new FrameProperties(config.getBootFolder());
 			
-			this.frame.enable(properties);
+			try {
+				this.frame.enable(properties);
+			} catch (Exception ex) {
+				if (Main.DEBUG) {
+					ex.getMessage();
+				}
+				
+				Main.layout.message(sender, "§4Error while enabling frame: " + ex.getMessage());
+				Main.layout.message(sender, "§4WARNING: Could not finish enabling of the frame! May causes bugs! ");
+			}
 			
 			String name = InfoLayout.replaceKeys(this.frame.getName());
 			String version = InfoLayout.replaceKeys(this.frame.getVersion());
@@ -112,7 +121,16 @@ public class Main extends JavaPlugin {
 	public void onDisable() {
 		if (this.frame != null) {
 			Main.layout.message(Bukkit.getConsoleSender(), "Disabling frame...");
-			this.frame.disable();
+			try {
+				this.frame.disable();
+			} catch (Exception ex) {
+				if (Main.DEBUG) {
+					ex.printStackTrace();
+				}
+				
+				Main.layout.message(Bukkit.getConsoleSender(), "§4Error while disabling frame: " + ex.getMessage());
+			}
+			
 		}
 	}
 	

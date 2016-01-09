@@ -15,6 +15,7 @@ import org.bukkit.Difficulty;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -138,7 +139,7 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public final void onFoodLevelChange(FoodLevelChangeEvent event) {
 		this.game.getPlayers().forEach((player) -> {
 			if (player.getHandle().equals(event.getEntity())) {
@@ -148,7 +149,7 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		});
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public final void onBlockPlace(BlockPlaceEvent event) {
 		this.game.getPlayers().forEach((player) -> {
 			if (player.getHandle().equals(event.getPlayer())) {
@@ -162,7 +163,7 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		});
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public final void onBlockBreak(BlockBreakEvent event) {
 		this.game.getPlayers().forEach((player) -> {
 			if (player.getHandle().equals(event.getPlayer())) {
@@ -176,7 +177,7 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		});
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public final void onWeatherChange(WeatherChangeEvent event) {
 		this.game.getWorlds().forEach((world) -> {
 			if (world.equals(event.getWorld())) {
@@ -186,7 +187,7 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		});
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public final void onThunderChange(ThunderChangeEvent event) {
 		this.game.getWorlds().forEach((world) -> {
 			if (world.equals(event.getWorld())) {
@@ -196,7 +197,7 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		});
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public final void onItemDrop(PlayerDropItemEvent event) {
 		this.game.getPlayers().forEach((player) -> {
 			if (player.getHandle().equals(event.getPlayer())) {
@@ -206,7 +207,7 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		});
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public final void onItemPickup(PlayerPickupItemEvent event) {
 		this.game.getPlayers().forEach((player) -> {
 			if (player.getHandle().equals(event.getPlayer())) {
@@ -216,7 +217,7 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		});
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public final void onDamageByEntity(EntityDamageByEntityEvent event) {
 		if (event.getEntity() instanceof Player) {
 			this.game.getPlayers().forEach((player) -> {
@@ -228,7 +229,7 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public final void onDamage(EntityDamageEvent event) {
 		if (event.getEntity() instanceof Player) {
 			this.game.getPlayers().forEach((player) -> {
@@ -260,7 +261,7 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onBlockIgnite(BlockIgniteEvent event) {
 		this.game.getWorlds().forEach((world) -> {
 			if (world.equals(event.getBlock().getWorld())) {
