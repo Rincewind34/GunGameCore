@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
+import eu.securebit.gungame.listeners.ListenerEntityDeath;
 import eu.securebit.gungame.listeners.ListenerPlayerDeath;
 import eu.securebit.gungame.listeners.ListenerPlayerRespawn;
 import eu.securebit.gungame.util.Permissions;
@@ -25,6 +26,7 @@ public class GameStateIngame extends DefaultGameStateIngame<GunGame> {
 		
 		this.getListeners().add(new ListenerPlayerDeath(gungame));
 		this.getListeners().add(new ListenerPlayerRespawn(gungame));
+		this.getListeners().add(new ListenerEntityDeath(gungame));
 		
 		this.getSettings().setValue(StateSettings.ITEM_DROP, false);
 		this.getSettings().setValue(StateSettings.ITEM_PICKUP, false);
