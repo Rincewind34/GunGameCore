@@ -43,6 +43,7 @@ public class Util {
 		layout.line("Running: " + Util.parseBoolean(!(gungame.getManager().getCurrent() instanceof DisabledStateEdit), layout));
 		layout.line("Phase: " + gungame.getManager().getCurrent().getName());
 		layout.line("Online: " + gungame.getPlayers().size());
+		layout.line("Muted: " + Util.parseBoolean(gungame.isMuted(), layout));
 		layout.category("Config");
 		layout.line("Spawns: " + gungame.getSettings().locations().getSpawnPoints().size());
 		layout.line("Levels: " + LevelManager.getCount(gungame));

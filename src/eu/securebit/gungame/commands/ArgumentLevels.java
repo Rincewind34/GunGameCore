@@ -21,14 +21,14 @@ public class ArgumentLevels extends CustomArgument {
 	private final String descDelete;
 	
 	public ArgumentLevels() {
-		this.descLoad = "Sets your inventory items to the given level.";
-		this.descSave = "Saves your inventory as {id}.";
-		this.descDelete = "Deletes {count} levels from the stack.";
+		this.descLoad = "";
+		this.descSave = "";
+		this.descDelete = "";
 	}
 
 	@Override
 	public String getSyntax() {
-		return "/gungame levels {load|save|delete}";
+		return "/gungame levels";
 	}
 
 	@Override
@@ -144,9 +144,26 @@ public class ArgumentLevels extends CustomArgument {
 
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		layout.line("This argument provides some methods to manage your levels.");
-		layout.line("/gungame levels load <id> $- " + this.descLoad);
-		layout.line("/gungame levels save [id] $- " + this.descSave);
-		layout.line("/gungame levels delete [count = 1] $- " + this.descDelete);
+		layout.line("This argument provides some methods to");
+		layout.line("manage your levels. The first level has the id 1.");
+		layout.line("");
+		layout.line("*$-\"$- load <id>*");
+		layout.line("Sets your inventory items to the given level.");
+		layout.line("");
+		layout.line("*$-\"$- save [id]*");
+		layout.line("Saves your inventory as {id}. If the parameter {id}");
+		layout.line("is not present, the level will be added to the");
+		layout.line("current levellist.");
+		layout.line("");
+		layout.line("*$-\"$- delete [count]*");
+		layout.line("Deletes {count} levels from the levellist. If the ");
+		layout.line("parameter is not present, the command will delete");
+		layout.line("one level.");
+		layout.line("");
+		layout.line("*Examples (There are 6 levels already created)*");
+		layout.line("  /gg save §8=> §7Creates the 7'th level.");
+		layout.line("  /gg save 5 §8=> §7Overrides the 5'th level.");
+		layout.line("  /gg delete §8=> §7Deletes level 6.");
+		layout.line("  /gg delete 3 §8=> §7Deletes the levels 6, 5 and 4.");
 	}
 }

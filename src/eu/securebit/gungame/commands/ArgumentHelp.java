@@ -41,11 +41,14 @@ public class ArgumentHelp extends CustomArgument {
 			
 			this.handle.getArguments().forEach((name, arg) -> {
 				CustomArgument argument = (CustomArgument) arg;
-				layout.line("*" + argument.getSyntax() + "* (" + argument.getPermission() + ")");
+				layout.line(argument.getSyntax());
 			});
 			
 			layout.line("");
-			layout.line("Type */gungame help <argument>* for further information.");
+			layout.line("Type */gungame help <argument>* for");
+			layout.line("further information.");
+			layout.line("");
+			layout.line("Command$-aliases: */gg*");
 			layout.barrier();
 			layout.commit(sender);
 			
@@ -56,7 +59,7 @@ public class ArgumentHelp extends CustomArgument {
 			String name = args[1];		
 			
 			if (!this.handle.getArguments().containsKey(name)) {
-				layout.message(sender, "-There is no argument with the name '" + name + "'.*");
+				layout.message(sender, "-There is no argument with the name '" + InfoLayout.replaceKeys(name) + "'.*");
 				return true;
 			}
 			
@@ -79,7 +82,8 @@ public class ArgumentHelp extends CustomArgument {
 
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		layout.line("Shows you a little ingame reference about commands & permissions.");
+		layout.line("Shows you a little ingame reference about");
+		layout.line("commands & permissions.");
 	}
 
 }

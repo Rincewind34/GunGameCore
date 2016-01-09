@@ -15,16 +15,6 @@ import eu.securebit.gungame.util.Util;
 
 public class ArgumentSpawns extends CustomArgument {
 
-	private final String descTp;
-	private final String descAdd;
-	private final String descRemove;
-	
-	public ArgumentSpawns() {
-		this.descTp = "Teleports you to the specified spawn point.";
-		this.descAdd = "";
-		this.descRemove = "Removes the specified spawn by its id.";
-	}
-
 	@Override
 	public String getSyntax() {
 		return "/gungame spawns";
@@ -122,16 +112,17 @@ public class ArgumentSpawns extends CustomArgument {
 
 	@Override
 	public void stageInformation(InfoLayout layout) {
+		layout.line("This argument makes it possible to simply");
+		layout.line("manage spawn points.");
+		layout.line("");
 		layout.line("*$-\"$- add*");
 		layout.line("Adds a new spawn using your current location,");
 		layout.line("you'll get back the generated id.");
 		layout.line("");
 		layout.line("*$-\"$- tp <id>*");
 		layout.line("Teleports you to the defined lobby location.");
-		
-		layout.line("This argument makes it possible to simply manage spawn points.");
-		layout.line("/gungame spawns add $- " + this.descAdd);
-		layout.line("/gungame spawns tp <id> $- " + this.descTp);
-		layout.line("/gungame spawns remove <id> $- " + this.descRemove);
+		layout.line("");
+		layout.line("*$-\"$- remove <id>*");
+		layout.line("Removes the specified spawn by its id.");
 	}
 }
