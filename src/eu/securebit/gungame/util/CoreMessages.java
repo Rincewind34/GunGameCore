@@ -2,7 +2,7 @@ package eu.securebit.gungame.util;
 
 import eu.securebit.gungame.Main;
 
-public class Messages {
+public class CoreMessages {
 	
 	/* TODO's */
 	
@@ -38,14 +38,6 @@ public class Messages {
 		return Main.layout().format("\\pre-'-*" + input + "*-' is not a valid number!-");
 	}
 	
-	public static String gamestateSkiped() {
-		return Main.layout().format("\\pre+Gamestate skiped!+");
-	}
-	
-	public static String currentGamestate(String name) {
-		return Main.layout().format("\\preCurrent gamestate: *" + name + "*");
-	}
-	
 	public static String spawnNotExisting(int spawnId) {
 		return Main.layout().format("\\pre-There is no spawn with id '-*" + spawnId + "*-'!-");
 	}
@@ -68,18 +60,6 @@ public class Messages {
 	
 	public static String permission(String permission) {
 		return Main.layout().format("\\preAsk for the permission *" + permission + "*!");
-	}
-	
-	public static String changeMode(String to) {
-		return Main.layout().format("\\pre*Success!* The mode now: " + to + "!");
-	}
-	
-	public static String suggestReload() {
-		return Main.layout().format("\\preEnter */rl* to update the changes!");
-	}
-	
-	public static String reloadFiles() {
-		return Main.layout().format("\\pre*Success!* Files reloaded!");
 	}
 	
 	public static String lobbyTeleport() {

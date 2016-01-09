@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.GunGame;
-import eu.securebit.gungame.util.Messages;
+import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 
 public class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
@@ -18,8 +18,8 @@ public class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
 	public DisabledStateEdit(GunGame gungame) {
 		super(gungame);
 		
-		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, Messages.maintendanceJoin());
-		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, Messages.maintendanceQuit());
+		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, CoreMessages.maintendanceJoin());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, CoreMessages.maintendanceQuit());
 	}
 	
 	@Override
@@ -61,12 +61,12 @@ public class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
 
 	@Override
 	protected String getMaintenanceKickMessage() {
-		return Messages.maintendanceKick();
+		return CoreMessages.maintendanceKick();
 	}
 
 	@Override
 	protected String getMaintenanceAdminMessage() {
-		return Messages.maintendance();
+		return CoreMessages.maintendance();
 	}
 
 }

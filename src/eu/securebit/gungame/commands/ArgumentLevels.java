@@ -10,7 +10,7 @@ import org.bukkit.util.NumberConversions;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.util.LevelManager;
-import eu.securebit.gungame.util.Messages;
+import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
 
@@ -46,7 +46,7 @@ public class ArgumentLevels extends CustomArgument {
 		Player player = (Player) sender;
 		
 		if (!Main.instance().getFrame().isInGame(player)) {
-			player.sendMessage(Messages.notInGame());
+			player.sendMessage(CoreMessages.notInGame());
 			return true;
 		}
 		
@@ -62,16 +62,16 @@ public class ArgumentLevels extends CustomArgument {
 						int id = NumberConversions.toInt(args[2]);
 						
 						if (LevelManager.isInvalid(gungame, id)) {
-							player.sendMessage(Messages.levelNotExists(id));
+							player.sendMessage(CoreMessages.levelNotExists(id));
 						} else {
 							LevelManager.equip(gungame, id, player);
-							player.sendMessage(Messages.levelGiven(id));
+							player.sendMessage(CoreMessages.levelGiven(id));
 						}
 					} else {
-						player.sendMessage(Messages.invalidNumber(args[2]));
+						player.sendMessage(CoreMessages.invalidNumber(args[2]));
 					}
 				} else {
-					player.sendMessage(Messages.syntax("/gungame levels load <id>"));
+					player.sendMessage(CoreMessages.syntax("/gungame levels load <id>"));
 				}
 			} else if (args[1].equals("save")) {
 				int id = -1;
@@ -83,23 +83,23 @@ public class ArgumentLevels extends CustomArgument {
 					if (Util.isInt(args[2])) {
 						id = NumberConversions.toInt(args[2]);
 					} else {
-						player.sendMessage(Messages.invalidNumber(args[2]));
+						player.sendMessage(CoreMessages.invalidNumber(args[2]));
 						return true;
 					}
 				} else {
-					player.sendMessage(Messages.syntax("/gungame levels save [id]"));
+					player.sendMessage(CoreMessages.syntax("/gungame levels save [id]"));
 					return true;
 				}
 				
 				if (id <= nextId) {
 					if (id > 0) {
 						LevelManager.save(gungame, id, player);
-						player.sendMessage(Messages.levelSaved(id));
+						player.sendMessage(CoreMessages.levelSaved(id));
 					} else {
-						player.sendMessage(Messages.greaterNull());
+						player.sendMessage(CoreMessages.greaterNull());
 					}
 				} else {
-					player.sendMessage(Messages.nextLevelId(nextId));
+					player.sendMessage(CoreMessages.nextLevelId(nextId));
 				}
 			} else if (args[1].equals("delete")) {
 				int count = 1; // default
@@ -108,20 +108,20 @@ public class ArgumentLevels extends CustomArgument {
 					if (Util.isInt(args[2])) {
 						count = NumberConversions.toInt(args[2]);
 					} else {
-						player.sendMessage(Messages.invalidNumber(args[2]));
+						player.sendMessage(CoreMessages.invalidNumber(args[2]));
 						return true;
 					}
 				} else if (args.length != 2) {
-					player.sendMessage(Messages.syntax("/gungame levels delete [count = 1]"));
+					player.sendMessage(CoreMessages.syntax("/gungame levels delete [count = 1]"));
 					return true;
 				}
 				
 				for (int i = 0; i < count; i++) {
 					if (!LevelManager.deleteLevel(gungame)) {
-						player.sendMessage(Messages.noLevelToRemove());
+						player.sendMessage(CoreMessages.noLevelToRemove());
 						return true;
 					} else {
-						player.sendMessage(Messages.levelDeleted(LevelManager.getCount(gungame) + 1));
+						player.sendMessage(CoreMessages.levelDeleted(LevelManager.getCount(gungame) + 1));
 					}
 				}
 			} else {

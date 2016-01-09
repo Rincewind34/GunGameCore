@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
-import eu.securebit.gungame.util.Messages;
+import eu.securebit.gungame.util.CoreMessages;
 
 public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 	
@@ -78,7 +78,7 @@ public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 
 	@Override
 	protected String getMessageNotJoinable() {
-		return Messages.serverNotJoinable();
+		return CoreMessages.serverNotJoinable();
 	}
 
 	@Override

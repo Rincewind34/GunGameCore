@@ -9,7 +9,7 @@ import org.bukkit.util.NumberConversions;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.GunGame;
-import eu.securebit.gungame.util.Messages;
+import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
 
@@ -45,7 +45,7 @@ public class ArgumentSpawns extends CustomArgument {
 		Player player = (Player) sender;
 		
 		if (!Main.instance().getFrame().isInGame(player)) {
-			player.sendMessage(Messages.notInGame());
+			player.sendMessage(CoreMessages.notInGame());
 			return true;
 		}
 		
@@ -58,13 +58,13 @@ public class ArgumentSpawns extends CustomArgument {
 		
 		if (args[1].equalsIgnoreCase("add")) {
 			int createId = gungame.addSpawn(player.getLocation());
-			sender.sendMessage(Messages.spawnAdded(createId));
+			sender.sendMessage(CoreMessages.spawnAdded(createId));
 			return true;
 		}
 		
 		if (args[1].equalsIgnoreCase("tp")) {
 			if (args.length != 3) {
-				sender.sendMessage(Messages.syntax("/gungame spawns tp <id>"));
+				sender.sendMessage(CoreMessages.syntax("/gungame spawns tp <id>"));
 				return true;
 			}
 			
@@ -75,15 +75,15 @@ public class ArgumentSpawns extends CustomArgument {
 					try {
 						player.teleport(gungame.getSettings().locations().getSpawnPoints().get(id));
 					} catch (Exception ex) {
-						player.sendMessage(Messages.worldNotFound("spawnworld"));
+						player.sendMessage(CoreMessages.worldNotFound("spawnworld"));
 					} finally {
-						player.sendMessage(Messages.spawnTeleportedTo(id));
+						player.sendMessage(CoreMessages.spawnTeleportedTo(id));
 					}
 				} else {
-					player.sendMessage(Messages.spawnNotExisting(id));
+					player.sendMessage(CoreMessages.spawnNotExisting(id));
 				}
 			} else {
-				player.sendMessage(Messages.invalidNumber(args[2]));
+				player.sendMessage(CoreMessages.invalidNumber(args[2]));
 			}
 			
 			return true;
@@ -91,7 +91,7 @@ public class ArgumentSpawns extends CustomArgument {
 		
 		if (args[1].equalsIgnoreCase("remove")) {
 			if (args.length != 3) {
-				sender.sendMessage(Messages.syntax("/gungame spawns remove <id>"));
+				sender.sendMessage(CoreMessages.syntax("/gungame spawns remove <id>"));
 				return true;
 			}
 			
@@ -99,12 +99,12 @@ public class ArgumentSpawns extends CustomArgument {
 				int id = NumberConversions.toInt(args[2]);
 				if (gungame.getSettings().locations().getSpawnPoints().containsKey(id)) {
 					gungame.removeSpawn(id);
-					player.sendMessage(Messages.spawnRemoved(id));
+					player.sendMessage(CoreMessages.spawnRemoved(id));
 				} else {
-					player.sendMessage(Messages.spawnNotExisting(id));
+					player.sendMessage(CoreMessages.spawnNotExisting(id));
 				}
 			} else {
-				player.sendMessage(Messages.invalidNumber(args[2]));
+				player.sendMessage(CoreMessages.invalidNumber(args[2]));
 			}
 		}
 		

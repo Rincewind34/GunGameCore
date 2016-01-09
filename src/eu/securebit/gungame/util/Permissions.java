@@ -19,7 +19,7 @@ public class Permissions {
 	}
 	
 	public static String commandGunGameHelp() {
-		return "gungame.command.help";
+		return "gungame.command.gungame.help";
 	}
 	
 	public static String commandGunGameSpawns() {
@@ -48,6 +48,10 @@ public class Permissions {
 	
 	public static String commandGunGameLevels() {
 		return "gungame.command.gungame.levels";
+	}
+	
+	public static String commandGunGameMute() {
+		return "gungame.command.gungame.mute";
 	}
 	
 }

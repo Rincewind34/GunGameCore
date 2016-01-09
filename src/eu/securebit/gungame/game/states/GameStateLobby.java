@@ -9,7 +9,7 @@ import org.bukkit.Bukkit;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.GunGame;
-import eu.securebit.gungame.util.Messages;
+import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
 
@@ -61,9 +61,9 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	@Override
 	protected String getKickMessage(int levelKicked) {
 		if (levelKicked == 1) {
-			return Messages.lobbyKickPremium();
+			return CoreMessages.lobbyKickPremium();
 		} else if (levelKicked == 2) {
-			return Messages.lobbyKickStaffMember();
+			return CoreMessages.lobbyKickStaffMember();
 		} else {
 			throw new RuntimeException("Unknown kicklevel!");
 		}
@@ -71,12 +71,12 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 
 	@Override
 	protected String getMessageServerFull() {
-		return Messages.lobbyFull();
+		return CoreMessages.lobbyFull();
 	}
 
 	@Override
 	protected String getMessageNotJoinable() {
-		return Messages.serverNotJoinable();
+		return CoreMessages.serverNotJoinable();
 	}
 
 	@Override

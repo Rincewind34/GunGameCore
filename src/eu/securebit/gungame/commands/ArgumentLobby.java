@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.GunGame;
-import eu.securebit.gungame.util.Messages;
+import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 
 public class ArgumentLobby extends CustomArgument {
@@ -33,7 +33,7 @@ public class ArgumentLobby extends CustomArgument {
 		Player player = (Player) sender;
 		
 		if (!Main.instance().getFrame().isInGame(player)) {
-			player.sendMessage(Messages.notInGame());
+			player.sendMessage(CoreMessages.notInGame());
 			return true;
 		}
 		
@@ -44,13 +44,13 @@ public class ArgumentLobby extends CustomArgument {
 				try {
 					player.teleport(gungame.getSettings().locations().getLobbyLocation());
 				} catch (Exception ex) {
-					player.sendMessage(Messages.worldNotFound("lobbyworld"));
+					player.sendMessage(CoreMessages.worldNotFound("lobbyworld"));
 				} finally {
-					player.sendMessage(Messages.lobbyTeleport());
+					player.sendMessage(CoreMessages.lobbyTeleport());
 				}
 			} else if (args[1].equals("set")) {
 				gungame.setLobbyLocation(player.getLocation());
-				player.sendMessage(Messages.lobbySet());
+				player.sendMessage(CoreMessages.lobbySet());
 			} else {
 				return false;
 			}
