@@ -5,7 +5,6 @@ import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateDisabled;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
@@ -24,14 +23,14 @@ public class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
 	
 	@Override
 	public void start() {
-		Main.layout().message(Bukkit.getConsoleSender(), "Entering gamephase: *Edit*");
+		this.getGame().playConsoleMessage(Main.layout().format("Entering gamephase: *Edit*"));
 		super.start();
 	}
 	
 	@Override
 	public void stop() {
 		super.stop();
-		Main.layout().message(Bukkit.getConsoleSender(), "Leaving gamephase: *Edit*");
+		this.getGame().playConsoleMessage(Main.layout().format("Leaving gamephase: *Edit*"));
 	}
 	
 	@Override

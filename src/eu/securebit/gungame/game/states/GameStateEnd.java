@@ -5,7 +5,6 @@ import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateEnd;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
@@ -25,7 +24,7 @@ public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 
 	@Override
 	public void start() {
-		Main.layout().message(Bukkit.getConsoleSender(), "Entering gamephase: *End*");
+		this.getGame().playConsoleMessage(Main.layout().format("Entering gamephase: *End*"));
 		
 		super.start();
 		
@@ -50,7 +49,7 @@ public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 	public void stop() {
 		super.stop();
 		
-		Main.layout().message(Bukkit.getConsoleSender(), "Leaving gamephase: *End*");
+		this.getGame().playConsoleMessage(Main.layout().format("Leaving gamephase: *End*"));
 	}
 	
 	@Override

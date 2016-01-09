@@ -3,7 +3,6 @@ package eu.securebit.gungame.game;
 import lib.securebit.InfoLayout;
 import lib.securebit.game.impl.CraftGame;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -34,6 +33,11 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 			
 			this.board.create();
 		}
+	}
+	
+	@Override
+	public void playConsoleMessage(String msg) {
+		super.playConsoleMessage("§7" + this.settings.getUUID() + ": " + msg);
 	}
 	
 	@Override
@@ -70,15 +74,15 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 	}
 	
 	public void calculateGameState() {
-		Main.layout().message(Bukkit.getConsoleSender(), "Calculating...");
+		this.playConsoleMessage(Main.layout().format("Calculating..."));
 		
 		if (this.getPlayers().size() == 1) {
-			Main.layout().message(Bukkit.getConsoleSender(), "Skiping all phases!");
+			this.playConsoleMessage(Main.layout().format("Skiping all phases!"));
 			this.getManager().skipAll();
 		}
 		
 		if (this.getPlayers().size() == 0) {
-			Main.layout().message(Bukkit.getConsoleSender(), "Shutdown!");
+			this.playConsoleMessage(Main.layout().format("Shutdown!"));
 			
 			this.shutdown();
 		}

@@ -30,7 +30,7 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 
 	@Override
 	public void start() {
-		Main.layout().message(Bukkit.getConsoleSender(), "Entering gamephase: *Grace*");
+		this.getGame().playConsoleMessage(Main.layout().format("Entering gamephase: *Grace*"));
 		
 		List<Location> spawns = Util.getSpawns(this.getGame());
 		
@@ -59,7 +59,7 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 		super.stop();
 		
 		this.getGame().broadcastMessage(this.getGame().getSettings().files().getMessages().getGracePeriodStarts());
-		Main.layout().message(Bukkit.getConsoleSender(), "Leaving gamephase: *Grace*");
+		this.getGame().playConsoleMessage(Main.layout().format("Leaving gamephase: *Grace*"));
 	}
 	
 	@Override

@@ -4,9 +4,6 @@ import lib.securebit.InfoLayout;
 import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateLobby;
-
-import org.bukkit.Bukkit;
-
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.util.CoreMessages;
@@ -30,14 +27,14 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 
 	@Override
 	public void start() {
-		Main.layout().message(Bukkit.getConsoleSender(), "Entering gamephase: *Lobby*");
+		this.getGame().playConsoleMessage(Main.layout().format("Entering gamephase: *Lobby*"));
 		
 		super.start();
 	}
 
 	@Override
 	public void stop() {
-		Main.layout().message(Bukkit.getConsoleSender(), "Leaving gamephase: *Lobby*");
+		this.getGame().playConsoleMessage(Main.layout().format("Leaving gamephase: *Lobby*"));
 		
 		super.stop();
 	}

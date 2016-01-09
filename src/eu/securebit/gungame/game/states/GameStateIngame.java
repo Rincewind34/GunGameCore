@@ -32,7 +32,7 @@ public class GameStateIngame extends DefaultGameStateIngame<GunGame> {
 
 	@Override
 	public void start() {
-		Main.layout().message(Bukkit.getConsoleSender(), "Entering gamephase: *Ingame*");
+		this.getGame().playConsoleMessage(Main.layout().format("Entering gamephase: *Ingame*"));
 		super.start();
 		
 		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {
@@ -48,7 +48,7 @@ public class GameStateIngame extends DefaultGameStateIngame<GunGame> {
 			this.getGame().getScoreboard().clearFromPlayers();
 		}
 		
-		Main.layout().message(Bukkit.getConsoleSender(), "Leaving gamephase: *Ingame*");
+		this.getGame().playConsoleMessage(Main.layout().format("Leaving gamephase: *Ingame*"));
 	}
 	
 	@Override

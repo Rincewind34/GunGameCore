@@ -17,6 +17,8 @@ public interface Game<P extends GamePlayer> extends Listener {
 	
 	public abstract void mute(boolean mute);
 	
+	public abstract void playConsoleMessage(String msg);
+	
 	public abstract void joinPlayer(P player);
 	
 	public abstract void quitPlayer(Player player);

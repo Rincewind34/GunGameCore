@@ -62,6 +62,13 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	}
 	
 	@Override
+	public void playConsoleMessage(String msg) {
+		if (!this.isMuted()) {
+			Bukkit.getConsoleSender().sendMessage(msg);
+		}
+	}
+	
+	@Override
 	public void joinPlayer(P player) {
 		this.players.add(player);
 		
@@ -91,9 +98,7 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 			return;
 		}
 		
-		if (!this.muted) {
-			Bukkit.getConsoleSender().sendMessage(msg);
-		}
+		this.playConsoleMessage(msg);
 		
 		for (P player : this.players) {
 			player.getHandle().sendMessage(msg);
