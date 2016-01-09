@@ -13,10 +13,10 @@ import eu.securebit.gungame.commands.CommandGunGame;
 import eu.securebit.gungame.framework.Frame;
 import eu.securebit.gungame.framework.Frame.FrameProperties;
 import eu.securebit.gungame.io.ConfigError;
-import eu.securebit.gungame.io.CraftFileConfig;
-import eu.securebit.gungame.io.CraftFrameLoader;
-import eu.securebit.gungame.io.FileConfig;
+import eu.securebit.gungame.io.FileBootConfig;
 import eu.securebit.gungame.io.FrameLoader;
+import eu.securebit.gungame.io.impl.CraftFileBootConfig;
+import eu.securebit.gungame.io.impl.CraftFrameLoader;
 
 public class Main extends JavaPlugin {
 	
@@ -59,7 +59,7 @@ public class Main extends JavaPlugin {
 		this.command = new CommandGunGame();
 		this.command.create();
 		
-		FileConfig config = new CraftFileConfig(this);
+		FileBootConfig config = new CraftFileBootConfig(this);
 		config.initialize();
 		
 		Main.layout.message(sender, "Loading frame...");

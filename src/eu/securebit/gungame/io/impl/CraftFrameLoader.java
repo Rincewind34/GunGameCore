@@ -1,5 +1,5 @@
 
-package eu.securebit.gungame.io;
+package eu.securebit.gungame.io.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +15,7 @@ import java.util.jar.JarInputStream;
 
 import eu.securebit.gungame.exception.MalformedFrameException;
 import eu.securebit.gungame.framework.Frame;
+import eu.securebit.gungame.io.FrameLoader;
 
 public class CraftFrameLoader implements FrameLoader {
 

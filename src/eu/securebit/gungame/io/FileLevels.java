@@ -3,6 +3,7 @@ package eu.securebit.gungame.io;
 import org.bukkit.inventory.ItemStack;
 
 import eu.securebit.gungame.exception.InvalidLevelException;
+import eu.securebit.gungame.io.impl.CraftFileLevels;
 import eu.securebit.gungame.util.FileValidatable;
 
 public interface FileLevels extends FileValidatable {

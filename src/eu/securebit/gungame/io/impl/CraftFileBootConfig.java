@@ -1,4 +1,4 @@
-package eu.securebit.gungame.io;
+package eu.securebit.gungame.io.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,14 +10,16 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import eu.securebit.gungame.exception.GunGameException;
+import eu.securebit.gungame.io.ConfigError;
+import eu.securebit.gungame.io.FileBootConfig;
 
-public class CraftFileConfig implements FileConfig {
+public class CraftFileBootConfig implements FileBootConfig {
 
 	private final Plugin plugin;
 	private File file;
 	private FileConfiguration cfg;
 	
-	public CraftFileConfig(final Plugin plugin) {
+	public CraftFileBootConfig(final Plugin plugin) {
 		this.plugin = plugin;
 		this.file = new File(this.plugin.getDataFolder(), "config.yml");
 		this.cfg = null;

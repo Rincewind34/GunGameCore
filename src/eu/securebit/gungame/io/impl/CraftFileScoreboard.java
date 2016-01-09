@@ -1,4 +1,4 @@
-package eu.securebit.gungame.io;
+package eu.securebit.gungame.io.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.exception.MalformedConfigException;
+import eu.securebit.gungame.io.FileScoreboard;
 import eu.securebit.gungame.util.FileValidatable;
 
 public class CraftFileScoreboard implements FileScoreboard {

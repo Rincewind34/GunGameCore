@@ -1,4 +1,4 @@
-package eu.securebit.gungame.io;
+package eu.securebit.gungame.io.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.exception.MalformedConfigException;
+import eu.securebit.gungame.io.FileMessages;
 import eu.securebit.gungame.util.FileValidatable;
 
 public class CraftFileMessages implements FileMessages {
