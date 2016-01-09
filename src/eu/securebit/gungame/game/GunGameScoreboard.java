@@ -24,7 +24,7 @@ public class GunGameScoreboard {
 	}
 	
 	private String getFormat() {
-		String format = this.gungame.getSettings().getScoreboardFormat();
+		String format = this.gungame.getSettings().files().getScoreboard().getScoreboardFormat();
 		return ChatColor.translateAlternateColorCodes('&', format);
 	}
 	
@@ -100,7 +100,7 @@ public class GunGameScoreboard {
 		
 		if (!this.exists()) {
 			Objective obj = this.board.registerNewObjective(this.name, "dummy");
-			obj.setDisplayName(this.gungame.getSettings().getScoreboardTitle());
+			obj.setDisplayName(this.gungame.getSettings().files().getScoreboard().getScoreboardTitle());
 			obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		} else {
 			throw new ScoreboardExcepion("The objective does already exists!");
@@ -134,7 +134,7 @@ public class GunGameScoreboard {
 	}
 	
 	public boolean isEnabled() {
-		return this.gungame.getSettings().isScoreboardEnabled();
+		return this.gungame.getSettings().files().getScoreboard().isScoreboardEnabled();
 	}
 	
 }

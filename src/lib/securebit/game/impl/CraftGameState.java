@@ -163,7 +163,7 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 	}
 	
 	@EventHandler
-	public final void onBreakPlace(BlockBreakEvent event) {
+	public final void onBlockBreak(BlockBreakEvent event) {
 		this.game.getPlayers().forEach((player) -> {
 			if (player.getHandle().equals(event.getPlayer())) {
 				List<Material> list = this.settings.getValue(StateSettings.BLOCK_BREAK);

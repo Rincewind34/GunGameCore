@@ -32,16 +32,16 @@ public class ListenerPlayerDeath implements Listener {
 				this.gungame.initWinner(killer);
 				this.gungame.getManager().next();
 			} else {
-				this.gungame.broadcastMessage(this.gungame.getSettings().messages().getKillBroadcast(player.getHandle(), killer.getHandle()));
+				this.gungame.broadcastMessage(this.gungame.getSettings().files().getMessages().getKillBroadcast(player.getHandle(), killer.getHandle()));
 				
 				if (this.gungame.getScoreboard().isEnabled()) {
 					this.gungame.getScoreboard().update(killer.getHandle());
 				}
 			}
 		} else {
-			this.gungame.broadcastMessage(this.gungame.getSettings().messages().getDeathBroadcast(player.getHandle()));
+			this.gungame.broadcastMessage(this.gungame.getSettings().files().getMessages().getDeathBroadcast(player.getHandle()));
 			
-			if (this.gungame.getSettings().isDowngradeOnNaturalDeath()) {
+			if (this.gungame.getSettings().options().isDowngradeOnNaturalDeath()) {
 				this.downgrade(player);
 			}
 		}
@@ -49,13 +49,13 @@ public class ListenerPlayerDeath implements Listener {
 		event.getDrops().clear();
 		event.setDroppedExp(0);
 		
-		if (this.gungame.getSettings().isAutoRespawn()) {
+		if (this.gungame.getSettings().options().isAutoRespawn()) {
 			player.getHandle().spigot().respawn();
 		}
 	}
 	
 	private void downgrade(GunGamePlayer player) {
-		if (this.gungame.getSettings().isLevelReset()) {
+		if (this.gungame.getSettings().options().isLevelReset()) {
 			player.resetLevel();
 		} else {
 			player.decrementLevel();

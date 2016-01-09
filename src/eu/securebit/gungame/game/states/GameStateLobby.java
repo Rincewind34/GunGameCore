@@ -17,15 +17,15 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	
 	public GameStateLobby(GunGame gungame) {
 		super(gungame,
-				gungame.getSettings().lobby().getLobbyLocation(),
+				gungame.getSettings().locations().getLobbyLocation(),
 				Permissions.premium(), Permissions.teammember(),
-				gungame.getSettings().getMaxPlayerCount(),
-				gungame.getSettings().getMinPlayerCount(),
-				gungame.getSettings().lobby().getLobbyCountdownLength(),
+				gungame.getSettings().options().getMaxPlayerCount(),
+				gungame.getSettings().options().getMinPlayerCount(),
+				gungame.getSettings().options().getLobbyCountdownLength(),
 				true);
 		
-		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, gungame.getSettings().lobby().getJoinMessage());
-		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().lobby().getQuitMessage());
+		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, gungame.getSettings().files().getMessages().getJoinLobby());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().files().getMessages().getQuitLobby());
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		layout.line("Enough players: " + Util.parseBoolean(this.getGame().getPlayers().size() >= this.getGame().getSettings().getMinPlayerCount(), layout));
+		layout.line("Enough players: " + Util.parseBoolean(this.getGame().getPlayers().size() >= this.getGame().getSettings().options().getMinPlayerCount(), layout));
 		layout.line("Seconds left: " + this.getCountdown().getSecondsLeft());
 	}
 	
@@ -81,7 +81,7 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 
 	@Override
 	protected String getMessageCountdown(int secondsLeft) {
-		return this.getGame().getSettings().lobby().getCountdownMessage(secondsLeft);
+		return this.getGame().getSettings().files().getMessages().getCountdownLobby(secondsLeft);
 	}
 	
 	@Override

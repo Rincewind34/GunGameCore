@@ -1,6 +1,6 @@
 package eu.securebit.gungame.commands;
 
-import java.util.Map;
+import lib.securebit.InfoLayout;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -9,11 +9,10 @@ import org.bukkit.util.NumberConversions;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.GunGame;
-import eu.securebit.gungame.util.Level;
+import eu.securebit.gungame.util.LevelManager;
 import eu.securebit.gungame.util.Messages;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
-import lib.securebit.InfoLayout;
 
 public class ArgumentLevels extends CustomArgument {
 
@@ -52,7 +51,6 @@ public class ArgumentLevels extends CustomArgument {
 		}
 		
 		GunGame gungame = Main.instance().getFrame().getGame(player);
-		Map<Integer, Level> levels = gungame.getSettings().getLevels();
 		
 		if (args.length == 1) {
 			this.sendSuggestions(player);
@@ -63,11 +61,11 @@ public class ArgumentLevels extends CustomArgument {
 					if (Util.isInt(args[2])) {
 						int id = NumberConversions.toInt(args[2]);
 						
-						if (levels.containsKey(id)) {
-							levels.get(id).equip(player);
-							player.sendMessage(Messages.levelGiven(id));
-						} else {
+						if (LevelManager.isInvalid(gungame, id)) {
 							player.sendMessage(Messages.levelNotExists(id));
+						} else {
+							LevelManager.equip(gungame, id, player);
+							player.sendMessage(Messages.levelGiven(id));
 						}
 					} else {
 						player.sendMessage(Messages.invalidNumber(args[2]));
@@ -77,7 +75,7 @@ public class ArgumentLevels extends CustomArgument {
 				}
 			} else if (args[1].equals("save")) {
 				int id = -1;
-				int nextId = levels.size() + 1;
+				int nextId = LevelManager.getCount(gungame) + 1;
 				
 				if (args.length == 2) {
 					id = nextId;
@@ -95,7 +93,7 @@ public class ArgumentLevels extends CustomArgument {
 				
 				if (id <= nextId) {
 					if (id > 0) {
-						gungame.saveLevel(player, id);
+						LevelManager.save(gungame, id, player);
 						player.sendMessage(Messages.levelSaved(id));
 					} else {
 						player.sendMessage(Messages.greaterNull());
@@ -119,11 +117,11 @@ public class ArgumentLevels extends CustomArgument {
 				}
 				
 				for (int i = 0; i < count; i++) {
-					if (!gungame.deleteLevel()) {
+					if (!LevelManager.deleteLevel(gungame)) {
 						player.sendMessage(Messages.noLevelToRemove());
 						return true;
 					} else {
-						player.sendMessage(Messages.levelDeleted(gungame.getSettings().getLevels().size()));
+						player.sendMessage(Messages.levelDeleted(LevelManager.getCount(gungame) + 1));
 					}
 				}
 			} else {

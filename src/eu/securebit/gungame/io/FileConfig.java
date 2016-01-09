@@ -6,7 +6,7 @@ public interface FileConfig {
 
 	public abstract void initialize();
 	
-	public abstract boolean isValid();
+	public abstract ConfigError[] validate();
 	
 	public abstract File getBootFolder();
 	

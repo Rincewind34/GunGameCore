@@ -100,10 +100,6 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 	
 	public abstract void setLobbyLocation(Location lobby);
 	
-	public abstract void saveLevel(Player player, int levelId);
-	
-	public abstract boolean deleteLevel();
-	
 	public abstract boolean isReady();
 	
 	public abstract int addSpawn(Location loc);

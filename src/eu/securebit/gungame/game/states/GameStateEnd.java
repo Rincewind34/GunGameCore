@@ -17,10 +17,10 @@ import eu.securebit.gungame.util.Messages;
 public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 	
 	public GameStateEnd(GunGame gungame) {
-		super(gungame, gungame.getSettings().lobby().getLobbyLocation(), 20);
+		super(gungame, gungame.getSettings().locations().getLobbyLocation(), 20);
 		
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
-		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().messages().getServerQuit());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().files().getMessages().getServerQuit());
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 			this.getGame().initWinner(bestPlayer);
 		}
 		
-		this.getGame().broadcastMessage(this.getGame().getSettings().messages().getWinner(this.getGame().getWinner().getHandle()));
+		this.getGame().broadcastMessage(this.getGame().getSettings().files().getMessages().getWinner(this.getGame().getWinner().getHandle()));
 	}
 
 	@Override
@@ -83,12 +83,12 @@ public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 
 	@Override
 	protected String getMessageCountdown(int secondsLeft) {
-		return this.getGame().getSettings().messages().getCountdownEnd(secondsLeft);
+		return this.getGame().getSettings().files().getMessages().getCountdownEnd(secondsLeft);
 	}
 	
 	@EventHandler
 	private void onRespawn(PlayerRespawnEvent event) {
-		event.setRespawnLocation(this.getGame().getSettings().lobby().getLobbyLocation());
+		event.setRespawnLocation(this.getGame().getSettings().locations().getLobbyLocation());
 	}
 	
 }

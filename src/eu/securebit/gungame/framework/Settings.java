@@ -3,76 +3,55 @@ package eu.securebit.gungame.framework;
 import java.util.Map;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
-import eu.securebit.gungame.util.Level;
+import eu.securebit.gungame.io.FileLevels;
+import eu.securebit.gungame.io.FileMessages;
+import eu.securebit.gungame.io.FileScoreboard;
 
 public interface Settings {
 	
-	public abstract SettingsLobby lobby();
+	public abstract SettingsLocations locations();
 	
-	public abstract SettingsMessages messages();
+	public abstract SettingsOptions options();
 	
-	public abstract boolean isScoreboardEnabled();
-	
-	public abstract boolean isLevelReset();
-	
-	public abstract boolean isDowngradeOnNaturalDeath();
-	
-	public abstract boolean isAutoRespawn();
-	
-	public abstract int getMinPlayerCount();
-	
-	public abstract int getMaxPlayerCount();
+	public abstract SettingsFiles files();
 	
 	public abstract String getUUID();
 	
-	public abstract String getScoreboardTitle();
 	
-	public abstract String getScoreboardFormat();
-	
-	public abstract Level getStartLevel();
-	
-	public abstract Map<Integer, Location> getSpawnPoints();
-	
-	public abstract Map<Integer, Level> getLevels();
-	
-	
-	public static interface SettingsLobby {
-		
-		public abstract int getLobbyCountdownLength();
+	public static interface SettingsLocations {
 		
 		public abstract Location getLobbyLocation();
 		
-		public abstract String getJoinMessage();
-		
-		public abstract String getQuitMessage();
-		
-		public abstract String getCountdownMessage(int secondsLeft);
+		public abstract Map<Integer, Location> getSpawnPoints();
 		
 	}
 	
-	public static interface SettingsMessages {
+	public static interface SettingsOptions {
 		
-		public abstract String getCountdownGrace(int secondsLeft);
+		public abstract boolean isLevelReset();
 		
-		public abstract String getCountdownEnd(int secondsLeft);
+		public abstract boolean isDowngradeOnNaturalDeath();
 		
-		public abstract String getMapTeleport();
+		public abstract boolean isAutoRespawn();
 		
-		public abstract String getGracePeriodStarts();
+		public abstract int getMinPlayerCount();
 		
-		public abstract String getGracePeriodEnds();
+		public abstract int getMaxPlayerCount();
 		
-		public abstract String getServerQuit();
+		public abstract int getLobbyCountdownLength();
 		
-		public abstract String getWinner(Player player);
+		public abstract int getStartLevel();
 		
-		public abstract String getKillBroadcast(Player victim, Player killer);
+	}
+	
+	public static interface SettingsFiles {
 		
-		public abstract String getDeathBroadcast(Player victim);
+		public abstract FileMessages getMessages();
 		
-		public abstract String getRespawn(int level);
+		public abstract FileScoreboard getScoreboard();
+		
+		public abstract FileLevels getLevels();
 		
 	}
 	

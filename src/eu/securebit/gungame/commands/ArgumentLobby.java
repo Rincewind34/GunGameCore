@@ -42,7 +42,7 @@ public class ArgumentLobby extends CustomArgument {
 		if (args.length == 2) {
 			if (args[1].equals("tp")) {
 				try {
-					player.teleport(gungame.getSettings().lobby().getLobbyLocation());
+					player.teleport(gungame.getSettings().locations().getLobbyLocation());
 				} catch (Exception ex) {
 					player.sendMessage(Messages.worldNotFound("lobbyworld"));
 				} finally {

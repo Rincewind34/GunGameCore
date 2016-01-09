@@ -1,6 +1,5 @@
 package eu.securebit.gungame;
 
-import java.io.IOException;
 import java.util.Random;
 
 import lib.securebit.InfoLayout;
@@ -11,9 +10,9 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.securebit.gungame.commands.CommandGunGame;
-import eu.securebit.gungame.exception.MalformedFrameException;
 import eu.securebit.gungame.framework.Frame;
 import eu.securebit.gungame.framework.Frame.FrameProperties;
+import eu.securebit.gungame.io.ConfigError;
 import eu.securebit.gungame.io.CraftFileConfig;
 import eu.securebit.gungame.io.CraftFrameLoader;
 import eu.securebit.gungame.io.FileConfig;
@@ -64,42 +63,35 @@ public class Main extends JavaPlugin {
 		config.initialize();
 		
 		Main.layout.message(sender, "Loading frame...");
-		boolean shutdown = false;
-		if (config.isValid()) {
-			try {
-				FrameLoader loader = new CraftFrameLoader(config.getFrameJar());
-				this.frame = loader.load();
-				// At this point, the concrete frame gets control about GunGame
-			} catch (MalformedFrameException e) {
-				if (DEBUG) {
-					e.printStackTrace();
-				}
-				shutdown = true;
-			} catch (IOException e) {
-				if (DEBUG) {
-					e.printStackTrace();
-				}
-				shutdown = true;
-			} catch (Exception e) {
-				if (DEBUG) {
-					e.printStackTrace();
-				}
-				shutdown = true;
-			}
-		} else {
-			shutdown = true;
+		
+		ConfigError[] errors = config.validate();
+		for (int i = 0; i < errors.length; i++) {
+			Main.layout.message(sender, "§4Error: " + InfoLayout.replaceKeys(errors[i].getDescription()));
 		}
 		
-		if (shutdown) {
-			Main.layout.message(sender, "§4ERROR!");
-			Main.layout.message(sender, "§4Please insert a frame and specify a valid bootfolder!");
+		if (errors.length > 0) {
+			Main.layout.message(sender, "§4=> " + errors.length + " errors");
 			Main.layout.message(sender, "§4The server goes to sleep!");
 			Bukkit.shutdown();
 			return;
 		}
 		
+		try {
+			FrameLoader loader = new CraftFrameLoader(config.getFrameJar());
+			this.frame = loader.load();
+		} catch (Exception ex) {
+			if (Main.DEBUG) {
+				ex.printStackTrace();
+			}
+			
+			this.frame = null;
+			
+			Main.layout.message(sender, "§4Error while loading frame: " + ex.getMessage());
+		}
+		
 		if (this.frame != null) {
 			Main.layout.message(sender, "Enabling frame...");
+			Main.layout.message(sender, "§8================");
 			
 			FrameProperties properties = new FrameProperties(config.getBootFolder());
 			
@@ -107,9 +99,12 @@ public class Main extends JavaPlugin {
 			
 			String name = InfoLayout.replaceKeys(this.frame.getName());
 			String version = InfoLayout.replaceKeys(this.frame.getVersion());
+			Main.layout.message(sender, "§8================");
 			Main.layout.message(sender, "Frame '" + name + "' version '" + version + "' enabled!");
+		} else {
+			Main.layout.message(sender, "§4WARNING: No frame enabled!!!");
 		}
-
+		
 		Main.layout.message(sender, "§aPlugin initialized!");
 	}
 	

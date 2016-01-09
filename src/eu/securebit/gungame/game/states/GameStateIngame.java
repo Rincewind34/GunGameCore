@@ -27,7 +27,7 @@ public class GameStateIngame extends DefaultGameStateIngame<GunGame> {
 		this.getSettings().setValue(StateSettings.ITEM_DROP, false);
 		this.getSettings().setValue(StateSettings.ITEM_PICKUP, false);
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
-		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().messages().getServerQuit());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().files().getMessages().getServerQuit());
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class CraftFrameLoader implements FrameLoader {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Frame load() throws Exception {
+	public Frame load() throws MalformedFrameException, MalformedURLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 		URL[] array = { this.jar.toURI().toURL() };
 		ClassLoader parent = Frame.class.getClassLoader();
 		URLClassLoader classloader = URLClassLoader.newInstance(array, parent);

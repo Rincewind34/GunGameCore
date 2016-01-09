@@ -14,6 +14,7 @@ import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.framework.Settings.SettingsLocations;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
 import eu.securebit.gungame.game.states.GameStateEnd;
@@ -54,14 +55,16 @@ public class Core {
 		
 		List<World> worlds = new ArrayList<>();
 		
+		SettingsLocations locations = settings.locations();
+		
 		if (instance.isReady()) {
-			settings.lobby().getLobbyLocation().getWorld().setAutoSave(false);
+			locations.getLobbyLocation().getWorld().setAutoSave(false);
 		}
 		
-		worlds.add(settings.lobby().getLobbyLocation().getWorld());
-		instance.registerWorld(settings.lobby().getLobbyLocation().getWorld());
+		worlds.add(locations.getLobbyLocation().getWorld());
+		instance.registerWorld(locations.getLobbyLocation().getWorld());
 		
-		for (Location spawn : settings.getSpawnPoints().values()) {
+		for (Location spawn : locations.getSpawnPoints().values()) {
 			if (!worlds.contains(spawn.getWorld())) {
 				if (instance.isReady()) {
 					spawn.getWorld().setAutoSave(false);

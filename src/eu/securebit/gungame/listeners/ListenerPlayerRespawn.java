@@ -33,7 +33,7 @@ public class ListenerPlayerRespawn implements Listener {
 			player.refreshLevel();
 			player.getHandle().setVelocity(new Vector(0, 0, 0));
 			
-			String message = this.gungame.getSettings().messages().getRespawn(player.getLevel());
+			String message = this.gungame.getSettings().files().getMessages().getRespawn(player.getLevel());
 			
 			if (message != null) {
 				player.getHandle().sendMessage(message);

@@ -13,11 +13,6 @@ Beta-1.4 (GameFlow)
 - joinmsg (${player} joined the game! [${current}/${max}]
 - messages für blöcke abbauen/setzten
 
-Version-1.1 (InventoryUpdate)
-- potioneffekte
-- interfaceapi-support
-- toLobby item
-
 Version-1.2 (BeatyUpdate)
 - sounds (cfg enable)
 - firework
@@ -40,7 +35,3 @@ Version-1.4 (Chat)
 Version-1.5 (Stats)
 - stats
 - commandlist (Befehle werden bei bestimmten Ereignissen automatisch ausgeführt)
-
-
-
-

@@ -44,8 +44,8 @@ public class Util {
 		layout.line("Phase: " + gungame.getManager().getCurrent().getName());
 		layout.line("Online: " + gungame.getPlayers().size());
 		layout.category("Config");
-		layout.line("Spawns: " + gungame.getSettings().getSpawnPoints().size());
-		layout.line("Levels: " + gungame.getSettings().getLevels().size());
+		layout.line("Spawns: " + gungame.getSettings().locations().getSpawnPoints().size());
+		layout.line("Levels: " + LevelManager.getCount(gungame));
 		layout.category("Detail");
 		
 		GameState current = gungame.getManager().getCurrent();
@@ -75,7 +75,7 @@ public class Util {
 	}
 	
 	public static List<Location> getSpawns(GunGame gungame) {
-		Collection<Location> locs = gungame.getSettings().getSpawnPoints().values();
+		Collection<Location> locs = gungame.getSettings().locations().getSpawnPoints().values();
 		
 		return Arrays.asList(locs.toArray(new Location[locs.size()]));
 	}

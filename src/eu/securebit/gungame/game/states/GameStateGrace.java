@@ -25,7 +25,7 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 		this.getSettings().setValue(StateSettings.ITEM_DROP, false);
 		this.getSettings().setValue(StateSettings.ITEM_PICKUP, false);
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
-		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().messages().getServerQuit());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().files().getMessages().getServerQuit());
 	}
 
 	@Override
@@ -43,11 +43,11 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 			this.getGame().getScoreboard().setup();
 		}
 		
-		this.getGame().broadcastMessage(this.getGame().getSettings().messages().getMapTeleport());
+		this.getGame().broadcastMessage(this.getGame().getSettings().files().getMessages().getMapTeleport());
 		
 		super.start();
 		
-		this.getGame().broadcastMessage(this.getGame().getSettings().messages().getGracePeriodStarts());
+		this.getGame().broadcastMessage(this.getGame().getSettings().files().getMessages().getGracePeriodStarts());
 		
 		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {
 			this.getGame().calculateGameState();
@@ -58,7 +58,7 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 	public void stop() {
 		super.stop();
 		
-		this.getGame().broadcastMessage(this.getGame().getSettings().messages().getGracePeriodStarts());
+		this.getGame().broadcastMessage(this.getGame().getSettings().files().getMessages().getGracePeriodStarts());
 		Main.layout().message(Bukkit.getConsoleSender(), "Leaving gamephase: *Grace*");
 	}
 	
@@ -74,7 +74,7 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 
 	@Override
 	protected String getMessageCountdown(int secondsleft) {
-		return this.getGame().getSettings().messages().getCountdownGrace(secondsleft);
+		return this.getGame().getSettings().files().getMessages().getCountdownGrace(secondsleft);
 	}
 	
 	@Override

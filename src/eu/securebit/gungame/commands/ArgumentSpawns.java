@@ -71,9 +71,9 @@ public class ArgumentSpawns extends CustomArgument {
 			if (Util.isInt(args[2])) {
 				int id = NumberConversions.toInt(args[2]);
 				
-				if (gungame.getSettings().getSpawnPoints().containsKey(id)) {
+				if (gungame.getSettings().locations().getSpawnPoints().containsKey(id)) {
 					try {
-						player.teleport(gungame.getSettings().getSpawnPoints().get(id));
+						player.teleport(gungame.getSettings().locations().getSpawnPoints().get(id));
 					} catch (Exception ex) {
 						player.sendMessage(Messages.worldNotFound("spawnworld"));
 					} finally {
@@ -97,7 +97,7 @@ public class ArgumentSpawns extends CustomArgument {
 			
 			if (Util.isInt(args[2])) {
 				int id = NumberConversions.toInt(args[2]);
-				if (gungame.getSettings().getSpawnPoints().containsKey(id)) {
+				if (gungame.getSettings().locations().getSpawnPoints().containsKey(id)) {
 					gungame.removeSpawn(id);
 					player.sendMessage(Messages.spawnRemoved(id));
 				} else {
