@@ -11,14 +11,14 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.material.MaterialData;
 
-public class SimpleMapReset implements MapReset {
+public class SimpleMapReset extends MapReset {
 
 	private final List<World> worlds;
 	private final Map<Location, MaterialData> saves;
 	
 	private boolean recording;
 	
-	public SimpleMapReset() {
+	protected SimpleMapReset() {
 		this.worlds = new ArrayList<>();
 		this.saves = new HashMap<>();
 		this.recording = false;
@@ -26,12 +26,16 @@ public class SimpleMapReset implements MapReset {
 	
 	@Override
 	public void add(World world) {
-		this.worlds.add(world);
+		if (!this.worlds.contains(world)) {
+			this.worlds.add(world);
+		}
 	}
 
 	@Override
 	public void remove(World world) {
-		this.worlds.remove(world);
+		if (this.worlds.contains(world)) {
+			this.worlds.remove(world);
+		}
 	}
 
 	@Override
