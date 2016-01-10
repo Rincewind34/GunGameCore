@@ -48,6 +48,8 @@ public interface Settings {
 		
 		public static final Option<Boolean> FIRE_SPREAD = new Option<>();
 		
+		public static final Option<Boolean> MAP_RESET = new Option<>();
+		
 	}
 	
 }

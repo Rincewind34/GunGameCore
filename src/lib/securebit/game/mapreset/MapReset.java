@@ -1,22 +1,18 @@
-package eu.securebit.gungame.game.mapreset;
+package lib.securebit.game.mapreset;
 
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-public abstract class MapReset {
-
-	private static MapReset instance;
-	
-	public static MapReset getInstance() {
-		return MapReset.instance == null ? MapReset.instance = new SimpleMapReset() : MapReset.instance;
-	}
+public interface MapReset {
 	
 	public abstract void add(World world);
 	
 	public abstract void remove(World world);
 	
 	public abstract void startRecord();
+	
+	public abstract void stopRecord();
 	
 	public abstract void breakBlock(Location location, Block original);
 	

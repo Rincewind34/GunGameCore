@@ -1,4 +1,4 @@
-package eu.securebit.gungame.game.mapreset;
+package lib.securebit.game.mapreset;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,14 +11,14 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.material.MaterialData;
 
-public class SimpleMapReset extends MapReset {
+public class SimpleMapReset implements MapReset {
 
 	private final List<World> worlds;
 	private final Map<Location, MaterialData> saves;
 	
 	private boolean recording;
 	
-	protected SimpleMapReset() {
+	public SimpleMapReset() {
 		this.worlds = new ArrayList<>();
 		this.saves = new HashMap<>();
 		this.recording = false;
@@ -40,8 +40,12 @@ public class SimpleMapReset extends MapReset {
 
 	@Override
 	public void startRecord() {
-		this.saves.clear();
 		this.recording = true;
+	}
+	
+	@Override
+	public void stopRecord() {
+		this.recording = false;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -75,6 +79,7 @@ public class SimpleMapReset extends MapReset {
 			location.getBlock().setType(data.getItemType());
 			location.getBlock().setData(data.getData());
 		});
+		this.saves.clear();
 		this.recording = false;
 		return count;
 	}

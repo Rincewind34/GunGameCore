@@ -63,6 +63,7 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, "");
 		this.getSettings().setValue(StateSettings.DIFFICULTY, Difficulty.PEACEFUL);
 		this.getSettings().setValue(StateSettings.FIRE_SPREAD, false);
+		this.getSettings().setValue(StateSettings.MAP_RESET, false);
 	}
 	
 	@Override
@@ -77,6 +78,10 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 				world.setGameRuleValue("doDaylightCycle", "false");
 			}
 		});
+		
+		if (this.getSettings().getValue(StateSettings.MAP_RESET)) {
+			this.game.getMapReset().startRecord();
+		}
 	}
 	
 	@Override
@@ -84,6 +89,11 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		this.game.getWorlds().forEach(world -> {
 			world.setGameRuleValue("doDaylightCycle", "true");
 		});
+		
+		
+		if (this.getSettings().getValue(StateSettings.MAP_RESET)) {
+			this.game.getMapReset().stopRecord();
+		}
 	}
 	
 	@Override
@@ -172,6 +182,10 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 				this.onBlockPlace(event.getBlock(), player.getHandle(), !event.isCancelled());
 			}
 		});
+		
+		if (!event.isCancelled() && this.getSettings().getValue(StateSettings.MAP_RESET)) {
+			this.game.getMapReset().placeBlock(event.getBlock().getLocation());
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
@@ -188,6 +202,10 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 				this.onBlockBreak(event.getBlock(), player.getHandle(), !event.isCancelled());
 			}
 		});
+		
+		if (!event.isCancelled() && this.getSettings().getValue(StateSettings.MAP_RESET)) {
+			this.game.getMapReset().breakBlock(event.getBlock().getLocation(), event.getBlock());
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)

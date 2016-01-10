@@ -1,14 +1,14 @@
 package eu.securebit.gungame.game.states;
 
-import lib.securebit.InfoLayout;
-import lib.securebit.game.GamePlayer;
-import lib.securebit.game.Settings.StateSettings;
-import lib.securebit.game.defaults.DefaultGameStateLobby;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
+import lib.securebit.InfoLayout;
+import lib.securebit.game.GamePlayer;
+import lib.securebit.game.Settings.StateSettings;
+import lib.securebit.game.defaults.DefaultGameStateLobby;
 
 public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	
@@ -37,6 +37,11 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 		this.getGame().playConsoleMessage(Main.layout().format("Leaving gamephase: *Lobby*"));
 		
 		super.stop();
+	}
+	
+	@Override
+	public void load() {
+		super.load();
 	}
 	
 	@Override

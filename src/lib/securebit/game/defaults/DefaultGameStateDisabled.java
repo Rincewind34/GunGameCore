@@ -27,7 +27,6 @@ public abstract class DefaultGameStateDisabled<G extends Game<? extends GamePlay
 		this.getSettings().setValue(StateSettings.PLAYER_FOODLEVEL_CHANGE, true);
 		this.getSettings().setValue(StateSettings.TIME, 0);
 		this.getSettings().setValue(StateSettings.WEATHER, 0);
-
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public abstract class DefaultGameStateDisabled<G extends Game<? extends GamePlay
 	public void stop() {
 		
 	}
-
+	
 	@Override
 	public String getName() {
 		return "disabled";
