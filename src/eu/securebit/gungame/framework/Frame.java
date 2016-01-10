@@ -29,6 +29,8 @@ public abstract class Frame {
 	
 	public abstract boolean isInGame(Player player);
 	
+	public abstract int getFrameId();
+	
 	public abstract String getVersion();
 	
 	public abstract String getName();

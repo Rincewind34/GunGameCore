@@ -1,5 +1,7 @@
 package eu.securebit.gungame;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 import lib.securebit.InfoLayout;
@@ -7,6 +9,8 @@ import lib.securebit.command.BasicCommand;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.securebit.gungame.commands.CommandGunGame;
@@ -89,26 +93,76 @@ public class Main extends JavaPlugin {
 			Main.layout.message(sender, "§4Error while loading frame: " + ex.getMessage());
 		}
 		
-		if (this.frame != null) {
-			Main.layout.message(sender, "Enabling frame...");
-			Main.layout.message(sender, "§8================");
-			
-			FrameProperties properties = new FrameProperties(config.getBootFolder());
-			
-			try {
-				this.frame.enable(properties);
-			} catch (Exception ex) {
-				if (Main.DEBUG) {
-					ex.getMessage();
+		boolean frameEnabled = false;
+		
+		enableFrame: {
+			if (this.frame != null) {
+				int id = this.frame.getFrameId();
+				
+				File fileBootData = new File(config.getBootFolder(), ".bootdata.yml");
+				
+				if (fileBootData.exists()) {
+					if (fileBootData.isDirectory()) {
+						Main.layout.message(sender, "§4Error while loading bootfolder: '.bootdata.yml' is a directory! Delete it to fix this error!");
+						break enableFrame;
+					}
+				} else {
+					try {
+						fileBootData.createNewFile();
+					} catch (IOException e) {
+						if (Main.DEBUG) {
+							e.printStackTrace();
+						}
+						
+						Main.layout.message(sender, "§4Error while creating '.bootdata.yml' in the bootfolder: " + e.getMessage());
+						break enableFrame;
+					}
 				}
 				
-				Main.layout.message(sender, "§4Error while enabling frame: " + ex.getMessage());
-				Main.layout.message(sender, "§4WARNING: Could not finish enabling of the frame! May causes bugs! ");
+				try {
+					FileConfiguration bootDataConfig = YamlConfiguration.loadConfiguration(fileBootData);
+					
+					if (!bootDataConfig.contains("id") || !bootDataConfig.isInt("id")) {
+						bootDataConfig.set("id", id);
+						bootDataConfig.save(fileBootData);
+					}
+					
+					if (bootDataConfig.getInt("id") != id) {
+						Main.layout.message(sender, "§4Error while setting up bootfolder: The folder is already in use by another frametype!");
+						break enableFrame;
+					}
+				} catch (Exception ex) {
+					if (Main.DEBUG) {
+						ex.printStackTrace();
+					}
+					
+					Main.layout.message(sender, "§4Error while setting up bootfolder: " + ex.getMessage());
+					break enableFrame;
+				}
+				
+				Main.layout.message(sender, "Enabling frame...");
+				Main.layout.message(sender, "§8================");
+				
+				FrameProperties properties = new FrameProperties(config.getBootFolder());
+				
+				try {
+					this.frame.enable(properties);
+					frameEnabled = true;
+				} catch (Exception ex) {
+					if (Main.DEBUG) {
+						ex.getMessage();
+					}
+					
+					Main.layout.message(sender, "§4Error while enabling frame: " + ex.getMessage());
+				}
+				
+				Main.layout.message(sender, "§8================");
 			}
-			
+		}
+		
+		if (frameEnabled) {
 			String name = InfoLayout.replaceKeys(this.frame.getName());
 			String version = InfoLayout.replaceKeys(this.frame.getVersion());
-			Main.layout.message(sender, "§8================");
 			Main.layout.message(sender, "Frame '" + name + "' version '" + version + "' enabled!");
 		} else {
 			Main.layout.message(sender, "§4WARNING: No frame enabled!!!");
