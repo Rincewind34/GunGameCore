@@ -1,31 +1,20 @@
 package eu.securebit.gungame.io.impl;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
-import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.exception.InvalidLevelException;
 import eu.securebit.gungame.exception.MalformedConfigException;
+import eu.securebit.gungame.io.AbstractFileConfig;
 import eu.securebit.gungame.io.FileLevels;
-import eu.securebit.gungame.util.FileValidatable;
 import eu.securebit.gungame.util.ItemSerializer;
 
-public class CraftFileLevels implements FileLevels {
-	
-	private File file;
-	private FileConfiguration config;
+public class CraftFileLevels extends AbstractFileConfig implements FileLevels {
 	
 	public CraftFileLevels(String path, String name) {
-		this.file = FileValidatable.convert(path, name);
-		this.config = YamlConfiguration.loadConfiguration(this.file);
-		this.addDefaults();
-		this.save();
+		super(path, name, "levels");
 	}
 	
 	@Override
@@ -46,8 +35,8 @@ public class CraftFileLevels implements FileLevels {
 		}
 		
 		--level; // collection-operations are working with 0 as the first number!
-				
-		List<String> data = this.config.getStringList("levels");
+
+		List<String> data = super.config.getStringList("levels");
 		
 		if (level < data.size()) {
 			data.set(level, ItemSerializer.serializeInventory(items));
@@ -55,30 +44,19 @@ public class CraftFileLevels implements FileLevels {
 			data.add(ItemSerializer.serializeInventory(items));
 		}
 		
-		this.config.set("levels", data);
+		super.config.set("levels", data);
 		this.save();
 	}
 	
-	@Override
-	public void save() {
-		this.config.options().copyDefaults(true);
-		
-		try {
-			this.config.save(this.file);
-		} catch (IOException e) {
-			throw new GunGameException(e.getMessage());
-		}
-	}
-
 	@Override
 	public boolean delete() throws InvalidLevelException {
 		if (this.getLevelCount() < 1) {
 			throw new InvalidLevelException("There is no level to remove.");
 		}
 		
-		List<String> levels = this.config.getStringList("levels");
+		List<String> levels = super.config.getStringList("levels");
 		levels.remove(levels.size() - 1);
-		this.config.set("levels", levels);
+		super.config.set("levels", levels);
 		this.save();
 		
 		return true;
@@ -86,7 +64,7 @@ public class CraftFileLevels implements FileLevels {
 
 	@Override
 	public int getLevelCount() {
-		return this.config.getStringList("levels").size();
+		return super.config.getStringList("levels").size();
 	}
 
 	@Override
@@ -101,14 +79,15 @@ public class CraftFileLevels implements FileLevels {
 		
 		--level; // collection-operations are working with 0 as the first number!
 			
-		List<String> data = this.config.getStringList("levels");
+		List<String> data = super.config.getStringList("levels");
 		ItemStack[] items = ItemSerializer.deserializeInventory(data.get(level));
 		
 		return items;
 	}
 	
-	private void addDefaults() {
-		this.config.addDefault("levels", Arrays.asList());
+	@Override
+	public void addDefaults() {
+		super.config.addDefault("levels", Arrays.asList());
 	}
 
 }

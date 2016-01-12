@@ -18,8 +18,10 @@ import eu.securebit.gungame.framework.Frame;
 import eu.securebit.gungame.framework.Frame.FrameProperties;
 import eu.securebit.gungame.io.ConfigError;
 import eu.securebit.gungame.io.FileBootConfig;
+import eu.securebit.gungame.io.FileConfigRegistry;
 import eu.securebit.gungame.io.FrameLoader;
 import eu.securebit.gungame.io.impl.CraftFileBootConfig;
+import eu.securebit.gungame.io.impl.CraftFileConfigRegistry;
 import eu.securebit.gungame.io.impl.CraftFrameLoader;
 
 public class Main extends JavaPlugin {
@@ -45,6 +47,8 @@ public class Main extends JavaPlugin {
 	private Frame frame;
 	private BasicCommand command;
 	
+	private FileConfigRegistry fileRegistry;
+	
 	@Override
 	public void onLoad() {
 		Main.instance = this;
@@ -59,6 +63,14 @@ public class Main extends JavaPlugin {
 		Main.layout.message(sender, "");
 		Main.layout.message(sender, "Running version: " + InfoLayout.replaceKeys(this.getDescription().getVersion()));
 		Main.layout.message(sender, "");
+		
+		this.fileRegistry = new CraftFileConfigRegistry();
+		
+		for (String element : this.fileRegistry.getEntry()) {
+			if (!new File(element.split(":")[0]).exists()) {
+				this.fileRegistry.remove(element);
+			}
+		}
 		
 		this.command = new CommandGunGame();
 		this.command.create();
@@ -150,7 +162,7 @@ public class Main extends JavaPlugin {
 					frameEnabled = true;
 				} catch (Exception ex) {
 					if (Main.DEBUG) {
-						ex.getMessage();
+						ex.printStackTrace();;
 					}
 					
 					Main.layout.message(sender, "§4Error while enabling frame: " + ex.getMessage());
@@ -194,6 +206,10 @@ public class Main extends JavaPlugin {
 	
 	public BasicCommand getCommand() {
 		return this.command;
+	}
+	
+	public FileConfigRegistry getFileRegistry() {
+		return this.fileRegistry;
 	}
 	
 }

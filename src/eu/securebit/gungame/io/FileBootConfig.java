@@ -11,4 +11,5 @@ public interface FileBootConfig {
 	public abstract File getBootFolder();
 	
 	public abstract File getFrameJar();
+	
 }

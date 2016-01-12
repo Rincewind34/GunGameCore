@@ -11,7 +11,5 @@ public interface FileValidatable {
 		return new File(Main.instance().getDataFolder() + File.separator + path, name);
 	}
 	
-	public abstract void save();
-	
 	public abstract void validate() throws MalformedConfigException;
 }
