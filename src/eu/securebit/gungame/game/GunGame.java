@@ -38,7 +38,7 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 	
 	@Override
 	public void playConsoleMessage(String msg) {
-		super.playConsoleMessage("§7" + this.settings.getUUID() + ": " + msg);
+		super.playConsoleMessage(Main.layout().colorSecondary + this.settings.getUUID() + ": " + msg);
 	}
 	
 	@Override

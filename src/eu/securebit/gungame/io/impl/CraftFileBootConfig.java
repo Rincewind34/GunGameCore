@@ -9,9 +9,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
+import eu.securebit.gungame.Main;
 import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.io.ConfigError;
 import eu.securebit.gungame.io.FileBootConfig;
+import eu.securebit.gungame.util.ColorSet;
 
 public class CraftFileBootConfig implements FileBootConfig {
 
@@ -30,6 +32,7 @@ public class CraftFileBootConfig implements FileBootConfig {
 		this.cfg = YamlConfiguration.loadConfiguration(this.file);
 		this.cfg.addDefault("path-frame-file", "frames/frame_default.jar");
 		this.cfg.addDefault("path-boot-folder", "frames/bootfolder");
+		this.cfg.addDefault("color-set", "DEFAULT");
 		this.cfg.options().copyDefaults(true);
 		
 		try {
@@ -43,7 +46,7 @@ public class CraftFileBootConfig implements FileBootConfig {
 	public ConfigError[] validate() {
 		List<ConfigError> status = new ArrayList<>();
 		
-		if (!this.cfg.isString("path-frame-file") || !this.cfg.isString("path-boot-folder")) {
+		if (!this.cfg.isString("path-frame-file") || !this.cfg.isString("path-boot-folder") || !this.cfg.isString("color-set")) {
 			status.add(ConfigError.CONFIG_MALFORMED);
 		}
 		
@@ -82,6 +85,19 @@ public class CraftFileBootConfig implements FileBootConfig {
 		}
 		
 		return jar;
+	}
+
+	@Override
+	public ColorSet getColorSet() {
+		try {
+			return ColorSet.valueOf(this.cfg.getString("color-set").toUpperCase());
+		} catch (Exception ex) {
+			if (Main.DEBUG) {
+				ex.printStackTrace();
+			}
+			
+			throw new GunGameException(ex.getMessage());
+		}
 	}
 
 }

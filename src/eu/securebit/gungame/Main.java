@@ -33,6 +33,7 @@ import eu.securebit.gungame.io.impl.CraftFrameLoader;
 public class Main extends JavaPlugin {
 	
 	public static final boolean DEBUG = true; // Switch debug & release mode
+	public static final String PREFIX_CORE = "System";
 	
 	private static Main instance;
 	private static InfoLayout layout;
@@ -60,7 +61,7 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onLoad() {
 		Main.instance = this;
-		Main.layout = new InfoLayout("System");
+		Main.layout = new InfoLayout(Main.PREFIX_CORE);
 		Main.random = new Random();
 	}
 	
@@ -86,8 +87,6 @@ public class Main extends JavaPlugin {
 		FileBootConfig config = new CraftFileBootConfig(this);
 		config.initialize();
 		
-		Main.layout.message(sender, "Loading frame...");
-		
 		ConfigError[] errors = config.validate();
 		for (int i = 0; i < errors.length; i++) {
 			Main.layout.message(sender, "§4Error: " + InfoLayout.replaceKeys(errors[i].getDescription()));
@@ -99,6 +98,11 @@ public class Main extends JavaPlugin {
 			Bukkit.shutdown();
 			return;
 		}
+		
+		Main.layout.message(sender, "Resolving colorset...");
+		config.getColorSet().prepare(Main.layout);
+		
+		Main.layout.message(sender, "Loading frame...");
 		
 		File fileBootData = new File(config.getBootFolder(), ".bootdata.yml");
 		

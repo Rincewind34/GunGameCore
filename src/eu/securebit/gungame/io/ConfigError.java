@@ -9,9 +9,11 @@ public enum ConfigError {
 	MISSING_FRAME_FILE
 	("Cannot find specified frame! Maybe, there is a directory on the specified path!"),
 	
+	INVALID_CALOR_SET
+	("Could not resolve the given colorset! Delete the configfile to reset the entries!"),
 	
 	CONFIG_MALFORMED
-	("The global configuration file is malformed! Delete it, to reset the config!");
+	("The global configuration file is malformed! Delete it to reset the config!");
 	
 	private final String description;
 	

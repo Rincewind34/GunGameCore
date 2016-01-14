@@ -23,10 +23,10 @@ public class InfoLayout {
 	
 	public InfoLayout(String prefix) {
 		this.colorPrimary = "§8";
-		this.colorSecondary = "§7";
-		this.colorImportant = "§f";
-		this.colorPositiv = "§a";
-		this.colorNegative = "§4";
+		this.colorSecondary = "§r";
+		this.colorImportant = "§r";
+		this.colorPositiv = "§r";
+		this.colorNegative = "§r";
 		this.createPrefix(prefix);
 		
 		this.transaction = new ArrayList<String>();
