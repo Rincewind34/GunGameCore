@@ -14,7 +14,7 @@ public class LevelManager {
 		ItemStack[] content = new ItemStack[40];
 		PlayerInventory inv = player.getInventory();
 		
-		int counter = id;
+		int counter = 0;
 		
 		for (int i = 0; i < inv.getContents().length; i++) {
 			content[counter++] = inv.getContents()[i];
@@ -23,6 +23,8 @@ public class LevelManager {
 		for (int i = 0; i < inv.getArmorContents().length; i++) {
 			content[counter++] = inv.getArmorContents()[i];
 		}
+		
+		gungame.getSettings().files().getLevels().setLevel(id, content);
 	}
 	
 	public static void equip(GunGame gungame, int id, Player player) {
