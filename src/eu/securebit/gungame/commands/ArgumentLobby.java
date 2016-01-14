@@ -49,7 +49,7 @@ public class ArgumentLobby extends CustomArgument {
 					player.sendMessage(CoreMessages.lobbyTeleport());
 				}
 			} else if (args[1].equals("set")) {
-				gungame.setLobbyLocation(player.getLocation());
+				gungame.getInterface().setLobbyLocation(player.getLocation());
 				player.sendMessage(CoreMessages.lobbySet());
 			} else {
 				return false;

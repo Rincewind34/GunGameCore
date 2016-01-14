@@ -1,22 +1,12 @@
-package eu.securebit.gungame.framework;
+package eu.securebit.gungame.addonsystem;
 
 import java.io.File;
 
-import org.bukkit.entity.Player;
-
-import eu.securebit.gungame.Main;
-import eu.securebit.gungame.game.GunGame;
-
-public abstract class Frame {
-	
-	public static Frame instance() {
-		return Main.instance().getFrame();
-	}
-	
+public abstract class Addon {
 	
 	private File dataFolder;
 	
-	public final void enable(FrameProperties properties) {
+	public final void enable(AddonProperties properties) {
 		this.dataFolder = properties.getDataFolder();
 		this.onEnable();
 	}
@@ -33,22 +23,16 @@ public abstract class Frame {
 	
 	public abstract void onDisable();
 	
-	public abstract boolean isInGame(Player player);
-	
-	public abstract int getFrameId();
-	
 	public abstract String getVersion();
 	
 	public abstract String getName();
 	
-	public abstract GunGame getGame(Player player);
 	
-	
-	public static class FrameProperties {
+	public static class AddonProperties {
 		
 		private final File dataFolder;
 		
-		public FrameProperties(File dataFolder) {
+		public AddonProperties(File dataFolder) {
 			this.dataFolder = dataFolder;
 		}
 		
@@ -56,4 +40,5 @@ public abstract class Frame {
 			return this.dataFolder;
 		}
 	}
+	
 }

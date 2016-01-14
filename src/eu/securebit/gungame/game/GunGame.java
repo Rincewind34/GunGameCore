@@ -1,29 +1,30 @@
 package eu.securebit.gungame.game;
 
-import lib.securebit.InfoLayout;
 import lib.securebit.game.impl.CraftGame;
 
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.framework.ActionInterface;
 import eu.securebit.gungame.framework.Settings;
 
 public abstract class GunGame extends CraftGame<GunGamePlayer> {
 
 	private GunGamePlayer winner;
-	private Settings settings;
-	
 	private GunGameScoreboard board;
 	
-	public GunGame(Settings settings) {
+	private ActionInterface actionInterface;
+	private Settings settings;
+	
+	public GunGame(Settings settings, ActionInterface actionInterface) {
 		super(Main.instance());
 		
 		this.settings = settings;
+		this.actionInterface = actionInterface;
 		this.board = new GunGameScoreboard(this, this.getSettings().getUUID());
 		
 		if (this.board.isEnabled()) {
@@ -57,6 +58,10 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 		}
 	}
 	
+	public ActionInterface getInterface() {
+		return this.actionInterface;
+	}
+	
 	public Settings getSettings() {
 		return this.settings;
 	}
@@ -84,7 +89,7 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 		if (this.getPlayers().size() == 0) {
 			this.playConsoleMessage(Main.layout().format("Shutdown!"));
 			
-			this.shutdown();
+			this.actionInterface.shutdown();
 		}
 	}
 	
@@ -96,16 +101,6 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 		return this.winner;
 	}
 	
-	public abstract void shutdown();
-	
-	public abstract void stageEditInformation(InfoLayout layout);
-	
-	public abstract void removeSpawn(int id);
-	
-	public abstract void setLobbyLocation(Location lobby);
-	
 	public abstract boolean isReady();
-	
-	public abstract int addSpawn(Location loc);
 	
 }

@@ -69,7 +69,6 @@ public class CraftFileConfigRegistry implements FileConfigRegistry {
 		List<String> entry = this.config.getStringList("files");
 		
 		for (String element : entry) {
-			System.out.println(Arrays.asList(element.split("==")));
 			if (element.split("==")[0].equals(file)) {
 				return true;
 			}

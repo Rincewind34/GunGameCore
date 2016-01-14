@@ -26,12 +26,12 @@ import eu.securebit.gungame.game.states.GameStateSpawns;
 public class Core {
 	
 	@SuppressWarnings("unchecked")
-	public static <T extends GunGame> T createNewGameInstance(Settings settings, Class<T> gameClass) {
+	public static <T extends GunGame> T createNewGameInstance(Settings settings, ActionInterface actionInterface, Class<T> gameClass) {
 		T instance = null;
 		
 		try {
-			Constructor<?> constructor = gameClass.getConstructor(Settings.class);
-			instance = (T) constructor.newInstance(settings);
+			Constructor<?> constructor = gameClass.getConstructor(Settings.class, ActionInterface.class);
+			instance = (T) constructor.newInstance(settings, actionInterface);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {

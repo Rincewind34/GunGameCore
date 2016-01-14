@@ -28,7 +28,7 @@ public class ArgumentLevels extends CustomArgument {
 
 	@Override
 	public String getSyntax() {
-		return "/gungame levels";
+		return "/gungame levels {load|save|delete}";
 	}
 
 	@Override

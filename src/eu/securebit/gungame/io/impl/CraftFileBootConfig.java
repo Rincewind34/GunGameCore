@@ -29,7 +29,7 @@ public class CraftFileBootConfig implements FileBootConfig {
 	public void initialize() {
 		this.cfg = YamlConfiguration.loadConfiguration(this.file);
 		this.cfg.addDefault("path-frame-file", "frames/frame_default.jar");
-		this.cfg.addDefault("path-boot-folder", "frames/default");
+		this.cfg.addDefault("path-boot-folder", "frames/bootfolder");
 		this.cfg.options().copyDefaults(true);
 		
 		try {

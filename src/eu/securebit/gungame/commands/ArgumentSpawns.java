@@ -45,7 +45,7 @@ public class ArgumentSpawns extends CustomArgument {
 			this.sendSuggestions(sender);
 			return true;
 		} else if (args[1].equalsIgnoreCase("add")) {
-			int createId = gungame.addSpawn(player.getLocation());
+			int createId = gungame.getInterface().addSpawn(player.getLocation());
 			sender.sendMessage(CoreMessages.spawnAdded(createId));
 			return true;
 		} else if (args[1].equalsIgnoreCase("tp")) {
@@ -82,7 +82,7 @@ public class ArgumentSpawns extends CustomArgument {
 			if (Util.isInt(args[2])) {
 				int id = NumberConversions.toInt(args[2]);
 				if (gungame.getSettings().locations().getSpawnPoints().containsKey(id)) {
-					gungame.removeSpawn(id);
+					gungame.getInterface().removeSpawn(id);
 					player.sendMessage(CoreMessages.spawnRemoved(id));
 				} else {
 					player.sendMessage(CoreMessages.spawnNotExisting(id));

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.bukkit.Location;
 
+import eu.securebit.gungame.game.GameOption;
 import eu.securebit.gungame.io.FileLevels;
 import eu.securebit.gungame.io.FileMessages;
 import eu.securebit.gungame.io.FileScoreboard;
@@ -29,11 +30,9 @@ public interface Settings {
 	
 	public static interface SettingsOptions {
 		
-		public abstract boolean isLevelReset();
+		public abstract boolean isEditMode();
 		
-		public abstract boolean isDowngradeOnNaturalDeath();
-		
-		public abstract boolean isAutoRespawn();
+		public abstract boolean getGameOption(GameOption option);
 		
 		public abstract int getMinPlayerCount();
 		
