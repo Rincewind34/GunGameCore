@@ -14,6 +14,7 @@ import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.framework.Settings.SettingsLocations;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
@@ -26,25 +27,47 @@ import eu.securebit.gungame.game.states.GameStateSpawns;
 public class Core {
 	
 	@SuppressWarnings("unchecked")
-	public static <T extends GunGame> T createNewGameInstance(Settings settings, ActionInterface actionInterface, Class<T> gameClass) {
+	public static <T extends GunGame> T createNewGameInstance(Class<T> gameClass, Object... values) {
 		T instance = null;
 		
-		try {
-			Constructor<?> constructor = gameClass.getConstructor(Settings.class, ActionInterface.class);
-			instance = (T) constructor.newInstance(settings, actionInterface);
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		Class<?>[] classArray = new Class<?>[values.length];
+		
+		for (int i = 0; i < values.length; i++) {
+			classArray[i] = values[i].getClass();
 		}
+		
+		search: {
+			try {
+				constrcutors: for (Constructor<?> constructor : gameClass.getConstructors()) {
+					if (classArray.length != constructor.getParameterCount()) {
+						continue;
+					}
+				
+					for (int i = 0; i < constructor.getParameterCount(); i++) {
+						if (!Core.isMatching(classArray[i], values[i].getClass())) {
+							continue constrcutors;
+						}
+					}
+					
+					instance = (T) constructor.newInstance(values);
+					break search;
+				}
+			
+				throw new GunGameException("Could not find a matching constructor!");
+			} catch (SecurityException e) {
+				throw new GunGameException(e.getMessage());
+			} catch (InstantiationException e) {
+				throw new GunGameException(e.getMessage());
+			} catch (IllegalAccessException e) {
+				throw new GunGameException(e.getMessage());
+			} catch (IllegalArgumentException e) {
+				throw new GunGameException(e.getMessage());
+			} catch (InvocationTargetException e) {
+				throw new GunGameException(e.getMessage());
+			}
+		}
+		
+		boolean ready = instance.isReady();
 		
 		GameStateManager<T> manager = new CraftGameStateManager<T>(Main.instance());
 		manager.initGame(instance);
@@ -57,9 +80,9 @@ public class Core {
 		
 		List<World> worlds = new ArrayList<>();
 		
-		SettingsLocations locations = settings.locations();
+		SettingsLocations locations = instance.getSettings().locations();
 		
-		if (instance.isReady()) {
+		if (ready) {
 			locations.getLobbyLocation().getWorld().setAutoSave(false);
 		}
 		
@@ -77,7 +100,7 @@ public class Core {
 			}
 		}
 		
-		manager.create(instance.isReady());
+		manager.create(ready);
 		
 		return instance;
 	}
@@ -88,6 +111,14 @@ public class Core {
 	
 	public static Plugin getPlugin() {
 		return Main.instance();
+	}
+	
+	private static boolean isMatching(Class<?> cls, Class<?> clsCompare) {
+		if (cls == clsCompare) {
+			return true;
+		} else {
+			return Core.isMatching(cls, clsCompare.getSuperclass());
+		}
 	}
 	
 }
