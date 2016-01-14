@@ -4,8 +4,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.exception.MalformedConfigException;
-import eu.securebit.gungame.io.AbstractFileConfig;
 import eu.securebit.gungame.io.FileMessages;
+import eu.securebit.gungame.io.util.AbstractFileConfig;
 
 public class CraftFileMessages extends AbstractFileConfig implements FileMessages {
 	

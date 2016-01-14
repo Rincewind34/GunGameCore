@@ -3,7 +3,7 @@ package eu.securebit.gungame.io;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.io.impl.CraftFileMessages;
-import eu.securebit.gungame.util.FileValidatable;
+import eu.securebit.gungame.io.util.FileValidatable;
 
 public interface FileMessages extends FileValidatable {
 	

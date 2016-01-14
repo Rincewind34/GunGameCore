@@ -2,7 +2,7 @@ package eu.securebit.gungame.io;
 
 import java.util.List;
 
-import eu.securebit.gungame.util.FileValidatable;
+import eu.securebit.gungame.io.util.FileValidatable;
 
 public interface FileConfigRegistry extends FileValidatable {
 	

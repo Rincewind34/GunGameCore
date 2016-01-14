@@ -3,8 +3,8 @@ package eu.securebit.gungame.io.impl;
 import org.bukkit.ChatColor;
 
 import eu.securebit.gungame.exception.MalformedConfigException;
-import eu.securebit.gungame.io.AbstractFileConfig;
 import eu.securebit.gungame.io.FileScoreboard;
+import eu.securebit.gungame.io.util.AbstractFileConfig;
 
 public class CraftFileScoreboard extends AbstractFileConfig implements FileScoreboard {
 	

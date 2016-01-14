@@ -1,7 +1,7 @@
 package eu.securebit.gungame.io;
 
 import eu.securebit.gungame.io.impl.CraftFileScoreboard;
-import eu.securebit.gungame.util.FileValidatable;
+import eu.securebit.gungame.io.util.FileValidatable;
 
 public interface FileScoreboard extends FileValidatable {
 	

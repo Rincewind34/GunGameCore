@@ -1,4 +1,4 @@
-package eu.securebit.gungame.util;
+package eu.securebit.gungame.io.util;
 
 import java.io.File;
 

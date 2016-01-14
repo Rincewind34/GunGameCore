@@ -7,9 +7,9 @@ import org.bukkit.inventory.ItemStack;
 
 import eu.securebit.gungame.exception.InvalidLevelException;
 import eu.securebit.gungame.exception.MalformedConfigException;
-import eu.securebit.gungame.io.AbstractFileConfig;
 import eu.securebit.gungame.io.FileLevels;
-import eu.securebit.gungame.util.ItemSerializer;
+import eu.securebit.gungame.io.util.AbstractFileConfig;
+import eu.securebit.gungame.io.util.ItemSerializer;
 
 public class CraftFileLevels extends AbstractFileConfig implements FileLevels {
 	

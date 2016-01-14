@@ -55,6 +55,7 @@ public class Main extends JavaPlugin {
 	private BasicCommand command;
 	
 	private FileConfigRegistry fileRegistry;
+	private FileBootConfig fileBootConfig;
 	
 	private List<Addon> addons;
 	
@@ -84,10 +85,10 @@ public class Main extends JavaPlugin {
 		this.command = new CommandGunGame();
 		this.command.create();
 		
-		FileBootConfig config = new CraftFileBootConfig(this);
-		config.initialize();
+		this.fileBootConfig = new CraftFileBootConfig(this);
+		this.fileBootConfig.initialize();
 		
-		ConfigError[] errors = config.validate();
+		ConfigError[] errors = this.fileBootConfig.validate();
 		for (int i = 0; i < errors.length; i++) {
 			Main.layout.message(sender, "§4Error: " + InfoLayout.replaceKeys(errors[i].getDescription()));
 		}
@@ -100,14 +101,14 @@ public class Main extends JavaPlugin {
 		}
 		
 		Main.layout.message(sender, "Resolving colorset...");
-		config.getColorSet().prepare(Main.layout);
+		this.fileBootConfig.getColorSet().prepare(Main.layout);
 		
 		Main.layout.message(sender, "Loading frame...");
 		
-		File fileBootData = new File(config.getBootFolder(), ".bootdata.yml");
+		File fileBootData = new File(this.fileBootConfig.getBootFolder(), ".bootdata.yml");
 		
 		try {
-			FrameLoader loader = new CraftFrameLoader(config.getFrameJar());
+			FrameLoader loader = new CraftFrameLoader(this.fileBootConfig.getFrameJar());
 			this.frame = loader.load();
 		} catch (Exception ex) {
 			if (Main.DEBUG) {
@@ -167,7 +168,7 @@ public class Main extends JavaPlugin {
 				Main.layout.message(sender, "Enabling frame...");
 				Main.layout.message(sender, "§8================");
 				
-				FrameProperties properties = new FrameProperties(config.getBootFolder());
+				FrameProperties properties = new FrameProperties(this.fileBootConfig.getBootFolder());
 				
 				try {
 					this.frame.enable(properties);
@@ -260,7 +261,7 @@ public class Main extends JavaPlugin {
 						Main.layout.message(sender, "Enabling addon '*" + InfoLayout.replaceKeys(addon.getName()) + "*' version '*" +
 								InfoLayout.replaceKeys(addon.getVersion()) + "*'...");
 						
-						AddonProperties properties = new AddonProperties(config.getBootFolder());
+						AddonProperties properties = new AddonProperties(this.fileBootConfig.getBootFolder());
 						
 						try {
 							addon.enable(properties);
@@ -344,6 +345,10 @@ public class Main extends JavaPlugin {
 	
 	public FileConfigRegistry getFileRegistry() {
 		return this.fileRegistry;
+	}
+	
+	public FileBootConfig getFileBootConfig() {
+		return this.fileBootConfig;
 	}
 	
 }
