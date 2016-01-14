@@ -238,7 +238,21 @@ public class Main extends JavaPlugin {
 					List<Addon> enabledAddons = new ArrayList<>();
 					misses = 0;
 					
-					for (Addon addon : addons) {
+					addons: for (Addon addon : addons) {
+						for (String plugin : addon.getDependencies()) {
+							if (Bukkit.getPluginManager().getPlugin(plugin) == null || !Bukkit.getPluginManager().getPlugin(plugin).isEnabled()) {
+								Main.layout.message(sender, "-The plugin '-*" + plugin + "*-' is missing to enable addon '-*" + addon.getName() + "*-'! => SKIPPING-");
+								misses = misses + 1;
+								continue addons;
+							}
+						}
+						
+						if (addon.getIncompatibleFrames().contains(this.frame.getFrameId())) {
+							Main.layout.message(sender, "-The currently loaded frame is incompatible with the addon -'*" + addon.getName() + "*'-! => SKIPPING-");
+							misses = misses + 1;
+							continue addons;
+						}
+						
 						Main.layout.message(sender, "Enabling addon '*" + InfoLayout.replaceKeys(addon.getName()) + "*' version '*" +
 								InfoLayout.replaceKeys(addon.getVersion()) + "*'...");
 						
@@ -281,21 +295,6 @@ public class Main extends JavaPlugin {
 	public void onDisable() {
 		ConsoleCommandSender sender = Bukkit.getConsoleSender();
 		
-		if (this.frame != null) {
-			Main.layout.message(sender, "Disabling frame...");
-			try {
-				this.frame.disable();
-			} catch (Exception ex) {
-				if (Main.DEBUG) {
-					ex.printStackTrace();
-				}
-				
-				Main.layout.message(sender, "-Error while disabling frame: " + InfoLayout.replaceKeys(ex.getMessage() != null ? ex.getMessage() : ">>NULL<<") + "-");
-			}
-			
-			Main.layout.message(sender, "Frame disabled!");
-		}
-		
 		if (this.addons != null) {
 			for (Addon addon : this.addons) {
 				Main.layout.message(sender, "Disabling addon '" + InfoLayout.replaceKeys(addon.getName()) + "'...");
@@ -313,6 +312,21 @@ public class Main extends JavaPlugin {
 				
 				Main.layout.message(sender, "Addon disabled!");
 			}
+		}
+		
+		if (this.frame != null) {
+			Main.layout.message(sender, "Disabling frame...");
+			try {
+				this.frame.disable();
+			} catch (Exception ex) {
+				if (Main.DEBUG) {
+					ex.printStackTrace();
+				}
+				
+				Main.layout.message(sender, "-Error while disabling frame: " + InfoLayout.replaceKeys(ex.getMessage() != null ? ex.getMessage() : ">>NULL<<") + "-");
+			}
+			
+			Main.layout.message(sender, "Frame disabled!");
 		}
 	}
 	

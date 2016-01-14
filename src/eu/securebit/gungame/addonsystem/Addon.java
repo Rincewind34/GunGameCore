@@ -1,6 +1,7 @@
 package eu.securebit.gungame.addonsystem;
 
 import java.io.File;
+import java.util.List;
 
 public abstract class Addon {
 	
@@ -26,6 +27,10 @@ public abstract class Addon {
 	public abstract String getVersion();
 	
 	public abstract String getName();
+	
+	public abstract List<String> getDependencies();
+	
+	public abstract List<Integer> getIncompatibleFrames();
 	
 	
 	public static class AddonProperties {
