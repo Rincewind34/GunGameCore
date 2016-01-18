@@ -27,7 +27,7 @@ public class CraftAddonLoader implements AddonLoader {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Addon load() throws MalformedJarException, MalformedURLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+	public Addon load() throws MalformedJarException, MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		URL[] array = { this.jar.toURI().toURL() };
 		ClassLoader parent = Frame.class.getClassLoader();
 		URLClassLoader classloader = URLClassLoader.newInstance(array, parent);
@@ -37,6 +37,7 @@ public class CraftAddonLoader implements AddonLoader {
 		
 		for (String classname : IOUtil.readJar(this.jar)) {
 			Class<?> clazz = classloader.loadClass(classname);
+			
 			if (clazz.getSuperclass() == Addon.class) {
 				mainClass = (Class<? extends Addon>) clazz;
 			}

@@ -37,6 +37,7 @@ public class CraftFrameLoader implements FrameLoader {
 		
 		for (String classname : IOUtil.readJar(this.jar)) {
 			Class<?> clazz = classloader.loadClass(classname);
+			
 			if (clazz.getSuperclass() == Frame.class) {
 				mainClass = (Class<? extends Frame>) clazz;
 			}

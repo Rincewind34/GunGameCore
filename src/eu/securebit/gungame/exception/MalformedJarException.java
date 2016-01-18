@@ -1,6 +1,6 @@
 package eu.securebit.gungame.exception;
 
-public class MalformedJarException extends Exception {
+public class MalformedJarException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	
