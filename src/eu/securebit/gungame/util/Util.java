@@ -81,4 +81,13 @@ public class Util {
 		return Arrays.asList(locs.toArray(new Location[locs.size()]));
 	}
 	
+	public static String stripPath(String path) {
+		if (path.contains("plugins/GunGame")) {
+			int i = path.lastIndexOf("plugins/GunGame/");
+			return path.substring(i + "plugins/GunGame/".length(), path.length());
+		} else {
+			return path;
+		}
+	}
+	
 }

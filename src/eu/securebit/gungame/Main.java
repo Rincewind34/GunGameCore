@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import lib.securebit.InfoLayout;
-import lib.securebit.command.BasicCommand;
+import lib.securebit.command.ArgumentedCommand;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
@@ -52,7 +52,7 @@ public class Main extends JavaPlugin {
 	}
 	
 	private Frame frame;
-	private BasicCommand command;
+	private ArgumentedCommand command;
 	
 	private FileConfigRegistry fileRegistry;
 	private FileBootConfig fileBootConfig;
@@ -212,12 +212,13 @@ public class Main extends JavaPlugin {
 				
 				for (File file : addonDir.listFiles()) {
 					Main.layout.message(sender, "Loading addon (file: " + InfoLayout.replaceKeys(file.getPath()) + ")!");
+					Addon addon = null;
 					
 					try {
 						AddonLoader loader = new CraftAddonLoader(file);
-						Addon addon = loader.load();
+						addon = loader.load();
 						addons.add(addon);
-					} catch (Exception ex) {
+					} catch (Throwable ex) {
 						misses = misses + 1;
 						
 						if (Main.DEBUG) {
@@ -247,9 +248,16 @@ public class Main extends JavaPlugin {
 						for (String plugin : addon.getDependencies()) {
 							if (Bukkit.getPluginManager().getPlugin(plugin) == null || !Bukkit.getPluginManager().getPlugin(plugin).isEnabled()) {
 								Main.layout.message(sender, "-The plugin '-*" + plugin + "*-' is missing to enable addon '-*" + addon.getName() + "*-'! => SKIPPING-");
+								
 								misses = misses + 1;
 								continue addons;
 							}
+						}
+						
+						if (addon.getIncompatibleFrames().contains(Integer.MAX_VALUE) && this.frame == null) {
+							Main.layout.message(sender, "-The addon -'*" + addon.getName() + "*'- cannot be enabled without a frame! => SKIPPING-");
+							misses = misses + 1;
+							continue addons;
 						}
 						
 						if (addon.getIncompatibleFrames().contains(this.frame.getFrameId())) {
@@ -339,7 +347,7 @@ public class Main extends JavaPlugin {
 		return this.frame;
 	}
 	
-	public BasicCommand getCommand() {
+	public ArgumentedCommand getCommand() {
 		return this.command;
 	}
 	

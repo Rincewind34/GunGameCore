@@ -1,7 +1,7 @@
 package eu.securebit.gungame.commands;
 
 import lib.securebit.InfoLayout;
-import lib.securebit.command.BasicCommand;
+import lib.securebit.command.ArgumentedCommand;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -11,9 +11,9 @@ import eu.securebit.gungame.util.Permissions;
 
 public class ArgumentHelp extends CustomArgument {
 	
-	private final BasicCommand handle;
+	private final ArgumentedCommand handle;
 	
-	public ArgumentHelp(BasicCommand handle) {
+	public ArgumentHelp(ArgumentedCommand handle) {
 		this.handle = handle;
 	}
 	

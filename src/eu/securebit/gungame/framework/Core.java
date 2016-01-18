@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.securebit.command.BasicCommand;
+import lib.securebit.command.ArgumentedCommand;
 import lib.securebit.game.GameStateManager;
 import lib.securebit.game.impl.CraftGameStateManager;
 
@@ -23,6 +23,7 @@ import eu.securebit.gungame.game.states.GameStateGrace;
 import eu.securebit.gungame.game.states.GameStateIngame;
 import eu.securebit.gungame.game.states.GameStateLobby;
 import eu.securebit.gungame.game.states.GameStateSpawns;
+import eu.securebit.gungame.io.FileBootConfig;
 
 public class Core {
 	
@@ -52,18 +53,18 @@ public class Core {
 					instance = (T) constructor.newInstance(values);
 					break search;
 				}
-			
+				
 				throw new GunGameException("Could not find a matching constructor!");
 			} catch (SecurityException e) {
-				throw new GunGameException(e.getMessage());
+				throw new GunGameException(e.getMessage(), e);
 			} catch (InstantiationException e) {
-				throw new GunGameException(e.getMessage());
+				throw new GunGameException(e.getMessage(), e);
 			} catch (IllegalAccessException e) {
-				throw new GunGameException(e.getMessage());
+				throw new GunGameException(e.getMessage(), e);
 			} catch (IllegalArgumentException e) {
-				throw new GunGameException(e.getMessage());
+				throw new GunGameException(e.getMessage(), e);
 			} catch (InvocationTargetException e) {
-				throw new GunGameException(e.getMessage());
+				throw new GunGameException(e.getMessage(), e);
 			}
 		}
 		
@@ -105,12 +106,16 @@ public class Core {
 		return instance;
 	}
 	
-	public static BasicCommand getCommand() {
+	public static ArgumentedCommand getCommand() {
 		return Main.instance().getCommand();
 	}
 	
 	public static Plugin getPlugin() {
 		return Main.instance();
+	}
+	
+	public static FileBootConfig getBootConfig() {
+		return Main.instance().getFileBootConfig();
 	}
 	
 	private static boolean isMatching(Class<?> cls, Class<?> clsCompare) {

@@ -1,6 +1,5 @@
 package lib.securebit.command;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import lib.securebit.Validate;
@@ -10,10 +9,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-public class BasicCommand implements CommandExecutor, PluginIdentifiableCommand {
+public abstract class BasicCommand implements CommandExecutor, PluginIdentifiableCommand {
 	
 	public abstract static interface DefaultExecutor {
 		
@@ -21,16 +19,12 @@ public class BasicCommand implements CommandExecutor, PluginIdentifiableCommand 
 		
 	}
 	
-	private HashMap<String, Argument<?>> arguments;
-	
 	private String description;
 	private String usage;
 	private String permission;
 	private String[] aliases;
 	
 	private String key;
-	
-	private DefaultExecutor executor;
 	
 	private TabCompleter tabCompleter;
 	
@@ -46,61 +40,11 @@ public class BasicCommand implements CommandExecutor, PluginIdentifiableCommand 
 		this.name = name;
 		this.plugin = plugin;
 		this.settings = settings;
-		this.arguments = new HashMap<String, Argument<?>>();
 	}
 
 	@Override
 	public Plugin getPlugin() {
 		return this.plugin;
-	}
-	
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (command.getName().equalsIgnoreCase(this.name)) {
-			if (args.length != 0) {
-				
-				if (this.permission != null && !sender.hasPermission(this.permission)) {
-					sender.sendMessage(this.settings.getMessageNoPermission());
-					return true;
-				}
-				
-				for (String name : this.getArguments().keySet()) {
-					if (args[0].equals(name)) {
-						Argument<?> arg = this.getArgument(name);
-						
-						if ((arg.isOnlyForPlayer() && sender instanceof Player) || (!arg.isOnlyForPlayer())) {
-							if (arg.getPermission() == null) {
-								if (!arg.execute(sender, command, label, args)) {
-									sender.sendMessage(String.format(this.settings.getMessageSyntax(), arg.getSyntax()));
-								}
-								return true;
-							} else {
-								if (sender.hasPermission(arg.getPermission())) {
-									if (!arg.execute(sender, command, label, args)) {
-										sender.sendMessage(String.format(this.settings.getMessageSyntax(), arg.getSyntax()));
-									}
-									return true;
-								} else {
-									sender.sendMessage(this.settings.getMessageNoPermission());
-									return true;
-								}
-							}
-						} else {
-							sender.sendMessage(this.settings.getMessageOnlyPlayer());
-							return true;
-						}
-					}
-				}
-				
-				sender.sendMessage(this.settings.getMessageDefault());
-			} else {
-				if (this.executor != null) {
-					return this.executor.onExecute(sender, command, label, args);
-				}
-			}
-		}
-		
-		return true;
 	}
 	
 	public void setDescription(String description) {
@@ -188,25 +132,8 @@ public class BasicCommand implements CommandExecutor, PluginIdentifiableCommand 
 		}
 	}
 	
-	public void registerArgument(String name, Argument<?> arg) {
-		Validate.notNull(name, "Name cannot be null!");
-		Validate.notNull(arg, "Argument cannot be null!");
-
-		this.arguments.put(name, arg);
-	}
-	
-	public HashMap<String, Argument<?>> getArguments() {
-		return this.arguments;
-	}
-
-	public Argument<?> getArgument(String name) {
-		Validate.notNull(name, "Name cannot be null!");
-
-		return this.arguments.get(name);
-	}
-	
-	public void setDefaultExecutor(DefaultExecutor executor) {
-		this.executor = executor;
+	public CommandSettings getSettings() {
+		return this.settings;
 	}
 	
 }
