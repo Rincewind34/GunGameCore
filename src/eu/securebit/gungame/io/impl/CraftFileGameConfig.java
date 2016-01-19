@@ -22,8 +22,11 @@ import eu.securebit.gungame.io.util.DataUtil;
 
 public abstract class CraftFileGameConfig extends AbstractFile implements FileGameConfig {
 	
-	public CraftFileGameConfig(String path, String name) {
+	public CraftFileGameConfig(String path, String name, World world) {
 		super(path, name);
+		
+		ConfigUtil.setLocation(super.config, "locations.lobby", world.getSpawnLocation(), true);
+		this.save();
 	}
 	
 	@Override
@@ -41,10 +44,7 @@ public abstract class CraftFileGameConfig extends AbstractFile implements FileGa
 		super.config.addDefault("start-level", 1);
 		super.config.addDefault("playercount.minimal", 1);
 		super.config.addDefault("playercount.maximal", 3);
-		
 		super.config.addDefault("locations.spawns", Arrays.asList());
-		ConfigUtil.setLocation(super.config, "locations.lobby", Bukkit.getWorlds().get(0).getSpawnLocation(), true);
-		
 		super.config.addDefault("next-spawn-id", 0);
 	}
 
