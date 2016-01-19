@@ -25,6 +25,7 @@ public abstract class UnargumentedCommand extends BasicCommand implements Defaul
 			
 			if (this.onlyPlayers && !(sender instanceof Player)) {
 				sender.sendMessage(this.getSettings().getMessageOnlyPlayer());
+				return true;
 			}
 				
 			boolean syntax = this.onExecute(sender, command, label, args);
