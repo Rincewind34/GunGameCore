@@ -32,7 +32,7 @@ public class CraftFileConfigRegistry implements FileConfigRegistry {
 		try {
 			this.config.save(this.file);
 		} catch (IOException e) {
-			throw new GunGameException(e.getMessage());
+			throw new GunGameException(e.getMessage(), e);
 		}
 	}
 

@@ -9,7 +9,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-import eu.securebit.gungame.Main;
 import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.io.ConfigError;
 import eu.securebit.gungame.io.FileBootConfig;
@@ -38,7 +37,7 @@ public class CraftFileBootConfig implements FileBootConfig {
 		try {
 			this.cfg.save(this.file);
 		} catch (IOException e) {
-			throw new GunGameException(e.getMessage());
+			throw new GunGameException(e.getMessage(), e);
 		}
 	}
 	
@@ -92,11 +91,7 @@ public class CraftFileBootConfig implements FileBootConfig {
 		try {
 			return ColorSet.valueOf(this.cfg.getString("color-set").toUpperCase());
 		} catch (Exception ex) {
-			if (Main.DEBUG) {
-				ex.printStackTrace();
-			}
-			
-			throw new GunGameException(ex.getMessage());
+			throw new GunGameException(ex.getMessage(), ex);
 		}
 	}
 

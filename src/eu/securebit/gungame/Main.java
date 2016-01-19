@@ -89,6 +89,7 @@ public class Main extends JavaPlugin {
 		this.fileBootConfig.initialize();
 		
 		ConfigError[] errors = this.fileBootConfig.validate();
+		
 		for (int i = 0; i < errors.length; i++) {
 			Main.layout.message(sender, "§4Error: " + InfoLayout.replaceKeys(errors[i].getDescription()));
 		}
@@ -110,7 +111,7 @@ public class Main extends JavaPlugin {
 		try {
 			FrameLoader loader = new CraftFrameLoader(this.fileBootConfig.getFrameJar());
 			this.frame = loader.load();
-		} catch (Exception ex) {
+		} catch (Throwable ex) {
 			if (Main.DEBUG) {
 				ex.printStackTrace();
 			}
@@ -156,7 +157,7 @@ public class Main extends JavaPlugin {
 						Main.layout.message(sender, "-Error while setting up bootfolder: The folder is already in use by another frametype!-");
 						break enableFrame;
 					}
-				} catch (Exception ex) {
+				} catch (Throwable ex) {
 					if (Main.DEBUG) {
 						ex.printStackTrace();
 					}
@@ -173,7 +174,7 @@ public class Main extends JavaPlugin {
 				try {
 					this.frame.enable(properties);
 					frameEnabled = true;
-				} catch (Exception ex) {
+				} catch (Throwable ex) {
 					if (Main.DEBUG) {
 						ex.printStackTrace();
 					}
@@ -274,7 +275,7 @@ public class Main extends JavaPlugin {
 						try {
 							addon.enable(properties);
 							enabledAddons.add(addon);
-						} catch (Exception ex) {
+						} catch (Throwable ex) {
 							misses = misses + 1;
 							
 							if (Main.DEBUG) {
@@ -314,7 +315,7 @@ public class Main extends JavaPlugin {
 				
 				try {
 					addon.disable();
-				} catch (Exception ex) {
+				} catch (Throwable ex) {
 					if (Main.DEBUG) {
 						ex.printStackTrace();
 					}
@@ -331,7 +332,7 @@ public class Main extends JavaPlugin {
 			Main.layout.message(sender, "Disabling frame...");
 			try {
 				this.frame.disable();
-			} catch (Exception ex) {
+			} catch (Throwable ex) {
 				if (Main.DEBUG) {
 					ex.printStackTrace();
 				}
