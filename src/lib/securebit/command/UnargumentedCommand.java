@@ -28,7 +28,7 @@ public abstract class UnargumentedCommand extends BasicCommand implements Defaul
 				return true;
 			}
 				
-			boolean syntax = this.onExecute(sender, command, label, args);
+			boolean syntax = !this.onExecute(sender, command, label, args);
 			
 			if (syntax) {
 				sender.sendMessage(String.format(this.getSettings().getMessageSyntax(), this.getUsage()));
