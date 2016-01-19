@@ -9,10 +9,14 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
+import org.bukkit.ChatColor;
+
 import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.exception.MalformedJarException;
 
 public class IOUtil {
+	
+	public static String prefix;
 	
 	public static File checkJarFile(File input) throws MalformedJarException, IOException {
 		if (input == null || !input.exists()) {
@@ -39,7 +43,7 @@ public class IOUtil {
 		try {
 			jar = IOUtil.checkJarFile(jar);
 		} catch (Exception ex) {
-			throw new GunGameException(ex.getMessage());
+			throw new GunGameException(ex.getMessage(), ex);
 		}
 		
 		List<String> classes = new ArrayList<String>();
@@ -63,10 +67,27 @@ public class IOUtil {
 			}
 			
 		} catch (Exception ex) {
-			throw new GunGameException(ex.getMessage());
+			throw new GunGameException(ex.getMessage(), ex);
 		}
 		
 		return classes;
 	}
+	
+	public static String prepare(String prefix, String str) {
+		if (str == null) {
+			return null;
+		}
+		
+		return prefix + ChatColor.translateAlternateColorCodes('&', str);
+	}
+	
+	public static String replace(String str, String variable, Object value) {
+		if (str == null) {
+			return str;
+		}
+		
+		return str.replace("${" + variable + "}", String.valueOf(value));
+	}
+
 	
 }

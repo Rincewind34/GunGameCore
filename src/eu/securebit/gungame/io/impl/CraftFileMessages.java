@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import eu.securebit.gungame.exception.MalformedConfigException;
 import eu.securebit.gungame.io.FileMessages;
 import eu.securebit.gungame.io.util.AbstractFileConfig;
+import eu.securebit.gungame.io.util.IOUtil;
 
 public class CraftFileMessages extends AbstractFileConfig implements FileMessages {
 	
@@ -25,89 +26,89 @@ public class CraftFileMessages extends AbstractFileConfig implements FileMessage
 	
 	@Override
 	public String getJoinLobby() {
-		return this.prepare(super.config.getString("messages.player.join"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("messages.player.join"));
 	}
 
 	@Override
 	public String getQuitLobby() {
-		return this.prepare(super.config.getString("messages.player.quit"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("messages.player.quit"));
 	}
 	
 	@Override
 	public String getServerQuit() {
-		return this.prepare(super.config.getString("messages.player.serverquit"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("messages.player.serverquit"));
 	}
 
 	@Override
 	public String getCountdownLobby(int secondsLeft) {
 		String msg = super.config.getString("messages.countdown.lobby");
-		msg = this.replace(msg, "time", secondsLeft);
+		msg = IOUtil.replace(msg, "time", secondsLeft);
 		
-		return this.prepare(msg);
+		return IOUtil.prepare(this.getPrefix(), msg);
 	}
 
 	@Override
 	public String getCountdownGrace(int secondsLeft) {
 		String msg = super.config.getString("messages.countdown.grace");
-		msg = this.replace(msg, "time", secondsLeft);
+		msg = IOUtil.replace(msg, "time", secondsLeft);
 		
-		return this.prepare(msg);
+		return IOUtil.prepare(this.getPrefix(), msg);
 	}
 
 	@Override
 	public String getCountdownEnd(int secondsLeft) {
 		String msg = super.config.getString("messages.countdown.end");
-		msg = this.replace(msg, "time", secondsLeft);
+		msg = IOUtil.replace(msg, "time", secondsLeft);
 		
-		return this.prepare(msg);
+		return IOUtil.prepare(this.getPrefix(), msg);
 	}
 
 	@Override
 	public String getMapTeleport() {
-		return this.prepare(super.config.getString("messages.mapteleport"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("messages.mapteleport"));
 	}
 
 	@Override
 	public String getGracePeriodStarts() {
-		return this.prepare(super.config.getString("messages.graceperiod.start"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("messages.graceperiod.start"));
 	}
 
 	@Override
 	public String getGracePeriodEnds() {
-		return this.prepare(super.config.getString("messages.graceperiod.end"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("messages.graceperiod.end"));
 	}
 
 	@Override
 	public String getWinner(Player player) {
 		String msg = super.config.getString("messages.winner");
-		msg = this.replace(msg, "winner", player.getDisplayName());
+		msg = IOUtil.replace(msg, "winner", player.getDisplayName());
 		
-		return this.prepare(msg);
+		return IOUtil.prepare(this.getPrefix(), msg);
 	}
 
 	@Override
 	public String getKillBroadcast(Player victim, Player killer) {
 		String msg =  super.config.getString("messages.ingame.kill");
-		msg = this.replace(msg, "victim", victim.getDisplayName());
-		msg = this.replace(msg, "killer", killer.getDisplayName());
+		msg = IOUtil.replace(msg, "victim", victim.getDisplayName());
+		msg = IOUtil.replace(msg, "killer", killer.getDisplayName());
 		
-		return this.prepare(msg);
+		return IOUtil.prepare(this.getPrefix(), msg);
 	}
 
 	@Override
 	public String getDeathBroadcast(Player victim) {
 		String msg = super.config.getString("messages.ingame.death");
-		msg = this.replace(msg, "victim", victim.getDisplayName());
+		msg = IOUtil.replace(msg, "victim", victim.getDisplayName());
 		
-		return this.prepare(msg);
+		return IOUtil.prepare(this.getPrefix(), msg);
 	}
 
 	@Override
 	public String getRespawn(int level) {
 		String msg = super.config.getString("messages.ingame.respawn");
-		msg = this.replace(msg, "level", level);
+		msg = IOUtil.replace(msg, "level", level);
 		
-		return this.prepare(msg);
+		return IOUtil.prepare(this.getPrefix(), msg);
 	}
 	
 	public void addDefaults() {
@@ -127,20 +128,4 @@ public class CraftFileMessages extends AbstractFileConfig implements FileMessage
 		super.config.addDefault("messages.winner", "&e&lCongratulations! &r&e${winner} is the winner of this game!");
 	}
 	
-	private String prepare(String str) {
-		if (str == null) {
-			return null;
-		}
-		
-		return this.getPrefix() + ChatColor.translateAlternateColorCodes('&', str);
-	}
-	
-	private String replace(String str, String variable, Object value) {
-		if (str == null) {
-			return str;
-		}
-		
-		return str.replace("${" + variable + "}", String.valueOf(value));
-	}
-
 }
