@@ -68,6 +68,11 @@ public class GameStateIngame extends DefaultGameStateIngame<GunGame> {
 	}
 	
 	@Override
+	public String getMotD() {
+		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
+	}
+	
+	@Override
 	protected String onLogin(Player player) {
 		if (!player.hasPermission(Permissions.joinIngame())) {
 			return "The game is already running!"; //TODO Message

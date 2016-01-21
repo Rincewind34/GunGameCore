@@ -44,6 +44,11 @@ public class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
 	}
 	
 	@Override
+	public String getMotD() {
+		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
+	}
+	
+	@Override
 	protected void onJoin(Player player) {
 		super.onJoin(player);
 	}

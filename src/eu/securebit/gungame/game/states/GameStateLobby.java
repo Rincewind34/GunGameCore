@@ -56,8 +56,8 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	}
 	
 	@Override
-	public String getName() {
-		return "lobby";
+	public String getMotD() {
+		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
 	}
 
 	@Override

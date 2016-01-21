@@ -65,12 +65,17 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 	public void stageInformation(InfoLayout layout) {
 		layout.line("Seconds left: " + this.getCountdown().getSecondsLeft());
 	}
-
+	
 	@Override
 	public void updateScoreboard(GamePlayer player) {
 		// TODO
 	}
-
+	
+	@Override
+	public String getMotD() {
+		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
+	}
+	
 	@Override
 	protected String getMessageCountdown(int secondsleft) {
 		return this.getGame().getSettings().files().getMessages().getCountdownGrace(secondsleft);

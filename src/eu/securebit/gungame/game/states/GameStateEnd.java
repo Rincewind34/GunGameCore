@@ -68,12 +68,12 @@ public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 	public void updateScoreboard(GamePlayer player) {
 		// TODO
 	}
-
+	
 	@Override
-	public String getName() {
-		return "end";
+	public String getMotD() {
+		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
 	}
-
+	
 	@Override
 	protected String getMessageNotJoinable() {
 		return CoreMessages.serverNotJoinable();

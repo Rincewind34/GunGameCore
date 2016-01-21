@@ -21,6 +21,11 @@ public class GameStateSpawns extends DefaultGameStateSpawns<GunGame> {
 	public void stageInformation(InfoLayout layout) {
 		
 	}
+	
+	@Override
+	public String getMotD() {
+		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
+	}
 
 	@Override
 	public boolean intoSpreading(GamePlayer player) {

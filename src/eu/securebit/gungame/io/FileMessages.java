@@ -39,4 +39,6 @@ public interface FileMessages extends FileValidatable {
 	
 	public abstract String getRespawn(int level);
 	
+	public abstract String getMotD(String gamestate);
+	
 }

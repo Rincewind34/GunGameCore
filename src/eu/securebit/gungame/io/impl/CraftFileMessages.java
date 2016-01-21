@@ -126,6 +126,18 @@ public class CraftFileMessages extends AbstractFileConfig implements FileMessage
 		super.config.addDefault("messages.ingame.death", "&7The player &e${victim} &7died.");
 		super.config.addDefault("messages.ingame.respawn", "&7You are now level &e${level}&7.");
 		super.config.addDefault("messages.winner", "&e&lCongratulations! &r&e${winner} is the winner of this game!");
+		super.config.addDefault("motds.lobby.join", "Lobby");
+		super.config.addDefault("motds.lobby.full", "Lobby");
+		super.config.addDefault("motds.grace", "Grace");
+		super.config.addDefault("motds.ingame", "Ingame");
+		super.config.addDefault("motds.end", "Restarting");
+		super.config.addDefault("motds.maintenance", "Maintenance");
+	}
+
+	@Override
+	public String getMotD(String gamestate) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
