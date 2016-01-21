@@ -89,6 +89,11 @@ public abstract class DefaultGameStateLobby<G extends Game<? extends GamePlayer>
 		}
 	}
 	
+	@Override
+	public String getName() {
+		return "lobby";
+	}
+	
 	public Countdown getCountdown() {
 		return this.countdown;
 	}

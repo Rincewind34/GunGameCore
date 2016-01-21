@@ -70,6 +70,11 @@ public abstract class DefaultGameStateEnd<G extends Game<? extends GamePlayer>> 
 		}
 	}
 	
+	@Override
+	public String getName() {
+		return "end";
+	}
+	
 	protected String onLogin(Player player) {
 		return this.getMessageNotJoinable();
 	}

@@ -43,7 +43,7 @@ public abstract class DefaultGameStateDisabled<G extends Game<? extends GamePlay
 	
 	@Override
 	public String getName() {
-		return "disabled";
+		return "edit";
 	}
 	
 	@Override
