@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.NumberConversions;
 
+import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.exception.MalformedConfigException;
 import eu.securebit.gungame.io.FileGameConfig;
 import eu.securebit.gungame.io.FileLevels;
@@ -265,8 +266,7 @@ public abstract class CraftFileGameConfig extends AbstractFile implements FileGa
 		World world = Bukkit.getWorld(DataUtil.getFromCSV(csv, 1));
 		
 		if (world == null) {
-			System.err.println("Reading spawn point with id " + id + " failure, because the world does not exists, SKIPPING");
-			return null;
+			throw new GunGameException("Error while reading the world! Does it exist?");
 		}
 		
 		double x = NumberConversions.toDouble(DataUtil.getFromCSV(csv, 2));
@@ -274,6 +274,7 @@ public abstract class CraftFileGameConfig extends AbstractFile implements FileGa
 		double z = NumberConversions.toDouble(DataUtil.getFromCSV(csv, 4));
 		float yaw = NumberConversions.toFloat(DataUtil.getFromCSV(csv, 5));
 		float pitch = NumberConversions.toFloat(DataUtil.getFromCSV(csv, 6));
+		
 		return new Entry<Integer, Location>() {
 			
 			@Override
