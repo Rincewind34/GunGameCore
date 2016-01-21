@@ -38,6 +38,8 @@ public interface GameState extends Listener {
 	
 	public abstract String getName();
 	
+	public abstract String getMotD();
+	
 	public abstract Settings getSettings();
 	
 	public abstract List<Listener> getListeners();

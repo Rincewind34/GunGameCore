@@ -19,6 +19,7 @@ import lib.securebit.game.GameStateManager;
 import lib.securebit.game.GameStateManager.GameStateException;
 import lib.securebit.game.mapreset.MapReset;
 import lib.securebit.game.mapreset.SimpleMapReset;
+import lib.securebit.game.util.PingResult;
 
 public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	
@@ -42,6 +43,8 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 		
 		this.mapReset = new SimpleMapReset();
 	}
+	
+	public abstract int getSize();
 	
 	@Override
 	public List<P> getPlayers() {
@@ -206,6 +209,11 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	@Override
 	public GameStateManager<?> getManager() {
 		return this.manager;
+	}
+	
+	@Override
+	public PingResult pingGame() {
+		return new PingResult(this.manager.getCurrent().getMotD(), this.manager.getCurrent().getName(), this.players.size(), this.getSize());
 	}
 	
 	public void setManager(GameStateManager<?> manager) {

@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import lib.securebit.game.mapreset.MapReset;
+import lib.securebit.game.util.PingResult;
 
 public interface Game<P extends GamePlayer> extends Listener {
 	
@@ -50,5 +51,7 @@ public interface Game<P extends GamePlayer> extends Listener {
 	public abstract GameStateManager<?> getManager();
 	
 	public abstract MapReset getMapReset();
+	
+	public abstract PingResult pingGame();
 	
 }
