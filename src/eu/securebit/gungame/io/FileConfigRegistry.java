@@ -10,6 +10,8 @@ public interface FileConfigRegistry extends FileValidatable {
 	
 	public abstract void remove(String file);
 	
+	public abstract void clean();
+	
 	public abstract boolean contains(String file);
 	
 	public abstract String get(String file);

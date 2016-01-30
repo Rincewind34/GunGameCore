@@ -65,6 +65,15 @@ public class CraftFileConfigRegistry implements FileConfigRegistry {
 	}
 	
 	@Override
+	public void clean() {
+		for (String element : this.getEntry()) {
+			if (!new File(element.split(":")[0]).exists()) {
+				this.remove(element);
+			}
+		}
+	}
+	
+	@Override
 	public boolean contains(String file) {
 		List<String> entry = this.config.getStringList("files");
 		

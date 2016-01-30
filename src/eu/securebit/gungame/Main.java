@@ -56,6 +56,7 @@ public class Main extends JavaPlugin {
 	
 	private FileConfigRegistry fileRegistry;
 	private FileBootConfig fileBootConfig;
+	private File fileBootData;
 	
 	private List<Addon> addons;
 	
@@ -70,23 +71,113 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		ConsoleCommandSender sender = Bukkit.getConsoleSender();
 		Main.layout.message(sender, "Starting core...");
-		Main.layout.message(sender, "");
 		Main.layout.message(sender, "Running version: " + InfoLayout.replaceKeys(this.getDescription().getVersion()));
 		Main.layout.message(sender, "");
-		
-		this.fileRegistry = new CraftFileConfigRegistry();
-		
-		for (String element : this.fileRegistry.getEntry()) {
-			if (!new File(element.split(":")[0]).exists()) {
-				this.fileRegistry.remove(element);
-			}
-		}
 		
 		this.command = new CommandGunGame();
 		this.command.create();
 		
+		Main.layout.message(sender, "Loading files...");
+		this.loadFiles(sender);
+		Main.layout.message(sender, "Files loaded!");
+		Main.layout.message(sender, "");
+		Main.layout.message(sender, "Loading frame...");
+		this.loadFrame(sender);
+		Main.layout.message(sender, "");
+		
+		if (this.frame != null) {
+			this.checkBootfolder(sender);
+			
+			Main.layout.message(sender, "Enabling frame...");
+			Main.layout.message(sender, "§8================================");
+			
+			boolean frameEnabled = this.enableFrame();
+			
+			Main.layout.message(sender, "§8================================");
+			
+			if (frameEnabled) {
+				String name = InfoLayout.replaceKeys(this.frame.getName());
+				String version = InfoLayout.replaceKeys(this.frame.getVersion());
+				Main.layout.message(sender, "+Frame '+*" + name + "*+' version '+*" + InfoLayout.replaceKeys(version) + "*+' enabled!+");
+			} else {
+				Main.layout.message(sender, "-WARNING: No frame enabled!!!-");
+			}
+			
+			Main.layout.message(sender, "");
+		}
+		
+		this.manageAddons(sender);
+		Main.layout.message(sender, "+Core initialized!+");
+	}
+	
+	@Override
+	public void onDisable() {
+		ConsoleCommandSender sender = Bukkit.getConsoleSender();
+		
+		if (this.addons != null) {
+			for (Addon addon : this.addons) {
+				Main.layout.message(sender, "Disabling addon '" + InfoLayout.replaceKeys(addon.getName()) + "'...");
+				
+				try {
+					addon.disable();
+				} catch (Throwable ex) {
+					if (Main.DEBUG) {
+						ex.printStackTrace();
+					}
+					
+					this.printError(ex, "disabling addon");
+					continue;
+				}
+				
+				Main.layout.message(sender, "Addon disabled!");
+			}
+		}
+		
+		if (this.frame != null) {
+			Main.layout.message(sender, "Disabling frame...");
+			try {
+				this.frame.disable();
+			} catch (Throwable ex) {
+				if (Main.DEBUG) {
+					ex.printStackTrace();
+				}
+				
+				this.printError(ex, "disabling frame");
+			}
+			
+			Main.layout.message(sender, "Frame disabled!");
+		}
+	}
+	
+	public Frame getFrame() {
+		return this.frame;
+	}
+	
+	public ArgumentedCommand getCommand() {
+		return this.command;
+	}
+	
+	public FileConfigRegistry getFileRegistry() {
+		return this.fileRegistry;
+	}
+	
+	public FileBootConfig getFileBootConfig() {
+		return this.fileBootConfig;
+	}
+	
+	private void printError(Throwable ex, String when) {
+		Main.layout.message(Bukkit.getConsoleSender(), "-Error while " + when + " (" + ex.getClass().getSimpleName() + "): " + 
+				InfoLayout.replaceKeys(ex.getMessage() != null ? ex.getMessage() : ">>NULL<<") + "-");
+	}
+	
+	private void loadFiles(ConsoleCommandSender sender) {
+		this.fileRegistry = new CraftFileConfigRegistry();
+		this.fileRegistry.clean();
+		Main.layout.message(sender, "  Configregistry loaded!");
+		
 		this.fileBootConfig = new CraftFileBootConfig(this);
 		this.fileBootConfig.initialize();
+		Main.layout.message(sender, "  Bootconfig loaded!");
 		
 		ConfigError[] errors = this.fileBootConfig.validate();
 		
@@ -95,22 +186,46 @@ public class Main extends JavaPlugin {
 		}
 		
 		if (errors.length > 0) {
-			Main.layout.message(sender, "-=> " + errors.length + " errors-");
-			Main.layout.message(sender, "-The server goes to sleep!-");
+			Main.layout.message(sender, "§4=> " + errors.length + " errors");
+			Main.layout.message(sender, "§4The server goes to sleep!");
 			Bukkit.shutdown();
 			return;
 		}
 		
-		Main.layout.message(sender, "Resolving colorset...");
+		Main.layout.message(sender, "  Resolving colorset...");
 		this.fileBootConfig.getColorSet().prepare(Main.layout);
 		
-		Main.layout.message(sender, "Loading frame...");
+		Main.layout.message(sender, "  Loading bootfolder...");
 		
-		File fileBootData = new File(this.fileBootConfig.getBootFolder(), ".bootdata.yml");
+		this.fileBootData = new File(this.fileBootConfig.getBootFolder(), ".bootdata.yml");
+		Main.layout.message(sender, "    '.bootdata.yml' loaded!");
 		
+		if (this.fileBootData.exists()) {
+			if (this.fileBootData.isDirectory()) {
+				Main.layout.message(sender, "-Error while loading bootfolder: '.bootdata.yml' is a directory! Delete it to fix this error!-");
+				this.fileBootData = null;
+				return;
+			}
+		} else {
+			try {
+				this.fileBootData.createNewFile();
+			} catch (IOException ex) {
+				if (Main.DEBUG) {
+					ex.printStackTrace();
+				}
+				
+				this.printError(ex, "creating '.bootdata.yml'");
+				this.fileBootData = null;
+				return;
+			}
+		}
+	}
+	
+	private void loadFrame(ConsoleCommandSender sender) {
 		try {
 			FrameLoader loader = new CraftFrameLoader(this.fileBootConfig.getFrameJar());
 			this.frame = loader.load();
+			Main.layout.message(sender, "Frame loaded!");
 		} catch (Throwable ex) {
 			if (Main.DEBUG) {
 				ex.printStackTrace();
@@ -118,84 +233,51 @@ public class Main extends JavaPlugin {
 			
 			this.frame = null;
 			
-			Main.layout.message(sender, "-Error while loading frame: " + InfoLayout.replaceKeys(ex.getMessage() != null ? ex.getMessage() : ">>NULL<<") + "-");
+			this.printError(ex, "loading frame");
 		}
+	}
+	
+	private void checkBootfolder(ConsoleCommandSender sender) {
+		int id = this.frame.getFrameId();
 		
-		boolean frameEnabled = false;
-		
-		enableFrame: {
-			if (this.frame != null) {
-				int id = this.frame.getFrameId();
-				
-				if (fileBootData.exists()) {
-					if (fileBootData.isDirectory()) {
-						Main.layout.message(sender, "-Error while loading bootfolder: '.bootdata.yml' is a directory! Delete it to fix this error!-");
-						break enableFrame;
-					}
-				} else {
-					try {
-						fileBootData.createNewFile();
-					} catch (IOException e) {
-						if (Main.DEBUG) {
-							e.printStackTrace();
-						}
-						
-						Main.layout.message(sender, "-Error while creating '.bootdata.yml' in the bootfolder: " + InfoLayout.replaceKeys(e.getMessage()) + "-");
-						break enableFrame;
-					}
-				}
-				
-				try {
-					FileConfiguration bootDataConfig = YamlConfiguration.loadConfiguration(fileBootData);
-					
-					if (!bootDataConfig.contains("id") || !bootDataConfig.isInt("id")) {
-						bootDataConfig.set("id", id);
-						bootDataConfig.save(fileBootData);
-					}
-					
-					if (bootDataConfig.getInt("id") != id) {
-						Main.layout.message(sender, "-Error while setting up bootfolder: The folder is already in use by another frametype!-");
-						break enableFrame;
-					}
-				} catch (Throwable ex) {
-					if (Main.DEBUG) {
-						ex.printStackTrace();
-					}
-					
-					Main.layout.message(sender, "-Error while setting up bootfolder: " + InfoLayout.replaceKeys(ex.getMessage() != null ? ex.getMessage() : ">>NULL<<") + "-");
-					break enableFrame;
-				}
-				
-				Main.layout.message(sender, "Enabling frame...");
-				Main.layout.message(sender, "§8================");
-				
-				FrameProperties properties = new FrameProperties(this.fileBootConfig.getBootFolder());
-				
-				try {
-					this.frame.enable(properties);
-					frameEnabled = true;
-				} catch (Throwable ex) {
-					if (Main.DEBUG) {
-						ex.printStackTrace();
-					}
-					
-					Main.layout.message(sender, "-Error while enabling frame: " + InfoLayout.replaceKeys(ex.getMessage() != null ? ex.getMessage() : ">>NULL<<") + "-");
-				}
-				
-				Main.layout.message(sender, "§8================");
+		try {
+			FileConfiguration bootDataConfig = YamlConfiguration.loadConfiguration(this.fileBootData);
+			
+			if (!bootDataConfig.contains("id") || !bootDataConfig.isInt("id")) {
+				bootDataConfig.set("id", id);
+				bootDataConfig.save(this.fileBootData);
 			}
+			
+			if (bootDataConfig.getInt("id") != id) {
+				Main.layout.message(sender, "-Error while checking bootfolder: The folder is already in use by another frametype!-");
+			}
+		} catch (Throwable ex) {
+			if (Main.DEBUG) {
+				ex.printStackTrace();
+			}
+			
+			this.printError(ex, "checking bootfolder");
+		}
+	}
+	
+	private boolean enableFrame() {
+		FrameProperties properties = new FrameProperties(this.fileBootConfig.getBootFolder());
+		
+		try {
+			this.frame.enable(properties);
+		} catch (Throwable ex) {
+			if (Main.DEBUG) {
+				ex.printStackTrace();
+			}
+			
+			this.printError(ex, "enabling frame");
+			return false;
 		}
 		
-		if (frameEnabled) {
-			String name = InfoLayout.replaceKeys(this.frame.getName());
-			String version = InfoLayout.replaceKeys(this.frame.getVersion());
-			Main.layout.message(sender, "+Frame '+*" + name + "*+' version '+*" + InfoLayout.replaceKeys(version) + "*+' enabled!+");
-		} else {
-			Main.layout.message(sender, "-WARNING: No frame enabled!!!-");
-		}
-		
-		Main.layout.message(sender, "");
-		
+		return true;
+	}
+	
+	private void manageAddons(ConsoleCommandSender sender) {
 		File addonDir = new File(this.getDataFolder(), "addons");
 		
 		if (addonDir.exists() && !addonDir.isDirectory()) {
@@ -226,7 +308,7 @@ public class Main extends JavaPlugin {
 							ex.printStackTrace();
 						}
 						
-						Main.layout.message(sender, "-Error while loading addon: " + InfoLayout.replaceKeys(ex.getMessage() != null ? ex.getMessage() : ">>NULL<<") + "-");
+						this.printError(ex, "loading addon");
 						continue;
 					}
 					
@@ -259,9 +341,7 @@ public class Main extends JavaPlugin {
 							Main.layout.message(sender, "-The addon -'*" + addon.getName() + "*'- cannot be enabled without a frame! => SKIPPING-");
 							misses = misses + 1;
 							continue addons;
-						}
-						
-						if (addon.getIncompatibleFrames().contains(this.frame.getFrameId())) {
+						} else if (this.frame != null && addon.getIncompatibleFrames().contains(this.frame.getFrameId())) {
 							Main.layout.message(sender, "-The currently loaded frame is incompatible with the addon -'*" + addon.getName() + "*'-! => SKIPPING-");
 							misses = misses + 1;
 							continue addons;
@@ -282,7 +362,7 @@ public class Main extends JavaPlugin {
 								ex.printStackTrace();
 							}
 							
-							Main.layout.message(sender, "-Error while enabling addon: " + InfoLayout.replaceKeys(ex.getMessage() != null ? ex.getMessage() : ">>NULL<<") + "-");
+							this.printError(ex, "enabling addon");
 							continue;
 						}
 						
@@ -301,63 +381,6 @@ public class Main extends JavaPlugin {
 				Main.layout.message(sender, "No addon found!");
 			}
 		}
-		
-		Main.layout.message(sender, "+Core initialized!+");
-	}
-	
-	@Override
-	public void onDisable() {
-		ConsoleCommandSender sender = Bukkit.getConsoleSender();
-		
-		if (this.addons != null) {
-			for (Addon addon : this.addons) {
-				Main.layout.message(sender, "Disabling addon '" + InfoLayout.replaceKeys(addon.getName()) + "'...");
-				
-				try {
-					addon.disable();
-				} catch (Throwable ex) {
-					if (Main.DEBUG) {
-						ex.printStackTrace();
-					}
-					
-					Main.layout.message(sender, "-Error while disabling addon: " + InfoLayout.replaceKeys(ex.getMessage() != null ? ex.getMessage() : ">>NULL<<") + "-");
-					continue;
-				}
-				
-				Main.layout.message(sender, "Addon disabled!");
-			}
-		}
-		
-		if (this.frame != null) {
-			Main.layout.message(sender, "Disabling frame...");
-			try {
-				this.frame.disable();
-			} catch (Throwable ex) {
-				if (Main.DEBUG) {
-					ex.printStackTrace();
-				}
-				
-				Main.layout.message(sender, "-Error while disabling frame: " + InfoLayout.replaceKeys(ex.getMessage() != null ? ex.getMessage() : ">>NULL<<") + "-");
-			}
-			
-			Main.layout.message(sender, "Frame disabled!");
-		}
-	}
-	
-	public Frame getFrame() {
-		return this.frame;
-	}
-	
-	public ArgumentedCommand getCommand() {
-		return this.command;
-	}
-	
-	public FileConfigRegistry getFileRegistry() {
-		return this.fileRegistry;
-	}
-	
-	public FileBootConfig getFileBootConfig() {
-		return this.fileBootConfig;
 	}
 	
 }
