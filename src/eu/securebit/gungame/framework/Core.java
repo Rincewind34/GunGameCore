@@ -18,6 +18,12 @@ import eu.securebit.gungame.Main;
 import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.framework.Settings.SettingsLocations;
 import eu.securebit.gungame.game.GunGame;
+import eu.securebit.gungame.game.states.DisabledStateEdit;
+import eu.securebit.gungame.game.states.GameStateEnd;
+import eu.securebit.gungame.game.states.GameStateGrace;
+import eu.securebit.gungame.game.states.GameStateIngame;
+import eu.securebit.gungame.game.states.GameStateLobby;
+import eu.securebit.gungame.game.states.GameStateSpawns;
 import eu.securebit.gungame.io.FileBootConfig;
 
 public class Core {
@@ -28,6 +34,15 @@ public class Core {
 	public static Class<? extends GameState> STATE_INGAME;
 	public static Class<? extends GameState> STATE_END;
 	public static Class<? extends GameState> STATE_DISABLED;
+	
+	static {
+		Core.STATE_LOBBY = GameStateLobby.class;
+		Core.STATE_SPAWNS = GameStateSpawns.class;
+		Core.STATE_GRACE = GameStateGrace.class;
+		Core.STATE_INGAME = GameStateIngame.class;
+		Core.STATE_END = GameStateEnd.class;
+		Core.STATE_DISABLED = DisabledStateEdit.class;
+	}
 	
 	@SuppressWarnings("unchecked")
 	public static <T extends GunGame> T createNewGameInstance(Class<T> gameClass, Object... values) {
