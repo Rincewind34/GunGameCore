@@ -18,8 +18,9 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 				Permissions.premium(), Permissions.teammember(),
 				gungame.getSettings().options().getMaxPlayerCount(),
 				gungame.getSettings().options().getMinPlayerCount(),
+				0, //TODO config premiumSlots
 				gungame.getSettings().options().getLobbyCountdownLength(),
-				true);
+				true, true); //TODO config premiumKick
 		
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, gungame.getSettings().files().getMessages().getJoinLobby());
 		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().files().getMessages().getQuitLobby());
