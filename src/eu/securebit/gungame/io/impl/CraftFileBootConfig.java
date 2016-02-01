@@ -57,6 +57,12 @@ public class CraftFileBootConfig implements FileBootConfig {
 			status.add(ConfigError.MISSING_FRAME_FILE);
 		}
 		
+		try {
+			this.getColorSet();
+		} catch (GunGameException ex) {
+			status.add(ConfigError.INVALID_COLOR_SET);
+		}
+		
 		return status.toArray(new ConfigError[status.size()]);
 	}
 

@@ -9,7 +9,7 @@ public enum ConfigError {
 	MISSING_FRAME_FILE
 	("Cannot find specified frame! Maybe, there is a directory on the specified path!"),
 	
-	INVALID_CALOR_SET
+	INVALID_COLOR_SET
 	("Could not resolve the given colorset! Delete the configfile to reset the entries!"),
 	
 	CONFIG_MALFORMED
