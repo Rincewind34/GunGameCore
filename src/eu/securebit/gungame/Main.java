@@ -86,21 +86,22 @@ public class Main extends JavaPlugin {
 		Main.layout.message(sender, "");
 		
 		if (this.frame != null) {
-			this.checkBootfolder(sender);
-			
-			Main.layout.message(sender, "Enabling frame...");
-			Main.layout.message(sender, "§8================================");
-			
-			boolean frameEnabled = this.enableFrame();
-			
-			Main.layout.message(sender, "§8================================");
-			
-			if (frameEnabled) {
-				String name = InfoLayout.replaceKeys(this.frame.getName());
-				String version = InfoLayout.replaceKeys(this.frame.getVersion());
-				Main.layout.message(sender, "+Frame '+*" + name + "*+' version '+*" + InfoLayout.replaceKeys(version) + "*+' enabled!+");
-			} else {
-				Main.layout.message(sender, "-WARNING: No frame enabled!!!-");
+			if (this.checkBootfolder(sender)) {
+				Main.layout.message(sender, "Enabling frame...");
+				Main.layout.message(sender, "§8================================");
+				
+				boolean frameEnabled = this.enableFrame();
+				
+				Main.layout.message(sender, "§8================================");
+				
+				if (frameEnabled) {
+					String name = InfoLayout.replaceKeys(this.frame.getName());
+					String version = InfoLayout.replaceKeys(this.frame.getVersion());
+					Main.layout.message(sender, "+Frame '+*" + name + "*+' version '+*" + InfoLayout.replaceKeys(version) + "*+' enabled!+");
+				} else {
+					Main.layout.message(sender, "-WARNING: No frame enabled!!!-");
+				}
+				
 			}
 			
 			Main.layout.message(sender, "");
@@ -173,11 +174,11 @@ public class Main extends JavaPlugin {
 	private void loadFiles(ConsoleCommandSender sender) {
 		this.fileRegistry = new CraftFileConfigRegistry();
 		this.fileRegistry.clean();
-		Main.layout.message(sender, "  Configregistry loaded!");
+		Main.layout.message(sender, "Configregistry loaded!");
 		
 		this.fileBootConfig = new CraftFileBootConfig(this);
 		this.fileBootConfig.initialize();
-		Main.layout.message(sender, "  Bootconfig loaded!");
+		Main.layout.message(sender, "Bootconfig loaded!");
 		
 		ConfigError[] errors = this.fileBootConfig.validate();
 		
@@ -192,13 +193,13 @@ public class Main extends JavaPlugin {
 			return;
 		}
 		
-		Main.layout.message(sender, "  Resolving colorset...");
+		Main.layout.message(sender, "Resolving colorset...");
 		this.fileBootConfig.getColorSet().prepare(Main.layout);
 		
-		Main.layout.message(sender, "  Loading bootfolder...");
+		Main.layout.message(sender, "Loading bootfolder...");
 		
 		this.fileBootData = new File(this.fileBootConfig.getBootFolder(), ".bootdata.yml");
-		Main.layout.message(sender, "    '.bootdata.yml' loaded!");
+		Main.layout.message(sender, "'.bootdata.yml' loaded!");
 		
 		if (this.fileBootData.exists()) {
 			if (this.fileBootData.isDirectory()) {
@@ -237,7 +238,7 @@ public class Main extends JavaPlugin {
 		}
 	}
 	
-	private void checkBootfolder(ConsoleCommandSender sender) {
+	private boolean checkBootfolder(ConsoleCommandSender sender) {
 		int id = this.frame.getFrameId();
 		
 		try {
@@ -250,6 +251,7 @@ public class Main extends JavaPlugin {
 			
 			if (bootDataConfig.getInt("id") != id) {
 				Main.layout.message(sender, "-Error while checking bootfolder: The folder is already in use by another frametype!-");
+				return false;
 			}
 		} catch (Throwable ex) {
 			if (Main.DEBUG) {
@@ -257,7 +259,10 @@ public class Main extends JavaPlugin {
 			}
 			
 			this.printError(ex, "checking bootfolder");
+			return false;
 		}
+		
+		return true;
 	}
 	
 	private boolean enableFrame() {
