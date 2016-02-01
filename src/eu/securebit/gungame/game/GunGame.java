@@ -89,7 +89,7 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 		if (this.getPlayers().size() == 0) {
 			this.playConsoleMessage(Main.layout().format("Shutdown!"));
 			
-			this.actionInterface.shutdown();
+			this.shutdown();
 		}
 	}
 	
@@ -102,5 +102,7 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 	}
 	
 	public abstract boolean isReady();
+	
+	public abstract void shutdown();
 	
 }

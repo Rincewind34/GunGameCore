@@ -8,8 +8,6 @@ import eu.securebit.gungame.game.GameOption;
 
 public interface ActionInterface {
 	
-public abstract void shutdown();
-	
 	public abstract void stageEditInformation(InfoLayout layout);
 	
 	public abstract void removeSpawn(int id);
