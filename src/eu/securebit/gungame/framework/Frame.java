@@ -9,6 +9,7 @@ import eu.securebit.gungame.errors.Error;
 import eu.securebit.gungame.errors.SimpleError;
 import eu.securebit.gungame.errors.SimpleFixableError;
 import eu.securebit.gungame.game.GunGame;
+import eu.securebit.gungame.ioutil.IOUtil;
 
 public abstract class Frame {
 	
@@ -57,6 +58,14 @@ public abstract class Frame {
 	
 	public final File getDataFolder() {
 		return this.dataFolder;
+	}
+	
+	public final String getDataFolderRelativPath() {
+		return IOUtil.preparePath(this.getDataFolderAbsolutePath());
+	}
+	
+	public final String getDataFolderAbsolutePath() {
+		return this.dataFolder.getAbsolutePath();
 	}
 	
 	public abstract void onEnable();

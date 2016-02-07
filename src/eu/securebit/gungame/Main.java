@@ -87,9 +87,10 @@ public class Main extends JavaPlugin {
 			Main.layout.message(sender, "Could not load all files!");
 		}
 		
+		Main.layout.message(sender, "");
+		
 		this.rootDirectory.resolveColorSet();
 		
-		Main.layout.message(sender, "");
 		Main.layout.message(sender, "Loading frame...");
 		
 		if (this.loadFrame(sender)) {

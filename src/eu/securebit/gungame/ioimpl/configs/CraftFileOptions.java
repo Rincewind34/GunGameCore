@@ -6,7 +6,6 @@ import java.util.List;
 
 import eu.securebit.gungame.errors.ErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
-import eu.securebit.gungame.io.configs.FileGameConfig;
 import eu.securebit.gungame.io.configs.FileOptions;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
 import eu.securebit.gungame.util.ConfigDefault;
