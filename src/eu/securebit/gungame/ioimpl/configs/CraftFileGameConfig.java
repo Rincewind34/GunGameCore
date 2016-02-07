@@ -36,9 +36,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 		CraftFileGameConfig.defaults.add(new ConfigDefault("files.levels", dataFolder + "levels.yml", String.class));
 		CraftFileGameConfig.defaults.add(new ConfigDefault("files.messages", dataFolder + "messages.yml", String.class));
 		CraftFileGameConfig.defaults.add(new ConfigDefault("files.scoreboard", dataFolder + "scoreboard.yml", String.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("options.reset-level", false, boolean.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("options.autorespawn", true, boolean.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("options.care-natural-death", true, boolean.class));
+		CraftFileGameConfig.defaults.add(new ConfigDefault("files.options", dataFolder + "options.yml", String.class));
 		CraftFileGameConfig.defaults.add(new ConfigDefault("start-level", 1, int.class));
 		CraftFileGameConfig.defaults.add(new ConfigDefault("playercount.minimal", 1, int.class));
 		CraftFileGameConfig.defaults.add(new ConfigDefault("playercount.maximal", 3, int.class));
@@ -70,33 +68,6 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 		}
 		
 		return super.config.getBoolean("muted");
-	}
-
-	@Override
-	public boolean isLevelResetAfterDeath() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
-		
-		return super.config.getBoolean("options.reset-level");
-	}
-
-	@Override
-	public boolean isAutoRespawn() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
-		
-		return super.config.getBoolean("options.autorespawn");
-	}
-
-	@Override
-	public boolean isLevelDowngradeOnNaturalDeath() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
-		
-		return super.config.getBoolean("options.care-natural-death");
 	}
 
 	@Override
@@ -167,6 +138,15 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 		}
 		
 		return super.config.getString("files.scoreboard");
+	}
+	
+	@Override
+	public String getFileOptionsLocation() {
+		if (!this.isAccessable()) {
+			throw new GunGameErrorPresentException();
+		}
+		
+		return super.config.getString("files.options");
 	}
 	
 	@Override
@@ -253,37 +233,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 		super.config.set("muted", muted);
 		this.save();
 	}
-
-	@Override
-	public void setLevelResetAfterDeath(boolean enabled) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
-		
-		super.config.set("options.reset-level", enabled);
-		this.save();
-	}
-
-	@Override
-	public void setAutoRespawn(boolean enabled) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
-		
-		super.config.set("options.autorespawn", enabled);
-		this.save();
-	}
-
-	@Override
-	public void setLevelDowngradeOnNaturalDeath(boolean enabled) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
-		
-		super.config.set("options.care-natural-death", enabled);
-		this.save();
-	}
-
+	
 	@Override
 	public void setStartLevel(int level) {
 		if (!this.isAccessable()) {

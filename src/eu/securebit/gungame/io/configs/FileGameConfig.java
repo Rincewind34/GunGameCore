@@ -82,12 +82,6 @@ public interface FileGameConfig extends FileIdentifyable, FileConfig {
 	
 	public abstract boolean isMuted();
 	
-	public abstract boolean isLevelResetAfterDeath();
-	
-	public abstract boolean isAutoRespawn();
-	
-	public abstract boolean isLevelDowngradeOnNaturalDeath();
-	
 	public abstract boolean isSpawn(int id);
 	
 	public abstract int getStartLevel();
@@ -102,6 +96,8 @@ public interface FileGameConfig extends FileIdentifyable, FileConfig {
 	
 	public abstract String getFileScoreboardLocation();
 	
+	public abstract String getFileOptionsLocation();
+	
 	public abstract Location getLocationLobby();
 	
 	public abstract Location getSpawnById(int id);
@@ -110,18 +106,9 @@ public interface FileGameConfig extends FileIdentifyable, FileConfig {
 	
 	public abstract Map<Integer, Location> getSpawnsMap();
 	
-	
-	// ---------- Write Access ---------- //
-	
 	public abstract void setEditMode(boolean enabled);
 	
 	public abstract void setMuted(boolean muted);
-	
-	public abstract void setLevelResetAfterDeath(boolean enabled);
-	
-	public abstract void setAutoRespawn(boolean enabled);
-	
-	public abstract void setLevelDowngradeOnNaturalDeath(boolean enabled);
 	
 	public abstract void setStartLevel(int level);
 	

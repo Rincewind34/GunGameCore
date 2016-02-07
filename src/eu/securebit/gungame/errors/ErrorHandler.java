@@ -30,6 +30,7 @@ public class ErrorHandler {
 	static {
 		ErrorHandler.errors.put(RootDirectory.ERROR_MAIN, RootDirectory.createErrorMain());
 		ErrorHandler.errors.put(RootDirectory.ERROR_FILE, RootDirectory.createErrorFile());
+		ErrorHandler.errors.put(RootDirectory.ERROR_CREATE, RootDirectory.createErrorCreate());
 		ErrorHandler.errors.put(FileConfigRegistry.ERROR_MAIN, FileConfigRegistry.createErrorMain());
 		ErrorHandler.errors.put(FileConfigRegistry.ERROR_LOAD, FileConfigRegistry.createErrorLoad());
 		ErrorHandler.errors.put(FileConfigRegistry.ERROR_FOLDER, FileConfigRegistry.createErrorFolder());
@@ -43,8 +44,10 @@ public class ErrorHandler {
 		ErrorHandler.errors.put(FileBootConfig.ERROR_MALFORMED, FileBootConfig.createErrorMalformed());
 		ErrorHandler.errors.put(AddonDirectory.ERROR_MAIN, AddonDirectory.createErrorMain());
 		ErrorHandler.errors.put(AddonDirectory.ERROR_FILE, AddonDirectory.createErrorFile());
+		ErrorHandler.errors.put(AddonDirectory.ERROR_CREATE, AddonDirectory.createErrorCreate());
 		ErrorHandler.errors.put(BootDirectory.ERROR_MAIN, BootDirectory.createErrorMain());
 		ErrorHandler.errors.put(BootDirectory.ERROR_FILE, BootDirectory.createErrorFile());
+		ErrorHandler.errors.put(BootDirectory.ERROR_CREATE, BootDirectory.createErrorCreate());
 		ErrorHandler.errors.put(BootDirectory.ERROR_BOOTDATA_FOLDER, BootDirectory.createErrorBootdataFolder());
 		ErrorHandler.errors.put(BootDirectory.ERROR_BOOTDATA_CREATE, BootDirectory.createErrorBootdataCreate());
 		ErrorHandler.errors.put(BootDirectory.ERROR_BOOTDATA_MALFORMED, BootDirectory.createErrorBootdataMalformed());

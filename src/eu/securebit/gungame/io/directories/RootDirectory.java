@@ -13,6 +13,7 @@ import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 import eu.securebit.gungame.io.configs.FileGameConfig;
 import eu.securebit.gungame.io.configs.FileLevels;
 import eu.securebit.gungame.io.configs.FileMessages;
+import eu.securebit.gungame.io.configs.FileOptions;
 import eu.securebit.gungame.io.configs.FileScoreboard;
 
 public interface RootDirectory extends Directory {
@@ -87,6 +88,12 @@ public interface RootDirectory extends Directory {
 	public abstract FileLevels getLevelsFile(String relativPath);
 	
 	public abstract FileLevels getLevelsFile(File file);
+	
+	public abstract FileOptions getOptionsFile(String directory, String name);
+	
+	public abstract FileOptions getOptionsFile(String relativPath);
+	
+	public abstract FileOptions getOptionsFile(File file);
 	
 	public abstract FileGameConfig getGameConfigFile(String directory, String name, World lobbyWorld);
 	
