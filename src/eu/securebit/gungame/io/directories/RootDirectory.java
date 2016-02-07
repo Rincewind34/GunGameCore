@@ -10,10 +10,10 @@ import eu.securebit.gungame.errors.SimpleError;
 import eu.securebit.gungame.errors.SimpleFixableError;
 import eu.securebit.gungame.io.abstracts.Directory;
 import eu.securebit.gungame.io.abstracts.FileIdentifyable;
-import eu.securebit.gungame.io.game.FileGameConfig;
-import eu.securebit.gungame.io.game.FileLevels;
-import eu.securebit.gungame.io.game.FileMessages;
-import eu.securebit.gungame.io.game.FileScoreboard;
+import eu.securebit.gungame.io.configs.FileGameConfig;
+import eu.securebit.gungame.io.configs.FileLevels;
+import eu.securebit.gungame.io.configs.FileMessages;
+import eu.securebit.gungame.io.configs.FileScoreboard;
 
 public interface RootDirectory extends Directory {
 	

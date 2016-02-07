@@ -14,13 +14,13 @@ import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.framework.Frame;
 import eu.securebit.gungame.io.FileBootConfig;
 import eu.securebit.gungame.io.FileConfigRegistry;
+import eu.securebit.gungame.io.configs.FileGameConfig;
+import eu.securebit.gungame.io.configs.FileLevels;
+import eu.securebit.gungame.io.configs.FileMessages;
+import eu.securebit.gungame.io.configs.FileScoreboard;
 import eu.securebit.gungame.io.directories.AddonDirectory;
 import eu.securebit.gungame.io.directories.BootDirectory;
 import eu.securebit.gungame.io.directories.RootDirectory;
-import eu.securebit.gungame.io.game.FileGameConfig;
-import eu.securebit.gungame.io.game.FileLevels;
-import eu.securebit.gungame.io.game.FileMessages;
-import eu.securebit.gungame.io.game.FileScoreboard;
 import eu.securebit.gungame.util.ColorSet;
 
 public class ErrorHandler {

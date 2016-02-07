@@ -1,4 +1,4 @@
-package eu.securebit.gungame.ioimpl.game;
+package eu.securebit.gungame.ioimpl.configs;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,8 +17,8 @@ import eu.securebit.gungame.errors.ErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.framework.Core;
-import eu.securebit.gungame.io.game.FileGameConfig;
-import eu.securebit.gungame.io.game.FileLevels;
+import eu.securebit.gungame.io.configs.FileGameConfig;
+import eu.securebit.gungame.io.configs.FileLevels;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
 import eu.securebit.gungame.ioutil.ConfigUtil;
 import eu.securebit.gungame.ioutil.DataUtil;

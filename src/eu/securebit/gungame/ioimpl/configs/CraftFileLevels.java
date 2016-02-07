@@ -1,4 +1,4 @@
-package eu.securebit.gungame.ioimpl.game;
+package eu.securebit.gungame.ioimpl.configs;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import eu.securebit.gungame.errors.ErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.InvalidLevelException;
-import eu.securebit.gungame.io.game.FileLevels;
+import eu.securebit.gungame.io.configs.FileLevels;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
 import eu.securebit.gungame.ioutil.ItemSerializer;
 import eu.securebit.gungame.util.ConfigDefault;

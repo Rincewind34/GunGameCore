@@ -1,4 +1,4 @@
-package eu.securebit.gungame.ioimpl.game;
+package eu.securebit.gungame.ioimpl.configs;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.errors.ErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
-import eu.securebit.gungame.io.game.FileMessages;
+import eu.securebit.gungame.io.configs.FileMessages;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
 import eu.securebit.gungame.ioutil.IOUtil;
 import eu.securebit.gungame.util.ConfigDefault;
@@ -202,7 +202,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 
 	@Override
 	public String getMotD(String gamestate) {
-		// TODO
+		// TODO motd
 		return null;
 	}
 

@@ -1,4 +1,4 @@
-package eu.securebit.gungame.ioimpl.game;
+package eu.securebit.gungame.ioimpl.configs;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import org.bukkit.ChatColor;
 
 import eu.securebit.gungame.errors.ErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
-import eu.securebit.gungame.io.game.FileScoreboard;
+import eu.securebit.gungame.io.configs.FileScoreboard;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
 import eu.securebit.gungame.util.ConfigDefault;
 

@@ -1,4 +1,4 @@
-package eu.securebit.gungame.io.game;
+package eu.securebit.gungame.io.configs;
 
 import org.bukkit.entity.Player;
 
