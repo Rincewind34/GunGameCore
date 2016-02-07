@@ -165,7 +165,7 @@ public class ErrorHandler {
 		}
 	}
 	
-	public List<String> getExtendingError(String id) {
+	public String getCause(String id) {
 		if (!ErrorHandler.errors.containsKey(id)) {
 			throw new GunGameException("The errorid '" + id + "' is unknown!");
 		}
@@ -174,10 +174,18 @@ public class ErrorHandler {
 			throw new GunGameException("The error '" + id + "' is not present!");
 		}
 		
-		List<String> list = new ArrayList<>();
+		String targetError = null;
 		
 		for (String error : this.thrownErrors) {
-			
+			if (ErrorHandler.errors.get(error).getSuperErrors().contains(id)) {
+				targetError = error;
+			}
+		}
+		
+		if (targetError == null) {
+			return id;
+		} else {
+			return this.getCause(targetError);
 		}
 	}
 	
