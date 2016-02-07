@@ -86,6 +86,15 @@ public class IOUtil {
 		
 		return str.replace("${" + variable + "}", String.valueOf(value));
 	}
-
+	
+	public static String preparePath(String path) {
+		String index = "plugins/GunGame";
+		
+		if (path.contains(index)) {
+			path = path.substring(path.lastIndexOf(index) + index.length(), path.length());
+		}
+		
+		return path;
+	}
 	
 }

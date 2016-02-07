@@ -5,6 +5,7 @@ import java.io.File;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errors.ErrorHandler;
 import eu.securebit.gungame.io.abstracts.SimpleFile;
+import eu.securebit.gungame.ioutil.IOUtil;
 
 public abstract class AbstractFile implements SimpleFile {
 	
@@ -61,14 +62,7 @@ public abstract class AbstractFile implements SimpleFile {
 	}
 	
 	protected void throwError(String error) {
-		String path = this.file.getAbsolutePath();
-		String index = "plugins/GunGame";
-		
-		if (path.contains(index)) {
-			path = path.substring(path.lastIndexOf(index) + index.length(), path.length());
-		}
-		
-		this.handler.throwError(error, null, path);
+		this.handler.throwError(error, null, IOUtil.preparePath(this.file.getAbsolutePath()));
 	}
 	
 	protected String getErrorMain() {
