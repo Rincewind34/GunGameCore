@@ -146,4 +146,8 @@ public class CoreMessages {
 		return Main.layout().format("\\preEnter */rl* to update the changes!");
 	}
 	
+	public static String frameDisabled() {
+		return Main.layout().format("\\pre-The frame is not enabled!-");
+	}
+	
 }

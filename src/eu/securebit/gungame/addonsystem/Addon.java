@@ -3,7 +3,37 @@ package eu.securebit.gungame.addonsystem;
 import java.io.File;
 import java.util.List;
 
+import eu.securebit.gungame.errors.Error;
+import eu.securebit.gungame.errors.SimpleError;
+
 public abstract class Addon {
+	
+	public static final String ERROR_INIT = "4|000|000|000";
+	
+	public static String errorLoad(String addon) {
+		return "5|000|000|000-" + addon;
+	}
+	
+	public static String errorLoadMainclass(String addon) {
+		return "5|001|000|000-" + addon;
+	}
+	
+	public static String errorEnable(String addon) {
+		return "6|000|000|000-" + addon;
+	}
+	
+	public static Error createErrorLoad(String addon) {
+		return new SimpleError("The addon '" + addon + "' could not be loaded!", Addon.errorEnable(addon));
+	}
+	
+	public static Error createErrorLoadMainclass(String addon) {
+		return new SimpleError("No mainclass in the addon '" + addon + "' found!", Addon.errorLoad(addon));
+	}
+	
+	public static Error createErrorEnable(String addon) {
+		return new SimpleError("The addon '" + addon + "' could not be enabled!");
+	}
+	
 	
 	private File dataFolder;
 	

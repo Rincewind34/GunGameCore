@@ -3,6 +3,10 @@ package eu.securebit.gungame.util;
 import java.util.function.Consumer;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.errors.Error;
+import eu.securebit.gungame.errors.SimpleError;
+import eu.securebit.gungame.errors.SimpleFixableError;
+import eu.securebit.gungame.io.directories.RootDirectory;
 import lib.securebit.InfoLayout;
 
 public enum ColorSet {
@@ -28,6 +32,22 @@ public enum ColorSet {
 		layout.colorNegative = "§c";
 		layout.colorImportant = "§b";
 	});
+	
+	
+	public static final String ERROR_MAIN = 		"1|007|000|000";
+	
+	public static final String ERROR_ENTRY = 		"1|007|001|000";
+	
+	public static Error createErrorMain() {
+		return new SimpleError("The colorset given from the bootconfig could not be resolved", RootDirectory.ERROR_MAIN);
+	}
+	
+	public static Error createErrorEntry() {
+		return new SimpleFixableError("The colorset given from the bootconfig is invalid", ColorSet.ERROR_MAIN, () -> {
+			// TODO set color-set to ColorSet.DEFAULT
+		});
+	}
+	
 	
 	private Consumer<InfoLayout> action;
 	

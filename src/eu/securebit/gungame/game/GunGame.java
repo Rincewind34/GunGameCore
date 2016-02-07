@@ -38,6 +38,12 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 	
 	@Override
 	public void playConsoleMessage(String msg) {
+		if (msg.matches("^.+\\[.+\\] .+")) {
+			msg = msg.replaceFirst("^.+\\[.+\\] ", "");
+		} else {
+			msg = Main.layout().colorPrimary + "{" + Main.layout().colorSecondary + msg + Main.layout().colorPrimary + "}";
+		}
+		
 		super.playConsoleMessage(Main.layout().colorSecondary + this.settings.getUUID() + ": " + msg);
 	}
 	
@@ -104,5 +110,9 @@ public abstract class GunGame extends CraftGame<GunGamePlayer> {
 	public abstract boolean isReady();
 	
 	public abstract void shutdown();
+	
+	public abstract void reload();
+	
+	public abstract void restart();
 	
 }

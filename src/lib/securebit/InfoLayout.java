@@ -26,7 +26,7 @@ public class InfoLayout {
 		this.colorSecondary = "§r";
 		this.colorImportant = "§r";
 		this.colorPositiv = "§r";
-		this.colorNegative = "§r";
+		this.colorNegative = "§4";
 		this.createPrefix(prefix);
 		
 		this.transaction = new ArrayList<String>();

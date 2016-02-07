@@ -15,6 +15,7 @@ import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.errors.ErrorHandler;
 import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.framework.Settings.SettingsLocations;
 import eu.securebit.gungame.game.GunGame;
@@ -24,7 +25,7 @@ import eu.securebit.gungame.game.states.GameStateGrace;
 import eu.securebit.gungame.game.states.GameStateIngame;
 import eu.securebit.gungame.game.states.GameStateLobby;
 import eu.securebit.gungame.game.states.GameStateSpawns;
-import eu.securebit.gungame.io.FileBootConfig;
+import eu.securebit.gungame.io.directories.RootDirectory;
 
 public class Core {
 	
@@ -154,8 +155,20 @@ public class Core {
 		return Main.instance();
 	}
 	
-	public static FileBootConfig getBootConfig() {
-		return Main.instance().getFileBootConfig();
+	public static RootDirectory getRootDirectory() {
+		return Main.instance().getRootDirectory();
+	}
+	
+	public static ErrorHandler getErrorHandler() {
+		return Main.instance().getErrorHandler();
+	}
+	
+	public static boolean isFrameLoaded() {
+		return !Main.instance().getErrorHandler().isErrorPresent(Frame.ERROR_LOAD);
+	}
+	
+	public static boolean isFrameEnabled() {
+		return !Main.instance().getErrorHandler().isErrorPresent(Frame.ERROR_ENABLE);
 	}
 	
 	private static boolean isMatching(Class<?> cls, Class<?> clsCompare) {

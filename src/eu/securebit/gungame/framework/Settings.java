@@ -5,9 +5,9 @@ import java.util.Map;
 import org.bukkit.Location;
 
 import eu.securebit.gungame.game.GameOption;
-import eu.securebit.gungame.io.FileLevels;
-import eu.securebit.gungame.io.FileMessages;
-import eu.securebit.gungame.io.FileScoreboard;
+import eu.securebit.gungame.io.game.FileLevels;
+import eu.securebit.gungame.io.game.FileMessages;
+import eu.securebit.gungame.io.game.FileScoreboard;
 
 public interface Settings {
 	
