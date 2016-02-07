@@ -13,23 +13,23 @@ import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 
 public interface FileGameConfig extends FileIdentifyable, FileConfig {
 	
-	public static final String ERROR_MAIN = 				"7|002|000|000-VAR";
+	public static final String ERROR_MAIN = 				"7200-VAR";
 	
-	public static final String ERROR_LOAD = 				"7|002|001|000-VAR";
+	public static final String ERROR_LOAD = 				"7210-VAR";
 	
-	public static final String ERROR_FOLDER = 				"7|002|001|001-VAR";
+	public static final String ERROR_FOLDER = 				"7211-VAR";
 	
-	public static final String ERROR_CREATE = 				"7|002|001|002-VAR";
+	public static final String ERROR_CREATE = 				"7212-VAR";
 
-	public static final String ERROR_MALFORMED = 			"7|002|001|003-VAR";
+	public static final String ERROR_MALFORMED = 			"7213-VAR";
 	
-	public static final String ERROR_SPAWNID = 				"7|002|002|000-VAR";
+	public static final String ERROR_SPAWNID = 				"7220-VAR";
 	
-	public static final String ERROR_LEVELCOUNT = 			"7|002|003|000-VAR";
+	public static final String ERROR_LEVELCOUNT = 			"7230-VAR";
 	
-	public static final String ERROR_LEVELCOUNT_GREATER = 	"7|002|003|001-VAR";
+	public static final String ERROR_LEVELCOUNT_GREATER = 	"7231-VAR";
 	
-	public static final String ERROR_LEVELCOUNT_SMALLER = 	"7|002|003|002-VAR";
+	public static final String ERROR_LEVELCOUNT_SMALLER = 	"7232-VAR";
 	
 	public static Error createErrorMain() {
 		return new SimpleError("In the gameconfigfile 'VAR' occured an error!");

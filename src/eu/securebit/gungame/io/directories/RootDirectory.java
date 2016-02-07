@@ -18,17 +18,17 @@ import eu.securebit.gungame.io.configs.FileScoreboard;
 
 public interface RootDirectory extends Directory {
 	
-	public static final String ERROR_MAIN = 			"1|000|000|000";
+	public static final String ERROR_MAIN = 			"1000";
 	
-	public static final String ERROR_FILE = 			"1|001|000|000";
+	public static final String ERROR_FILE = 			"1100";
 	
-	public static final String ERROR_CREATE = 			"1|002|000|000";
+	public static final String ERROR_CREATE = 			"1200";
 	
-	public static final String ERROR_FRAME = 			"1|008|000|000";
+	public static final String ERROR_FRAME = 			"1800";
 	
-	public static final String ERROR_FRAME_EXIST = 		"1|008|001|000";
+	public static final String ERROR_FRAME_EXIST = 		"1810";
 	
-	public static final String ERROR_FRAME_NOJAR = 		"1|008|002|000";
+	public static final String ERROR_FRAME_NOJAR = 		"1820";
 	
 	public static Error createErrorMain() {
 		return new SimpleError("The rootdirectory could not be loaded!");

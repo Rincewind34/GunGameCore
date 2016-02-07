@@ -8,18 +8,18 @@ import eu.securebit.gungame.errors.SimpleError;
 
 public abstract class Addon {
 	
-	public static final String ERROR_INIT = "4|000|000|000";
+	public static final String ERROR_INIT = "4000";
 	
 	public static String errorLoad(String addon) {
-		return "5|000|000|000-" + addon;
+		return "5000-" + addon;
 	}
 	
 	public static String errorLoadMainclass(String addon) {
-		return "5|001|000|000-" + addon;
+		return "5100-" + addon;
 	}
 	
 	public static String errorEnable(String addon) {
-		return "6|000|000|000-" + addon;
+		return "6000-" + addon;
 	}
 	
 	public static Error createErrorLoad(String addon) {

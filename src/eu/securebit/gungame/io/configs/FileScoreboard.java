@@ -8,19 +8,19 @@ import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 
 public interface FileScoreboard extends FileIdentifyable, FileConfig {
 	
-	public static final String ERROR_MAIN = 			"7|004|000|000-VAR";
+	public static final String ERROR_MAIN = 			"7400-VAR";
 	
-	public static final String ERROR_LOAD = 			"7|004|001|000-VAR";
+	public static final String ERROR_LOAD = 			"7410-VAR";
 	
-	public static final String ERROR_FOLDER =			"7|004|001|001-VAR";
+	public static final String ERROR_FOLDER =			"7411-VAR";
 	
-	public static final String ERROR_CREATE = 			"7|004|001|002-VAR";
+	public static final String ERROR_CREATE = 			"7412-VAR";
 	
-	public static final String ERROR_MALFORMED = 		"7|004|001|003-VAR";
+	public static final String ERROR_MALFORMED = 		"7413-VAR";
 	
-	public static final String ERROR_TITLE = 			"7|004|002|000-VAR";
+	public static final String ERROR_TITLE = 			"7420-VAR";
 	
-	public static final String ERROR_FORMAT = 			"7|004|003|000-VAR";
+	public static final String ERROR_FORMAT = 			"7430-VAR";
 	
 	public static Error createErrorMain() {
 		return new SimpleError("In the scoreboardfile 'VAR' occured an error!");

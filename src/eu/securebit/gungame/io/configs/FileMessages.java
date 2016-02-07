@@ -10,15 +10,15 @@ import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 
 public interface FileMessages extends FileIdentifyable, FileConfig {
 	
-	public static final String ERROR_MAIN = 			"7|001|000|000-VAR";
+	public static final String ERROR_MAIN = 			"7100-VAR";
 	
-	public static final String ERROR_LOAD = 			"7|001|001|000-VAR";
+	public static final String ERROR_LOAD = 			"7110-VAR";
 	
-	public static final String ERROR_FOLDER =			"7|001|001|001-VAR";
+	public static final String ERROR_FOLDER =			"7111-VAR";
 	
-	public static final String ERROR_CREATE = 			"7|001|001|002-VAR";
+	public static final String ERROR_CREATE = 			"7112-VAR";
 	
-	public static final String ERROR_MALFORMED = 		"7|001|001|003-VAR";
+	public static final String ERROR_MALFORMED = 		"7113-VAR";
 	
 	public static Error createErrorMain() {
 		return new SimpleError("In the messagefile 'VAR' occured an error!");

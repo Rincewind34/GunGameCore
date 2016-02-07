@@ -13,13 +13,13 @@ import eu.securebit.gungame.ioutil.IOUtil;
 
 public abstract class Frame {
 	
-	public static final String ERROR_LOAD = "2|000|000|000";
+	public static final String ERROR_LOAD = 			"2000";
 	
-	public static final String ERROR_LOAD_MAINCLASS = "2|001|000|000";
+	public static final String ERROR_LOAD_MAINCLASS = 	"2100";
 	
-	public static final String ERROR_ENABLE = "3|000|000|000";
+	public static final String ERROR_ENABLE = 			"3000";
 	
-	public static final String ERROR_ENABLE_ID = "3|001|000|000";
+	public static final String ERROR_ENABLE_ID = 		"3100";
 	
 	public static Error createErrorLoad() {
 		return new SimpleError("Frame could not be loaded!");

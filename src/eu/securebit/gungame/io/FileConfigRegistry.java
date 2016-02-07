@@ -10,17 +10,17 @@ import eu.securebit.gungame.io.directories.RootDirectory;
 
 public interface FileConfigRegistry extends FileConfig {
 	
-	public static final String ERROR_MAIN = 				"1|003|000|000";
+	public static final String ERROR_MAIN = 				"1300";
 	
-	public static final String ERROR_LOAD = 				"1|003|001|000";
+	public static final String ERROR_LOAD = 				"1310";
 	
-	public static final String ERROR_FOLDER = 				"1|003|001|001";
+	public static final String ERROR_FOLDER = 				"1311";
 	
-	public static final String ERROR_CREATE = 				"1|003|001|002";
+	public static final String ERROR_CREATE = 				"1312";
 	
-	public static final String ERROR_MALFORMED_STRUCTURE = 	"1|003|001|003";
+	public static final String ERROR_MALFORMED_STRUCTURE = 	"1313";
 	
-	public static final String ERROR_MALFORMED_ENTRIES = 	"1|003|001|004";
+	public static final String ERROR_MALFORMED_ENTRIES = 	"1314";
 	
 	public static Error createErrorMain() {
 		return new SimpleError("In the file '.configregistry' occured an error!", RootDirectory.ERROR_MAIN);

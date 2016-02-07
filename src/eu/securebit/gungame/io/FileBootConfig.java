@@ -9,15 +9,15 @@ import eu.securebit.gungame.io.directories.RootDirectory;
 
 public interface FileBootConfig extends FileIdentifyable, FileConfig {
 	
-	public static final String ERROR_MAIN = 		"1|004|000|000";
+	public static final String ERROR_MAIN = 		"1400";
 	
-	public static final String ERROR_LOAD = 		"1|004|001|000";
+	public static final String ERROR_LOAD = 		"1410";
 	
-	public static final String ERROR_FOLDER = 		"1|004|001|001";
+	public static final String ERROR_FOLDER = 		"1411";
 	
-	public static final String ERROR_CREATE = 		"1|004|001|002";
+	public static final String ERROR_CREATE = 		"1412";
 	
-	public static final String ERROR_MALFORMED = 	"1|004|001|003";
+	public static final String ERROR_MALFORMED = 	"1413";
 	
 	public static Error createErrorMain() {
 		return new SimpleError("In the 'bootconfig.yml' occured an error!", RootDirectory.ERROR_MAIN);

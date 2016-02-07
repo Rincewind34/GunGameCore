@@ -8,15 +8,15 @@ import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 
 public interface FileOptions extends FileIdentifyable, FileConfig {
 	
-	public static final String ERROR_MAIN = 			"7|005|000|000-VAR";
+	public static final String ERROR_MAIN = 			"7500-VAR";
 	
-	public static final String ERROR_LOAD = 			"7|005|001|000-VAR";
+	public static final String ERROR_LOAD = 			"7510-VAR";
 	
-	public static final String ERROR_FOLDER =			"7|005|001|001-VAR";
+	public static final String ERROR_FOLDER =			"7511-VAR";
 	
-	public static final String ERROR_CREATE = 			"7|005|001|002-VAR";
+	public static final String ERROR_CREATE = 			"7512-VAR";
 	
-	public static final String ERROR_MALFORMED = 		"7|005|001|003-VAR";
+	public static final String ERROR_MALFORMED = 		"7513-VAR";
 	
 	public static Error createErrorMain() {
 		return new SimpleError("In the optionsfile 'VAR' occured an error!");

@@ -7,19 +7,19 @@ import eu.securebit.gungame.io.abstracts.Directory;
 
 public interface BootDirectory extends Directory {
 	
-	public static final String ERROR_MAIN = 				"1|006|000|000";
+	public static final String ERROR_MAIN = 				"1600";
 	
-	public static final String ERROR_FILE = 				"1|006|001|000";
+	public static final String ERROR_FILE = 				"1610";
 	
-	public static final String ERROR_CREATE = 				"1|006|002|000";
+	public static final String ERROR_CREATE = 				"1620";
 	
-	public static final String ERROR_BOOTDATA_FOLDER = 		"1|006|003|000";
+	public static final String ERROR_BOOTDATA_FOLDER = 		"1630";
 	
-	public static final String ERROR_BOOTDATA_CREATE = 		"1|006|004|000";
+	public static final String ERROR_BOOTDATA_CREATE = 		"1640";
 	
-	public static final String ERROR_BOOTDATA_MALFORMED =	"1|006|005|000";
+	public static final String ERROR_BOOTDATA_MALFORMED =	"1650";
 	
-	public static final String ERROR_BOOTDATA_SAVE = 		"1|006|006|000";
+	public static final String ERROR_BOOTDATA_SAVE = 		"1660";
 	
 	public static Error createErrorMain() {
 		return new SimpleError("The bootfolder could not be loaded!", RootDirectory.ERROR_MAIN);
