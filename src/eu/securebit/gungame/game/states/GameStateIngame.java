@@ -31,7 +31,7 @@ public class GameStateIngame extends DefaultGameStateIngame<GunGame> {
 		this.getSettings().setValue(StateSettings.ITEM_DROP, false);
 		this.getSettings().setValue(StateSettings.ITEM_PICKUP, false);
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
-		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().files().getMessages().getServerQuit());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getMessanger().getServerQuit());
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class GameStateIngame extends DefaultGameStateIngame<GunGame> {
 	
 	@Override
 	public String getMotD() {
-		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
+		return null; // TODO
 	}
 	
 	@Override

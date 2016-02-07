@@ -1,6 +1,5 @@
 package eu.securebit.gungame.game.states;
 
-import lib.securebit.InfoLayout;
 import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateDisabled;
@@ -12,7 +11,7 @@ import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 
-public class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
+public abstract class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
 	
 	public DisabledStateEdit(GunGame gungame) {
 		super(gungame);
@@ -39,13 +38,8 @@ public class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
 	}
 	
 	@Override
-	public void stageInformation(InfoLayout layout) {
-		this.getGame().getInterface().stageEditInformation(layout);
-	}
-	
-	@Override
 	public String getMotD() {
-		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
+		return null; //TODO
 	}
 	
 	@Override

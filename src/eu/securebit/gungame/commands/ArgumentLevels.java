@@ -10,7 +10,6 @@ import org.bukkit.util.NumberConversions;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.game.GunGame;
-import eu.securebit.gungame.util.LevelManager;
 import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
@@ -67,10 +66,10 @@ public class ArgumentLevels extends CustomArgument {
 					if (Util.isInt(args[2])) {
 						int id = NumberConversions.toInt(args[2]);
 						
-						if (LevelManager.isInvalid(gungame, id)) {
+						if (!gungame.getLevelManager().exists(id)) {
 							player.sendMessage(CoreMessages.levelNotExists(id));
 						} else {
-							LevelManager.equip(gungame, id, player);
+							gungame.getLevelManager().equipPlayer(player, id);
 							player.sendMessage(CoreMessages.levelGiven(id));
 						}
 					} else {
@@ -81,7 +80,7 @@ public class ArgumentLevels extends CustomArgument {
 				}
 			} else if (args[1].equals("save")) {
 				int id = -1;
-				int nextId = LevelManager.getCount(gungame) + 1;
+				int nextId = gungame.getLevelManager().getLevelCount() + 1;
 				
 				if (args.length == 2) {
 					id = nextId;
@@ -99,7 +98,7 @@ public class ArgumentLevels extends CustomArgument {
 				
 				if (id <= nextId) {
 					if (id > 0) {
-						LevelManager.save(gungame, id, player);
+						gungame.getLevelManager().saveLevel(player, id);
 						player.sendMessage(CoreMessages.levelSaved(id));
 					} else {
 						player.sendMessage(CoreMessages.greaterNull());
@@ -123,11 +122,11 @@ public class ArgumentLevels extends CustomArgument {
 				}
 				
 				for (int i = 0; i < count; i++) {
-					if (!LevelManager.deleteLevel(gungame)) {
+					if (!gungame.getLevelManager().deleteHighestLevel()) {
 						player.sendMessage(CoreMessages.noLevelToRemove());
 						return true;
 					} else {
-						player.sendMessage(CoreMessages.levelDeleted(LevelManager.getCount(gungame) + 1));
+						player.sendMessage(CoreMessages.levelDeleted(gungame.getLevelManager().getLevelCount() + 1));
 					}
 				}
 			} else {

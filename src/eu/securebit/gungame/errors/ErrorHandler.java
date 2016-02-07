@@ -165,6 +165,22 @@ public class ErrorHandler {
 		}
 	}
 	
+	public List<String> getExtendingError(String id) {
+		if (!ErrorHandler.errors.containsKey(id)) {
+			throw new GunGameException("The errorid '" + id + "' is unknown!");
+		}
+		
+		if (!this.isErrorPresent(id)) {
+			throw new GunGameException("The error '" + id + "' is not present!");
+		}
+		
+		List<String> list = new ArrayList<>();
+		
+		for (String error : this.thrownErrors) {
+			
+		}
+	}
+	
 	public boolean isErrorPresent(String id) {
 		return this.thrownErrors.contains(id);
 	}

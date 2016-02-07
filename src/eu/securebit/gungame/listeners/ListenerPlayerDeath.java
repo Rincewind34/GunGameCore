@@ -4,7 +4,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-import eu.securebit.gungame.game.GameOption;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 
@@ -33,16 +32,16 @@ public class ListenerPlayerDeath implements Listener {
 				this.gungame.initWinner(killer);
 				this.gungame.getManager().next();
 			} else {
-				this.gungame.broadcastMessage(this.gungame.getSettings().files().getMessages().getKillBroadcast(player.getHandle(), killer.getHandle()));
+				this.gungame.broadcastMessage(this.gungame.getMessanger().getKillBroadcast(player.getHandle(), killer.getHandle()));
 				
 				if (this.gungame.getScoreboard().isEnabled()) {
 					this.gungame.getScoreboard().update(killer.getHandle());
 				}
 			}
 		} else {
-			this.gungame.broadcastMessage(this.gungame.getSettings().files().getMessages().getDeathBroadcast(player.getHandle()));
+			this.gungame.broadcastMessage(this.gungame.getMessanger().getDeathBroadcast(player.getHandle()));
 			
-			if (this.gungame.getSettings().options().getGameOption(GameOption.CARE_NATURAL_DEATH)) {
+			if (this.gungame.getOptions().careNaturalDeath()) {
 				this.downgrade(player);
 			}
 		}
@@ -50,13 +49,13 @@ public class ListenerPlayerDeath implements Listener {
 		event.getDrops().clear();
 		event.setDroppedExp(0);
 		
-		if (this.gungame.getSettings().options().getGameOption(GameOption.AUTO_RESPAWN)) {
+		if (this.gungame.getOptions().autoRespawn()) {
 			player.getHandle().spigot().respawn();
 		}
 	}
 	
 	private void downgrade(GunGamePlayer player) {
-		if (this.gungame.getSettings().options().getGameOption(GameOption.LEVEL_RESET)) {
+		if (this.gungame.getOptions().levelReset()) {
 			player.resetLevel();
 		} else {
 			player.decrementLevel();

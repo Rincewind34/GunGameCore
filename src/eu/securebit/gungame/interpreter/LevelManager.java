@@ -2,9 +2,17 @@ package eu.securebit.gungame.interpreter;
 
 import org.bukkit.entity.Player;
 
-public interface LevelManager {
+import eu.securebit.gungame.interpreter.impl.CraftLevelManager;
+import eu.securebit.gungame.io.configs.FileLevels;
 
-	public abstract void createNewLevel(Player host, int levelId);
+public interface LevelManager {
+	
+	public static LevelManager create(FileLevels file) {
+		return new CraftLevelManager(file);
+	}
+	
+	
+	public abstract void saveLevel(Player host, int levelId);
 
 	public abstract void equipPlayer(Player player, int levelId);
 
@@ -13,5 +21,5 @@ public interface LevelManager {
 	public abstract boolean exists(int levelId);
 
 	public abstract int getLevelCount();
-
+	
 }

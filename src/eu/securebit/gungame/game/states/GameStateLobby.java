@@ -14,16 +14,16 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	
 	public GameStateLobby(GunGame gungame) {
 		super(gungame,
-				gungame.getSettings().locations().getLobbyLocation(),
+				gungame.getLocationManager().getLobbyLocation(),
 				Permissions.premium(), Permissions.teammember(),
-				gungame.getSettings().options().getMaxPlayerCount(),
-				gungame.getSettings().options().getMinPlayerCount(),
-				gungame.getSettings().options().getLobbyCountdownLength(),
+				gungame.getMinPlayerCount(),
+				gungame.getSize(),
+				120, // TODO config lobbycountdownlength
 				0, //TODO config premiumSlots
 				true, true); //TODO config premiumKick
 		
-		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, gungame.getSettings().files().getMessages().getJoinLobby());
-		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().files().getMessages().getQuitLobby());
+		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, gungame.getMessanger().getJoinLobby());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getMessanger().getQuitLobby());
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		layout.line("Enough players: " + Util.parseBoolean(this.getGame().getPlayers().size() >= this.getGame().getSettings().options().getMinPlayerCount(), layout));
+		layout.line("Enough players: " + Util.parseBoolean(this.getGame().getPlayers().size() >= this.getGame().getMinPlayerCount(), layout));
 		layout.line("Seconds left: " + this.getCountdown().getSecondsLeft());
 	}
 	
@@ -58,7 +58,7 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	
 	@Override
 	public String getMotD() {
-		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
+		return null; // TODO
 	}
 
 	@Override
@@ -84,12 +84,12 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 
 	@Override
 	protected String getMessageCountdown(int secondsLeft) {
-		return this.getGame().getSettings().files().getMessages().getCountdownLobby(secondsLeft);
+		return this.getGame().getMessanger().getCountdownLobby(secondsLeft);
 	}
 	
 	@Override
 	protected void onCountdownStop() {
-		this.getGame().getManager().skip(2); //TODO skip(2)
+		this.getGame().getManager().skip(2);
 	}
 	
 }

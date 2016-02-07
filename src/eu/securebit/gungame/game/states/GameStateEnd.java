@@ -15,10 +15,10 @@ import lib.securebit.game.defaults.DefaultGameStateEnd;
 public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 	
 	public GameStateEnd(GunGame gungame) {
-		super(gungame, gungame.getSettings().locations().getLobbyLocation(), 20);
+		super(gungame, gungame.getLocationManager().getLobbyLocation(), 20);
 		
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
-		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().files().getMessages().getServerQuit());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getMessanger().getServerQuit());
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 			this.getGame().initWinner(bestPlayer);
 		}
 		
-		this.getGame().broadcastMessage(this.getGame().getSettings().files().getMessages().getWinner(this.getGame().getWinner().getHandle()));
+		this.getGame().broadcastMessage(this.getGame().getMessanger().getWinner(this.getGame().getWinner().getHandle()));
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 	public void unload() {
 		super.unload();
 		
-		this.getGame().shutdown();
+		this.getGame().getInterface().initShutdown();
 	}
 	
 	@Override
@@ -71,7 +71,7 @@ public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 	
 	@Override
 	public String getMotD() {
-		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
+		return null; // TODO
 	}
 	
 	@Override
@@ -81,11 +81,11 @@ public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 
 	@Override
 	protected String getMessageCountdown(int secondsLeft) {
-		return this.getGame().getSettings().files().getMessages().getCountdownEnd(secondsLeft);
+		return this.getGame().getMessanger().getCountdownEnd(secondsLeft);
 	}
 	
 	@EventHandler
 	private void onRespawn(PlayerRespawnEvent event) {
-		event.setRespawnLocation(this.getGame().getSettings().locations().getLobbyLocation());
+		event.setRespawnLocation(this.getGame().getLocationManager().getLobbyLocation());
 	}
 }

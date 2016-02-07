@@ -27,7 +27,7 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 		this.getSettings().setValue(StateSettings.ITEM_DROP, false);
 		this.getSettings().setValue(StateSettings.ITEM_PICKUP, false);
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
-		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().files().getMessages().getServerQuit());
+		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getMessanger().getServerQuit());
 	}
 
 	@Override
@@ -42,11 +42,11 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 			this.getGame().getScoreboard().setup();
 		}
 		
-		this.getGame().broadcastMessage(this.getGame().getSettings().files().getMessages().getMapTeleport());
+		this.getGame().broadcastMessage(this.getGame().getMessanger().getMapTeleport());
 		
 		super.start();
 		
-		this.getGame().broadcastMessage(this.getGame().getSettings().files().getMessages().getGracePeriodStarts());
+		this.getGame().broadcastMessage(this.getGame().getMessanger().getGracePeriodStarts());
 		
 		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {
 			this.getGame().calculateGameState();
@@ -57,7 +57,7 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 	public void stop() {
 		super.stop();
 		
-		this.getGame().broadcastMessage(this.getGame().getSettings().files().getMessages().getGracePeriodEnds());
+		this.getGame().broadcastMessage(this.getGame().getMessanger().getGracePeriodEnds());
 		this.getGame().playConsoleMessage(Main.layout().format("Leaving gamephase: *Grace*"));
 	}
 	
@@ -73,12 +73,12 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 	
 	@Override
 	public String getMotD() {
-		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
+		return null; // TODO
 	}
 	
 	@Override
 	protected String getMessageCountdown(int secondsleft) {
-		return this.getGame().getSettings().files().getMessages().getCountdownGrace(secondsleft);
+		return this.getGame().getMessanger().getCountdownGrace(secondsleft);
 	}
 	
 	@Override

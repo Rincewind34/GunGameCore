@@ -1,4 +1,4 @@
-package eu.securebit.gungame.interpreter;
+package eu.securebit.gungame.interpreter.impl;
 
 import java.util.Arrays;
 
@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import eu.securebit.gungame.exception.GunGameException;
+import eu.securebit.gungame.interpreter.LevelManager;
 import eu.securebit.gungame.io.configs.FileLevels;
 
 public class CraftLevelManager implements LevelManager {
@@ -15,17 +16,14 @@ public class CraftLevelManager implements LevelManager {
 	
 	public CraftLevelManager(FileLevels file) {
 		if (!file.isAccessable()) {
-			throw new GunGameException("Cannot interpret the levelsfile '" + file.getAbsolutePath() + "'!");
+			throw new GunGameException("Cannot interpret the levels-file '" + file.getAbsolutePath() + "'!");
 		}
 		
 		this.file = file;
 	}
 	
-	/* (non-Javadoc)
-	 * @see eu.securebit.gungame.interpreter.LevelManager#createNewLevel(org.bukkit.entity.Player, int)
-	 */
 	@Override
-	public void createNewLevel(Player host, int levelId) {
+	public void saveLevel(Player host, int levelId) {
 		ItemStack[] content = new ItemStack[40];
 		PlayerInventory inv = host.getInventory();
 		
@@ -42,9 +40,6 @@ public class CraftLevelManager implements LevelManager {
 		this.file.setLevel(levelId, content);
 	}
 	
-	/* (non-Javadoc)
-	 * @see eu.securebit.gungame.interpreter.LevelManager#equipPlayer(org.bukkit.entity.Player, int)
-	 */
 	@Override
 	public void equipPlayer(Player player, int levelId) {
 		ItemStack[] items = this.file.getLevel(levelId);
@@ -56,17 +51,11 @@ public class CraftLevelManager implements LevelManager {
 		player.updateInventory();
 	}
 	
-	/* (non-Javadoc)
-	 * @see eu.securebit.gungame.interpreter.LevelManager#deleteHighestLevel()
-	 */
 	@Override
 	public boolean deleteHighestLevel() {
 		return this.file.delete();
 	}
 	
-	/* (non-Javadoc)
-	 * @see eu.securebit.gungame.interpreter.LevelManager#exists(int)
-	 */
 	@Override
 	public boolean exists(int levelId) {
 		if (levelId < 1) {
@@ -80,12 +69,13 @@ public class CraftLevelManager implements LevelManager {
 		return true;
 	}
 	
-	/* (non-Javadoc)
-	 * @see eu.securebit.gungame.interpreter.LevelManager#getLevelCount()
-	 */
 	@Override
 	public int getLevelCount() {
 		return this.file.getLevelCount();
+	}
+	
+	public FileLevels getFile() {
+		return this.file;
 	}
 	
 }

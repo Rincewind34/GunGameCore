@@ -1,6 +1,5 @@
 package eu.securebit.gungame.framework;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import org.bukkit.plugin.Plugin;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errors.ErrorHandler;
 import eu.securebit.gungame.exception.GunGameException;
-import eu.securebit.gungame.framework.Settings.SettingsLocations;
+import eu.securebit.gungame.game.GameInterface;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
 import eu.securebit.gungame.game.states.GameStateEnd;
@@ -25,6 +24,8 @@ import eu.securebit.gungame.game.states.GameStateGrace;
 import eu.securebit.gungame.game.states.GameStateIngame;
 import eu.securebit.gungame.game.states.GameStateLobby;
 import eu.securebit.gungame.game.states.GameStateSpawns;
+import eu.securebit.gungame.interpreter.LocationManager;
+import eu.securebit.gungame.io.configs.FileGameConfig;
 import eu.securebit.gungame.io.directories.RootDirectory;
 
 public class Core {
@@ -45,66 +46,28 @@ public class Core {
 		Core.STATE_DISABLED = DisabledStateEdit.class;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public static <T extends GunGame> T createNewGameInstance(Class<T> gameClass, Object... values) {
-		T instance = null;
+	public static GunGame createNewGameInstance(FileGameConfig config, String name, GameInterface gameInterface) {
+		GunGame game = new GunGame(config, name, gameInterface);		
 		
-		Class<?>[] classArray = new Class<?>[values.length];
+		boolean ready = game.isReady();
 		
-		for (int i = 0; i < values.length; i++) {
-			classArray[i] = values[i].getClass();
-		}
-		
-		search: {
-			try {
-				constrcutors: for (Constructor<?> constructor : gameClass.getConstructors()) {
-					if (classArray.length != constructor.getParameterCount()) {
-						continue;
-					}
-				
-					for (int i = 0; i < constructor.getParameterCount(); i++) {
-						if (!Core.isMatching(classArray[i], values[i].getClass())) {
-							continue constrcutors;
-						}
-					}
-					
-					instance = (T) constructor.newInstance(values);
-					break search;
-				}
-				
-				throw new GunGameException("Could not find a matching constructor!");
-			} catch (SecurityException e) {
-				throw new GunGameException(e.getMessage(), e);
-			} catch (InstantiationException e) {
-				throw new GunGameException(e.getMessage(), e);
-			} catch (IllegalAccessException e) {
-				throw new GunGameException(e.getMessage(), e);
-			} catch (IllegalArgumentException e) {
-				throw new GunGameException(e.getMessage(), e);
-			} catch (InvocationTargetException e) {
-				throw new GunGameException(e.getMessage(), e);
-			}
-		}
-		
-		boolean ready = instance.isReady();
-		
-		GameStateManager<T> manager = new CraftGameStateManager<T>(Main.instance());
+		GameStateManager<GunGame> manager = new CraftGameStateManager<>(Main.instance());
 		
 		try {
-			manager.initGame(instance);
+			manager.initGame(game);
 			
 			if (Core.STATE_LOBBY != null) {
-				manager.add(Core.newStateInstance(Core.STATE_LOBBY, instance));
+				manager.add(Core.newStateInstance(Core.STATE_LOBBY, game));
 			} if (Core.STATE_SPAWNS != null) {
-				manager.add(Core.newStateInstance(Core.STATE_SPAWNS, instance));
+				manager.add(Core.newStateInstance(Core.STATE_SPAWNS, game));
 			} if (Core.STATE_GRACE != null) {
-				manager.add(Core.newStateInstance(Core.STATE_GRACE, instance));
+				manager.add(Core.newStateInstance(Core.STATE_GRACE, game));
 			} if (Core.STATE_INGAME != null) {
-				manager.add(Core.newStateInstance(Core.STATE_INGAME, instance));
+				manager.add(Core.newStateInstance(Core.STATE_INGAME, game));
 			} if (Core.STATE_END != null) {
-				manager.add(Core.newStateInstance(Core.STATE_END, instance));
+				manager.add(Core.newStateInstance(Core.STATE_END, game));
 			} if (Core.STATE_DISABLED != null) {
-				manager.initDisabledState(Core.newStateInstance(Core.STATE_DISABLED, instance));
+				manager.initDisabledState(Core.newStateInstance(Core.STATE_DISABLED, game));
 			}
 		} catch (NoSuchMethodException e) {
 			throw new GunGameException(e.getMessage(), e);
@@ -122,29 +85,29 @@ public class Core {
 		
 		List<World> worlds = new ArrayList<>();
 		
-		SettingsLocations locations = instance.getSettings().locations();
+		LocationManager locations = game.getLocationManager();
 		
 		if (ready) {
 			locations.getLobbyLocation().getWorld().setAutoSave(false);
 		}
 		
 		worlds.add(locations.getLobbyLocation().getWorld());
-		instance.registerWorld(locations.getLobbyLocation().getWorld());
+		game.registerWorld(locations.getLobbyLocation().getWorld());
 		
-		for (Location spawn : locations.getSpawnPoints().values()) {
+		for (Location spawn : locations.getSpawnPoints()) {
 			if (!worlds.contains(spawn.getWorld())) {
-				if (instance.isReady()) {
+				if (game.isReady()) {
 					spawn.getWorld().setAutoSave(false);
 				}
 					
-				instance.registerWorld(spawn.getWorld());
+				game.registerWorld(spawn.getWorld());
 				worlds.add(spawn.getWorld());
 			}
 		}
 		
 		manager.create(ready);
 		
-		return instance;
+		return game;
 	}
 	
 	public static ArgumentedCommand getCommand() {
@@ -169,14 +132,6 @@ public class Core {
 	
 	public static boolean isFrameEnabled() {
 		return !Main.instance().getErrorHandler().isErrorPresent(Frame.ERROR_ENABLE);
-	}
-	
-	private static boolean isMatching(Class<?> cls, Class<?> clsCompare) {
-		if (cls == clsCompare) {
-			return true;
-		} else {
-			return Core.isMatching(cls, clsCompare.getSuperclass());
-		}
 	}
 	
 	private static GameState newStateInstance(Class<? extends GameState> state, GunGame gungame)

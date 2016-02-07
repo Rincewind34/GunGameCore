@@ -4,8 +4,6 @@ import lib.securebit.game.impl.CraftGamePlayer;
 
 import org.bukkit.entity.Player;
 
-import eu.securebit.gungame.util.LevelManager;
-
 public class GunGamePlayer extends CraftGamePlayer {
 	
 	private int level;
@@ -15,22 +13,22 @@ public class GunGamePlayer extends CraftGamePlayer {
 		super(player);
 		
 		this.gungame = gungame;
-		this.level = LevelManager.getStartLevel(this.gungame);
+		this.level = this.gungame.getStartLevel();
 	}
 	
 	public void refreshLevel() {
-		LevelManager.equip(this.gungame, this.level, super.player);
+		this.gungame.getLevelManager().equipPlayer(super.player, this.level);
 		super.player.setLevel(this.level);
-		super.player.setExp((float) (((double) this.level - 1) / ((double) LevelManager.getCount(this.gungame))));
+		super.player.setExp((float) (((double) this.level - 1) / ((double) this.gungame.getLevelManager().getLevelCount())));
 	}
 	
 	public void resetLevel() {
-		this.level = LevelManager.getStartLevel(this.gungame);
+		this.level = this.gungame.getStartLevel();
 		this.refreshLevel();
 	}
 	
 	public int incrementLevel() {
-		if (this.level < LevelManager.getCount(this.gungame)) {
+		if (this.level < this.gungame.getLevelManager().getLevelCount()) {
 			++this.level;
 			this.refreshLevel();
 		}

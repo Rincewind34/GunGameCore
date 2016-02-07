@@ -29,12 +29,12 @@ public abstract class AbstractArgumentToggle extends CustomArgument {
 	
 	protected boolean executeCore(CommandSender sender, GunGame gungame) {
 		if (gungame.getManager().getCurrent() instanceof DisabledStateEdit) {
-			gungame.getInterface().setEditMode(false);
+			gungame.setEditMode(false);
 			
 			sender.sendMessage(CoreMessages.changeMode("GameMode"));
 			sender.sendMessage(CoreMessages.suggestReload());
 		} else {
-			gungame.getInterface().setEditMode(true);
+			gungame.setEditMode(true);
 			
 			sender.sendMessage(CoreMessages.changeMode("EditMode"));
 			sender.sendMessage(CoreMessages.suggestReload());

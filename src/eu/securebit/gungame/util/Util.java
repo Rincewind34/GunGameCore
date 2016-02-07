@@ -1,14 +1,9 @@
 package eu.securebit.gungame.util;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
 import lib.securebit.InfoLayout;
 import lib.securebit.game.GameState;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
@@ -45,8 +40,8 @@ public class Util {
 		layout.line("Online: " + gungame.getPlayers().size());
 		layout.line("Muted: " + Util.parseBoolean(gungame.isMuted(), layout));
 		layout.category("Config");
-		layout.line("Spawns: " + gungame.getSettings().locations().getSpawnPoints().size());
-		layout.line("Levels: " + LevelManager.getCount(gungame));
+		layout.line("Spawns: " + gungame.getLocationManager().getSpawnPointCount());
+		layout.line("Levels: " + gungame.getLevelManager().getLevelCount());
 		layout.category("Detail");
 		
 		GameState current = gungame.getManager().getCurrent();
@@ -73,12 +68,6 @@ public class Util {
 				Util.startCalculation(player, delay * 2, gungame);
 			}
 		}, delay);
-	}
-	
-	public static List<Location> getSpawns(GunGame gungame) {
-		Collection<Location> locs = gungame.getSettings().locations().getSpawnPoints().values();
-		
-		return Arrays.asList(locs.toArray(new Location[locs.size()]));
 	}
 	
 	public static String stripPath(String path) {

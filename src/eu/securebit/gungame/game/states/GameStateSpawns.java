@@ -4,12 +4,11 @@ import lib.securebit.InfoLayout;
 import lib.securebit.game.GamePlayer;
 import lib.securebit.game.defaults.DefaultGameStateSpawns;
 import eu.securebit.gungame.game.GunGame;
-import eu.securebit.gungame.util.Util;
 
 public class GameStateSpawns extends DefaultGameStateSpawns<GunGame> {
 
 	public GameStateSpawns(GunGame game) {
-		super(game, Util.getSpawns(game), SpawnSpreading.RANDOM, 1);
+		super(game, game.getLocationManager().getSpawnPoints(), SpawnSpreading.RANDOM, 1);
 	}
 
 	@Override
@@ -24,7 +23,7 @@ public class GameStateSpawns extends DefaultGameStateSpawns<GunGame> {
 	
 	@Override
 	public String getMotD() {
-		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
+		return null;
 	}
 
 	@Override
