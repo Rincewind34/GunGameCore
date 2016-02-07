@@ -19,26 +19,26 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 	private static final List<ConfigDefault> defaults = new ArrayList<>();
 	
 	static {
-		CraftFileMessages.defaults.add(new ConfigDefault("messages.prefix", "&7[&eGunGame&7]", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("messages.player.join", "&e${player} &7joined the game.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("messages.player.quit", "&e${player} &7left the game.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("messages.player.serverquit", "&e${player} &7left the game.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("messages.countdown.lobby", "&7The game starts in &e${time} &7seconds.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("messages.countdown.grace", "&7The graceperiod ends in &e${time} &7seconds.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("messages.countdown.end", "&cServer shutdown in ${time} seconds.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("messages.mapteleport", "&7All players have been teleported to the map.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("messages.graceperiod.start", "&7All players are invulnerable for 15 seconds now.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("messages.graceperiod.end", "&eDamage enabled - Fight!", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("messages.ingame.kill", "&e${victim} &7was killed by &e${killer}&7.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("messages.ingame.death", "&7The player &e${victim} &7died.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("messages.ingame.respawn", "&7You are now level &e${level}&7.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("messages.winner", "&e&lCongratulations! &r&e${winner} is the winner of this game!", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("motds.lobby.join", "Lobby", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("motds.lobby.full", "Lobby", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("motds.grace", "Grace", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("motds.ingame", "Ingame", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("motds.end", "Restarting", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("motds.maintenance", "Maintenance", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.prefix", "&7[&eGunGame&7]", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.player.join", "&e${player} &7joined the game.", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.player.quit", "&e${player} &7left the game.", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.player.serverquit", "&e${player} &7left the game.", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.countdown.lobby", "&7The game starts in &e${time} &7seconds.", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.countdown.grace", "&7The graceperiod ends in &e${time} &7seconds.", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.countdown.end", "&cServer shutdown in ${time} seconds.", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.mapteleport", "&7All players have been teleported to the map.", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.graceperiod.start", "&7All players are invulnerable for 15 seconds now.", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.graceperiod.end", "&eDamage enabled - Fight!", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.ingame.kill", "&e${victim} &7was killed by &e${killer}&7.", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.ingame.death", "&7The player &e${victim} &7died.", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.ingame.respawn", "&7You are now level &e${level}&7.", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.winner", "&e&lCongratulations! &r&e${winner} is the winner of this game!", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("motd.lobby.join", "Lobby", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("motd.lobby.full", "Lobby", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("motd.grace", "Grace", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("motd.ingame", "Ingame", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("motd.end", "Restarting", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("motd.maintendance", "Maintendance", String.class));
 	}
 	
 	public CraftFileMessages(File file, ErrorHandler handler) {
@@ -51,7 +51,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 			throw new GunGameErrorPresentException();
 		}
 		
-		return ChatColor.translateAlternateColorCodes('&', super.config.getString("messages.prefix")) + " ";
+		return ChatColor.translateAlternateColorCodes('&', super.config.getString("message.prefix")) + " ";
 	}
 	
 	@Override
@@ -60,7 +60,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 			throw new GunGameErrorPresentException();
 		}
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("messages.player.join"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.player.join"));
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 			throw new GunGameErrorPresentException();
 		}
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("messages.player.quit"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.player.quit"));
 	}
 	
 	@Override
@@ -78,7 +78,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 			throw new GunGameErrorPresentException();
 		}
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("messages.player.serverquit"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.player.serverquit"));
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 			throw new GunGameErrorPresentException();
 		}
 		
-		String msg = super.config.getString("messages.countdown.lobby");
+		String msg = super.config.getString("message.countdown.lobby");
 		msg = IOUtil.replace(msg, "time", secondsLeft);
 		
 		return IOUtil.prepare(this.getPrefix(), msg);
@@ -99,7 +99,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 			throw new GunGameErrorPresentException();
 		}
 		
-		String msg = super.config.getString("messages.countdown.grace");
+		String msg = super.config.getString("message.countdown.grace");
 		msg = IOUtil.replace(msg, "time", secondsLeft);
 		
 		return IOUtil.prepare(this.getPrefix(), msg);
@@ -111,7 +111,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 			throw new GunGameErrorPresentException();
 		}
 		
-		String msg = super.config.getString("messages.countdown.end");
+		String msg = super.config.getString("message.countdown.end");
 		msg = IOUtil.replace(msg, "time", secondsLeft);
 		
 		return IOUtil.prepare(this.getPrefix(), msg);
@@ -123,7 +123,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 			throw new GunGameErrorPresentException();
 		}
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("messages.mapteleport"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.mapteleport"));
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 			throw new GunGameErrorPresentException();
 		}
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("messages.graceperiod.start"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.graceperiod.start"));
 	}
 
 	@Override
@@ -141,7 +141,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 			throw new GunGameErrorPresentException();
 		}
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("messages.graceperiod.end"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.graceperiod.end"));
 	}
 
 	@Override
@@ -150,7 +150,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 			throw new GunGameErrorPresentException();
 		}
 		
-		String msg = super.config.getString("messages.winner");
+		String msg = super.config.getString("message.winner");
 		msg = IOUtil.replace(msg, "winner", player.getDisplayName());
 		
 		return IOUtil.prepare(this.getPrefix(), msg);
@@ -162,7 +162,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 			throw new GunGameErrorPresentException();
 		}
 		
-		String msg =  super.config.getString("messages.ingame.kill");
+		String msg =  super.config.getString("message.ingame.kill");
 		msg = IOUtil.replace(msg, "victim", victim.getDisplayName());
 		msg = IOUtil.replace(msg, "killer", killer.getDisplayName());
 		
@@ -175,7 +175,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 			throw new GunGameErrorPresentException();
 		}
 		
-		String msg = super.config.getString("messages.ingame.death");
+		String msg = super.config.getString("message.ingame.death");
 		msg = IOUtil.replace(msg, "victim", victim.getDisplayName());
 		
 		return IOUtil.prepare(this.getPrefix(), msg);
@@ -187,7 +187,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 			throw new GunGameErrorPresentException();
 		}
 		
-		String msg = super.config.getString("messages.ingame.respawn");
+		String msg = super.config.getString("message.ingame.respawn");
 		msg = IOUtil.replace(msg, "level", level);
 		
 		return IOUtil.prepare(this.getPrefix(), msg);
@@ -213,7 +213,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 	
 	@Override
 	public String getIdentifier() {
-		return "messages";
+		return "message";
 	}
 	
 	@Override

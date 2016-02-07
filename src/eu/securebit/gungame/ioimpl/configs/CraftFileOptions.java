@@ -15,9 +15,9 @@ public class CraftFileOptions extends AbstractConfig implements FileOptions {
 	private static final List<ConfigDefault> defaults = new ArrayList<>();
 	
 	static {
-		CraftFileOptions.defaults.add(new ConfigDefault("options.reset-level", false, boolean.class));
-		CraftFileOptions.defaults.add(new ConfigDefault("options.autorespawn", true, boolean.class));
-		CraftFileOptions.defaults.add(new ConfigDefault("options.care-natural-death", true, boolean.class));
+		CraftFileOptions.defaults.add(new ConfigDefault("option.reset-level", false, boolean.class));
+		CraftFileOptions.defaults.add(new ConfigDefault("option.autorespawn", true, boolean.class));
+		CraftFileOptions.defaults.add(new ConfigDefault("option.care-natural-death", true, boolean.class));
 	}
 	
 	
@@ -32,7 +32,7 @@ public class CraftFileOptions extends AbstractConfig implements FileOptions {
 			throw new GunGameErrorPresentException();
 		}
 		
-		return super.config.getBoolean("options.reset-level");
+		return super.config.getBoolean("option.reset-level");
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class CraftFileOptions extends AbstractConfig implements FileOptions {
 			throw new GunGameErrorPresentException();
 		}
 		
-		return super.config.getBoolean("options.autorespawn");
+		return super.config.getBoolean("option.autorespawn");
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class CraftFileOptions extends AbstractConfig implements FileOptions {
 			throw new GunGameErrorPresentException();
 		}
 		
-		return super.config.getBoolean("options.care-natural-death");
+		return super.config.getBoolean("option.care-natural-death");
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class CraftFileOptions extends AbstractConfig implements FileOptions {
 			throw new GunGameErrorPresentException();
 		}
 		
-		super.config.set("options.reset-level", enabled);
+		super.config.set("option.reset-level", enabled);
 		this.save();
 	}
 
@@ -69,7 +69,7 @@ public class CraftFileOptions extends AbstractConfig implements FileOptions {
 			throw new GunGameErrorPresentException();
 		}
 		
-		super.config.set("options.autorespawn", enabled);
+		super.config.set("option.autorespawn", enabled);
 		this.save();
 	}
 
@@ -79,7 +79,7 @@ public class CraftFileOptions extends AbstractConfig implements FileOptions {
 			throw new GunGameErrorPresentException();
 		}
 		
-		super.config.set("options.care-natural-death", enabled);
+		super.config.set("option.care-natural-death", enabled);
 		this.save();
 	}
 	

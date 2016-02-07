@@ -33,14 +33,14 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 		
 		CraftFileGameConfig.defaults.add(new ConfigDefault("editmode", true, boolean.class));
 		CraftFileGameConfig.defaults.add(new ConfigDefault("muted", false, boolean.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("files.levels", dataFolder + "levels.yml", String.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("files.messages", dataFolder + "messages.yml", String.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("files.scoreboard", dataFolder + "scoreboard.yml", String.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("files.options", dataFolder + "options.yml", String.class));
+		CraftFileGameConfig.defaults.add(new ConfigDefault("file.levels", dataFolder + "levels.yml", String.class));
+		CraftFileGameConfig.defaults.add(new ConfigDefault("file.messages", dataFolder + "messages.yml", String.class));
+		CraftFileGameConfig.defaults.add(new ConfigDefault("file.scoreboard", dataFolder + "scoreboard.yml", String.class));
+		CraftFileGameConfig.defaults.add(new ConfigDefault("file.options", dataFolder + "options.yml", String.class));
 		CraftFileGameConfig.defaults.add(new ConfigDefault("start-level", 1, int.class));
 		CraftFileGameConfig.defaults.add(new ConfigDefault("playercount.minimal", 1, int.class));
 		CraftFileGameConfig.defaults.add(new ConfigDefault("playercount.maximal", 3, int.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("locations.spawns", Arrays.asList(), null));
+		CraftFileGameConfig.defaults.add(new ConfigDefault("location.spawns", Arrays.asList(), null));
 		CraftFileGameConfig.defaults.add(new ConfigDefault("next-spawn-id", 0, int.class));
 	}
 	
@@ -49,7 +49,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 		super(file, handler,
 				FileGameConfig.ERROR_MAIN, FileGameConfig.ERROR_LOAD, FileGameConfig.ERROR_FOLDER, FileGameConfig.ERROR_CREATE, FileGameConfig.ERROR_MALFORMED);
 		
-		ConfigUtil.setLocation("locations.lobby", world.getSpawnLocation(), CraftFileGameConfig.defaults);
+		ConfigUtil.setLocation("location.lobby", world.getSpawnLocation(), CraftFileGameConfig.defaults);
 	}
 	
 	@Override
@@ -76,7 +76,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 			throw new GunGameErrorPresentException();
 		}
 		
-		for (String entry : super.config.getStringList("locations.spawns")) {
+		for (String entry : super.config.getStringList("location.spawns")) {
 			int spawnId = NumberConversions.toInt(DataUtil.getFromCSV(entry, 0));
 			if (spawnId == id) {
 				return true;
@@ -119,7 +119,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 			throw new GunGameErrorPresentException();
 		}
 		
-		return super.config.getString("files.levels");
+		return super.config.getString("file.levels");
 	}
 	
 	@Override
@@ -128,7 +128,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 			throw new GunGameErrorPresentException();
 		}
 		
-		return super.config.getString("files.messages");
+		return super.config.getString("file.messages");
 	}
 
 	@Override
@@ -137,7 +137,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 			throw new GunGameErrorPresentException();
 		}
 		
-		return super.config.getString("files.scoreboard");
+		return super.config.getString("file.scoreboard");
 	}
 	
 	@Override
@@ -146,7 +146,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 			throw new GunGameErrorPresentException();
 		}
 		
-		return super.config.getString("files.options");
+		return super.config.getString("file.options");
 	}
 	
 	@Override
@@ -155,7 +155,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 			throw new GunGameErrorPresentException();
 		}
 		
-		return ConfigUtil.getLocation(super.config, "locations.lobby");
+		return ConfigUtil.getLocation(super.config, "location.lobby");
 	}
 	
 	@Override
@@ -164,7 +164,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 			throw new GunGameErrorPresentException();
 		}
 		
-		for (String entry : super.config.getStringList("locations.spawns")) {
+		for (String entry : super.config.getStringList("location.spawns")) {
 			if (NumberConversions.toInt(DataUtil.getFromCSV(entry, 0)) == id) {
 				return this.readSpawnLocation(entry).getValue();
 			}
@@ -181,7 +181,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 		
 		List<Location> spawns = new ArrayList<>();
 		
-		for (String entry : super.config.getStringList("locations.spawns")) {
+		for (String entry : super.config.getStringList("location.spawns")) {
 			Location loc = this.readSpawnLocation(entry).getValue();
 			if (loc == null) {
 				continue;
@@ -201,7 +201,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 		
 		Map<Integer, Location> spawns = new HashMap<>();
 		
-		for (String spawn : super.config.getStringList("locations.spawns")) {
+		for (String spawn : super.config.getStringList("location.spawns")) {
 			Entry<Integer, Location> entry = this.readSpawnLocation(spawn);
 			
 			if (entry.getValue() == null) {
@@ -250,7 +250,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 			throw new GunGameErrorPresentException();
 		}
 		
-		ConfigUtil.setLocation(super.config, "locations.lobby", loc);
+		ConfigUtil.setLocation(super.config, "location.lobby", loc);
 		this.save();
 	}
 
@@ -260,7 +260,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 			throw new GunGameErrorPresentException();
 		}
 		
-		super.config.set("locations.spawns", Arrays.asList());
+		super.config.set("location.spawns", Arrays.asList());
 		super.config.set("last-spawn-id", 0);
 		this.save();
 	}
@@ -274,7 +274,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 		boolean success = false;
 		List<String> spawnList = new ArrayList<>();
 		
-		for (String entry : super.config.getStringList("locations.spawns")) {
+		for (String entry : super.config.getStringList("location.spawns")) {
 			if (NumberConversions.toInt(DataUtil.getFromCSV(entry, 0)) == id) {
 				success = true;
 			} else {
@@ -283,7 +283,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 		}
 		
 		if (success) {
-			super.config.set("locations.spawns", spawnList);
+			super.config.set("location.spawns", spawnList);
 			
 			if (id < super.config.getInt("next-spawn-id")) {
 				super.config.set("next-spawn-id", id);
@@ -302,10 +302,10 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 		}
 		
 		int nextId = super.config.getInt("next-spawn-id");
-		List<String> spawnList = super.config.getStringList("locations.spawns");
+		List<String> spawnList = super.config.getStringList("location.spawns");
 		
 		spawnList.add(DataUtil.toCSV(nextId, loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch()));
-		super.config.set("locations.spawns", spawnList);
+		super.config.set("location.spawns", spawnList);
 		
 		int newId = 0;
 		
