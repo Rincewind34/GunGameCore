@@ -1,19 +1,19 @@
 package eu.securebit.gungame.game.states;
 
-import java.util.List;
-
 import lib.securebit.InfoLayout;
 import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateGrace;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
+import eu.securebit.gungame.listeners.ListenerEntityDeath;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
 
@@ -21,6 +21,8 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 	
 	public GameStateGrace(GunGame gungame) {
 		super(gungame, 15);
+		
+		this.getListeners().add(new ListenerEntityDeath(gungame));
 		
 		this.getSettings().setValue(StateSettings.ITEM_DROP, false);
 		this.getSettings().setValue(StateSettings.ITEM_PICKUP, false);
@@ -32,14 +34,11 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 	public void start() {
 		this.getGame().playConsoleMessage(Main.layout().format("Entering gamephase: *Grace*"));
 		
-		List<Location> spawns = Util.getSpawns(this.getGame());
-		
 		for (GunGamePlayer player : this.getGame().getPlayers()) {
-			player.getHandle().teleport(spawns.get(Main.random().nextInt(spawns.size())));
 			player.refreshLevel();
 		}
 		
-		if (this.getGame().getScoreboard().isEnabled()) { //TODO use bitboard
+		if (this.getGame().getScoreboard().isEnabled()) {
 			this.getGame().getScoreboard().setup();
 		}
 		
@@ -66,12 +65,17 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 	public void stageInformation(InfoLayout layout) {
 		layout.line("Seconds left: " + this.getCountdown().getSecondsLeft());
 	}
-
+	
 	@Override
 	public void updateScoreboard(GamePlayer player) {
 		// TODO
 	}
-
+	
+	@Override
+	public String getMotD() {
+		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
+	}
+	
 	@Override
 	protected String getMessageCountdown(int secondsleft) {
 		return this.getGame().getSettings().files().getMessages().getCountdownGrace(secondsleft);
@@ -90,6 +94,13 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 	protected void onQuit(Player player) {
 		super.onQuit(player);
 		Util.startCalculation(player, 2, this.getGame());
+	}
+	
+	@Override
+	protected void onBlockBreak(Block block, Player player, boolean allowed) {
+		if (allowed) {
+			block.setType(Material.AIR);
+		}
 	}
 	
 }

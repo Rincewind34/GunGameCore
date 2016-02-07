@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import lib.securebit.game.Game;
-import lib.securebit.game.GamePlayer;
-import lib.securebit.game.GameStateManager;
-import lib.securebit.game.GameStateManager.GameStateException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.World;
@@ -18,10 +13,20 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
-public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
+import lib.securebit.game.Game;
+import lib.securebit.game.GamePlayer;
+import lib.securebit.game.GameStateManager;
+import lib.securebit.game.GameStateManager.GameStateException;
+import lib.securebit.game.mapreset.MapReset;
+import lib.securebit.game.mapreset.SimpleMapReset;
+import lib.securebit.game.util.PingResult;
 
+public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
+	
 	private List<P> players;
 	private List<World> worlds;
+	
+	private MapReset mapReset;
 	
 	private Plugin plugin;
 	
@@ -35,7 +40,11 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 		this.players = new ArrayList<>();
 		this.worlds = new ArrayList<>();
 		this.manager = null;
+		
+		this.mapReset = new SimpleMapReset();
 	}
+	
+	public abstract int getSize();
 	
 	@Override
 	public List<P> getPlayers() {
@@ -125,11 +134,13 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	@Override
 	public void registerWorld(World world) {
 		this.worlds.add(world);
+		this.mapReset.add(world);
 	}
 
 	@Override
 	public void unregisterWorld(World world) {
 		this.worlds.remove(world);
+		this.mapReset.remove(world);
 	}
 
 	@Override
@@ -200,6 +211,11 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 		return this.manager;
 	}
 	
+	@Override
+	public PingResult pingGame() {
+		return new PingResult(this.manager.getCurrent().getMotD(), this.manager.getCurrent().getName(), this.players.size(), this.getSize());
+	}
+	
 	public void setManager(GameStateManager<?> manager) {
 		if (this.manager != null) {
 			throw new GameStateException("The manager is already set!");
@@ -208,4 +224,7 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 		this.manager = manager;
 	}
 	
+	public MapReset getMapReset() {
+		return this.mapReset;
+	}
 }

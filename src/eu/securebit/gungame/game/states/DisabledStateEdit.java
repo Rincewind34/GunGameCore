@@ -40,7 +40,12 @@ public class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
 	
 	@Override
 	public void stageInformation(InfoLayout layout) {
-		this.getGame().stageEditInformation(layout);
+		this.getGame().getInterface().stageEditInformation(layout);
+	}
+	
+	@Override
+	public String getMotD() {
+		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
 	}
 	
 	@Override

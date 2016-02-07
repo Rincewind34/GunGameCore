@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.NumberConversions;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.util.LevelManager;
 import eu.securebit.gungame.util.CoreMessages;
@@ -28,7 +29,7 @@ public class ArgumentLevels extends CustomArgument {
 
 	@Override
 	public String getSyntax() {
-		return "/gungame levels";
+		return "/gungame levels {load|save|delete}";
 	}
 
 	@Override
@@ -44,6 +45,11 @@ public class ArgumentLevels extends CustomArgument {
 	@Override
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
 		Player player = (Player) sender;
+		
+		if (!Core.isFrameEnabled()) {
+			player.sendMessage(CoreMessages.frameDisabled());
+			return true;
+		}
 		
 		if (!Main.instance().getFrame().isInGame(player)) {
 			player.sendMessage(CoreMessages.notInGame());

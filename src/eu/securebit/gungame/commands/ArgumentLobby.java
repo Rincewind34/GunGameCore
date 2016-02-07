@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
@@ -32,6 +33,11 @@ public class ArgumentLobby extends CustomArgument {
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
 		Player player = (Player) sender;
 		
+		if (!Core.isFrameEnabled()) {
+			player.sendMessage(CoreMessages.frameDisabled());
+			return true;
+		}
+		
 		if (!Main.instance().getFrame().isInGame(player)) {
 			player.sendMessage(CoreMessages.notInGame());
 			return true;
@@ -49,7 +55,7 @@ public class ArgumentLobby extends CustomArgument {
 					player.sendMessage(CoreMessages.lobbyTeleport());
 				}
 			} else if (args[1].equals("set")) {
-				gungame.setLobbyLocation(player.getLocation());
+				gungame.getInterface().setLobbyLocation(player.getLocation());
 				player.sendMessage(CoreMessages.lobbySet());
 			} else {
 				return false;

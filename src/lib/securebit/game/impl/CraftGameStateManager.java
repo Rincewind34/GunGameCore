@@ -9,6 +9,7 @@ import lib.securebit.game.Game;
 import lib.securebit.game.GameState;
 import lib.securebit.game.GameStateManager;
 
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 
 public class CraftGameStateManager<G extends Game<?>> implements GameStateManager<G> {
@@ -173,7 +174,22 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 		this.game = game;
 		((CraftGame<?>) this.game).setManager(this);
 	}
-
+	
+	@Override
+	public void destroy() {
+		if (!this.created) {
+			throw new GameStateException("The manager is not created!");
+		}
+		
+		HandlerList.unregisterAll(this.game);
+		
+		this.getCurrent().stop();
+		this.getCurrent().unregisterListener(this.plugin);
+		this.getCurrent().unload();
+		
+		this.created = false;
+	}
+	
 	@Override
 	public void create() {
 		this.create(false);

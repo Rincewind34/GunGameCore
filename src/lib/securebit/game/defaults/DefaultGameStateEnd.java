@@ -10,6 +10,8 @@ import lib.securebit.game.impl.CraftGameStateLobby;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import eu.securebit.gungame.Main;
+
 public abstract class DefaultGameStateEnd<G extends Game<? extends GamePlayer>> extends CraftGameStateLobby<G> {
 	
 	private Countdown countdown;
@@ -51,6 +53,12 @@ public abstract class DefaultGameStateEnd<G extends Game<? extends GamePlayer>> 
 	}
 	
 	@Override
+	public void unload() {
+		int result = this.getGame().getMapReset().rollback();
+		this.getGame().playConsoleMessage(Main.layout().format("MapReset complete, " + result + " blocks restored."));
+	}
+	
+	@Override
 	public void start() {
 		this.countdown.start();
 	}
@@ -60,6 +68,11 @@ public abstract class DefaultGameStateEnd<G extends Game<? extends GamePlayer>> 
 		if (this.countdown.isRunning()) {
 			this.countdown.stop(false);
 		}
+	}
+	
+	@Override
+	public String getName() {
+		return "end";
 	}
 	
 	protected String onLogin(Player player) {

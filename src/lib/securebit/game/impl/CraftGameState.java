@@ -13,6 +13,7 @@ import lib.securebit.game.Settings.StateSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -62,6 +63,7 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, "");
 		this.getSettings().setValue(StateSettings.DIFFICULTY, Difficulty.PEACEFUL);
 		this.getSettings().setValue(StateSettings.FIRE_SPREAD, false);
+		this.getSettings().setValue(StateSettings.MAP_RESET, false);
 	}
 	
 	@Override
@@ -76,6 +78,10 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 				world.setGameRuleValue("doDaylightCycle", "false");
 			}
 		});
+		
+		if (this.getSettings().getValue(StateSettings.MAP_RESET)) {
+			this.game.getMapReset().startRecord();
+		}
 	}
 	
 	@Override
@@ -83,6 +89,11 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		this.game.getWorlds().forEach(world -> {
 			world.setGameRuleValue("doDaylightCycle", "true");
 		});
+		
+		
+		if (this.getSettings().getValue(StateSettings.MAP_RESET)) {
+			this.game.getMapReset().stopRecord();
+		}
 	}
 	
 	@Override
@@ -125,6 +136,14 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 		return null;
 	}
 	
+	protected void onBlockPlace(Block block, Player player, boolean allowed) {
+		
+	}
+	
+	protected void onBlockBreak(Block block, Player player, boolean allowed) {
+		
+	}
+	
 	protected void onJoin(Player player) {
 		if (this.settings.getValue(StateSettings.MESSAGE_JOIN) != null) {
 			this.getGame().broadcastMessage(this.settings.getValue(StateSettings.MESSAGE_JOIN).replace("${player}",
@@ -159,8 +178,14 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 					event.setCancelled(true);
 					return;
 				}
+				
+				this.onBlockPlace(event.getBlock(), player.getHandle(), !event.isCancelled());
 			}
 		});
+		
+		if (!event.isCancelled() && this.getSettings().getValue(StateSettings.MAP_RESET)) {
+			this.game.getMapReset().placeBlock(event.getBlock().getLocation());
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
@@ -173,8 +198,14 @@ public abstract class CraftGameState<G extends Game<? extends GamePlayer>> imple
 					event.setCancelled(true);
 					return;
 				}
+				
+				this.onBlockBreak(event.getBlock(), player.getHandle(), !event.isCancelled());
 			}
 		});
+		
+		if (!event.isCancelled() && this.getSettings().getValue(StateSettings.MAP_RESET)) {
+			this.game.getMapReset().breakBlock(event.getBlock().getLocation(), event.getBlock());
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)

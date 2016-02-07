@@ -1,14 +1,14 @@
 package eu.securebit.gungame.game.states;
 
-import lib.securebit.InfoLayout;
-import lib.securebit.game.GamePlayer;
-import lib.securebit.game.Settings.StateSettings;
-import lib.securebit.game.defaults.DefaultGameStateLobby;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
+import lib.securebit.InfoLayout;
+import lib.securebit.game.GamePlayer;
+import lib.securebit.game.Settings.StateSettings;
+import lib.securebit.game.defaults.DefaultGameStateLobby;
 
 public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	
@@ -19,7 +19,8 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 				gungame.getSettings().options().getMaxPlayerCount(),
 				gungame.getSettings().options().getMinPlayerCount(),
 				gungame.getSettings().options().getLobbyCountdownLength(),
-				true);
+				0, //TODO config premiumSlots
+				true, true); //TODO config premiumKick
 		
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, gungame.getSettings().files().getMessages().getJoinLobby());
 		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getSettings().files().getMessages().getQuitLobby());
@@ -40,6 +41,11 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	}
 	
 	@Override
+	public void load() {
+		super.load();
+	}
+	
+	@Override
 	public void stageInformation(InfoLayout layout) {
 		layout.line("Enough players: " + Util.parseBoolean(this.getGame().getPlayers().size() >= this.getGame().getSettings().options().getMinPlayerCount(), layout));
 		layout.line("Seconds left: " + this.getCountdown().getSecondsLeft());
@@ -51,8 +57,8 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	}
 	
 	@Override
-	public String getName() {
-		return "lobby";
+	public String getMotD() {
+		return this.getGame().getSettings().files().getMessages().getMotD(this.getName());
 	}
 
 	@Override
@@ -83,7 +89,7 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	
 	@Override
 	protected void onCountdownStop() {
-		this.getGame().getManager().next(); //TODO skip(2)
+		this.getGame().getManager().skip(2); //TODO skip(2)
 	}
 	
 }

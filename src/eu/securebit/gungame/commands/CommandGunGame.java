@@ -1,7 +1,7 @@
 package eu.securebit.gungame.commands;
 
 import lib.securebit.InfoLayout;
-import lib.securebit.command.BasicCommand;
+import lib.securebit.command.ArgumentedCommand;
 import lib.securebit.command.BasicCommand.DefaultExecutor;
 import lib.securebit.command.LayoutCommandSettings;
 
@@ -12,7 +12,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.util.Permissions;
 
-public class CommandGunGame extends BasicCommand implements DefaultExecutor {
+public class CommandGunGame extends ArgumentedCommand implements DefaultExecutor {
 	
 	/*
 	 * /gungame {
@@ -46,7 +46,7 @@ public class CommandGunGame extends BasicCommand implements DefaultExecutor {
 		this.setAliases("gg");
 		this.setDescription("GunGame's main command.");
 		this.setPermission(Permissions.commandGungame());
-		this.setDefaultExecutor(this);
+		this.setExecutor(this);
 		this.registerArgument("help", new ArgumentHelp(this));
 		this.registerArgument("spawns", new ArgumentSpawns());
 		this.registerArgument("levels", new ArgumentLevels());

@@ -24,6 +24,8 @@ public interface GameStateManager<G extends Game<?>> extends Iterable<GameState>
 	
 	public abstract void initGame(G game);
 	
+	public abstract void destroy();
+	
 	public abstract void create();
 	
 	public abstract void create(boolean running);

@@ -118,4 +118,36 @@ public class CoreMessages {
 		return Main.layout().format("\\pre-You have to be in a game!-");
 	}
 	
+	public static String muteSwitch(String muteState) {
+		return Main.layout().format("\\preTurned mute to: *" + muteState + "*!");
+	}
+	
+	public static String alreadyMuted() {
+		return Main.layout().format("\\preThe game is already muted!");
+	}
+	
+	public static String alreadyUnmuted() {
+		return Main.layout().format("\\preThe game is already unmuted!");
+	}
+	
+	public static String gamestateSkiped() {
+		return Main.layout().format("\\pre+Gamestate skiped!+");
+	}
+	
+	public static String currentGamestate(String name) {
+		return Main.layout().format("\\preCurrent gamestate: *" + name + "*");
+	}
+	
+	public static String changeMode(String to) {
+		return Main.layout().format("\\pre*Success!* The mode now: " + to + "!");
+	}
+	
+	public static String suggestReload() {
+		return Main.layout().format("\\preEnter */rl* to update the changes!");
+	}
+	
+	public static String frameDisabled() {
+		return Main.layout().format("\\pre-The frame is not enabled!-");
+	}
+	
 }

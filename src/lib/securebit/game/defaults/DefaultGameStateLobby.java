@@ -25,24 +25,28 @@ public abstract class DefaultGameStateLobby<G extends Game<? extends GamePlayer>
 	
 	private int minPl;
 	private int maxPl;
+	private int premiumSlots;
 	
 	private boolean joinable;
+	private boolean premiumKick;
 	
 	private Countdown countdown;
 	
 	private List<HotbarItem> items;
 	
 	public DefaultGameStateLobby(G game, Location lobby, String permPremium,
-			String permStaff, int maxPl, int minPl, int countdownLength, boolean joinable) {
+			String permStaff, int maxPl, int minPl, int countdownLength, int premiumSlots, boolean joinable, boolean premiumKick) {
 		super(game, lobby);
 		
 		this.items = new ArrayList<>();
 		
 		this.minPl = minPl;
 		this.maxPl = maxPl;
+		this.premiumSlots = premiumSlots;
 		this.permPremium = permPremium;
 		this.permStaff = permStaff;
 		this.joinable = joinable;
+		this.premiumKick = premiumKick;
 		
 		this.countdown = new DefaultCountdown(this.getGame().getPlugin(), countdownLength) {
 			
@@ -68,16 +72,6 @@ public abstract class DefaultGameStateLobby<G extends Game<? extends GamePlayer>
 	}
 	
 	@Override
-	public void load() {
-		super.load();
-		
-		for (GamePlayer player : this.getGame().getPlayers()) {
-			this.getGame().resetPlayer(player.getHandle());
-			player.getHandle().teleport(this.getLobby());
-		}
-	}
-	
-	@Override
 	public void start() {
 		
 	}
@@ -89,8 +83,35 @@ public abstract class DefaultGameStateLobby<G extends Game<? extends GamePlayer>
 		}
 	}
 	
+	@Override
+	public String getName() {
+		return "lobby";
+	}
+	
+	@Override
+	public void load() {
+		super.load();
+		
+		for (GamePlayer player : this.getGame().getPlayers()) {
+			this.getGame().resetPlayer(player.getHandle());
+			player.getHandle().teleport(this.getLobby());
+		}
+	}
+	
 	public Countdown getCountdown() {
 		return this.countdown;
+	}
+	
+	public boolean canUserJoin() {
+		return this.getGame().getPlayers().size() < (this.maxPl - this.premiumSlots);
+	}
+	
+	public boolean canPremiumJoin() {
+		if (this.getGame().getPlayers().size() < this.maxPl) {
+			return true;
+		} else {
+			return this.premiumKick;
+		}
 	}
 	
 	@Override
@@ -99,33 +120,28 @@ public abstract class DefaultGameStateLobby<G extends Game<? extends GamePlayer>
 			return this.getMessageNotJoinable();
 		}
 		
-		int onlinePlayers = this.getGame().getPlayers().size();
-		
-		if (onlinePlayers < this.maxPl) {
+		if (this.canUserJoin()) {
 			return null;
 		}
-			
-		if (player.hasPermission(this.permPremium) || player.hasPermission(this.permStaff)) {
-			List<Player> kickable = new ArrayList<>();
-				
-			int levelPermitted = this.getPermissionLevel(player);
 		
-			for (GamePlayer target : this.getGame().getPlayers()) {
-				int levelVictim = this.getPermissionLevel(target.getHandle());
-				
-				if (levelPermitted > levelVictim) {
-					kickable.add(target.getHandle());
-				}
-			}
-			
-			Collections.shuffle(kickable);
-			
-			if (kickable.size() == 0) {
+		if (player.hasPermission(this.permStaff)) {
+			if (this.kickPlayer(this.getPermissionLevel(player))) {
+				return null;
+			} else {
 				return this.getMessageServerFull();
 			}
-			
-			kickable.get(0).kickPlayer(this.getKickMessage(levelPermitted));
-			return null;
+		} else if (player.hasPermission(this.permPremium)) {
+			if (this.getGame().getPlayers().size() < this.maxPl) {
+				return null;
+			} else if (this.premiumKick) {
+				if (this.kickPlayer(this.getPermissionLevel(player))) {
+					return null;
+				} else {
+					return this.getMessageServerFull();
+				}
+			} else {
+				return this.getMessageServerFull();
+			}
 		} else {
 			return this.getMessageServerFull();
 		}
@@ -195,18 +211,35 @@ public abstract class DefaultGameStateLobby<G extends Game<? extends GamePlayer>
 	private int getPermissionLevel(Player p) {
 		int level = 0;
 		
-		if (p.hasPermission(this.permPremium)) {
-			level = 1;
-		}
-		
 		if (p.hasPermission(this.permStaff)) {
 			level = 2;
 		}
 		
-		if (p.isOp()) {
-			level = 3;
+		if (p.hasPermission(this.permPremium)) {
+			level = 1;
 		}
 		
 		return level;
+	}
+	
+	private boolean kickPlayer(int levelPermitted) {
+		List<Player> kickable = new ArrayList<>();
+		
+		for (GamePlayer target : this.getGame().getPlayers()) {
+			int levelVictim = this.getPermissionLevel(target.getHandle());
+			
+			if (levelPermitted > levelVictim) {
+				kickable.add(target.getHandle());
+			}
+		}
+		
+		Collections.shuffle(kickable);
+		
+		if (kickable.size() == 0) {
+			return false;
+		}
+		
+		kickable.get(0).kickPlayer(this.getKickMessage(levelPermitted));
+		return true;
 	}
 }
