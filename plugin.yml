@@ -1,5 +1,5 @@
 name: GunGame
-version: 1.3-BETA
+version: 1.4-BETA
 main: eu.securebit.gungame.Main
 
 softdepend: [Multiverse-Core, InterfaceAPI]
