@@ -27,6 +27,10 @@ public class ErrorHandler {
 	
 	public static final Map<String, Error> errors = new HashMap<>();
 	
+	public static final Map<String, TmpError> tmpErrors = new HashMap<>();
+	
+	public static final Map<String, TmpError> warnings = new HashMap<>();
+	
 	static {
 		ErrorHandler.errors.put(RootDirectory.ERROR_MAIN, RootDirectory.createErrorMain());
 		ErrorHandler.errors.put(RootDirectory.ERROR_FILE, RootDirectory.createErrorFile());
@@ -101,33 +105,51 @@ public class ErrorHandler {
 	}
 	
 	public void throwError(String id, String causedBy) {
-		this.throwError(id, causedBy, null);
+		this.throwError(id, causedBy, new String[0]);
 	}
 	
-	public void throwError(String id, String causedBy, String variable) {
-		this.throwError(id, causedBy, variable, false);
+	public void throwError(String id, String causedBy, String... variables) {
+		this.throwError(false, id, causedBy, variables);
 	}
 	
-	private void throwError(String id, String causedBy, String variable, boolean leading) {
+	private void throwError(boolean trigger, String id, String causedBy, String... variables) {
 		if (!ErrorHandler.errors.containsKey(id)) {
 			throw new GunGameException("The errorid '" + id + "' is unknown!");
 		}
 		
-		if (variable == null && id.endsWith("-VAR")) {
-			throw new GunGameException("Variable has to be present!");
+		Error error = ErrorHandler.errors.get(id);
+		
+		String errorId = id;
+		String errorMsg = error.getMessage();
+		
+		for (int i = 0; i < variables.length; i++) {
+			String var = "VAR" + Integer.toString(i);
+			
+			if (errorMsg.contains(var) || errorId.contains(var)) {
+				errorId = errorId.replace(var, InfoLayout.replaceKeys(variables[i]));
+				errorMsg = errorMsg.replace(var, InfoLayout.replaceKeys(variables[i]));
+			}
 		}
+		
+		if (errorMsg.contains("VAR")) {
+			throw new GunGameException("All variables should be present!");
+		}
+		
+		if (errorId.contains("VAR")) {
+			throw new GunGameException("All variables should be present!");
+		}
+		
+		errorId = InfoLayout.replaceKeys(errorId);
+		errorMsg = InfoLayout.replaceKeys(errorMsg);
 		
 		if (!this.isErrorPresent(id)) {
 			this.thrownErrors.add(id);
 		}
 		
-		String msgId = InfoLayout.replaceKeys(variable != null ? id.replace("VAR", variable) : id);
-		String errorMsg = variable == null ? ErrorHandler.errors.get(id).getMessage() : ErrorHandler.errors.get(id).getMessage().replace("VAR", variable);
-		
-		if (!leading) {
-			Main.layout().message(Bukkit.getConsoleSender(), "-Error$-" + msgId + " occured: " + errorMsg + "-");
+		if (!trigger) {
+			Main.layout().message(Bukkit.getConsoleSender(), "-Error$-" + errorId + " occured: " + errorMsg + "-");
 		} else {
-			Main.layout().message(Bukkit.getConsoleSender(), "-=> triggers: Error$-" + msgId + " (" + errorMsg + ")-");
+			Main.layout().message(Bukkit.getConsoleSender(), "-=> triggers: Error$-" + errorId + " (" + errorMsg + ")-");
 		}
 		
 		if (causedBy != null) {
@@ -137,7 +159,57 @@ public class ErrorHandler {
 		}
 		
 		for (String superId : ErrorHandler.errors.get(id).getSuperErrors()) {
-			this.throwError(superId, null, variable, true);
+			this.throwError(true, superId, null, variables);
+		}
+	}
+	
+	public void ejectTmpError(String id, String causedBy) {
+		this.ejectTmpError(id, causedBy, null);
+	}
+	
+	public void ejectTmpError(String id, String causedBy, String variable) {
+		if (!ErrorHandler.tmpErrors.containsKey(id)) {
+			throw new GunGameException("The tmperrorid '" + id + "' is unknown!");
+		}
+		
+		if (variable == null && id.endsWith("-VAR")) {
+			throw new GunGameException("Variable has to be present!");
+		}
+		
+		String msgId = InfoLayout.replaceKeys(variable != null ? id.replace("VAR", variable) : id);
+		String errorMsg = variable == null ? ErrorHandler.tmpErrors.get(id).getMessage() : ErrorHandler.tmpErrors.get(id).getMessage().replace("VAR", variable);
+		
+		Main.layout().message(Bukkit.getConsoleSender(), "*TmpError$-" + msgId + "* occured: " + errorMsg);
+		
+		if (causedBy != null) {
+			String msgCausedBy = InfoLayout.replaceKeys(causedBy);
+			
+			Main.layout().message(Bukkit.getConsoleSender(), "=> Caused by: -Error$-" + msgCausedBy + "- (" + ErrorHandler.errors.get(causedBy).getMessage() + ")");
+		}
+	}
+	
+	public void ejectWarning(String id, String causedBy) {
+		this.ejectWarning(id, causedBy, null);
+	}
+	
+	public void ejectWarning(String id, String causedBy, String variable) {
+		if (!ErrorHandler.warnings.containsKey(id)) {
+			throw new GunGameException("The warning '" + id + "' is unknown!");
+		}
+		
+		if (variable == null && id.endsWith("-VAR")) {
+			throw new GunGameException("Variable has to be present!");
+		}
+		
+		String msgId = InfoLayout.replaceKeys(variable != null ? id.replace("VAR", variable) : id);
+		String errorMsg = variable == null ? ErrorHandler.warnings.get(id).getMessage() : ErrorHandler.warnings.get(id).getMessage().replace("VAR", variable);
+		
+		Main.layout().message(Bukkit.getConsoleSender(), "*Warning$-" + msgId + "* occured: " + errorMsg);
+		
+		if (causedBy != null) {
+			String msgCausedBy = InfoLayout.replaceKeys(causedBy);
+			
+			Main.layout().message(Bukkit.getConsoleSender(), "=> Caused by: -Error$-" + msgCausedBy + "- (" + ErrorHandler.errors.get(causedBy).getMessage() + ")");
 		}
 	}
 	

@@ -11,44 +11,44 @@ import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 
 public interface FileLevels extends FileIdentifyable, FileConfig {
 	
-	public static final String ERROR_MAIN = 			"7300-VAR";
+	public static final String ERROR_MAIN = 			"7300-VAR0";
 	
-	public static final String ERROR_LOAD = 			"7310-VAR";
+	public static final String ERROR_LOAD = 			"7310-VAR0";
 	
-	public static final String ERROR_FOLDER = 			"7311-VAR";
+	public static final String ERROR_FOLDER = 			"7311-VAR0";
 	
-	public static final String ERROR_CREATE = 			"7312-VAR";
+	public static final String ERROR_CREATE = 			"7312-VAR0";
 	
-	public static final String ERROR_MALFORMED = 		"7313-VAR";
+	public static final String ERROR_MALFORMED = 		"7313-VAR0";
 	
-	public static final String ERROR_LEVELCOUNT = 		"7320-VAR";
+	public static final String ERROR_LEVELCOUNT = 		"7320-VAR0";
 	
 	public static Error createErrorMain() {
-		return new SimpleError("In the levelsfile 'VAR' occured an error!");
+		return new SimpleError("In the levelsfile 'VAR0' occured an error!");
 	}
 	
 	public static Error createErrorLoad() {
-		return new SimpleError("The levelsfile 'VAR' could not be loaded!");
+		return new SimpleError("The levelsfile 'VAR0' could not be loaded!");
 	}
 	
 	public static Error createErrorFolder() {
-		return new SimpleFixableError("The levelsfile 'VAR' is a directory!", FileLevels.ERROR_MAIN, () -> {
+		return new SimpleFixableError("The levelsfile 'VAR0' is a directory!", FileLevels.ERROR_MAIN, () -> {
 			// TODO fix path
 		});
 	}
 	
 	public static Error createErrorCreate() {
-		return new SimpleError("The levelsfile 'VAR' could not be created!", FileLevels.ERROR_LOAD);
+		return new SimpleError("The levelsfile 'VAR0' could not be created!", FileLevels.ERROR_LOAD);
 	}
 	
 	public static Error createErrorMalformed() {
-		return new SimpleFixableError("The levelsfile 'VAR' is malformed!", FileLevels.ERROR_LOAD, () -> {
+		return new SimpleFixableError("The levelsfile 'VAR0' is malformed!", FileLevels.ERROR_LOAD, () -> {
 			// TODO fix path / delete
 		});
 	}
 	
 	public static Error createErrorLevelCount() {
-		return new SimpleError("The levelcount in the levelsfile 'VAR' has to be greater than 0!", FileLevels.ERROR_MAIN);
+		return new SimpleError("The levelcount in the levelsfile 'VAR0' has to be greater than 0!", FileLevels.ERROR_MAIN);
 	}
 	
 	

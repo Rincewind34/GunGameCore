@@ -10,36 +10,36 @@ import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 
 public interface FileMessages extends FileIdentifyable, FileConfig {
 	
-	public static final String ERROR_MAIN = 			"7100-VAR";
+	public static final String ERROR_MAIN = 			"7100-VAR0";
 	
-	public static final String ERROR_LOAD = 			"7110-VAR";
+	public static final String ERROR_LOAD = 			"7110-VAR0";
 	
-	public static final String ERROR_FOLDER =			"7111-VAR";
+	public static final String ERROR_FOLDER =			"7111-VAR0";
 	
-	public static final String ERROR_CREATE = 			"7112-VAR";
+	public static final String ERROR_CREATE = 			"7112-VAR0";
 	
-	public static final String ERROR_MALFORMED = 		"7113-VAR";
+	public static final String ERROR_MALFORMED = 		"7113-VAR0";
 	
 	public static Error createErrorMain() {
-		return new SimpleError("In the messagefile 'VAR' occured an error!");
+		return new SimpleError("In the messagefile 'VAR0' occured an error!");
 	}
 	
 	public static Error createErrorLoad() {
-		return new SimpleError("The messagefile 'VAR' could not be loaded!", FileMessages.ERROR_MAIN);
+		return new SimpleError("The messagefile 'VAR0' could not be loaded!", FileMessages.ERROR_MAIN);
 	}
 	
 	public static Error createErrorFolder() {
-		return new SimpleFixableError("The messagefile 'VAR' is a directory!", FileMessages.ERROR_LOAD, () -> {
+		return new SimpleFixableError("The messagefile 'VAR0' is a directory!", FileMessages.ERROR_LOAD, () -> {
 			// TODO fix path
 		});
 	}
 	
 	public static Error createErrorCreate() {
-		return new SimpleError("The messagefile 'VAR' could not be created!", FileMessages.ERROR_LOAD);
+		return new SimpleError("The messagefile 'VAR0' could not be created!", FileMessages.ERROR_LOAD);
 	}
 	
 	public static Error createErrorMalformed() {
-		return new SimpleFixableError("The messagefile 'VAR' is malformed!", FileMessages.ERROR_LOAD, () -> {
+		return new SimpleFixableError("The messagefile 'VAR0' is malformed!", FileMessages.ERROR_LOAD, () -> {
 			// TODO fix path
 		});
 	}

@@ -13,66 +13,66 @@ import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 
 public interface FileGameConfig extends FileIdentifyable, FileConfig {
 	
-	public static final String ERROR_MAIN = 				"7200-VAR";
+	public static final String ERROR_MAIN = 				"7200-VAR0";
 	
-	public static final String ERROR_LOAD = 				"7210-VAR";
+	public static final String ERROR_LOAD = 				"7210-VAR0";
 	
-	public static final String ERROR_FOLDER = 				"7211-VAR";
+	public static final String ERROR_FOLDER = 				"7211-VAR0";
 	
-	public static final String ERROR_CREATE = 				"7212-VAR";
+	public static final String ERROR_CREATE = 				"7212-VAR0";
 
-	public static final String ERROR_MALFORMED = 			"7213-VAR";
+	public static final String ERROR_MALFORMED = 			"7213-VAR0";
 	
-	public static final String ERROR_SPAWNID = 				"7220-VAR";
+	public static final String ERROR_SPAWNID = 				"7220-VAR0";
 	
-	public static final String ERROR_LEVELCOUNT = 			"7230-VAR";
+	public static final String ERROR_LEVELCOUNT = 			"7230-VAR0";
 	
-	public static final String ERROR_LEVELCOUNT_GREATER = 	"7231-VAR";
+	public static final String ERROR_LEVELCOUNT_GREATER = 	"7231-VAR0";
 	
-	public static final String ERROR_LEVELCOUNT_SMALLER = 	"7232-VAR";
+	public static final String ERROR_LEVELCOUNT_SMALLER = 	"7232-VAR0";
 	
 	public static Error createErrorMain() {
-		return new SimpleError("In the gameconfigfile 'VAR' occured an error!");
+		return new SimpleError("In the gameconfigfile 'VAR0' occured an error!");
 	}
 	
 	public static Error createErrorLoad() {
-		return new SimpleError("The gameconfigfile 'VAR' could not be loaded!", FileGameConfig.ERROR_MAIN);
+		return new SimpleError("The gameconfigfile 'VAR0' could not be loaded!", FileGameConfig.ERROR_MAIN);
 	}
 	
 	public static Error createErrorFolder() {
-		return new SimpleFixableError("The gameconfigfile 'VAR' is a directory!", FileGameConfig.ERROR_LOAD, () -> {
+		return new SimpleFixableError("The gameconfigfile 'VAR0' is a directory!", FileGameConfig.ERROR_LOAD, () -> {
 			// TODO delete
 		});
 	}
 	
 	public static Error createErrorCreate() {
-		return new SimpleError("The gameconfigfile 'VAR' could not be created!", FileGameConfig.ERROR_LOAD);
+		return new SimpleError("The gameconfigfile 'VAR0' could not be created!", FileGameConfig.ERROR_LOAD);
 	}
 	
 	public static Error createErrorMalformed() {
-		return new SimpleFixableError("The gameconfigfile 'VAR' is malformed!", FileGameConfig.ERROR_LOAD, () -> {
+		return new SimpleFixableError("The gameconfigfile 'VAR0' is malformed!", FileGameConfig.ERROR_LOAD, () -> {
 			// TODO fix path
 		});
 	}
 	
 	public static Error createErrorSpawnId() {
-		return new SimpleFixableError("The next-spawn-id in the gameconfigfile 'VAR' is already in use!", FileGameConfig.ERROR_MAIN, () -> {
+		return new SimpleFixableError("The next-spawn-id in the gameconfigfile 'VAR0' is already in use!", FileGameConfig.ERROR_MAIN, () -> {
 			// TODO recalculte nextspawnid
 		});
 	}
 	
 	public static Error createErrorLevelCount() {
-		return new SimpleError("The startlevel in the gameconfigfile 'VAR' is invalid!", FileGameConfig.ERROR_MAIN);
+		return new SimpleError("The startlevel in the gameconfigfile 'VAR0' is invalid!", FileGameConfig.ERROR_MAIN);
 	}
 	
 	public static Error createErrorLevelCountGreater() {
-		return new SimpleFixableError("The startlevel in the gameconfigfile 'VAR' has to be greater than 0!", FileGameConfig.ERROR_LEVELCOUNT, () -> {
+		return new SimpleFixableError("The startlevel in the gameconfigfile 'VAR0' has to be greater than 0!", FileGameConfig.ERROR_LEVELCOUNT, () -> {
 			// TODO change value to 1
 		});
 	}
 	
 	public static Error createErrorLevelCountSmaller() {
-		return new SimpleFixableError("The startlevel in the gameconfigfile 'VAR' has to be smaller than levelcount!", FileGameConfig.ERROR_LEVELCOUNT, () -> {
+		return new SimpleFixableError("The startlevel in the gameconfigfile 'VAR0' has to be smaller than levelcount!", FileGameConfig.ERROR_LEVELCOUNT, () -> {
 			// TODO change value to [<levelcount> - 1]
 		});
 	}

@@ -10,28 +10,44 @@ public abstract class Addon {
 	
 	public static final String ERROR_INIT = "4000";
 	
-	public static String errorLoad(String addon) {
-		return "5000-" + addon;
+	public static final String ERROR_LOAD = "5000-VAR0";
+	
+	public static final String ERROR_ENABLE = "6000-VAR0";
+	
+	public static final String ERROR_ENABLE_DEPENCIES = "6100-VAR0";
+	
+	public static final String ERROR_ENABLE_FRAME = "6200-VAR0";
+	
+	public static final String ERROR_ENABLE_FRAME_REQUIRED = "6210-VAR0";
+	
+	public static final String ERROR_ENABLE_FRAME_INCOMPATIBLE = "6220-VAR0";
+	
+	public static Error createErrorInit() {
+		return new SimpleError("The addonloading could not be initialized!");
 	}
 	
-	public static String errorLoadMainclass(String addon) {
-		return "5100-" + addon;
+	public static Error createErrorLoad() {
+		return new SimpleError("The addon (file: 'VAR0') could not be loaded!");
 	}
 	
-	public static String errorEnable(String addon) {
-		return "6000-" + addon;
+	public static Error createErrorEnable() {
+		return new SimpleError("The addon (file: 'VAR0') could not be enabled!");
 	}
 	
-	public static Error createErrorLoad(String addon) {
-		return new SimpleError("The addon '" + addon + "' could not be loaded!", Addon.errorEnable(addon));
+	public static Error createErrorDepencies() {
+		return new SimpleError("The addon (file: 'VAR0') requiers the plugin 'VAR1'!", Addon.ERROR_ENABLE);
 	}
 	
-	public static Error createErrorLoadMainclass(String addon) {
-		return new SimpleError("No mainclass in the addon '" + addon + "' found!", Addon.errorLoad(addon));
+	public static Error createErrorFrame() {
+		return new SimpleError("The addon (file: 'VAR0') could not be enabled bcause of the frame!", Addon.ERROR_ENABLE);
 	}
 	
-	public static Error createErrorEnable(String addon) {
-		return new SimpleError("The addon '" + addon + "' could not be enabled!");
+	public static Error createErrorFrameRequired() {
+		return new SimpleError("The addon (file: 'VAR0') requiers a enabled frame!", Addon.ERROR_ENABLE_FRAME);
+	}
+	
+	public static Error createErrorFrameIncompatible() {
+		return new SimpleError("The addon (file: 'VAR0') is incompatible with the enabled frame!", Addon.ERROR_ENABLE_FRAME);
 	}
 	
 	
@@ -53,6 +69,8 @@ public abstract class Addon {
 	public abstract void onEnable();
 	
 	public abstract void onDisable();
+	
+	public abstract boolean requiresFrame();
 	
 	public abstract String getVersion();
 	
