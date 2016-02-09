@@ -239,7 +239,7 @@ public abstract class DefaultGameStateLobby<G extends Game<? extends GamePlayer>
 			return false;
 		}
 		
-		kickable.get(0).kickPlayer(this.getKickMessage(levelPermitted));
+		this.getGame().kickPlayer(kickable.get(0), this.getKickMessage(levelPermitted));
 		return true;
 	}
 }

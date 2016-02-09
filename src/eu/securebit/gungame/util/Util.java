@@ -53,16 +53,12 @@ public class Util {
 	public static void startCalculation(Player player, int delay, GunGame gungame) {
 		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {
 			if (player == null || Bukkit.getPlayerExact(player.getName()) == null) {
-				gungame.handleDisconnect(player);
+				gungame.calculateGameState();
 			} else {
 				if (delay >= 100L) {
 					if (Main.DEBUG) {
 						System.err.println("Unable to handle disconnect of player " + player.getName());
 					}
-				}
-				
-				if (delay >= 20L) {
-					player.kickPlayer("");
 				}
 				
 				Util.startCalculation(player, delay * 2, gungame);

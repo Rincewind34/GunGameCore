@@ -26,6 +26,8 @@ public interface Game<P extends GamePlayer> extends Listener {
 	
 	public abstract void quitPlayer(Player player);
 	
+	public abstract void kickPlayer(Player player, String cause);
+	
 	public abstract void resetPlayer(Player player);
 	
 	public abstract void broadcastMessage(String msg);

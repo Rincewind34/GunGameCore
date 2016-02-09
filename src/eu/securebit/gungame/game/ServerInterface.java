@@ -1,6 +1,7 @@
 package eu.securebit.gungame.game;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 public class ServerInterface implements GameInterface {
 
@@ -17,6 +18,11 @@ public class ServerInterface implements GameInterface {
 	@Override
 	public void initRestart() {
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
+	}
+	
+	@Override
+	public void kickPlayer(Player player, String cause) {
+		player.kickPlayer(cause);
 	}
 
 }

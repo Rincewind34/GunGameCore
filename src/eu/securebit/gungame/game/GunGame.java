@@ -119,6 +119,20 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 	}
 	
 	@Override
+	public void kickPlayer(Player player, String cause) {
+		this.gameInterface.kickPlayer(player, cause);
+	}
+	
+	@Override
+	public void quitPlayer(Player player) {
+		if (this.winner == this.getPlayer(player)) {
+			this.winner = null;
+		}
+		
+		super.quitPlayer(player);
+	}
+	
+	@Override
 	public void playConsoleMessage(String msg) {
 		if (msg.matches("^.+\\[.+\\] .+")) {
 			msg = msg.replaceFirst("^.+\\[.+\\] ", "");
@@ -167,14 +181,6 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 	
 	public void initWinner(GunGamePlayer player) {
 		this.winner = player;
-	}
-	
-	public void handleDisconnect(Player player) {
-		if (this.winner == player) {
-			this.winner = null;
-		}
-		
-		this.calculateGameState();
 	}
 	
 	public void calculateGameState() {

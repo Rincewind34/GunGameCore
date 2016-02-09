@@ -56,6 +56,10 @@ public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 	public void unload() {
 		super.unload();
 		
+		for (GunGamePlayer player : this.getGame().getPlayers()) {
+			this.getGame().quitPlayer(player.getHandle());
+		}
+		
 		this.getGame().getInterface().initShutdown();
 	}
 	
