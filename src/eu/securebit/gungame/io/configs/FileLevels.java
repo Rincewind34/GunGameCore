@@ -5,10 +5,8 @@ import org.bukkit.inventory.ItemStack;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.exception.InvalidLevelException;
-import eu.securebit.gungame.io.abstracts.FileConfig;
-import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 
-public interface FileLevels extends FileIdentifyable, FileConfig {
+public interface FileLevels extends FileGunGameConfig {
 	
 	public static final String ERROR_MAIN = 			"Error-7300-VAR0";
 	

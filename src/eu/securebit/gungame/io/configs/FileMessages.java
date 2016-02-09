@@ -4,10 +4,8 @@ import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
-import eu.securebit.gungame.io.abstracts.FileConfig;
-import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 
-public interface FileMessages extends FileIdentifyable, FileConfig {
+public interface FileMessages extends FileGunGameConfig {
 	
 	public static final String ERROR_MAIN = 			"Error-7100-VAR0";
 	

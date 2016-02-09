@@ -11,11 +11,10 @@ import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.InvalidLevelException;
 import eu.securebit.gungame.io.configs.FileLevels;
-import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
 import eu.securebit.gungame.ioutil.ItemSerializer;
 import eu.securebit.gungame.util.ConfigDefault;
 
-public class CraftFileLevels extends AbstractConfig implements FileLevels {
+public class CraftFileLevels extends CraftFileGunGameConfig implements FileLevels {
 	
 	private static final List<ConfigDefault> defaults = new ArrayList<>();
 	
@@ -25,7 +24,7 @@ public class CraftFileLevels extends AbstractConfig implements FileLevels {
 	
 	
 	public CraftFileLevels(File file, CraftErrorHandler handler) {
-		super(file, handler, FileLevels.ERROR_MAIN, FileLevels.ERROR_LOAD, FileLevels.ERROR_FOLDER, FileLevels.ERROR_CREATE, FileLevels.ERROR_MALFORMED);
+		super(file, handler, FileLevels.ERROR_MAIN, FileLevels.ERROR_LOAD, FileLevels.ERROR_FOLDER, FileLevels.ERROR_CREATE, FileLevels.ERROR_MALFORMED, "levels");
 	}
 	
 	@Override
@@ -112,16 +111,6 @@ public class CraftFileLevels extends AbstractConfig implements FileLevels {
 		for (ConfigDefault entry : CraftFileLevels.defaults) {
 			super.config.addDefault(entry.getPath(), entry.getValue());
 		}
-	}
-
-	@Override
-	public String getAbsolutePath() {
-		return super.file.getAbsolutePath();
-	}
-	
-	@Override
-	public String getIdentifier() {
-		return "levels";
 	}
 	
 	@Override

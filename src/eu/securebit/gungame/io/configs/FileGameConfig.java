@@ -7,10 +7,8 @@ import org.bukkit.Location;
 
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
-import eu.securebit.gungame.io.abstracts.FileConfig;
-import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 
-public interface FileGameConfig extends FileIdentifyable, FileConfig {
+public interface FileGameConfig extends FileGunGameConfig {
 	
 	public static final String ERROR_MAIN = 				"Error-7200-VAR0";
 	

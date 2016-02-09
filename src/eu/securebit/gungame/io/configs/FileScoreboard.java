@@ -2,10 +2,8 @@ package eu.securebit.gungame.io.configs;
 
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
-import eu.securebit.gungame.io.abstracts.FileConfig;
-import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 
-public interface FileScoreboard extends FileIdentifyable, FileConfig {
+public interface FileScoreboard extends FileGunGameConfig {
 	
 	public static final String ERROR_MAIN = 			"Error-7400-VAR0";
 	

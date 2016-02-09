@@ -9,10 +9,9 @@ import org.bukkit.ChatColor;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.io.configs.FileScoreboard;
-import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
 import eu.securebit.gungame.util.ConfigDefault;
 
-public class CraftFileScoreboard extends AbstractConfig implements FileScoreboard {
+public class CraftFileScoreboard extends CraftFileGunGameConfig implements FileScoreboard {
 	
 	private static final List<ConfigDefault> defaults = new ArrayList<>();
 	
@@ -24,7 +23,7 @@ public class CraftFileScoreboard extends AbstractConfig implements FileScoreboar
 	
 	public CraftFileScoreboard(File file, CraftErrorHandler handler) {
 		super(file, handler,
-				FileScoreboard.ERROR_MAIN, FileScoreboard.ERROR_LOAD, FileScoreboard.ERROR_FOLDER, FileScoreboard.ERROR_CREATE, FileScoreboard.ERROR_MALFORMED);
+				FileScoreboard.ERROR_MAIN, FileScoreboard.ERROR_LOAD, FileScoreboard.ERROR_FOLDER, FileScoreboard.ERROR_CREATE, FileScoreboard.ERROR_MALFORMED, "scoreboard");
 	}
 	
 	@Override
@@ -60,16 +59,6 @@ public class CraftFileScoreboard extends AbstractConfig implements FileScoreboar
 		}
 	}
 
-	@Override
-	public String getAbsolutePath() {
-		return super.file.getAbsolutePath();
-	}
-	
-	@Override
-	public String getIdentifier() {
-		return "scoreboard";
-	}
-	
 	@Override
 	public void validate() {
 		for (ConfigDefault entry : CraftFileScoreboard.defaults) {

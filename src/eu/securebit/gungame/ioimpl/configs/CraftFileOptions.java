@@ -7,10 +7,9 @@ import java.util.List;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.io.configs.FileOptions;
-import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
 import eu.securebit.gungame.util.ConfigDefault;
 
-public class CraftFileOptions extends AbstractConfig implements FileOptions {
+public class CraftFileOptions extends CraftFileGunGameConfig implements FileOptions {
 	
 	private static final List<ConfigDefault> defaults = new ArrayList<>();
 	
@@ -23,7 +22,7 @@ public class CraftFileOptions extends AbstractConfig implements FileOptions {
 	
 	public CraftFileOptions(File file, CraftErrorHandler handler) {
 		super(file, handler,
-				FileOptions.ERROR_MAIN, FileOptions.ERROR_LOAD, FileOptions.ERROR_FOLDER, FileOptions.ERROR_CREATE, FileOptions.ERROR_MALFORMED);
+				FileOptions.ERROR_MAIN, FileOptions.ERROR_LOAD, FileOptions.ERROR_FOLDER, FileOptions.ERROR_CREATE, FileOptions.ERROR_MALFORMED, "options");
 	}
 	
 	@Override
@@ -88,16 +87,6 @@ public class CraftFileOptions extends AbstractConfig implements FileOptions {
 		for (ConfigDefault entry : CraftFileOptions.defaults) {
 			super.config.addDefault(entry.getPath(), entry.getValue());
 		}
-	}
-	
-	@Override
-	public String getAbsolutePath() {
-		return super.file.getAbsolutePath();
-	}
-	
-	@Override
-	public String getIdentifier() {
-		return "options";
 	}
 	
 	@Override

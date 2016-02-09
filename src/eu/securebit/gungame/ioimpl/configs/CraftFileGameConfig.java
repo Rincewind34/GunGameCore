@@ -19,12 +19,11 @@ import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.io.configs.FileGameConfig;
 import eu.securebit.gungame.io.configs.FileLevels;
-import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
 import eu.securebit.gungame.ioutil.ConfigUtil;
 import eu.securebit.gungame.ioutil.DataUtil;
 import eu.securebit.gungame.util.ConfigDefault;
 
-public class CraftFileGameConfig extends AbstractConfig implements FileGameConfig {
+public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileGameConfig {
 	
 	private static final List<ConfigDefault> defaults = new ArrayList<>();
 	
@@ -47,7 +46,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 	
 	public CraftFileGameConfig(File file, CraftErrorHandler handler, World world) {
 		super(file, handler,
-				FileGameConfig.ERROR_MAIN, FileGameConfig.ERROR_LOAD, FileGameConfig.ERROR_FOLDER, FileGameConfig.ERROR_CREATE, FileGameConfig.ERROR_MALFORMED);
+				FileGameConfig.ERROR_MAIN, FileGameConfig.ERROR_LOAD, FileGameConfig.ERROR_FOLDER, FileGameConfig.ERROR_CREATE, FileGameConfig.ERROR_MALFORMED, "gameconfig");
 		
 		ConfigUtil.setLocation("location.lobby", world.getSpawnLocation(), CraftFileGameConfig.defaults);
 	}
@@ -358,16 +357,6 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 		for (ConfigDefault entry : CraftFileGameConfig.defaults) {
 			super.config.addDefault(entry.getPath(), entry.getValue());
 		}
-	}
-	
-	@Override
-	public String getAbsolutePath() {
-		return super.file.getAbsolutePath();
-	}
-	
-	@Override
-	public String getIdentifier() {
-		return "gameconfig";
 	}
 	
 	@Override
