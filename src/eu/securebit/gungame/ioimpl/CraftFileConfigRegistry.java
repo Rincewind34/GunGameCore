@@ -29,9 +29,7 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 	
 	@Override
 	public void add(String file, String type) {
-		if (!this.isReady()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		List<String> entries = this.getEntries();
 		entries.add(file + Util.separator + type);
@@ -41,9 +39,7 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 
 	@Override
 	public void remove(String file) {
-		if (!this.isReady()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		List<String> entries = this.getEntries();
 		
@@ -59,9 +55,7 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 	
 	@Override
 	public boolean contains(String file) {
-		if (!this.isReady()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		for (String element : CraftFileConfigRegistry.this.getEntries()) {
 			if (this.util.split(element)[0].equals(file)) {
@@ -74,9 +68,7 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 
 	@Override
 	public String get(String file) {
-		if (!this.isReady()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		for (String element : CraftFileConfigRegistry.this.getEntries()) {
 			if (this.util.split(element)[0].equals(file)) {
@@ -89,9 +81,7 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 	
 	@Override
 	public List<String> getEntries() {
-		if (!this.isReady()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getStringList("files");
 	}
@@ -110,9 +100,7 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 	}
 	
 	public void cleanUp() {
-		if (!this.isReady()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		List<String> cleanedEntries = this.getEntries();
 		

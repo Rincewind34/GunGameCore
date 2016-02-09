@@ -5,6 +5,7 @@ import java.io.File;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
+import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.io.abstracts.SimpleFile;
 import eu.securebit.gungame.ioutil.IOUtil;
 
@@ -47,7 +48,14 @@ public abstract class AbstractFile implements SimpleFile {
 			}
 		}
 	}
-
+	
+	@Override
+	public void checkReady() {
+		if (!this.isReady()) {
+			throw GunGameErrorPresentException.create();
+		}
+	}
+	
 	@Override
 	public boolean isReady() {
 		if (!this.isCreated()) {

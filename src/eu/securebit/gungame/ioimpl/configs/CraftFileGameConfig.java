@@ -14,7 +14,6 @@ import org.bukkit.World;
 import org.bukkit.util.NumberConversions;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
-import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.io.configs.FileGameConfig;
@@ -53,27 +52,21 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	
 	@Override
 	public boolean isEditMode() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getBoolean("editmode");
 	}
 	
 	@Override
 	public boolean isMuted() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getBoolean("muted");
 	}
 
 	@Override
 	public boolean isSpawn(int id) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		for (String entry : super.config.getStringList("location.spawns")) {
 			int spawnId = NumberConversions.toInt(DataUtil.getFromCSV(entry, 0));
@@ -87,81 +80,63 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 
 	@Override
 	public int getStartLevel() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getInt("start-level");
 	}
 	
 	@Override
 	public int getMinPlayers() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getInt("playercount.minimal");
 	}
 	
 	@Override
 	public int getMaxPlayers() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getInt("playercount.maximal");
 	}
 	
 	@Override
 	public String getFileLevelsLocation() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getString("file.levels");
 	}
 	
 	@Override
 	public String getFileMessagesLocation() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getString("file.messages");
 	}
 
 	@Override
 	public String getFileScoreboardLocation() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getString("file.scoreboard");
 	}
 	
 	@Override
 	public String getFileOptionsLocation() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getString("file.options");
 	}
 	
 	@Override
 	public Location getLocationLobby() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return ConfigUtil.getLocation(super.config, "location.lobby");
 	}
 	
 	@Override
 	public Location getSpawnById(int id) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		for (String entry : super.config.getStringList("location.spawns")) {
 			if (NumberConversions.toInt(DataUtil.getFromCSV(entry, 0)) == id) {
@@ -174,9 +149,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 
 	@Override
 	public List<Location> getSpawns() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		List<Location> spawns = new ArrayList<>();
 		
@@ -194,9 +167,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	
 	@Override
 	public Map<Integer, Location> getSpawnsMap() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		Map<Integer, Location> spawns = new HashMap<>();
 		
@@ -215,9 +186,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 
 	@Override
 	public void setEditMode(boolean enabled) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		super.config.set("editmode", enabled);
 		this.save();
@@ -225,9 +194,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	
 	@Override
 	public void setMuted(boolean muted) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		super.config.set("muted", muted);
 		this.save();
@@ -235,9 +202,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	
 	@Override
 	public void setStartLevel(int level) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		super.config.set("start-level", level);
 		this.save();
@@ -245,9 +210,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 
 	@Override
 	public void setLocationLobby(Location loc) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		ConfigUtil.setLocation(super.config, "location.lobby", loc);
 		this.save();
@@ -255,9 +218,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 
 	@Override
 	public void resetAllSpawns() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		super.config.set("location.spawns", Arrays.asList());
 		super.config.set("last-spawn-id", 0);
@@ -266,9 +227,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 
 	@Override
 	public boolean removeSpawn(int id) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		boolean success = false;
 		List<String> spawnList = new ArrayList<>();
@@ -296,9 +255,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 
 	@Override
 	public int addSpawn(Location loc) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		int nextId = super.config.getInt("next-spawn-id");
 		List<String> spawnList = super.config.getStringList("location.spawns");

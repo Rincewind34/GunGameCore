@@ -6,6 +6,8 @@ public interface FileConfig extends SimpleFile {
 	
 	public abstract void validate();
 	
+	public abstract void checkAccessability();
+	
 	public abstract boolean isAccessable();
 	
 }

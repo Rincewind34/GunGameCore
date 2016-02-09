@@ -7,7 +7,6 @@ import java.util.List;
 import org.bukkit.ChatColor;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
-import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.io.configs.FileScoreboard;
 import eu.securebit.gungame.util.ConfigDefault;
 
@@ -28,27 +27,21 @@ public class CraftFileScoreboard extends CraftFileGunGameConfig implements FileS
 	
 	@Override
 	public boolean isScoreboardEnabled() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getBoolean("scoreboard.enabled");
 	}
 
 	@Override
 	public String getScoreboardTitle() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return ChatColor.translateAlternateColorCodes('&', super.config.getString("scoreboard.title"));
 	}
 
 	@Override
 	public String getScoreboardFormat() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getString("scoreboard.format");
 	}

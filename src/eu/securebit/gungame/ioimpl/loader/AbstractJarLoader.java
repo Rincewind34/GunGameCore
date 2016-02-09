@@ -7,7 +7,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.exception.MalformedJarException;
+import eu.securebit.gungame.exception.GunGameJarException;
 import eu.securebit.gungame.ioutil.IOUtil;
 
 public class AbstractJarLoader<T> {
@@ -15,13 +15,13 @@ public class AbstractJarLoader<T> {
 	private File jar;
 	private Class<T> mainClassType;
 	
-	public AbstractJarLoader(File frameJar, Class<T> mainClassType) throws MalformedJarException, IOException {
+	public AbstractJarLoader(File frameJar, Class<T> mainClassType) throws GunGameJarException, IOException {
 		this.jar = IOUtil.checkJarFile(frameJar);
 		this.mainClassType = mainClassType;
 	}
 	
 	@SuppressWarnings("unchecked")
-	protected final T loadJar() throws MalformedJarException, MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+	protected final T loadJar() throws GunGameJarException, MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		URL[] array = { this.jar.toURI().toURL() };
 		ClassLoader parent = Main.class.getClassLoader();
 		URLClassLoader classloader = URLClassLoader.newInstance(array, parent);
@@ -38,7 +38,7 @@ public class AbstractJarLoader<T> {
 		}
 		
 		if (mainClass == null) {
-			throw new MalformedJarException("The jar doesn't contain a mainclass (subclass of abstract " + this.mainClassType.getSimpleName() + ")!");
+			throw new GunGameJarException("The jar doesn't contain a mainclass (subclass of abstract " + this.mainClassType.getSimpleName() + ")!");
 		}
 		
 		return mainClass.newInstance();

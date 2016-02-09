@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
-import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.io.directories.AddonDirectory;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractDirectory;
 import eu.securebit.gungame.ioutil.IOUtil;
@@ -18,9 +17,7 @@ public class CraftAddonDirectory extends AbstractDirectory implements AddonDirec
 	
 	@Override
 	public List<File> getAddonFiles() {
-		if (!this.isReady()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkReady();
 		
 		List<File> files = new ArrayList<>();
 		

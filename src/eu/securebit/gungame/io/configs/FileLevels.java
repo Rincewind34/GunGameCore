@@ -4,7 +4,6 @@ import org.bukkit.inventory.ItemStack;
 
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
-import eu.securebit.gungame.exception.InvalidLevelException;
 
 public interface FileLevels extends FileGunGameConfig {
 	
@@ -49,12 +48,12 @@ public interface FileLevels extends FileGunGameConfig {
 	}
 	
 	
-	public abstract void setLevel(int level, ItemStack[] items) throws InvalidLevelException;
+	public abstract void setLevel(int level, ItemStack[] items);
 	
-	public abstract boolean delete() throws InvalidLevelException;
+	public abstract boolean delete();
 	
 	public abstract int getLevelCount();
 	
-	public abstract ItemStack[] getLevel(int level) throws InvalidLevelException;
+	public abstract ItemStack[] getLevel(int level);
 
 }

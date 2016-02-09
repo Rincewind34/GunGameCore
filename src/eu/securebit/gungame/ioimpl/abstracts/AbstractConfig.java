@@ -9,6 +9,7 @@ import org.yaml.snakeyaml.scanner.ScannerException;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
+import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.GunGameIOException;
 import eu.securebit.gungame.io.abstracts.FileConfig;
 import eu.securebit.gungame.ioutil.FileType;
@@ -54,14 +55,21 @@ public abstract class AbstractConfig extends AbstractFile implements FileConfig 
 		
 		try {
 			this.config.save(this.file);
-		} catch (IOException e) {
-			throw new GunGameIOException(e.getMessage(), e);
+		} catch (IOException ex) {
+			throw GunGameIOException.fromOther(ex);
 		}
 	}
 	
 	@Override
 	public void validate() {
 		
+	}
+	
+	@Override
+	public void checkAccessability() {
+		if (!this.isAccessable()) {
+			throw GunGameErrorPresentException.create();
+		}
 	}
 	
 	@Override

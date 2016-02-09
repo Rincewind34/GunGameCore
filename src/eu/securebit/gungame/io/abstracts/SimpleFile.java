@@ -7,6 +7,8 @@ public interface SimpleFile {
 	
 	public abstract void create();
 	
+	public abstract void checkReady();
+	
 	public abstract boolean isReady();
 	
 	public abstract boolean isCreated();

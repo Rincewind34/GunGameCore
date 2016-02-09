@@ -8,8 +8,6 @@ import java.util.List;
 import org.bukkit.inventory.ItemStack;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
-import eu.securebit.gungame.exception.GunGameErrorPresentException;
-import eu.securebit.gungame.exception.InvalidLevelException;
 import eu.securebit.gungame.io.configs.FileLevels;
 import eu.securebit.gungame.ioutil.ItemSerializer;
 import eu.securebit.gungame.util.ConfigDefault;
@@ -29,10 +27,7 @@ public class CraftFileLevels extends CraftFileGunGameConfig implements FileLevel
 	
 	@Override
 	public void setLevel(int level, ItemStack[] items) throws InvalidLevelException {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
-		
+		this.checkAccessability();
 		
 		List<String> data = this.getLevels();
 		
@@ -57,10 +52,7 @@ public class CraftFileLevels extends CraftFileGunGameConfig implements FileLevel
 	
 	@Override
 	public boolean delete() throws InvalidLevelException {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
-		
+		this.checkAccessability();
 		
 		if (this.getLevelCount() < 1) {
 			throw new InvalidLevelException("There is no level to remove.");
@@ -75,20 +67,14 @@ public class CraftFileLevels extends CraftFileGunGameConfig implements FileLevel
 
 	@Override
 	public int getLevelCount() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
-		
+		this.checkAccessability();
 		
 		return this.getLevels().size();
 	}
 
 	@Override
 	public ItemStack[] getLevel(int level) throws InvalidLevelException {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
-		
+		this.checkAccessability();
 		
 		if (level <= 0) {
 			throw new InvalidLevelException("The level must be an integer greater than 0.");

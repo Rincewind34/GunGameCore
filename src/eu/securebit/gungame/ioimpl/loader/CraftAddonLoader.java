@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 import eu.securebit.gungame.addonsystem.Addon;
-import eu.securebit.gungame.exception.MalformedJarException;
+import eu.securebit.gungame.exception.GunGameJarException;
 import eu.securebit.gungame.io.loader.AddonLoader;
 
 public class CraftAddonLoader extends AbstractJarLoader<Addon> implements AddonLoader {
 
-	public CraftAddonLoader(File addonJar) throws MalformedJarException, IOException {
+	public CraftAddonLoader(File addonJar) throws GunGameJarException, IOException {
 		super(addonJar, Addon.class);
 	}
 	
@@ -20,7 +20,7 @@ public class CraftAddonLoader extends AbstractJarLoader<Addon> implements AddonL
 	}
 
 	@Override
-	public Addon load() throws MalformedJarException, MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public Addon load() throws GunGameJarException, MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		return this.loadJar();
 	}
 	

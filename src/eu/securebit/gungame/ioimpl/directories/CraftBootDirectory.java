@@ -9,7 +9,6 @@ import org.yaml.snakeyaml.scanner.ScannerException;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
-import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.GunGameIOException;
 import eu.securebit.gungame.io.directories.BootDirectory;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractDirectory;
@@ -32,24 +31,20 @@ public class CraftBootDirectory extends AbstractDirectory implements BootDirecto
 	
 	@Override
 	public void setUsingFrameId(int id) {
-		if (!this.isReady()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkReady();
 		
 		this.bootDataConfig.set("id", id);
 		
 		try {
 			this.bootDataConfig.save(this.bootDataFile);
-		} catch (IOException e) {
-			throw new GunGameIOException(e.getMessage(), e);
+		} catch (IOException ex) {
+			throw GunGameIOException.fromOther(ex);
 		}
 	}
 	
 	@Override
 	public int getUsingFrameId() {
-		if (!this.isReady()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkReady();
 		
 		return this.frameId;
 	}

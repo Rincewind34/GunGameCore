@@ -3,7 +3,6 @@ package eu.securebit.gungame.ioimpl;
 import java.io.File;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
-import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.io.FileBootConfig;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
 import eu.securebit.gungame.util.ColorSet;
@@ -24,27 +23,21 @@ public class CraftFileBootConfig extends AbstractConfig implements FileBootConfi
 	
 	@Override
 	public String getBootFolder() {
-		if (!this.isReady()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getString("path-boot-folder");
 	}
 
 	@Override
 	public String getFrameJar() {
-		if (!this.isReady()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getString("path-frame-file");
 	}
 
 	@Override
 	public String getColorSet() {
-		if (!this.isReady()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getString("color-set");
 	}

@@ -162,7 +162,7 @@ public class CraftRootDirectory extends AbstractDirectory implements RootDirecto
 	@Override
 	public File getFrameJar() {
 		if (!this.isFramePresent()) {
-			throw new GunGameErrorPresentException();
+			throw GunGameErrorPresentException.create();
 		}
 		
 		return this.frame;

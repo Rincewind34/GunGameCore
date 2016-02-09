@@ -8,7 +8,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
-import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.io.configs.FileMessages;
 import eu.securebit.gungame.ioutil.IOUtil;
 import eu.securebit.gungame.util.ConfigDefault;
@@ -46,45 +45,35 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 	
 	@Override
 	public String getPrefix() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return ChatColor.translateAlternateColorCodes('&', super.config.getString("message.prefix")) + " ";
 	}
 	
 	@Override
 	public String getJoinLobby() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.player.join"));
 	}
 
 	@Override
 	public String getQuitLobby() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.player.quit"));
 	}
 	
 	@Override
 	public String getServerQuit() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.player.serverquit"));
 	}
 
 	@Override
 	public String getCountdownLobby(int secondsLeft) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		String msg = super.config.getString("message.countdown.lobby");
 		msg = IOUtil.replace(msg, "time", secondsLeft);
@@ -94,9 +83,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 
 	@Override
 	public String getCountdownGrace(int secondsLeft) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		String msg = super.config.getString("message.countdown.grace");
 		msg = IOUtil.replace(msg, "time", secondsLeft);
@@ -106,9 +93,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 
 	@Override
 	public String getCountdownEnd(int secondsLeft) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		String msg = super.config.getString("message.countdown.end");
 		msg = IOUtil.replace(msg, "time", secondsLeft);
@@ -118,36 +103,28 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 
 	@Override
 	public String getMapTeleport() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.mapteleport"));
 	}
 
 	@Override
 	public String getGracePeriodStarts() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.graceperiod.start"));
 	}
 
 	@Override
 	public String getGracePeriodEnds() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.graceperiod.end"));
 	}
 
 	@Override
 	public String getWinner(Player player) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		String msg = super.config.getString("message.winner");
 		msg = IOUtil.replace(msg, "winner", player.getDisplayName());
@@ -157,9 +134,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 
 	@Override
 	public String getKillBroadcast(Player victim, Player killer) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		String msg =  super.config.getString("message.ingame.kill");
 		msg = IOUtil.replace(msg, "victim", victim.getDisplayName());
@@ -170,9 +145,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 
 	@Override
 	public String getDeathBroadcast(Player victim) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		String msg = super.config.getString("message.ingame.death");
 		msg = IOUtil.replace(msg, "victim", victim.getDisplayName());
@@ -182,9 +155,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 
 	@Override
 	public String getRespawn(int level) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		String msg = super.config.getString("message.ingame.respawn");
 		msg = IOUtil.replace(msg, "level", level);

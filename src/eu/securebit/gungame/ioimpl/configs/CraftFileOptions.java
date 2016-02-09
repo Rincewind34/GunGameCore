@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
-import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.io.configs.FileOptions;
 import eu.securebit.gungame.util.ConfigDefault;
 
@@ -27,36 +26,28 @@ public class CraftFileOptions extends CraftFileGunGameConfig implements FileOpti
 	
 	@Override
 	public boolean isLevelResetAfterDeath() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getBoolean("option.reset-level");
 	}
 
 	@Override
 	public boolean isAutoRespawn() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getBoolean("option.autorespawn");
 	}
 
 	@Override
 	public boolean isLevelDowngradeOnNaturalDeath() {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		return super.config.getBoolean("option.care-natural-death");
 	}
 
 	@Override
 	public void setLevelResetAfterDeath(boolean enabled) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		super.config.set("option.reset-level", enabled);
 		this.save();
@@ -64,9 +55,7 @@ public class CraftFileOptions extends CraftFileGunGameConfig implements FileOpti
 
 	@Override
 	public void setAutoRespawn(boolean enabled) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		super.config.set("option.autorespawn", enabled);
 		this.save();
@@ -74,9 +63,7 @@ public class CraftFileOptions extends CraftFileGunGameConfig implements FileOpti
 
 	@Override
 	public void setLevelDowngradeOnNaturalDeath(boolean enabled) {
-		if (!this.isAccessable()) {
-			throw new GunGameErrorPresentException();
-		}
+		this.checkAccessability();
 		
 		super.config.set("option.care-natural-death", enabled);
 		this.save();
