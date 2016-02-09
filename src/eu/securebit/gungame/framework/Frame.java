@@ -5,9 +5,8 @@ import java.io.File;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.errors.Error;
-import eu.securebit.gungame.errors.SimpleError;
-import eu.securebit.gungame.errors.SimpleFixableError;
+import eu.securebit.gungame.errorhandling.layouts.LayoutError;
+import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.ioutil.IOUtil;
 
@@ -21,20 +20,20 @@ public abstract class Frame {
 	
 	public static final String ERROR_ENABLE_ID = 		"3100";
 	
-	public static Error createErrorLoad() {
-		return new SimpleError("Frame could not be loaded!");
+	public static LayoutError createErrorLoad() {
+		return new LayoutError("Frame could not be loaded!");
 	}
 	
-	public static Error createErrorLoadMainclass() {
-		return new SimpleError("No main-class in the given frame found!", Frame.ERROR_LOAD);
+	public static LayoutError createErrorLoadMainclass() {
+		return new LayoutError("No main-class in the given frame found!", Frame.ERROR_LOAD);
 	}
 	
-	public static Error createErrorEnable() {
-		return new SimpleError("Frame could not be enabled!");
+	public static LayoutError createErrorEnable() {
+		return new LayoutError("Frame could not be enabled!");
 	}
 	
-	public static Error createErrorEnableId() {
-		return new SimpleFixableError("The frameid in the given bootfolder does not match the id of the loaded frame!", Frame.ERROR_ENABLE, () -> {
+	public static LayoutError createErrorEnableId() {
+		return new LayoutErrorFixable("The frameid in the given bootfolder does not match the id of the loaded frame!", Frame.ERROR_ENABLE, () -> {
 			// TODO delete bootfolder
 		});
 	}

@@ -1,5 +1,6 @@
 package eu.securebit.gungame.game.states;
 
+import lib.securebit.InfoLayout;
 import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateDisabled;
@@ -8,8 +9,10 @@ import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.GunGame;
+import eu.securebit.gungame.io.abstracts.FileConfig;
 import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
+import eu.securebit.gungame.util.Util;
 
 public abstract class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
 	
@@ -40,6 +43,38 @@ public abstract class DisabledStateEdit extends DefaultGameStateDisabled<GunGame
 	@Override
 	public String getMotD() {
 		return null; //TODO
+	}
+	
+	@Override
+	public void stageInformation(InfoLayout layout) {
+		this.stageFileData("config$-file", CustomFrame.instance().getFileConfig(), layout);
+		this.stageFileData("messages$-file", CustomFrame.instance().getFileMessages(), layout);
+		this.stageFileData("levels$-file", CustomFrame.instance().getFileLevels(), layout);
+		this.stageFileData("scoreboard$-file", CustomFrame.instance().getFileScoreboard(), layout);
+
+		layout.line("");
+
+		if (CustomFrame.instance().getFileConfig().getSpawns().size() < 1) {
+			layout.line("spawns: " + Util.parseBoolean(false, layout));
+			layout.line("  $- You have to set at least one spawn location!");
+		} else {
+			layout.line("spawns: " + Util.parseBoolean(true, layout));
+		}
+
+		if (CustomFrame.instance().getFileConfig().isEditMode()) {
+			layout.line("value: " + Util.parseBoolean(true, layout, true));
+			layout.line("  $- Turn the value 'EditMode' in 'config.yml' to *false*!");
+		} else {
+			layout.line("value: " + Util.parseBoolean(false, layout, true));
+		}
+	}
+
+	private void stageFileData(String name, FileConfig config, InfoLayout layout) {
+		if (config.isReady()) {
+			layout.line(name + ": " + Util.parseBoolean(true, layout));
+		} else {
+			layout.line(name + ": " + Util.parseBoolean(false, layout));
+		}
 	}
 	
 	@Override

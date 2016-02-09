@@ -2,13 +2,13 @@ package lib.securebit.game;
 
 import java.util.List;
 
+import lib.securebit.game.mapreset.MapReset;
+import lib.securebit.game.util.PingResult;
+
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
-
-import lib.securebit.game.mapreset.MapReset;
-import lib.securebit.game.util.PingResult;
 
 public interface Game<P extends GamePlayer> extends Listener {
 	

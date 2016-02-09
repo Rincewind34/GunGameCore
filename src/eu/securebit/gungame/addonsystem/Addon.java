@@ -3,8 +3,7 @@ package eu.securebit.gungame.addonsystem;
 import java.io.File;
 import java.util.List;
 
-import eu.securebit.gungame.errors.Error;
-import eu.securebit.gungame.errors.SimpleError;
+import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 
 public abstract class Addon {
 	
@@ -22,32 +21,32 @@ public abstract class Addon {
 	
 	public static final String ERROR_ENABLE_FRAME_INCOMPATIBLE = "6220-VAR0";
 	
-	public static Error createErrorInit() {
-		return new SimpleError("The addonloading could not be initialized!");
+	public static LayoutError createErrorInit() {
+		return new LayoutError("The addonloading could not be initialized!");
 	}
 	
-	public static Error createErrorLoad() {
-		return new SimpleError("The addon (file: 'VAR0') could not be loaded!");
+	public static LayoutError createErrorLoad() {
+		return new LayoutError("The addon (file: 'VAR0') could not be loaded!");
 	}
 	
-	public static Error createErrorEnable() {
-		return new SimpleError("The addon (file: 'VAR0') could not be enabled!");
+	public static LayoutError createErrorEnable() {
+		return new LayoutError("The addon (file: 'VAR0') could not be enabled!");
 	}
 	
-	public static Error createErrorDepencies() {
-		return new SimpleError("The addon (file: 'VAR0') requiers the plugin 'VAR1'!", Addon.ERROR_ENABLE);
+	public static LayoutError createErrorDepencies() {
+		return new LayoutError("The addon (file: 'VAR0') requiers the plugin 'VAR1'!", Addon.ERROR_ENABLE);
 	}
 	
-	public static Error createErrorFrame() {
-		return new SimpleError("The addon (file: 'VAR0') could not be enabled bcause of the frame!", Addon.ERROR_ENABLE);
+	public static LayoutError createErrorFrame() {
+		return new LayoutError("The addon (file: 'VAR0') could not be enabled bcause of the frame!", Addon.ERROR_ENABLE);
 	}
 	
-	public static Error createErrorFrameRequired() {
-		return new SimpleError("The addon (file: 'VAR0') requiers a enabled frame!", Addon.ERROR_ENABLE_FRAME);
+	public static LayoutError createErrorFrameRequired() {
+		return new LayoutError("The addon (file: 'VAR0') requiers a enabled frame!", Addon.ERROR_ENABLE_FRAME);
 	}
 	
-	public static Error createErrorFrameIncompatible() {
-		return new SimpleError("The addon (file: 'VAR0') is incompatible with the enabled frame!", Addon.ERROR_ENABLE_FRAME);
+	public static LayoutError createErrorFrameIncompatible() {
+		return new LayoutError("The addon (file: 'VAR0') is incompatible with the enabled frame!", Addon.ERROR_ENABLE_FRAME);
 	}
 	
 	

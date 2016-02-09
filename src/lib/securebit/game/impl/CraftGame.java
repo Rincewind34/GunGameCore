@@ -4,6 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import lib.securebit.game.Game;
+import lib.securebit.game.GamePlayer;
+import lib.securebit.game.GameStateManager;
+import lib.securebit.game.GameStateManager.GameStateException;
+import lib.securebit.game.mapreset.MapReset;
+import lib.securebit.game.mapreset.SimpleMapReset;
+import lib.securebit.game.util.PingResult;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.World;
@@ -12,14 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
-
-import lib.securebit.game.Game;
-import lib.securebit.game.GamePlayer;
-import lib.securebit.game.GameStateManager;
-import lib.securebit.game.GameStateManager.GameStateException;
-import lib.securebit.game.mapreset.MapReset;
-import lib.securebit.game.mapreset.SimpleMapReset;
-import lib.securebit.game.util.PingResult;
 
 public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	

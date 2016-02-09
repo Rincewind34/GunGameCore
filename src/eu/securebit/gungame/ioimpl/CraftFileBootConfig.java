@@ -2,7 +2,7 @@ package eu.securebit.gungame.ioimpl;
 
 import java.io.File;
 
-import eu.securebit.gungame.errors.ErrorHandler;
+import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.io.FileBootConfig;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
@@ -10,7 +10,7 @@ import eu.securebit.gungame.util.ColorSet;
 
 public class CraftFileBootConfig extends AbstractConfig implements FileBootConfig {
 	
-	public CraftFileBootConfig(String path, ErrorHandler handler) {
+	public CraftFileBootConfig(String path, CraftErrorHandler handler) {
 		super(new File(path, "bootconfig.yml"), handler,
 				FileBootConfig.ERROR_MAIN, FileBootConfig.ERROR_LOAD, FileBootConfig.ERROR_FOLDER, FileBootConfig.ERROR_CREATE, FileBootConfig.ERROR_MALFORMED);
 	}

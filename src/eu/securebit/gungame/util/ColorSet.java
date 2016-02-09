@@ -2,12 +2,11 @@ package eu.securebit.gungame.util;
 
 import java.util.function.Consumer;
 
-import eu.securebit.gungame.Main;
-import eu.securebit.gungame.errors.Error;
-import eu.securebit.gungame.errors.SimpleError;
-import eu.securebit.gungame.errors.SimpleFixableError;
-import eu.securebit.gungame.io.directories.RootDirectory;
 import lib.securebit.InfoLayout;
+import eu.securebit.gungame.Main;
+import eu.securebit.gungame.errorhandling.layouts.LayoutError;
+import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
+import eu.securebit.gungame.io.directories.RootDirectory;
 
 public enum ColorSet {
 	
@@ -38,12 +37,12 @@ public enum ColorSet {
 	
 	public static final String ERROR_ENTRY = 		"1|007|001|000";
 	
-	public static Error createErrorMain() {
-		return new SimpleError("The colorset given from the bootconfig could not be resolved", RootDirectory.ERROR_MAIN);
+	public static LayoutError createErrorMain() {
+		return new SimpleErrorLayout("The colorset given from the bootconfig could not be resolved", RootDirectory.ERROR_MAIN);
 	}
 	
-	public static Error createErrorEntry() {
-		return new SimpleFixableError("The colorset given from the bootconfig is invalid", ColorSet.ERROR_MAIN, () -> {
+	public static LayoutError createErrorEntry() {
+		return new LayoutErrorFixable("The colorset given from the bootconfig is invalid", ColorSet.ERROR_MAIN, () -> {
 			// TODO set color-set to ColorSet.DEFAULT
 		});
 	}

@@ -1,5 +1,7 @@
 package eu.securebit.gungame.game;
 
+import java.util.List;
+
 import lib.securebit.game.impl.CraftGame;
 
 import org.bukkit.GameMode;
@@ -40,6 +42,8 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 	private FileGameConfig config;
 	
 	private GameInterface gameInterface;
+	
+	private List<GameCheck> checks;
 	
 	public GunGame(FileGameConfig config, String name, GameInterface gameInterface) {
 		super(Main.instance());
@@ -84,6 +88,27 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 				this.board.create();
 			}
 		}
+		
+		this.checks.add(new GameCheck(this, "config-file") {
+			
+			private String errorId = Main.instance().getErrorHandler().getCause(FileGameConfig.ERROR_SPAWNID);
+			
+			@Override
+			public boolean check() {
+				return GunGame.this.config.isReady();
+			}
+			
+			@Override
+			public String getFixPosibility() {
+				return "Try */gungame fix ""*";
+			}
+			
+			@Override
+			public String getFailCause() {
+				return ;
+			}
+			
+		});
 	}
 	
 	@Override

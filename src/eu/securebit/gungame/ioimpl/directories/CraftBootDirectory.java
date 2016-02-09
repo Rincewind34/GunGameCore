@@ -8,7 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.errors.ErrorHandler;
+import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.GunGameIOException;
 import eu.securebit.gungame.io.directories.BootDirectory;
@@ -18,12 +18,12 @@ public class CraftBootDirectory extends AbstractDirectory implements BootDirecto
 	
 	private int frameId;
 	
-	private ErrorHandler handler;
+	private CraftErrorHandler handler;
 	
 	private File bootDataFile;
 	private FileConfiguration bootDataConfig;
 	
-	public CraftBootDirectory(File directory, ErrorHandler handler) {
+	public CraftBootDirectory(File directory, CraftErrorHandler handler) {
 		super(directory, handler, BootDirectory.ERROR_MAIN, BootDirectory.ERROR_FILE, BootDirectory.ERROR_CREATE);
 		
 		this.handler = handler;

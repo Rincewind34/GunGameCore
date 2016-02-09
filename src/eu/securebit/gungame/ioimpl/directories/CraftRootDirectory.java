@@ -7,7 +7,7 @@ import java.util.Map;
 import org.bukkit.World;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.errors.ErrorHandler;
+import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.io.FileBootConfig;
 import eu.securebit.gungame.io.FileConfigRegistry;
@@ -42,11 +42,11 @@ public class CraftRootDirectory extends AbstractDirectory implements RootDirecto
 	
 	private Map<String, FileIdentifyable> savedFiles;
 	
-	private ErrorHandler handler;
+	private CraftErrorHandler handler;
 	
 	private File frame;
 	
-	public CraftRootDirectory(File file, ErrorHandler handler) {
+	public CraftRootDirectory(File file, CraftErrorHandler handler) {
 		super(file, handler, RootDirectory.ERROR_MAIN, RootDirectory.ERROR_FILE, RootDirectory.ERROR_CREATE);
 		
 		this.handler = handler;

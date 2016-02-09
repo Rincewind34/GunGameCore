@@ -3,7 +3,7 @@ package eu.securebit.gungame.ioimpl.abstracts;
 import java.io.File;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.errors.ErrorHandler;
+import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.io.abstracts.SimpleFile;
 import eu.securebit.gungame.ioutil.IOUtil;
 
@@ -11,13 +11,13 @@ public abstract class AbstractFile implements SimpleFile {
 	
 	protected File file;
 	
-	protected ErrorHandler handler;
+	protected CraftErrorHandler handler;
 	
 	private String errorMain;
 	private String errorFileType;
 	private String errorCreate;
 	
-	public AbstractFile(File file, ErrorHandler handler, String errorMain, String errorFileType, String errorCreate) {
+	public AbstractFile(File file, CraftErrorHandler handler, String errorMain, String errorFileType, String errorCreate) {
 		this.file = file;
 		this.handler = handler;
 		
@@ -57,7 +57,7 @@ public abstract class AbstractFile implements SimpleFile {
 	}
 
 	@Override
-	public ErrorHandler getErrorHandler() {
+	public CraftErrorHandler getErrorHandler() {
 		return this.handler;
 	}
 	

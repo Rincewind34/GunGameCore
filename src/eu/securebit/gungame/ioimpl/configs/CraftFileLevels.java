@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
 
-import eu.securebit.gungame.errors.ErrorHandler;
+import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.InvalidLevelException;
 import eu.securebit.gungame.io.configs.FileLevels;
@@ -24,7 +24,7 @@ public class CraftFileLevels extends AbstractConfig implements FileLevels {
 	}
 	
 	
-	public CraftFileLevels(File file, ErrorHandler handler) {
+	public CraftFileLevels(File file, CraftErrorHandler handler) {
 		super(file, handler, FileLevels.ERROR_MAIN, FileLevels.ERROR_LOAD, FileLevels.ERROR_FOLDER, FileLevels.ERROR_CREATE, FileLevels.ERROR_MALFORMED);
 	}
 	

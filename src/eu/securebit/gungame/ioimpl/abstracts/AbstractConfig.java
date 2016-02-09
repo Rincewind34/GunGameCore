@@ -8,7 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.errors.ErrorHandler;
+import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameIOException;
 import eu.securebit.gungame.io.abstracts.FileConfig;
 import eu.securebit.gungame.ioutil.FileType;
@@ -20,7 +20,7 @@ public abstract class AbstractConfig extends AbstractFile implements FileConfig 
 	private String errorLoad;
 	private String errorMalformed;
 	
-	public AbstractConfig(File file, ErrorHandler handler, String errorMain, String errorLoad, String errorFolder, String errorCreate, String errorMalformed) {
+	public AbstractConfig(File file, CraftErrorHandler handler, String errorMain, String errorLoad, String errorFolder, String errorCreate, String errorMalformed) {
 		super(file, handler, errorMain, errorFolder, errorCreate);
 		
 		this.errorLoad = errorLoad;

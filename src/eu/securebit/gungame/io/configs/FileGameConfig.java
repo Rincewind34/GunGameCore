@@ -5,9 +5,8 @@ import java.util.Map;
 
 import org.bukkit.Location;
 
-import eu.securebit.gungame.errors.Error;
-import eu.securebit.gungame.errors.SimpleError;
-import eu.securebit.gungame.errors.SimpleFixableError;
+import eu.securebit.gungame.errorhandling.layouts.LayoutError;
+import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.io.abstracts.FileConfig;
 import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 
@@ -31,48 +30,48 @@ public interface FileGameConfig extends FileIdentifyable, FileConfig {
 	
 	public static final String ERROR_LEVELCOUNT_SMALLER = 	"7232-VAR0";
 	
-	public static Error createErrorMain() {
-		return new SimpleError("In the gameconfigfile 'VAR0' occured an error!");
+	public static LayoutError createErrorMain() {
+		return new LayoutError("In the gameconfigfile 'VAR0' occured an error!");
 	}
 	
-	public static Error createErrorLoad() {
-		return new SimpleError("The gameconfigfile 'VAR0' could not be loaded!", FileGameConfig.ERROR_MAIN);
+	public static LayoutError createErrorLoad() {
+		return new LayoutError("The gameconfigfile 'VAR0' could not be loaded!", FileGameConfig.ERROR_MAIN);
 	}
 	
-	public static Error createErrorFolder() {
-		return new SimpleFixableError("The gameconfigfile 'VAR0' is a directory!", FileGameConfig.ERROR_LOAD, () -> {
+	public static LayoutError createErrorFolder() {
+		return new LayoutErrorFixable("The gameconfigfile 'VAR0' is a directory!", FileGameConfig.ERROR_LOAD, () -> {
 			// TODO delete
 		});
 	}
 	
-	public static Error createErrorCreate() {
-		return new SimpleError("The gameconfigfile 'VAR0' could not be created!", FileGameConfig.ERROR_LOAD);
+	public static LayoutError createErrorCreate() {
+		return new LayoutError("The gameconfigfile 'VAR0' could not be created!", FileGameConfig.ERROR_LOAD);
 	}
 	
-	public static Error createErrorMalformed() {
-		return new SimpleFixableError("The gameconfigfile 'VAR0' is malformed!", FileGameConfig.ERROR_LOAD, () -> {
+	public static LayoutError createErrorMalformed() {
+		return new LayoutErrorFixable("The gameconfigfile 'VAR0' is malformed!", FileGameConfig.ERROR_LOAD, () -> {
 			// TODO fix path
 		});
 	}
 	
-	public static Error createErrorSpawnId() {
-		return new SimpleFixableError("The next-spawn-id in the gameconfigfile 'VAR0' is already in use!", FileGameConfig.ERROR_MAIN, () -> {
+	public static LayoutError createErrorSpawnId() {
+		return new LayoutErrorFixable("The next-spawn-id in the gameconfigfile 'VAR0' is already in use!", FileGameConfig.ERROR_MAIN, () -> {
 			// TODO recalculte nextspawnid
 		});
 	}
 	
-	public static Error createErrorLevelCount() {
-		return new SimpleError("The startlevel in the gameconfigfile 'VAR0' is invalid!", FileGameConfig.ERROR_MAIN);
+	public static LayoutError createErrorLevelCount() {
+		return new LayoutError("The startlevel in the gameconfigfile 'VAR0' is invalid!", FileGameConfig.ERROR_MAIN);
 	}
 	
-	public static Error createErrorLevelCountGreater() {
-		return new SimpleFixableError("The startlevel in the gameconfigfile 'VAR0' has to be greater than 0!", FileGameConfig.ERROR_LEVELCOUNT, () -> {
+	public static LayoutError createErrorLevelCountGreater() {
+		return new LayoutErrorFixable("The startlevel in the gameconfigfile 'VAR0' has to be greater than 0!", FileGameConfig.ERROR_LEVELCOUNT, () -> {
 			// TODO change value to 1
 		});
 	}
 	
-	public static Error createErrorLevelCountSmaller() {
-		return new SimpleFixableError("The startlevel in the gameconfigfile 'VAR0' has to be smaller than levelcount!", FileGameConfig.ERROR_LEVELCOUNT, () -> {
+	public static LayoutError createErrorLevelCountSmaller() {
+		return new LayoutErrorFixable("The startlevel in the gameconfigfile 'VAR0' has to be smaller than levelcount!", FileGameConfig.ERROR_LEVELCOUNT, () -> {
 			// TODO change value to [<levelcount> - 1]
 		});
 	}

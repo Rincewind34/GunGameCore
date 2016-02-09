@@ -1,6 +1,6 @@
 package eu.securebit.gungame.io.abstracts;
 
-import eu.securebit.gungame.errors.ErrorHandler;
+import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.ioutil.FileType;
 
 public interface SimpleFile {
@@ -13,6 +13,6 @@ public interface SimpleFile {
 	
 	public abstract FileType getFileType();
 	
-	public abstract ErrorHandler getErrorHandler();
+	public abstract CraftErrorHandler getErrorHandler();
 	
 }

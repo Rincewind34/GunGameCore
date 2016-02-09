@@ -5,9 +5,8 @@ import java.io.File;
 import org.bukkit.World;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.errors.Error;
-import eu.securebit.gungame.errors.SimpleError;
-import eu.securebit.gungame.errors.SimpleFixableError;
+import eu.securebit.gungame.errorhandling.layouts.LayoutError;
+import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.io.abstracts.Directory;
 import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 import eu.securebit.gungame.io.configs.FileGameConfig;
@@ -30,32 +29,32 @@ public interface RootDirectory extends Directory {
 	
 	public static final String ERROR_FRAME_NOJAR = 		"1820";
 	
-	public static Error createErrorMain() {
-		return new SimpleError("The rootdirectory could not be loaded!");
+	public static LayoutError createErrorMain() {
+		return new LayoutError("The rootdirectory could not be loaded!");
 	}
 	
-	public static Error createErrorFile() {
-		return new SimpleFixableError("The rootdirectory is a file", RootDirectory.ERROR_MAIN, () -> {
+	public static LayoutError createErrorFile() {
+		return new LayoutErrorFixable("The rootdirectory is a file", RootDirectory.ERROR_MAIN, () -> {
 			Main.instance().getDataFolder().delete();
 		});
 	}
 	
-	public static Error createErrorCreate() {
-		return new SimpleError("The rootdirectory could not be created!", RootDirectory.ERROR_MAIN);
+	public static LayoutError createErrorCreate() {
+		return new LayoutError("The rootdirectory could not be created!", RootDirectory.ERROR_MAIN);
 	}
 	
-	public static Error createErrorFrame() {
-		return new SimpleError("The frame could not be found!", RootDirectory.ERROR_MAIN);
+	public static LayoutError createErrorFrame() {
+		return new LayoutError("The frame could not be found!", RootDirectory.ERROR_MAIN);
 	}
 	
-	public static Error createErrorFrameExists() {
-		return new SimpleFixableError("The framepath given by the bootconfig is empty!", RootDirectory.ERROR_FRAME, () -> {
+	public static LayoutError createErrorFrameExists() {
+		return new LayoutErrorFixable("The framepath given by the bootconfig is empty!", RootDirectory.ERROR_FRAME, () -> {
 			// TODO search for frame
 		});
 	}
 	
-	public static Error createErrorFrameNojar() {
-		return new SimpleFixableError("The framepath given by the bootconfig is not a jarfile!", RootDirectory.ERROR_FRAME, () -> {
+	public static LayoutError createErrorFrameNojar() {
+		return new LayoutErrorFixable("The framepath given by the bootconfig is not a jarfile!", RootDirectory.ERROR_FRAME, () -> {
 			// TODO search for valid frame
 		});
 	}

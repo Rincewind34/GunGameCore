@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import eu.securebit.gungame.errors.ErrorHandler;
+import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.GunGameIOException;
 import eu.securebit.gungame.io.FileConfigRegistry;
@@ -14,7 +14,7 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 	
 	private Util util;
 	
-	public CraftFileConfigRegistry(String path, ErrorHandler handler) {
+	public CraftFileConfigRegistry(String path, CraftErrorHandler handler) {
 		super(new File(path, ".fileregistry"), handler,
 				FileConfigRegistry.ERROR_MAIN, FileConfigRegistry.ERROR_LOAD, FileConfigRegistry.ERROR_FOLDER,
 				FileConfigRegistry.ERROR_CREATE, FileConfigRegistry.ERROR_MALFORMED_STRUCTURE);

@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 
-import eu.securebit.gungame.errors.ErrorHandler;
+import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.io.configs.FileScoreboard;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
@@ -22,7 +22,7 @@ public class CraftFileScoreboard extends AbstractConfig implements FileScoreboar
 		CraftFileScoreboard.defaults.add(new ConfigDefault("scoreboard.format", "&7${player}", String.class));
 	}
 	
-	public CraftFileScoreboard(File file, ErrorHandler handler) {
+	public CraftFileScoreboard(File file, CraftErrorHandler handler) {
 		super(file, handler,
 				FileScoreboard.ERROR_MAIN, FileScoreboard.ERROR_LOAD, FileScoreboard.ERROR_FOLDER, FileScoreboard.ERROR_CREATE, FileScoreboard.ERROR_MALFORMED);
 	}

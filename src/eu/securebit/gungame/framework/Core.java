@@ -14,7 +14,7 @@ import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.errors.ErrorHandler;
+import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.game.GameInterface;
 import eu.securebit.gungame.game.GunGame;
@@ -122,7 +122,7 @@ public class Core {
 		return Main.instance().getRootDirectory();
 	}
 	
-	public static ErrorHandler getErrorHandler() {
+	public static CraftErrorHandler getErrorHandler() {
 		return Main.instance().getErrorHandler();
 	}
 	

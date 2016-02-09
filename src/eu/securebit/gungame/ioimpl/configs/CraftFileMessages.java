@@ -7,7 +7,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import eu.securebit.gungame.errors.ErrorHandler;
+import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.io.configs.FileMessages;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
@@ -41,7 +41,7 @@ public class CraftFileMessages extends AbstractConfig implements FileMessages {
 		CraftFileMessages.defaults.add(new ConfigDefault("motd.maintendance", "Maintendance", String.class));
 	}
 	
-	public CraftFileMessages(File file, ErrorHandler handler) {
+	public CraftFileMessages(File file, CraftErrorHandler handler) {
 		super(file, handler, FileMessages.ERROR_MAIN, FileMessages.ERROR_LOAD, FileMessages.ERROR_FOLDER, FileMessages.ERROR_CREATE, FileMessages.ERROR_MALFORMED);
 	}
 	

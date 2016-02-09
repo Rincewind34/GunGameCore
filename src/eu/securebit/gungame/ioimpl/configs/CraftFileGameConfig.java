@@ -13,7 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.NumberConversions;
 
-import eu.securebit.gungame.errors.ErrorHandler;
+import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.framework.Core;
@@ -45,7 +45,7 @@ public class CraftFileGameConfig extends AbstractConfig implements FileGameConfi
 	}
 	
 	
-	public CraftFileGameConfig(File file, ErrorHandler handler, World world) {
+	public CraftFileGameConfig(File file, CraftErrorHandler handler, World world) {
 		super(file, handler,
 				FileGameConfig.ERROR_MAIN, FileGameConfig.ERROR_LOAD, FileGameConfig.ERROR_FOLDER, FileGameConfig.ERROR_CREATE, FileGameConfig.ERROR_MALFORMED);
 		

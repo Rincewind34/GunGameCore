@@ -1,8 +1,7 @@
 package eu.securebit.gungame.io.directories;
 
-import eu.securebit.gungame.errors.Error;
-import eu.securebit.gungame.errors.SimpleError;
-import eu.securebit.gungame.errors.SimpleFixableError;
+import eu.securebit.gungame.errorhandling.layouts.LayoutError;
+import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.io.abstracts.Directory;
 
 public interface BootDirectory extends Directory {
@@ -21,38 +20,38 @@ public interface BootDirectory extends Directory {
 	
 	public static final String ERROR_BOOTDATA_SAVE = 		"1660";
 	
-	public static Error createErrorMain() {
-		return new SimpleError("The bootfolder could not be loaded!", RootDirectory.ERROR_MAIN);
+	public static LayoutError createErrorMain() {
+		return new LayoutError("The bootfolder could not be loaded!", RootDirectory.ERROR_MAIN);
 	}
 	
-	public static Error createErrorFile() {
-		return new SimpleFixableError("The bootfolder is a file!", BootDirectory.ERROR_MAIN, () -> {
+	public static LayoutError createErrorFile() {
+		return new LayoutErrorFixable("The bootfolder is a file!", BootDirectory.ERROR_MAIN, () -> {
 			// TODO delete
 		});
 	}
 	
-	public static Error createErrorCreate() {
-		return new SimpleError("The bootfolder could not be created!", BootDirectory.ERROR_MAIN);
+	public static LayoutError createErrorCreate() {
+		return new LayoutError("The bootfolder could not be created!", BootDirectory.ERROR_MAIN);
 	}
 	
-	public static Error createErrorBootdataFolder() {
-		return new SimpleFixableError("The '.bootdata.yml' in the bootfolder is a directory!", BootDirectory.ERROR_MAIN, () -> {
+	public static LayoutError createErrorBootdataFolder() {
+		return new LayoutErrorFixable("The '.bootdata.yml' in the bootfolder is a directory!", BootDirectory.ERROR_MAIN, () -> {
 			// TODO delete
 		});
 	}
 	
-	public static Error createErrorBootdataCreate() {
-		return new SimpleError("The '.bootdata.yml' in the bootfolder could not be created!", BootDirectory.ERROR_MAIN);
+	public static LayoutError createErrorBootdataCreate() {
+		return new LayoutError("The '.bootdata.yml' in the bootfolder could not be created!", BootDirectory.ERROR_MAIN);
 	}
 	
-	public static Error createErrorBootdataMalformed() {
-		return new SimpleFixableError("The '.bootdata.yml' in the bootfolder is malformed!", BootDirectory.ERROR_MAIN, () -> {
+	public static LayoutError createErrorBootdataMalformed() {
+		return new LayoutErrorFixable("The '.bootdata.yml' in the bootfolder is malformed!", BootDirectory.ERROR_MAIN, () -> {
 			// TODO delete
 		});
 	}
 	
-	public static Error createErrorBootdataSave() {
-		return new SimpleError("The '.bootdata.yml' in the bootfolder could not be saved!", BootDirectory.ERROR_MAIN);
+	public static LayoutError createErrorBootdataSave() {
+		return new LayoutError("The '.bootdata.yml' in the bootfolder could not be saved!", BootDirectory.ERROR_MAIN);
 	}
 	
 	

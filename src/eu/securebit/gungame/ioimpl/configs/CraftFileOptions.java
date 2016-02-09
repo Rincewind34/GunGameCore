@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.securebit.gungame.errors.ErrorHandler;
+import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.io.configs.FileOptions;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
@@ -21,7 +21,7 @@ public class CraftFileOptions extends AbstractConfig implements FileOptions {
 	}
 	
 	
-	public CraftFileOptions(File file, ErrorHandler handler) {
+	public CraftFileOptions(File file, CraftErrorHandler handler) {
 		super(file, handler,
 				FileOptions.ERROR_MAIN, FileOptions.ERROR_LOAD, FileOptions.ERROR_FOLDER, FileOptions.ERROR_CREATE, FileOptions.ERROR_MALFORMED);
 	}

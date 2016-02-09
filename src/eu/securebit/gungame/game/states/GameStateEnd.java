@@ -1,5 +1,10 @@
 package eu.securebit.gungame.game.states;
 
+import lib.securebit.InfoLayout;
+import lib.securebit.game.GamePlayer;
+import lib.securebit.game.Settings.StateSettings;
+import lib.securebit.game.defaults.DefaultGameStateEnd;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
@@ -7,10 +12,6 @@ import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.util.CoreMessages;
-import lib.securebit.InfoLayout;
-import lib.securebit.game.GamePlayer;
-import lib.securebit.game.Settings.StateSettings;
-import lib.securebit.game.defaults.DefaultGameStateEnd;
 
 public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 	

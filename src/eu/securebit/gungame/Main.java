@@ -17,7 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import eu.securebit.gungame.addonsystem.Addon;
 import eu.securebit.gungame.addonsystem.Addon.AddonProperties;
 import eu.securebit.gungame.commands.CommandGunGame;
-import eu.securebit.gungame.errors.ErrorHandler;
+import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.MalformedJarException;
 import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.framework.Frame;
@@ -58,7 +58,7 @@ public class Main extends JavaPlugin {
 	
 	private ArgumentedCommand command;
 	
-	private ErrorHandler handler;
+	private CraftErrorHandler handler;
 	
 	private RootDirectory rootDirectory;
 	
@@ -76,7 +76,7 @@ public class Main extends JavaPlugin {
 		Main.layout.message(sender, "Running version: " + InfoLayout.replaceKeys(this.getDescription().getVersion()));
 		Main.layout.message(sender, "");
 		
-		this.handler = new ErrorHandler();
+		this.handler = new CraftErrorHandler();
 		
 		this.command = new CommandGunGame();
 		this.command.create();
@@ -234,7 +234,7 @@ public class Main extends JavaPlugin {
 		return this.command;
 	}
 	
-	public ErrorHandler getErrorHandler() {
+	public CraftErrorHandler getErrorHandler() {
 		return this.handler;
 	}
 	
