@@ -1,5 +1,6 @@
 package eu.securebit.gungame.game;
 
+import java.util.Collections;
 import java.util.List;
 
 import lib.securebit.game.impl.CraftGame;
@@ -257,6 +258,10 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 	
 	public GunGamePlayer getWinner() {
 		return this.winner;
+	}
+	
+	public List<GameCheck> getChecks() {
+		return Collections.unmodifiableList(this.checks);
 	}
 	
 }

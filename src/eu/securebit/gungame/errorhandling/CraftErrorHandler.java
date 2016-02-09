@@ -8,6 +8,7 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.addonsystem.Addon;
 import eu.securebit.gungame.errorhandling.layouts.Layout;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutTemporyError;
@@ -23,6 +24,7 @@ import eu.securebit.gungame.io.FileConfigRegistry;
 import eu.securebit.gungame.io.configs.FileGameConfig;
 import eu.securebit.gungame.io.configs.FileLevels;
 import eu.securebit.gungame.io.configs.FileMessages;
+import eu.securebit.gungame.io.configs.FileOptions;
 import eu.securebit.gungame.io.configs.FileScoreboard;
 import eu.securebit.gungame.io.directories.AddonDirectory;
 import eu.securebit.gungame.io.directories.BootDirectory;
@@ -94,6 +96,18 @@ public class CraftErrorHandler implements ErrorHandler {
 		CraftErrorHandler.layouts.put(FileScoreboard.ERROR_MALFORMED, FileScoreboard.createErrorMalformed());
 		CraftErrorHandler.layouts.put(FileScoreboard.ERROR_TITLE, FileScoreboard.createErrorTitle());
 		CraftErrorHandler.layouts.put(FileScoreboard.ERROR_FORMAT, FileScoreboard.createErrorFormat());
+		CraftErrorHandler.layouts.put(FileOptions.ERROR_MAIN, FileOptions.createErrorMain());
+		CraftErrorHandler.layouts.put(FileOptions.ERROR_LOAD, FileOptions.createErrorLoad());
+		CraftErrorHandler.layouts.put(FileOptions.ERROR_FOLDER, FileOptions.createErrorFolder());
+		CraftErrorHandler.layouts.put(FileOptions.ERROR_CREATE, FileOptions.createErrorCreate());
+		CraftErrorHandler.layouts.put(FileOptions.ERROR_MALFORMED, FileOptions.createErrorMalformed());
+		CraftErrorHandler.layouts.put(Addon.ERROR_INIT, Addon.createErrorInit());
+		CraftErrorHandler.layouts.put(Addon.ERROR_LOAD, Addon.createErrorLoad());
+		CraftErrorHandler.layouts.put(Addon.ERROR_ENABLE, Addon.createErrorEnable());
+		CraftErrorHandler.layouts.put(Addon.ERROR_ENABLE_DEPENCIES, Addon.createErrorDepencies());
+		CraftErrorHandler.layouts.put(Addon.ERROR_ENABLE_FRAME, Addon.createErrorFrame());
+		CraftErrorHandler.layouts.put(Addon.ERROR_ENABLE_FRAME_REQUIRED, Addon.createErrorFrameRequired());
+		CraftErrorHandler.layouts.put(Addon.ERROR_ENABLE_FRAME_INCOMPATIBLE, Addon.createErrorFrameIncompatible());
 	}
 	
 	private List<ThrownError> thrownErrors;
