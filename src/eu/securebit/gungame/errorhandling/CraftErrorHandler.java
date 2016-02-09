@@ -104,16 +104,40 @@ public class CraftErrorHandler implements ErrorHandler {
 	
 	@Override
 	public void throwError(String objectId) {
+		
+	}
+	
+	@Override
+	public void throwError(String objectId, String causeId) {
+		if (!CraftErrorHandler.layouts.containsKey(causeId)) {
+			throw new GunGameException("Unknown objectid '" + objectId + "'!");
+		}
+		
 		Layout layout = CraftErrorHandler.layouts.get(objectId);
+		ThrowableObject<?> obj = null;
 		
 		if (layout instanceof LayoutError) {
-			this.throwError(new ThrownError(objectId));
+			obj = new ThrownError(objectId);
 		} else if (layout instanceof LayoutTemporyError) {
-			this.throwError(new TempError(objectId));
+			obj = new TempError(objectId);
 		} else if (layout instanceof LayoutWarning) {
-			this.throwError(new Warning(objectId));
+			obj = new Warning(objectId);
 		} else {
 			throw new GunGameException("Unknown layouttype for objectid '" + objectId + "'!");
+		}
+		
+		if (causeId == null) {
+			this.throwError(obj);
+		} else {
+			if (CraftErrorHandler.layouts.containsKey(causeId)) {
+				if (CraftErrorHandler.layouts.get(causeId) instanceof LayoutError) {
+					this.throwError(obj, new ThrownError(causeId));
+				} else {
+					throw new GunGameException("ThrowableObjectType#ERROR expected for objectid '" + causeId + "'!");
+				}
+			} else {
+				throw new GunGameException("Unknown objectid '" + causeId + "'!");
+			}
 		}
 	}
 	

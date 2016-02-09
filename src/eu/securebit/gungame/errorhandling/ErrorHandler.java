@@ -7,6 +7,8 @@ public interface ErrorHandler {
 	
 	public abstract void throwError(String objectId);
 	
+	public abstract void throwError(String objectId, String causeId);
+	
 	public abstract void throwError(ThrowableObject<?> object);
 	
 	public abstract void throwError(ThrowableObject<?> object, ThrownError cause);
