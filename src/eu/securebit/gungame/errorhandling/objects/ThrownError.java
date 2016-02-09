@@ -9,7 +9,7 @@ public class ThrownError extends ThrowableObject<LayoutError> {
 		this(errorId, new String[0]);
 	}
 	
-	public ThrownError(String errorId, String[] variables) {
+	public ThrownError(String errorId, String... variables) {
 		super(errorId, variables);
 	}
 

@@ -8,7 +8,7 @@ public class TempError extends ThrowableObject<LayoutTemporyError> {
 		this(errorId, new String[0]);
 	}
 	
-	public TempError(String errorId, String[] variables) {
+	public TempError(String errorId, String... variables) {
 		super(errorId, variables);
 	}
 

@@ -126,24 +126,21 @@ public class CraftErrorHandler implements ErrorHandler {
 			throw new GunGameException("Unknown layouttype for objectid '" + objectId + "'!");
 		}
 		
-		if (causeId == null) {
-			this.throwError(obj);
-		} else {
-			if (CraftErrorHandler.layouts.containsKey(causeId)) {
-				if (CraftErrorHandler.layouts.get(causeId) instanceof LayoutError) {
-					this.throwError(obj, new ThrownError(causeId));
-				} else {
-					throw new GunGameException("ThrowableObjectType#ERROR expected for objectid '" + causeId + "'!");
-				}
-			} else {
-				throw new GunGameException("Unknown objectid '" + causeId + "'!");
-			}
-		}
+		this.throwError(obj, causeId);
 	}
 	
 	@Override
 	public void throwError(ThrowableObject<?> object) {
-		this.throwError(object, null);
+		this.throwError(object, (String) null);
+	}
+	
+	@Override
+	public void throwError(ThrowableObject<?> object, String causeId) {
+		if (causeId == null) {
+			this.throwError(object);
+		} else {
+			this.throwError(object, this.parseError(causeId));
+		}
 	}
 	
 	@Override
@@ -152,8 +149,20 @@ public class CraftErrorHandler implements ErrorHandler {
 	}
 	
 	@Override
+	public boolean isErrorPresent(String errorId) {
+		return this.isErrorPresent(this.parseError(errorId));
+	}
+	
+	@Override
 	public boolean isErrorPresent(ThrownError error) {
+		this.checkVars(error);
+		
 		return this.thrownErrors.contains(error);
+	}
+	
+	@Override
+	public ThrownError getCause(String errorId) {
+		return this.getCause(this.parseError(errorId));
 	}
 	
 	@Override
@@ -218,6 +227,18 @@ public class CraftErrorHandler implements ErrorHandler {
 		
 		if (object.getParsedMessage().contains("VAR")) {
 			throw new GunGameException("All variables should be present!");
+		}
+	}
+	
+	private ThrownError parseError(String errorId) {
+		if (CraftErrorHandler.layouts.containsKey(errorId)) {
+			if (CraftErrorHandler.layouts.get(errorId) instanceof LayoutError) {
+				return new ThrownError(errorId);
+			} else {
+				throw new GunGameException("ThrowableObjectType#ERROR expected for errorId '" + errorId + "'!");
+			}
+		} else {
+			throw new GunGameException("Unknown objectid '" + errorId + "'!");
 		}
 	}
 	

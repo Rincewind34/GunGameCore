@@ -11,9 +11,15 @@ public interface ErrorHandler {
 	
 	public abstract void throwError(ThrowableObject<?> object);
 	
+	public abstract void throwError(ThrowableObject<?> object, String causeId);
+	
 	public abstract void throwError(ThrowableObject<?> object, ThrownError cause);
 	
+	public abstract boolean isErrorPresent(String errorId);
+	
 	public abstract boolean isErrorPresent(ThrownError error);
+	
+	public abstract ThrownError getCause(String errorId);
 	
 	public abstract ThrownError getCause(ThrownError error);
 	

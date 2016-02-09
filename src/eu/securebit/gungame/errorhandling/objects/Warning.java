@@ -8,7 +8,7 @@ public class Warning extends ThrowableObject<LayoutWarning> {
 		this(errorId, new String[0]);
 	}
 	
-	public Warning(String errorId, String[] variables) {
+	public Warning(String errorId, String... variables) {
 		super(errorId, variables);
 	}
 
