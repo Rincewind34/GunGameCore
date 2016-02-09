@@ -15,7 +15,7 @@ public class GunGameScoreboardException extends GunGameException {
 		return new GunGameScoreboardException("The objective does already exist!");
 	}
 	
-	private GunGameScoreboardException(String msg) {
+	protected GunGameScoreboardException(String msg) {
 		super(msg);
 	}
 	

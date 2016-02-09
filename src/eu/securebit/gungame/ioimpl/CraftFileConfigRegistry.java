@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
-import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.GunGameIOException;
 import eu.securebit.gungame.io.FileConfigRegistry;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;

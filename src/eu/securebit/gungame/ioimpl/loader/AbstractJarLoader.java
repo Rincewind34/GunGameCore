@@ -38,7 +38,7 @@ public class AbstractJarLoader<T> {
 		}
 		
 		if (mainClass == null) {
-			throw new GunGameJarException("The jar doesn't contain a mainclass (subclass of abstract " + this.mainClassType.getSimpleName() + ")!");
+			throw GunGameJarException.noMainclass(this.mainClassType);
 		}
 		
 		return mainClass.newInstance();

@@ -15,7 +15,7 @@ import org.bukkit.plugin.Plugin;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
-import eu.securebit.gungame.exception.GunGameException;
+import eu.securebit.gungame.exception.GunGameReflectException;
 import eu.securebit.gungame.game.GameInterface;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
@@ -69,18 +69,18 @@ public class Core {
 			} if (Core.STATE_DISABLED != null) {
 				manager.initDisabledState(Core.newStateInstance(Core.STATE_DISABLED, game));
 			}
-		} catch (NoSuchMethodException e) {
-			throw new GunGameException(e.getMessage(), e);
-		} catch (SecurityException e) {
-			throw new GunGameException(e.getMessage(), e);
-		} catch (InstantiationException e) {
-			throw new GunGameException(e.getMessage(), e);
-		} catch (IllegalAccessException e) {
-			throw new GunGameException(e.getMessage(), e);
-		} catch (IllegalArgumentException e) {
-			throw new GunGameException(e.getMessage(), e);
-		} catch (InvocationTargetException e) {
-			throw new GunGameException(e.getMessage(), e);
+		} catch (NoSuchMethodException ex) {
+			throw GunGameReflectException.fromOther(ex);
+		} catch (SecurityException ex) {
+			throw GunGameReflectException.fromOther(ex);
+		} catch (InstantiationException ex) {
+			throw GunGameReflectException.fromOther(ex);
+		} catch (IllegalAccessException ex) {
+			throw GunGameReflectException.fromOther(ex);
+		} catch (IllegalArgumentException ex) {
+			throw GunGameReflectException.fromOther(ex);
+		} catch (InvocationTargetException ex) {
+			throw GunGameReflectException.fromOther(ex);
 		}
 		
 		List<World> worlds = new ArrayList<>();

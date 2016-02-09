@@ -14,7 +14,7 @@ import org.bukkit.World;
 import org.bukkit.util.NumberConversions;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
-import eu.securebit.gungame.exception.GunGameException;
+import eu.securebit.gungame.exception.GunGameIOException;
 import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.io.configs.FileGameConfig;
 import eu.securebit.gungame.io.configs.FileLevels;
@@ -277,11 +277,12 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	
 	private Entry<Integer, Location> readSpawnLocation(String csv) {
 		int id = NumberConversions.toInt(DataUtil.getFromCSV(csv, 0));
+		String worldName = DataUtil.getFromCSV(csv, 1);
 		
-		World world = Bukkit.getWorld(DataUtil.getFromCSV(csv, 1));
+		World world = Bukkit.getWorld(worldName);
 		
 		if (world == null) {
-			throw new GunGameException("Error while reading the world! Does it exist?");
+			throw GunGameIOException.unknownWorld(worldName);
 		}
 		
 		double x = NumberConversions.toDouble(DataUtil.getFromCSV(csv, 2));

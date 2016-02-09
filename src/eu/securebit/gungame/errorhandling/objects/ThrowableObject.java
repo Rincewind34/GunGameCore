@@ -3,7 +3,7 @@ package eu.securebit.gungame.errorhandling.objects;
 import lib.securebit.InfoLayout;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.errorhandling.layouts.Layout;
-import eu.securebit.gungame.exception.GunGameException;
+import eu.securebit.gungame.exception.GunGameErrorHandlerException;
 
 public abstract class ThrowableObject<T extends Layout> {
 	
@@ -20,7 +20,7 @@ public abstract class ThrowableObject<T extends Layout> {
 	@SuppressWarnings("unchecked")
 	public ThrowableObject(String objectId, String... variables) {
 		if (!CraftErrorHandler.layouts.containsKey(objectId)) {
-			throw new GunGameException("The objectId '" + objectId + "' is unknown!");
+			throw GunGameErrorHandlerException.unknownObjectID(objectId);
 		}
 		
 		this.objectId = objectId;

@@ -35,7 +35,7 @@ public class ConfigUtil {
 		World world = Bukkit.getWorld(worldName);
 		
 		if (world == null) {
-			throw new GunGameIOException("The given world '" + worldName + "' does not exists!");
+			throw GunGameIOException.unknownWorld(worldName);
 		}
 		
 		double x = config.getDouble(path + ".x");

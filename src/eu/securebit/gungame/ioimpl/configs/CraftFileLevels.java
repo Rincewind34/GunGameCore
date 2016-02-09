@@ -8,6 +8,7 @@ import java.util.List;
 import org.bukkit.inventory.ItemStack;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
+import eu.securebit.gungame.exception.GunGameLevelException;
 import eu.securebit.gungame.io.configs.FileLevels;
 import eu.securebit.gungame.ioutil.ItemSerializer;
 import eu.securebit.gungame.util.ConfigDefault;
@@ -26,17 +27,17 @@ public class CraftFileLevels extends CraftFileGunGameConfig implements FileLevel
 	}
 	
 	@Override
-	public void setLevel(int level, ItemStack[] items) throws InvalidLevelException {
+	public void setLevel(int level, ItemStack[] items) {
 		this.checkAccessability();
 		
 		List<String> data = this.getLevels();
 		
 		if (level <= 0) {
-			throw new InvalidLevelException("The level must be an integer greater than 0.");
+			throw new GunGameLevelException("The level must be an integer greater than 0.");
 		}
 		
 		if (level > data.size() + 1) {
-			throw new InvalidLevelException("Fragmentations are not allowed. Please select an level between 1 and " + (data.size() + 1));
+			throw new GunGameLevelException("Fragmentations are not allowed. Please select an level between 1 and " + (data.size() + 1));
 		}
 		
 		--level; // collection-operations are working with 0 as the first number!
@@ -51,11 +52,11 @@ public class CraftFileLevels extends CraftFileGunGameConfig implements FileLevel
 	}
 	
 	@Override
-	public boolean delete() throws InvalidLevelException {
+	public boolean delete() {
 		this.checkAccessability();
 		
 		if (this.getLevelCount() < 1) {
-			throw new InvalidLevelException("There is no level to remove.");
+			throw new GunGameLevelException("There is no level to remove.");
 		}
 		
 		List<String> levels = this.getLevels();
@@ -73,15 +74,15 @@ public class CraftFileLevels extends CraftFileGunGameConfig implements FileLevel
 	}
 
 	@Override
-	public ItemStack[] getLevel(int level) throws InvalidLevelException {
+	public ItemStack[] getLevel(int level) {
 		this.checkAccessability();
 		
 		if (level <= 0) {
-			throw new InvalidLevelException("The level must be an integer greater than 0.");
+			throw new GunGameLevelException("The level must be an integer greater than 0.");
 		}
 		
 		if (level > this.getLevelCount()) {
-			throw new InvalidLevelException("The maximum level is " + this.getLevelCount() + " (given: " + level + ").");
+			throw new GunGameLevelException("The maximum level is " + this.getLevelCount() + " (given: " + level + ").");
 		}
 		
 		--level; // collection-operations are working with 0 as the first number!

@@ -11,18 +11,18 @@ import java.util.jar.JarInputStream;
 
 import org.bukkit.ChatColor;
 
-import eu.securebit.gungame.exception.GunGameException;
-import eu.securebit.gungame.exception.MalformedJarException;
+import eu.securebit.gungame.exception.GunGameIOException;
+import eu.securebit.gungame.exception.GunGameJarException;
 
 public class IOUtil {
 	
-	public static File checkJarFile(File input) throws MalformedJarException, IOException {
+	public static File checkJarFile(File input) throws GunGameJarException, IOException {
 		if (input == null || !input.exists()) {
 			throw new FileNotFoundException("Cannot find the frame jarfile!");
 		}
 		
 		if (input.length() < 100) {
-			throw new MalformedJarException("Cannot parse jarfile!");
+			throw GunGameJarException.parsingUnable();
 		}
 		
 		FileInputStream fis = new FileInputStream(input);
@@ -30,7 +30,7 @@ public class IOUtil {
 		fis.close();
 		
 		if (!string.equals("PK")) {
-			throw new MalformedJarException("Cannot parse jarfile!");
+			throw GunGameJarException.parsingUnable();
 		}
 		
 		return input;
@@ -41,7 +41,7 @@ public class IOUtil {
 		try {
 			jar = IOUtil.checkJarFile(jar);
 		} catch (Exception ex) {
-			throw new GunGameException(ex.getMessage(), ex);
+			throw GunGameIOException.fromOther(ex);
 		}
 		
 		List<String> classes = new ArrayList<String>();
@@ -65,7 +65,7 @@ public class IOUtil {
 			}
 			
 		} catch (Exception ex) {
-			throw new GunGameException(ex.getMessage(), ex);
+			throw GunGameIOException.fromOther(ex);
 		}
 		
 		return classes;

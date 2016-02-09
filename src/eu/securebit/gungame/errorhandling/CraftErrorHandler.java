@@ -17,7 +17,7 @@ import eu.securebit.gungame.errorhandling.objects.TempError;
 import eu.securebit.gungame.errorhandling.objects.ThrowableObject;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.errorhandling.objects.Warning;
-import eu.securebit.gungame.exception.GunGameException;
+import eu.securebit.gungame.exception.GunGameErrorHandlerException;
 import eu.securebit.gungame.framework.Frame;
 import eu.securebit.gungame.io.FileBootConfig;
 import eu.securebit.gungame.io.FileConfigRegistry;
@@ -124,7 +124,7 @@ public class CraftErrorHandler implements ErrorHandler {
 	@Override
 	public void throwError(String objectId, String causeId) {
 		if (!CraftErrorHandler.layouts.containsKey(causeId)) {
-			throw new GunGameException("Unknown objectid '" + objectId + "'!");
+			throw GunGameErrorHandlerException.unknownObjectID(objectId);
 		}
 		
 		Layout layout = CraftErrorHandler.layouts.get(objectId);
@@ -137,7 +137,7 @@ public class CraftErrorHandler implements ErrorHandler {
 		} else if (layout instanceof LayoutWarning) {
 			obj = new Warning(objectId);
 		} else {
-			throw new GunGameException("Unknown layouttype for objectid '" + objectId + "'!");
+			throw GunGameErrorHandlerException.layoutType(objectId);
 		}
 		
 		this.throwError(obj, causeId);
@@ -181,12 +181,8 @@ public class CraftErrorHandler implements ErrorHandler {
 	
 	@Override
 	public ThrownError getCause(ThrownError error) {
-		if (!CraftErrorHandler.layouts.containsKey(error.getObjectId())) {
-			throw new GunGameException("The error '" + error.getObjectId() + "' is unknown!");
-		}
-		
 		if (!this.isErrorPresent(error)) {
-			throw new GunGameException("The error '" + error.getObjectId() + "' is not present!");
+			throw GunGameErrorHandlerException.unpresentError(error.getParsedObjectId());
 		}
 		
 		ThrownError selectedError = null;
@@ -205,10 +201,6 @@ public class CraftErrorHandler implements ErrorHandler {
 	}
 	
 	private void throwError(ThrowableObject<?> object, ThrownError cause, boolean triggered) {
-		if (!CraftErrorHandler.layouts.containsKey(object.getObjectId())) {
-			throw new GunGameException("The object '" + object.getObjectId() + "' is unknown!");
-		}
-		
 		this.checkVars(object);
 		
 		if (!triggered) {
@@ -236,11 +228,11 @@ public class CraftErrorHandler implements ErrorHandler {
 	
 	private void checkVars(ThrowableObject<?> object) {
 		if (object.getParsedObjectId().contains("VAR")) {
-			throw new GunGameException("All variables should be present!");
+			throw GunGameErrorHandlerException.variables();
 		}
 		
 		if (object.getParsedMessage().contains("VAR")) {
-			throw new GunGameException("All variables should be present!");
+			throw GunGameErrorHandlerException.variables();
 		}
 	}
 	
@@ -249,10 +241,10 @@ public class CraftErrorHandler implements ErrorHandler {
 			if (CraftErrorHandler.layouts.get(errorId) instanceof LayoutError) {
 				return new ThrownError(errorId);
 			} else {
-				throw new GunGameException("ThrowableObjectType#ERROR expected for errorId '" + errorId + "'!");
+				throw GunGameErrorHandlerException.layoutType(errorId);
 			}
 		} else {
-			throw new GunGameException("Unknown objectid '" + errorId + "'!");
+			throw GunGameErrorHandlerException.unknownObjectID(errorId);
 		}
 	}
 	

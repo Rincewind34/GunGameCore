@@ -10,7 +10,7 @@ public class AbstractInterpreter<T extends FileGunGameConfig> implements Interpr
 	
 	public AbstractInterpreter(T config) {
 		if (!config.isAccessable()) {
-			throw new GunGameInterpretException(config);
+			throw GunGameInterpretException.create(config);
 		}
 		
 		this.config = config;

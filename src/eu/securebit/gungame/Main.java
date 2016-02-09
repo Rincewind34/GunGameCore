@@ -19,7 +19,7 @@ import eu.securebit.gungame.addonsystem.Addon.AddonProperties;
 import eu.securebit.gungame.commands.CommandGunGame;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
-import eu.securebit.gungame.exception.MalformedJarException;
+import eu.securebit.gungame.exception.GunGameJarException;
 import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.framework.Frame;
 import eu.securebit.gungame.framework.Frame.FrameProperties;
@@ -248,7 +248,7 @@ public class Main extends JavaPlugin {
 			try {
 				FrameLoader loader = new CraftFrameLoader(this.rootDirectory.getFrameJar());
 				this.frame = loader.load();
-			} catch (MalformedJarException ex) {
+			} catch (GunGameJarException ex) {
 				if (Main.DEBUG) {
 					ex.printStackTrace();
 				}
