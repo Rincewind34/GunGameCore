@@ -9,11 +9,11 @@ import eu.securebit.gungame.io.abstracts.Directory;
 
 public interface AddonDirectory extends Directory {
 	
-	public static final String ERROR_MAIN = 	"1500";
+	public static final String ERROR_MAIN = 	"Error-1500";
 	
-	public static final String ERROR_FILE = 	"1510";
+	public static final String ERROR_FILE = 	"Error-1510";
 	
-	public static final String ERROR_CREATE = 	"1520";
+	public static final String ERROR_CREATE = 	"Error-1520";
 	
 	public static LayoutError createErrorMain() {
 		return new LayoutError("The addondirectory could not be loaded!", RootDirectory.ERROR_MAIN);

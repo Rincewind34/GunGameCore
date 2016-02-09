@@ -6,20 +6,20 @@ import java.util.List;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 
 public abstract class Addon {
+		
+	public static final String ERROR_INIT = 						"Error-4000";
 	
-	public static final String ERROR_INIT = "4000";
+	public static final String ERROR_LOAD = 						"Error-5000-VAR0";
 	
-	public static final String ERROR_LOAD = "5000-VAR0";
+	public static final String ERROR_ENABLE = 						"Error-6000-VAR0";
 	
-	public static final String ERROR_ENABLE = "6000-VAR0";
+	public static final String ERROR_ENABLE_DEPENCIES = 			"Error-6100-VAR0";
 	
-	public static final String ERROR_ENABLE_DEPENCIES = "6100-VAR0";
+	public static final String ERROR_ENABLE_FRAME = 				"Error-6200-VAR0";
 	
-	public static final String ERROR_ENABLE_FRAME = "6200-VAR0";
+	public static final String ERROR_ENABLE_FRAME_REQUIRED = 		"Error-6210-VAR0";
 	
-	public static final String ERROR_ENABLE_FRAME_REQUIRED = "6210-VAR0";
-	
-	public static final String ERROR_ENABLE_FRAME_INCOMPATIBLE = "6220-VAR0";
+	public static final String ERROR_ENABLE_FRAME_INCOMPATIBLE = 	"Error-6220-VAR0";
 	
 	public static LayoutError createErrorInit() {
 		return new LayoutError("The addonloading could not be initialized!");

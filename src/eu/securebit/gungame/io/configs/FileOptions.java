@@ -7,15 +7,15 @@ import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 
 public interface FileOptions extends FileIdentifyable, FileConfig {
 	
-	public static final String ERROR_MAIN = 			"7500-VAR0";
+	public static final String ERROR_MAIN = 			"Error-7500-VAR0";
 	
-	public static final String ERROR_LOAD = 			"7510-VAR0";
+	public static final String ERROR_LOAD = 			"Error-7510-VAR0";
 	
-	public static final String ERROR_FOLDER =			"7511-VAR0";
+	public static final String ERROR_FOLDER =			"Error-7511-VAR0";
 	
-	public static final String ERROR_CREATE = 			"7512-VAR0";
+	public static final String ERROR_CREATE = 			"Error-7512-VAR0";
 	
-	public static final String ERROR_MALFORMED = 		"7513-VAR0";
+	public static final String ERROR_MALFORMED = 		"Error-7513-VAR0";
 	
 	public static LayoutError createErrorMain() {
 		return new LayoutError("In the optionsfile 'VAR0' occured an error!");

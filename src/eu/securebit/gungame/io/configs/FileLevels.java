@@ -10,17 +10,17 @@ import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 
 public interface FileLevels extends FileIdentifyable, FileConfig {
 	
-	public static final String ERROR_MAIN = 			"7300-VAR0";
+	public static final String ERROR_MAIN = 			"Error-7300-VAR0";
 	
-	public static final String ERROR_LOAD = 			"7310-VAR0";
+	public static final String ERROR_LOAD = 			"Error-7310-VAR0";
 	
-	public static final String ERROR_FOLDER = 			"7311-VAR0";
+	public static final String ERROR_FOLDER = 			"Error-7311-VAR0";
 	
-	public static final String ERROR_CREATE = 			"7312-VAR0";
+	public static final String ERROR_CREATE = 			"Error-7312-VAR0";
 	
-	public static final String ERROR_MALFORMED = 		"7313-VAR0";
+	public static final String ERROR_MALFORMED = 		"Error-7313-VAR0";
 	
-	public static final String ERROR_LEVELCOUNT = 		"7320-VAR0";
+	public static final String ERROR_LEVELCOUNT = 		"Error-7320-VAR0";
 	
 	public static LayoutError createErrorMain() {
 		return new LayoutError("In the levelsfile 'VAR0' occured an error!");
