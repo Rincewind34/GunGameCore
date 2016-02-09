@@ -7,7 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import eu.securebit.gungame.exception.UnknownWorldException;
+import eu.securebit.gungame.exception.GunGameIOException;
 import eu.securebit.gungame.util.ConfigDefault;
 
 public class ConfigUtil {
@@ -30,12 +30,12 @@ public class ConfigUtil {
 		defaults.add(new ConfigDefault(path + ".pitch", loc.getPitch(), double.class));
 	}
 	
-	public static Location getLocation(FileConfiguration config, String path) throws UnknownWorldException {
+	public static Location getLocation(FileConfiguration config, String path) {
 		String worldName = config.getString(path + ".world");
 		World world = Bukkit.getWorld(worldName);
 		
 		if (world == null) {
-			throw new UnknownWorldException("The given world '" + worldName + "' does not exists!");
+			throw new GunGameIOException("The given world '" + worldName + "' does not exists!");
 		}
 		
 		double x = config.getDouble(path + ".x");
