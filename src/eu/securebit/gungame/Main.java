@@ -18,6 +18,7 @@ import eu.securebit.gungame.addonsystem.Addon;
 import eu.securebit.gungame.addonsystem.Addon.AddonProperties;
 import eu.securebit.gungame.commands.CommandGunGame;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
+import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.exception.MalformedJarException;
 import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.framework.Frame;
@@ -326,7 +327,7 @@ public class Main extends JavaPlugin {
 				ex.printStackTrace();
 			}
 			
-			this.handler.throwError(Addon.ERROR_LOAD, null, IOUtil.preparePath(file.getPath()));
+			this.handler.throwError(new ThrownError(Addon.ERROR_LOAD, IOUtil.preparePath(file.getPath())));
 			return null;
 		}
 	}
@@ -334,16 +335,16 @@ public class Main extends JavaPlugin {
 	private boolean enableAddon(ConsoleCommandSender sender, Addon addon, File file) {
 		for (String plugin : addon.getDependencies()) {
 			if (Bukkit.getPluginManager().getPlugin(plugin) == null || !Bukkit.getPluginManager().getPlugin(plugin).isEnabled()) {
-				this.handler.throwError(Addon.ERROR_ENABLE_DEPENCIES, null, IOUtil.preparePath(file.getPath()), plugin);
+				this.handler.throwError(new ThrownError(Addon.ERROR_ENABLE_DEPENCIES, IOUtil.preparePath(file.getPath()), plugin));
 				return false;
 			}
 		}
 		
 		if (addon.requiresFrame() && !Core.isFrameEnabled()) {
-			this.handler.throwError(Addon.ERROR_ENABLE_FRAME_REQUIRED, Frame.ERROR_ENABLE, IOUtil.preparePath(file.getPath()));
+			this.handler.throwError(new ThrownError(Addon.ERROR_ENABLE_FRAME_REQUIRED, IOUtil.preparePath(file.getPath())), Frame.ERROR_ENABLE);
 			return false;
 		} else if (Core.isFrameEnabled() && addon.getIncompatibleFrames().contains(this.frame.getFrameId())) {
-			this.handler.throwError(Addon.ERROR_ENABLE_FRAME_INCOMPATIBLE, null, IOUtil.preparePath(file.getPath()));
+			this.handler.throwError(new ThrownError(Addon.ERROR_ENABLE_FRAME_INCOMPATIBLE, IOUtil.preparePath(file.getPath())));
 			return false;
 		}
 		
@@ -357,7 +358,7 @@ public class Main extends JavaPlugin {
 				ex.printStackTrace();
 			}
 			
-			this.handler.throwError(Addon.ERROR_ENABLE, null, IOUtil.preparePath(file.getPath()));
+			this.handler.throwError(new ThrownError(Addon.ERROR_ENABLE, IOUtil.preparePath(file.getPath())));
 			return false;
 		}
 	}

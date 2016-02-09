@@ -38,7 +38,7 @@ public enum ColorSet {
 	public static final String ERROR_ENTRY = 		"1|007|001|000";
 	
 	public static LayoutError createErrorMain() {
-		return new SimpleErrorLayout("The colorset given from the bootconfig could not be resolved", RootDirectory.ERROR_MAIN);
+		return new LayoutError("The colorset given from the bootconfig could not be resolved", RootDirectory.ERROR_MAIN);
 	}
 	
 	public static LayoutError createErrorEntry() {

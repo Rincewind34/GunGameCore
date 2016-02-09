@@ -4,6 +4,7 @@ import java.io.File;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
+import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.io.abstracts.SimpleFile;
 import eu.securebit.gungame.ioutil.IOUtil;
 
@@ -62,7 +63,7 @@ public abstract class AbstractFile implements SimpleFile {
 	}
 	
 	protected void throwError(String error) {
-		this.handler.throwError(error, null, IOUtil.preparePath(this.file.getAbsolutePath()));
+		this.handler.throwError(new ThrownError(error, IOUtil.preparePath(this.file.getAbsolutePath())));
 	}
 	
 	protected String getErrorMain() {

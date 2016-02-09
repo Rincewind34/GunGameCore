@@ -11,6 +11,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.interpreter.GameOptions;
 import eu.securebit.gungame.interpreter.GunGameScoreboard;
 import eu.securebit.gungame.interpreter.LevelManager;
@@ -91,7 +92,7 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 		
 		this.checks.add(new GameCheck(this, "config-file") {
 			
-			private String errorId = Main.instance().getErrorHandler().getCause(FileGameConfig.ERROR_SPAWNID);
+			private ThrownError error = Main.instance().getErrorHandler().getCause(FileGameConfig.ERROR_SPAWNID);
 			
 			@Override
 			public boolean check() {
@@ -100,12 +101,12 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 			
 			@Override
 			public String getFixPosibility() {
-				return "Try */gungame fix ""*";
+				return "Try */gungame fix " + this.error.getParsedObjectId() + "*";
 			}
 			
 			@Override
 			public String getFailCause() {
-				return ;
+				return this.error.getParsedObjectId() + " (" + this.error.getParsedMessage() + ")";
 			}
 			
 		});
