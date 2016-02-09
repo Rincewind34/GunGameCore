@@ -3,7 +3,7 @@ package eu.securebit.gungame.interpreter;
 import eu.securebit.gungame.interpreter.impl.CraftGameOptions;
 import eu.securebit.gungame.io.configs.FileOptions;
 
-public interface GameOptions {
+public interface GameOptions extends Interpreter {
 	
 	public static GameOptions create(FileOptions file) {
 		return new CraftGameOptions(file);

@@ -4,64 +4,57 @@ import java.util.List;
 
 import org.bukkit.Location;
 
-import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.interpreter.LocationManager;
 import eu.securebit.gungame.io.configs.FileGameConfig;
 
-public class CraftLocationManager implements LocationManager {
-	
-	private FileGameConfig file;
+public class CraftLocationManager extends AbstractInterpreter<FileGameConfig> implements LocationManager {
 	
 	public CraftLocationManager(FileGameConfig file) {
-		if (!file.isAccessable()) {
-			throw new GunGameException("Cannot interpret config-file '" + file.getAbsolutePath() + "'!");
-		}
-		
-		this.file = file;
+		super(file);
 	}
 	
 	@Override
 	public void setLobbyLocation(Location lobby) {
-		this.file.setLocationLobby(lobby);
+		super.config.setLocationLobby(lobby);
 	}
 
 	@Override
 	public void removeSpawnPoint(int spawnId) {
-		this.file.removeSpawn(spawnId);
+		super.config.removeSpawn(spawnId);
 	}
 
 	@Override
 	public boolean containsSpawn(int spawnId) {
-		return this.file.isSpawn(spawnId);
+		return super.config.isSpawn(spawnId);
 	}
 
 	@Override
 	public int addSpawnPoint(Location spawnPoint) {
-		return this.file.addSpawn(spawnPoint);
+		return super.config.addSpawn(spawnPoint);
 	}
 
 	@Override
 	public int getSpawnPointCount() {
-		return this.file.getSpawns().size();
+		return super.config.getSpawns().size();
 	}
 
 	@Override
 	public Location getSpawnPoint(int spawnId) {
-		return this.file.getSpawnById(spawnId);
+		return super.config.getSpawnById(spawnId);
 	}
 
 	@Override
 	public Location getLobbyLocation() {
-		return this.file.getLocationLobby();
+		return super.config.getLocationLobby();
 	}
 	
 	@Override
 	public List<Location> getSpawnPoints() {
-		return this.file.getSpawns();
+		return super.config.getSpawns();
 	}
 	
 	public FileGameConfig getFile() {
-		return this.file;
+		return super.config;
 	}
 
 }

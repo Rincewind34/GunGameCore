@@ -6,7 +6,7 @@ import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.interpreter.impl.CraftGunGameScoreboard;
 import eu.securebit.gungame.io.configs.FileScoreboard;
 
-public interface GunGameScoreboard {
+public interface GunGameScoreboard extends Interpreter {
 	
 	public static GunGameScoreboard create(FileScoreboard file, GunGame gungame) {
 		return new CraftGunGameScoreboard(gungame, file);

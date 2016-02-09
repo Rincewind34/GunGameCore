@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import eu.securebit.gungame.interpreter.impl.CraftLevelManager;
 import eu.securebit.gungame.io.configs.FileLevels;
 
-public interface LevelManager {
+public interface LevelManager extends Interpreter {
 	
 	public static LevelManager create(FileLevels file) {
 		return new CraftLevelManager(file);

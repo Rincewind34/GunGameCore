@@ -7,7 +7,7 @@ import org.bukkit.Location;
 import eu.securebit.gungame.interpreter.impl.CraftLocationManager;
 import eu.securebit.gungame.io.configs.FileGameConfig;
 
-public interface LocationManager {
+public interface LocationManager extends Interpreter {
 	
 	public static LocationManager create(FileGameConfig file) {
 		return new CraftLocationManager(file);

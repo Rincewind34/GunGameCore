@@ -9,41 +9,33 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.exception.GunGameException;
-import eu.securebit.gungame.exception.GunGameScoreboardExcepion;
+import eu.securebit.gungame.exception.GunGameScoreboardException;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.interpreter.GunGameScoreboard;
 import eu.securebit.gungame.io.configs.FileScoreboard;
 
-public class CraftGunGameScoreboard implements GunGameScoreboard {
+public class CraftGunGameScoreboard extends AbstractInterpreter<FileScoreboard> implements GunGameScoreboard {
 	
 	private Scoreboard board;
-	
-	private FileScoreboard file;
 	
 	private GunGame gungame;
 	
 	public CraftGunGameScoreboard(GunGame gungame, FileScoreboard file) {
-		if (!file.isAccessable()) {
-			throw new GunGameException("Cannot interpret the scoreboard-file '" + file.getAbsolutePath() + "'!");
-		}
+		super(file);
 		
-		this.board = Bukkit.getScoreboardManager().getMainScoreboard();
-		this.file = file;
 		this.gungame = gungame;
+		this.board = Bukkit.getScoreboardManager().getMainScoreboard();
 	}
 	
 	private String getFormat() {
-		String format = this.file.getScoreboardFormat();
+		String format = super.config.getScoreboardFormat();
 		return ChatColor.translateAlternateColorCodes('&', format);
 	}
 	
 	@Override
 	public void setup() {
-		if (!this.isEnabled()) {
-			throw new GunGameScoreboardExcepion("The scoreboard is disabled!");
-		}
+		this.checkEnabled();
 		
 		if (this.exists()) {
 			Objective obj = this.board.getObjective(this.gungame.getName());
@@ -65,15 +57,13 @@ public class CraftGunGameScoreboard implements GunGameScoreboard {
 			
 			this.refresh();
 		} else {
-			throw new GunGameScoreboardExcepion("The objective does not exists!");
+			throw GunGameScoreboardException.noObjective();
 		}
 	}
 	
 	@Override
 	public void update(Player player) {
-		if (!this.isEnabled()) {
-			throw new GunGameScoreboardExcepion("The scoreboard is disabled!");
-		}
+		this.checkEnabled();
 		
 		if (this.exists()) {
 			Objective obj = this.board.getObjective(this.gungame.getName());
@@ -84,7 +74,7 @@ public class CraftGunGameScoreboard implements GunGameScoreboard {
 			
 			this.refresh();
 		} else {
-			throw new GunGameScoreboardExcepion("The objective does not exists!");
+			throw GunGameScoreboardException.noObjective();
 		}
 	}
 	
@@ -97,42 +87,36 @@ public class CraftGunGameScoreboard implements GunGameScoreboard {
 	
 	@Override
 	public void delete() {
-		if (!this.isEnabled()) {
-			throw new GunGameScoreboardExcepion("The scoreboard is disabled!");
-		}
+		this.checkEnabled();
 		
 		if (this.exists()) {
 			this.board.getObjective(this.gungame.getName()).unregister();
 		} else {
-			throw new GunGameScoreboardExcepion("The objective does not exists!");
+			throw GunGameScoreboardException.noObjective();
 		}
 	}
 	
 	@Override
 	public void create() {
-		if (!this.isEnabled()) {
-			throw new GunGameScoreboardExcepion("The scoreboard is disabled!");
-		}
+		this.checkEnabled();
 		
 		if (!this.exists()) {
 			Objective obj = this.board.registerNewObjective(this.gungame.getName(), "dummy");
-			obj.setDisplayName(this.file.getScoreboardTitle());
+			obj.setDisplayName(super.config.getScoreboardTitle());
 			obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		} else {
-			throw new GunGameScoreboardExcepion("The objective does already exists!");
+			throw GunGameScoreboardException.existingObjective();
 		}
 	}
 	
 	@Override
 	public void clearFromPlayers() {
-		if (!this.isEnabled()) {
-			throw new GunGameScoreboardExcepion("The scoreboard is disabled!");
-		}
+		this.checkEnabled();
 		
 		if (this.exists()) {
 			this.board.getObjective(this.gungame.getName()).setDisplaySlot(null);
 		} else {
-			throw new GunGameScoreboardExcepion("The objective does not exists!");
+			throw GunGameScoreboardException.noObjective();
 		}
 	}
 	
@@ -145,20 +129,24 @@ public class CraftGunGameScoreboard implements GunGameScoreboard {
 	
 	@Override
 	public boolean exists() {
-		if (!this.isEnabled()) {
-			throw new GunGameScoreboardExcepion("The scoreboard is disabled!");
-		}
+		this.checkEnabled();
 		
 		return this.board.getObjective(this.gungame.getName()) != null;
 	}
 	
 	@Override
 	public boolean isEnabled() {
-		return this.file.isScoreboardEnabled();
+		return super.config.isScoreboardEnabled();
 	}
 	
 	public FileScoreboard getFile() {
-		return this.file;
+		return super.config;
+	}
+	
+	private void checkEnabled() {
+		if (!this.isEnabled()) {
+			throw GunGameScoreboardException.boardIsDisabled();
+		}
 	}
 	
 }

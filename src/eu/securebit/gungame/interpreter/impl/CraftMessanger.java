@@ -2,89 +2,82 @@ package eu.securebit.gungame.interpreter.impl;
 
 import org.bukkit.entity.Player;
 
-import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.interpreter.Messanger;
 import eu.securebit.gungame.io.configs.FileMessages;
 
-public class CraftMessanger implements Messanger {
-	
-	private FileMessages file;
+public class CraftMessanger extends AbstractInterpreter<FileMessages> implements Messanger {
 	
 	public CraftMessanger(FileMessages file) {
-		if (!file.isAccessable()) {
-			throw new GunGameException("Cannot interpret message-file '" + file.getAbsolutePath() + "'!");
-		}
-		
-		this.file = file;
+		super(file);
 	}
 	
 	@Override
 	public String getJoinLobby() {
-		return this.file.getJoinLobby();
+		return super.config.getJoinLobby();
 	}
 
 	@Override
 	public String getQuitLobby() {
-		return this.file.getQuitLobby();
+		return super.config.getQuitLobby();
 	}
 
 	@Override
 	public String getCountdownLobby(int secondsLeft) {
-		return this.file.getCountdownLobby(secondsLeft);
+		return super.config.getCountdownLobby(secondsLeft);
 	}
 
 	@Override
 	public String getCountdownGrace(int secondsLeft) {
-		return this.file.getCountdownGrace(secondsLeft);
+		return super.config.getCountdownGrace(secondsLeft);
 	}
 
 	@Override
 	public String getCountdownEnd(int secondsLeft) {
-		return this.file.getCountdownEnd(secondsLeft);
+		return super.config.getCountdownEnd(secondsLeft);
 	}
 
 	@Override
 	public String getMapTeleport() {
-		return this.file.getMapTeleport();
+		return super.config.getMapTeleport();
 	}
 
 	@Override
 	public String getGracePeriodStarts() {
-		return this.file.getGracePeriodStarts();
+		return super.config.getGracePeriodStarts();
 	}
 
 	@Override
 	public String getGracePeriodEnds() {
-		return this.file.getGracePeriodEnds();
+		return super.config.getGracePeriodEnds();
 	}
 
 	@Override
 	public String getServerQuit() {
-		return this.file.getServerQuit();
+		return super.config.getServerQuit();
 	}
 
 	@Override
 	public String getWinner(Player player) {
-		return this.file.getWinner(player);
+		return super.config.getWinner(player);
 	}
 
 	@Override
 	public String getKillBroadcast(Player victim, Player killer) {
-		return this.file.getKillBroadcast(victim, killer);
+		return super.config.getKillBroadcast(victim, killer);
 	}
 
 	@Override
 	public String getDeathBroadcast(Player victim) {
-		return this.file.getDeathBroadcast(victim);
+		return super.config.getDeathBroadcast(victim);
 	}
 
 	@Override
 	public String getRespawn(int level) {
-		return this.file.getRespawn(level);
+		return super.config.getRespawn(level);
 	}
 	
 	public FileMessages getFile() {
-		return this.file;
+		return super.config;
 	}
 
 }

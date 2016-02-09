@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import eu.securebit.gungame.interpreter.impl.CraftMessanger;
 import eu.securebit.gungame.io.configs.FileMessages;
 
-public interface Messanger {
+public interface Messanger extends Interpreter {
 	
 	public static Messanger create(FileMessages file) {
 		return new CraftMessanger(file);

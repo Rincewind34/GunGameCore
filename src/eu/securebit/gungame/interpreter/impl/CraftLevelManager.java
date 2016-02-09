@@ -6,20 +6,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.interpreter.LevelManager;
 import eu.securebit.gungame.io.configs.FileLevels;
 
-public class CraftLevelManager implements LevelManager {
-	
-	private FileLevels file;
+public class CraftLevelManager extends AbstractInterpreter<FileLevels> implements LevelManager {
 	
 	public CraftLevelManager(FileLevels file) {
-		if (!file.isAccessable()) {
-			throw new GunGameException("Cannot interpret the levels-file '" + file.getAbsolutePath() + "'!");
-		}
-		
-		this.file = file;
+		super(file);
 	}
 	
 	@Override
@@ -37,12 +30,12 @@ public class CraftLevelManager implements LevelManager {
 			content[counter++] = inv.getArmorContents()[i];
 		}
 		
-		this.file.setLevel(levelId, content);
+		super.config.setLevel(levelId, content);
 	}
 	
 	@Override
 	public void equipPlayer(Player player, int levelId) {
-		ItemStack[] items = this.file.getLevel(levelId);
+		ItemStack[] items = super.config.getLevel(levelId);
 		
 		player.getInventory().clear();
 		player.getInventory().setArmorContents(new ItemStack[] { null, null, null, null });
@@ -53,7 +46,7 @@ public class CraftLevelManager implements LevelManager {
 	
 	@Override
 	public boolean deleteHighestLevel() {
-		return this.file.delete();
+		return super.config.delete();
 	}
 	
 	@Override
@@ -71,11 +64,11 @@ public class CraftLevelManager implements LevelManager {
 	
 	@Override
 	public int getLevelCount() {
-		return this.file.getLevelCount();
+		return super.config.getLevelCount();
 	}
 	
 	public FileLevels getFile() {
-		return this.file;
+		return super.config;
 	}
 	
 }
