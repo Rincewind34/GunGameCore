@@ -8,7 +8,7 @@ public class GunGameException extends RuntimeException {
 	}
 	
 	protected GunGameException(Exception ex) {
-		super("(" + ex.getClass().getSimpleName() + ")" + ex.getMessage(), ex);
+		super("(" + ex.getClass().getSimpleName() + ") " + ex.getMessage(), ex);
 	}
 	
 	protected GunGameException(String msg) {
