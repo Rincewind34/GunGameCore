@@ -1,9 +1,7 @@
 package eu.securebit.gungame.io.configs;
 
 import java.util.List;
-import java.util.Map;
 
-import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
@@ -51,10 +49,6 @@ public interface FileLevels extends FileGunGameConfig {
 		return new LayoutError("The levelcount in the levelsfile 'VAR0' has to be greater than 0!", FileLevels.ERROR_MAIN);
 	}
 	
-	
-	public abstract void setNextSpawnId(int nextId);
-	
-	public abstract void setSpawns(Map<Integer, Location> spawns);
 	
 	public abstract void setLevels(List<ItemStack[]> levels);
 	
