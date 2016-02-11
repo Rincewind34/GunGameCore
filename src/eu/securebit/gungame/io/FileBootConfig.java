@@ -8,8 +8,6 @@ import eu.securebit.gungame.io.directories.RootDirectory;
 
 public interface FileBootConfig extends FileIdentifyable, FileConfig {
 	
-	public static final String ERROR_MAIN = 		"Error-1400";
-	
 	public static final String ERROR_LOAD = 		"Error-1410";
 	
 	public static final String ERROR_FOLDER = 		"Error-1411";
@@ -18,12 +16,8 @@ public interface FileBootConfig extends FileIdentifyable, FileConfig {
 	
 	public static final String ERROR_MALFORMED = 	"Error-1413";
 	
-	public static LayoutError createErrorMain() {
-		return new LayoutError("In the 'bootconfig.yml' occured an error!", RootDirectory.ERROR_MAIN);
-	}
-	
 	public static LayoutError createErrorLoad() {
-		return new LayoutError("In the 'bootconfig.yml' occured an error!", FileBootConfig.ERROR_MAIN);
+		return new LayoutError("In the 'bootconfig.yml' occured an error!", RootDirectory.ERROR_MAIN);
 	}
 	
 	public static LayoutError createErrorFolder() {

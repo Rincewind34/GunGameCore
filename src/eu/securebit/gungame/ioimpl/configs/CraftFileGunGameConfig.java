@@ -10,9 +10,9 @@ public abstract class CraftFileGunGameConfig extends AbstractConfig implements F
 	
 	private String type;
 	
-	public CraftFileGunGameConfig(File file, CraftErrorHandler handler, String errorMain, String errorLoad, String errorFolder, String errorCreate,
+	public CraftFileGunGameConfig(File file, CraftErrorHandler handler, String errorMain, String errorFolder, String errorCreate,
 			String errorMalformed, String type) {
-		super(file, handler, errorMain, errorLoad, errorFolder, errorCreate, errorMalformed);
+		super(file, handler, errorMain, errorFolder, errorCreate, errorMalformed);
 		
 		this.type = type;
 	}

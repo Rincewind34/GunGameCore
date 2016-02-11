@@ -1,33 +1,21 @@
 package eu.securebit.gungame.ioimpl.configs;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.util.NumberConversions;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
-import eu.securebit.gungame.exception.GunGameIOException;
 import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.io.configs.FileGameConfig;
 import eu.securebit.gungame.io.configs.FileLevels;
 import eu.securebit.gungame.ioutil.ConfigUtil;
-import eu.securebit.gungame.ioutil.DataUtil;
 import eu.securebit.gungame.util.ConfigDefault;
 
 public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileGameConfig {
 	
 	public CraftFileGameConfig(File file, CraftErrorHandler handler, World world) {
-		super(file, handler,
-				FileGameConfig.ERROR_MAIN, FileGameConfig.ERROR_LOAD, FileGameConfig.ERROR_FOLDER, FileGameConfig.ERROR_CREATE, FileGameConfig.ERROR_MALFORMED,
-				"gameconfig");
+		super(file, handler, FileGameConfig.ERROR_LOAD, FileGameConfig.ERROR_FOLDER, FileGameConfig.ERROR_CREATE, FileGameConfig.ERROR_MALFORMED, "gameconfig");
 		
 		String dataFolder = "data" + File.separator;
 		
@@ -46,77 +34,77 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	
 	@Override
 	public boolean isEditMode() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getBoolean("editmode");
 	}
 	
 	@Override
 	public boolean isMuted() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getBoolean("muted");
 	}
 	
 	@Override
 	public int getStartLevel() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getInt("start-level");
 	}
 	
 	@Override
 	public int getMinPlayers() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getInt("playercount.minimal");
 	}
 	
 	@Override
 	public int getMaxPlayers() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getInt("playercount.maximal");
 	}
 	
 	@Override
 	public String getFileLevelsLocation() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getString("file.levels");
 	}
 	
 	@Override
 	public String getFileMessagesLocation() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getString("file.messages");
 	}
 
 	@Override
 	public String getFileScoreboardLocation() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getString("file.scoreboard");
 	}
 	
 	@Override
 	public String getFileOptionsLocation() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getString("file.options");
 	}
 	
 	@Override
 	public Location getLocationLobby() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return ConfigUtil.getLocation(super.config, "location.lobby");
 	}
 	
 	@Override
 	public void setEditMode(boolean enabled) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		super.config.set("editmode", enabled);
 		this.save();
@@ -124,7 +112,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	
 	@Override
 	public void setMuted(boolean muted) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		super.config.set("muted", muted);
 		this.save();
@@ -132,7 +120,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	
 	@Override
 	public void setStartLevel(int level) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		super.config.set("start-level", level);
 		this.save();
@@ -140,7 +128,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 
 	@Override
 	public void setLocationLobby(Location loc) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		ConfigUtil.setLocation(super.config, "location.lobby", loc);
 		this.save();

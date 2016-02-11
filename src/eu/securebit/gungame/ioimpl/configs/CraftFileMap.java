@@ -22,7 +22,7 @@ import eu.securebit.gungame.util.ConfigDefault;
 public class CraftFileMap extends CraftFileGunGameConfig implements FileMap {
 
 	public CraftFileMap(File file, CraftErrorHandler handler) {
-		super(file, handler, FileMap.ERROR_MAIN, FileMap.ERROR_LOAD, FileMap.ERROR_FOLDER, FileMap.ERROR_CREATE, FileMap.ERROR_MALFORMED, "map");
+		super(file, handler, FileMap.ERROR_LOAD, FileMap.ERROR_FOLDER, FileMap.ERROR_CREATE, FileMap.ERROR_MALFORMED, "map");
 		
 		this.getDefaults().add(new ConfigDefault("map.name", "BasicMap", String.class));
 		this.getDefaults().add(new ConfigDefault("map.builders", Arrays.asList("BasicBuilder"), List.class));
@@ -32,12 +32,16 @@ public class CraftFileMap extends CraftFileGunGameConfig implements FileMap {
 
 	@Override
 	public void setNextSpawnId(int nextId) {
+		this.checkReady();
+		
 		super.config.set("next-spawn-id", nextId);
 		this.save();
 	}
 
 	@Override
 	public void setSpawns(Map<Integer, Location> spawns) {
+		this.checkReady();
+		
 		List<String> list = new ArrayList<>();
 		
 		for (Entry<Integer, Location> entry : spawns.entrySet()) {
@@ -50,21 +54,29 @@ public class CraftFileMap extends CraftFileGunGameConfig implements FileMap {
 
 	@Override
 	public int getNextSpawnId() {
+		this.checkReady();
+		
 		return super.config.getInt("next-spawn-id");
 	}
 
 	@Override
 	public String getMapName() {
+		this.checkReady();
+		
 		return super.config.getString("map.name");
 	}
 
 	@Override
 	public List<String> getBuilders() {
+		this.checkReady();
+		
 		return super.config.getStringList("map.builders");
 	}
 
 	@Override
 	public Map<Integer, Location> getSpawns() {
+		this.checkReady();
+		
 		List<String> list = super.config.getStringList("location.spawns");
 		Map<Integer, Location> spawns = new HashMap<>();
 		

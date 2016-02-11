@@ -14,7 +14,7 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 	
 	public CraftFileConfigRegistry(String path, CraftErrorHandler handler) {
 		super(new File(path, ".fileregistry"), handler,
-				FileConfigRegistry.ERROR_MAIN, FileConfigRegistry.ERROR_LOAD, FileConfigRegistry.ERROR_FOLDER,
+				FileConfigRegistry.ERROR_LOAD, FileConfigRegistry.ERROR_FOLDER,
 				FileConfigRegistry.ERROR_CREATE, FileConfigRegistry.ERROR_MALFORMED_STRUCTURE);
 		
 		this.getDefaults().add(new ConfigDefault("files", Arrays.asList(), null));
@@ -22,7 +22,7 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 	
 	@Override
 	public void add(String file, String type) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		List<String> entries = this.getEntries();
 		entries.add(file + Util.separator + type);
@@ -32,7 +32,7 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 
 	@Override
 	public void remove(String file) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		List<String> entries = this.getEntries();
 		
@@ -48,7 +48,7 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 	
 	@Override
 	public boolean contains(String file) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		for (String element : CraftFileConfigRegistry.this.getEntries()) {
 			if (Util.split(element)[0].equals(file)) {
@@ -61,7 +61,7 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 
 	@Override
 	public String get(String file) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		for (String element : CraftFileConfigRegistry.this.getEntries()) {
 			if (Util.split(element)[0].equals(file)) {
@@ -74,13 +74,13 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 	
 	@Override
 	public List<String> getEntries() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getStringList("files");
 	}
 	
 	public void cleanUp() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		List<String> cleanedEntries = this.getEntries();
 		

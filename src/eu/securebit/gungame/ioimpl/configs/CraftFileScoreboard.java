@@ -12,15 +12,8 @@ import eu.securebit.gungame.util.ConfigDefault;
 
 public class CraftFileScoreboard extends CraftFileGunGameConfig implements FileScoreboard {
 	
-	private static final List<ConfigDefault> defaults = new ArrayList<>();
-	
-	static {
-		
-	}
-	
 	public CraftFileScoreboard(File file, CraftErrorHandler handler) {
-		super(file, handler,
-				FileScoreboard.ERROR_MAIN, FileScoreboard.ERROR_LOAD, FileScoreboard.ERROR_FOLDER, FileScoreboard.ERROR_CREATE, FileScoreboard.ERROR_MALFORMED, "scoreboard");
+		super(file, handler, FileScoreboard.ERROR_LOAD, FileScoreboard.ERROR_FOLDER, FileScoreboard.ERROR_CREATE, FileScoreboard.ERROR_MALFORMED, "scoreboard");
 		
 		this.getDefaults().add(new ConfigDefault("scoreboard", "test", String.class)); //TODO remove
 		this.getDefaults().add(new ConfigDefault("scoreboard.enabled", true, boolean.class));
@@ -30,34 +23,27 @@ public class CraftFileScoreboard extends CraftFileGunGameConfig implements FileS
 	
 	@Override
 	public boolean isScoreboardEnabled() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getBoolean("scoreboard.enabled");
 	}
 
 	@Override
 	public String getScoreboardTitle() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return ChatColor.translateAlternateColorCodes('&', super.config.getString("scoreboard.title"));
 	}
 
 	@Override
 	public String getScoreboardFormat() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getString("scoreboard.format");
 	}
 	
 	@Override
 	public void validate() {
-		for (ConfigDefault entry : CraftFileScoreboard.defaults) {
-			if (!entry.validate(super.config)) {
-				super.handler.throwError(this.createError(FileScoreboard.ERROR_MALFORMED));
-				break;
-			}
-		}
-		
 		if (super.config.getString("scoreboard.title").length() >= 64) {
 			super.handler.throwError(this.createError(FileScoreboard.ERROR_TITLE));
 		}

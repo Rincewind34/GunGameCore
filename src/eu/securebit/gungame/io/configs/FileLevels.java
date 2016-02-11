@@ -9,8 +9,6 @@ import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 
 public interface FileLevels extends FileGunGameConfig {
 	
-	public static final String ERROR_MAIN = 			"Error-7300-VAR0";
-	
 	public static final String ERROR_LOAD = 			"Error-7310-VAR0";
 	
 	public static final String ERROR_FOLDER = 			"Error-7311-VAR0";
@@ -21,16 +19,12 @@ public interface FileLevels extends FileGunGameConfig {
 	
 	public static final String ERROR_LEVELCOUNT = 		"Error-7320-VAR0";
 	
-	public static LayoutError createErrorMain() {
-		return new LayoutError("In the levelsfile 'VAR0' occured an error!");
-	}
-	
 	public static LayoutError createErrorLoad() {
 		return new LayoutError("The levelsfile 'VAR0' could not be loaded!");
 	}
 	
 	public static LayoutError createErrorFolder() {
-		return new LayoutErrorFixable("The levelsfile 'VAR0' is a directory!", FileLevels.ERROR_MAIN, () -> {
+		return new LayoutErrorFixable("The levelsfile 'VAR0' is a directory!", FileLevels.ERROR_LOAD, () -> {
 			// TODO fix path
 		});
 	}

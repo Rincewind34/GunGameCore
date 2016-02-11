@@ -17,7 +17,7 @@ import eu.securebit.gungame.util.ConfigDefault;
 public class CraftFileLevels extends CraftFileGunGameConfig implements FileLevels {
 	
 	public CraftFileLevels(File file, CraftErrorHandler handler) {
-		super(file, handler, FileLevels.ERROR_MAIN, FileLevels.ERROR_LOAD, FileLevels.ERROR_FOLDER, FileLevels.ERROR_CREATE, FileLevels.ERROR_MALFORMED, "levels");
+		super(file, handler, FileLevels.ERROR_LOAD, FileLevels.ERROR_FOLDER, FileLevels.ERROR_CREATE, FileLevels.ERROR_MALFORMED, "levels");
 		
 		this.getDefaults().add(new ConfigDefault("levels", Arrays.asList(), List.class));
 	}
@@ -31,6 +31,8 @@ public class CraftFileLevels extends CraftFileGunGameConfig implements FileLevel
 	
 	@Override
 	public List<ItemStack[]> getLevels() {
+		this.checkReady();
+		
 		List<String> datas = super.config.getStringList("levels");
 		List<ItemStack[]> levels = new ArrayList<>();
 		
@@ -43,6 +45,8 @@ public class CraftFileLevels extends CraftFileGunGameConfig implements FileLevel
 	
 	@Override
 	public void setLevels(List<ItemStack[]> levels) {
+		this.checkReady();
+		
 		List<String> datas = new ArrayList<>();
 		
 		for (ItemStack[] level : levels) {

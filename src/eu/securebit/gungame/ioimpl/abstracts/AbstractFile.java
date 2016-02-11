@@ -15,15 +15,15 @@ public abstract class AbstractFile implements SimpleFile {
 	
 	protected CraftErrorHandler handler;
 	
-	private ThrownError errorMain;
+	private ThrownError errorLoad;
 	private ThrownError errorFileType;
 	private ThrownError errorCreate;
 	
-	public AbstractFile(File file, CraftErrorHandler handler, String errorMain, String errorFileType, String errorCreate) {
+	public AbstractFile(File file, CraftErrorHandler handler, String errorLoad, String errorFileType, String errorCreate) {
 		this.file = file;
 		this.handler = handler;
 		
-		this.errorMain = this.createError(errorMain);
+		this.errorLoad = this.createError(errorLoad);
 		this.errorFileType = this.createError(errorFileType);
 		this.errorCreate = this.createError(errorCreate);
 	}
@@ -62,7 +62,7 @@ public abstract class AbstractFile implements SimpleFile {
 			return false;
 		}
 		
-		return !this.handler.isErrorPresent(this.errorMain);
+		return !this.handler.isErrorPresent(this.errorLoad);
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public abstract class AbstractFile implements SimpleFile {
 	}
 	
 	protected ThrownError getErrorMain() {
-		return this.errorMain;
+		return this.errorLoad;
 	}
 	
 	protected ThrownError getErrorFileType() {

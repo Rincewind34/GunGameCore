@@ -10,9 +10,9 @@ public interface SimpleFile {
 	
 	public abstract void checkReady();
 	
-	public abstract boolean isReady();
-	
 	public abstract boolean isCreated();
+	
+	public abstract boolean isReady();
 	
 	public abstract ThrownError createError(String errorId);
 	

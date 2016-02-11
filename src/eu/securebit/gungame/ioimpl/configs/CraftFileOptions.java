@@ -11,8 +11,7 @@ import eu.securebit.gungame.util.ConfigDefault;
 public class CraftFileOptions extends CraftFileGunGameConfig implements FileOptions {
 	
 	public CraftFileOptions(File file, CraftErrorHandler handler) {
-		super(file, handler,
-				FileOptions.ERROR_MAIN, FileOptions.ERROR_LOAD, FileOptions.ERROR_FOLDER, FileOptions.ERROR_CREATE, FileOptions.ERROR_MALFORMED, "options");
+		super(file, handler, FileOptions.ERROR_LOAD, FileOptions.ERROR_FOLDER, FileOptions.ERROR_CREATE, FileOptions.ERROR_MALFORMED, "options");
 		
 		this.getDefaults().add(new ConfigDefault("option.reset-level", false, boolean.class));
 		this.getDefaults().add(new ConfigDefault("option.autorespawn", true, boolean.class));
@@ -21,28 +20,28 @@ public class CraftFileOptions extends CraftFileGunGameConfig implements FileOpti
 	
 	@Override
 	public boolean isLevelResetAfterDeath() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getBoolean("option.reset-level");
 	}
 
 	@Override
 	public boolean isAutoRespawn() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getBoolean("option.autorespawn");
 	}
 
 	@Override
 	public boolean isLevelDowngradeOnNaturalDeath() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getBoolean("option.care-natural-death");
 	}
 
 	@Override
 	public void setLevelResetAfterDeath(boolean enabled) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		super.config.set("option.reset-level", enabled);
 		this.save();
@@ -50,7 +49,7 @@ public class CraftFileOptions extends CraftFileGunGameConfig implements FileOpti
 
 	@Override
 	public void setAutoRespawn(boolean enabled) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		super.config.set("option.autorespawn", enabled);
 		this.save();
@@ -58,7 +57,7 @@ public class CraftFileOptions extends CraftFileGunGameConfig implements FileOpti
 
 	@Override
 	public void setLevelDowngradeOnNaturalDeath(boolean enabled) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		super.config.set("option.care-natural-death", enabled);
 		this.save();

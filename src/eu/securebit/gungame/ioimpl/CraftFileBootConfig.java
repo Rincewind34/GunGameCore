@@ -12,7 +12,7 @@ public class CraftFileBootConfig extends AbstractConfig implements FileBootConfi
 	
 	public CraftFileBootConfig(String path, CraftErrorHandler handler) {
 		super(new File(path, "bootconfig.yml"), handler,
-				FileBootConfig.ERROR_MAIN, FileBootConfig.ERROR_LOAD, FileBootConfig.ERROR_FOLDER, FileBootConfig.ERROR_CREATE, FileBootConfig.ERROR_MALFORMED);
+				FileBootConfig.ERROR_LOAD, FileBootConfig.ERROR_FOLDER, FileBootConfig.ERROR_CREATE, FileBootConfig.ERROR_MALFORMED);
 		
 		this.getDefaults().add(new ConfigDefault("path-frame-file", "frames/frame.jar", String.class));
 		this.getDefaults().add(new ConfigDefault("path-boot-folder", "frames/bootfolder", String.class));
@@ -21,21 +21,21 @@ public class CraftFileBootConfig extends AbstractConfig implements FileBootConfi
 	
 	@Override
 	public String getBootFolder() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getString("path-boot-folder");
 	}
 
 	@Override
 	public String getFrameJar() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getString("path-frame-file");
 	}
 
 	@Override
 	public String getColorSet() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return super.config.getString("color-set");
 	}

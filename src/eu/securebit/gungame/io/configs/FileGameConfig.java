@@ -7,8 +7,6 @@ import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 
 public interface FileGameConfig extends FileGunGameConfig {
 	
-	public static final String ERROR_MAIN = 				"Error-7200-VAR0";
-	
 	public static final String ERROR_LOAD = 				"Error-7210-VAR0";
 	
 	public static final String ERROR_FOLDER = 				"Error-7211-VAR0";
@@ -25,12 +23,8 @@ public interface FileGameConfig extends FileGunGameConfig {
 	
 	public static final String ERROR_LEVELCOUNT_SMALLER = 	"Error-7232-VAR0";
 	
-	public static LayoutError createErrorMain() {
-		return new LayoutError("In the gameconfigfile 'VAR0' occured an error!");
-	}
-	
 	public static LayoutError createErrorLoad() {
-		return new LayoutError("The gameconfigfile 'VAR0' could not be loaded!", FileGameConfig.ERROR_MAIN);
+		return new LayoutError("The gameconfigfile 'VAR0' could not be loaded!");
 	}
 	
 	public static LayoutError createErrorFolder() {

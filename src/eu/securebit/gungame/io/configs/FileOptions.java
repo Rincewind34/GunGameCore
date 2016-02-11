@@ -5,8 +5,6 @@ import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 
 public interface FileOptions extends FileGunGameConfig {
 	
-	public static final String ERROR_MAIN = 			"Error-7500-VAR0";
-	
 	public static final String ERROR_LOAD = 			"Error-7510-VAR0";
 	
 	public static final String ERROR_FOLDER =			"Error-7511-VAR0";
@@ -15,12 +13,8 @@ public interface FileOptions extends FileGunGameConfig {
 	
 	public static final String ERROR_MALFORMED = 		"Error-7513-VAR0";
 	
-	public static LayoutError createErrorMain() {
-		return new LayoutError("In the optionsfile 'VAR0' occured an error!");
-	}
-	
 	public static LayoutError createErrorLoad() {
-		return new LayoutError("The optionsfile 'VAR0' could not be loaded!", FileOptions.ERROR_MAIN);
+		return new LayoutError("The optionsfile 'VAR0' could not be loaded!");
 	}
 	
 	public static LayoutError createErrorFolder() {

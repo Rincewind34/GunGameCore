@@ -14,15 +14,8 @@ import eu.securebit.gungame.util.ConfigDefault;
 
 public class CraftFileMessages extends CraftFileGunGameConfig implements FileMessages {
 	
-	private static final List<ConfigDefault> defaults = new ArrayList<>();
-	
-	static {
-		
-	}
-	
 	public CraftFileMessages(File file, CraftErrorHandler handler) {
-		super(file, handler, FileMessages.ERROR_MAIN, FileMessages.ERROR_LOAD, FileMessages.ERROR_FOLDER, FileMessages.ERROR_CREATE, FileMessages.ERROR_MALFORMED,
-				"messages");
+		super(file, handler, FileMessages.ERROR_LOAD, FileMessages.ERROR_FOLDER, FileMessages.ERROR_CREATE, FileMessages.ERROR_MALFORMED, "messages");
 		
 		this.getDefaults().add(new ConfigDefault("message.prefix", "&7[&eGunGame&7]", String.class));
 		this.getDefaults().add(new ConfigDefault("message.player.join", "&e${player} &7joined the game.", String.class));
@@ -50,35 +43,35 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 	
 	@Override
 	public String getPrefix() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return ChatColor.translateAlternateColorCodes('&', super.config.getString("message.prefix")) + " ";
 	}
 	
 	@Override
 	public String getJoinLobby() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.player.join"));
 	}
 
 	@Override
 	public String getQuitLobby() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.player.quit"));
 	}
 	
 	@Override
 	public String getServerQuit() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.player.serverquit"));
 	}
 
 	@Override
 	public String getCountdownLobby(int secondsLeft) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		String msg = super.config.getString("message.countdown.lobby");
 		msg = IOUtil.replace(msg, "time", secondsLeft);
@@ -88,7 +81,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 
 	@Override
 	public String getCountdownGrace(int secondsLeft) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		String msg = super.config.getString("message.countdown.grace");
 		msg = IOUtil.replace(msg, "time", secondsLeft);
@@ -98,7 +91,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 
 	@Override
 	public String getCountdownEnd(int secondsLeft) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		String msg = super.config.getString("message.countdown.end");
 		msg = IOUtil.replace(msg, "time", secondsLeft);
@@ -108,7 +101,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 	
 	@Override
 	public String getCountdownLobbyCancle(int currentPlayers, int minimalPlayers) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		String msg = super.config.getString("message.countdown.lobby-cancle");
 		msg = IOUtil.replace(msg, "current", currentPlayers);
@@ -119,28 +112,28 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 
 	@Override
 	public String getMapTeleport() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.mapteleport"));
 	}
 
 	@Override
 	public String getGracePeriodStarts() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.graceperiod.start"));
 	}
 
 	@Override
 	public String getGracePeriodEnds() {
-		this.checkAccessability();
+		this.checkReady();
 		
 		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.graceperiod.end"));
 	}
 
 	@Override
 	public String getWinner(Player player) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		String msg = super.config.getString("message.winner");
 		msg = IOUtil.replace(msg, "winner", player.getDisplayName());
@@ -150,7 +143,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 
 	@Override
 	public String getKillBroadcast(Player victim, Player killer) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		String msg =  super.config.getString("message.ingame.kill");
 		msg = IOUtil.replace(msg, "victim", victim.getDisplayName());
@@ -161,7 +154,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 
 	@Override
 	public String getDeathBroadcast(Player victim) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		String msg = super.config.getString("message.ingame.death");
 		msg = IOUtil.replace(msg, "victim", victim.getDisplayName());
@@ -171,7 +164,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 
 	@Override
 	public String getRespawn(int level) {
-		this.checkAccessability();
+		this.checkReady();
 		
 		String msg = super.config.getString("message.ingame.respawn");
 		msg = IOUtil.replace(msg, "level", level);

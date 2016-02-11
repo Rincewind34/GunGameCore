@@ -12,7 +12,6 @@ import org.yaml.snakeyaml.scanner.ScannerException;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
-import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.GunGameIOException;
 import eu.securebit.gungame.io.abstracts.FileConfig;
 import eu.securebit.gungame.ioutil.FileType;
@@ -24,14 +23,12 @@ public abstract class AbstractConfig extends AbstractFile implements FileConfig 
 	
 	private List<ConfigDefault> defaults;
 	
-	private ThrownError errorLoad;
 	private ThrownError errorMalformed;
 	
-	public AbstractConfig(File file, CraftErrorHandler handler, String errorMain, String errorLoad, String errorFolder, String errorCreate, String errorMalformed) {
-		super(file, handler, errorMain, errorFolder, errorCreate);
+	public AbstractConfig(File file, CraftErrorHandler handler, String errorLoad, String errorFolder, String errorCreate, String errorMalformed) {
+		super(file, handler, errorLoad, errorFolder, errorCreate);
 		
 		this.defaults = new ArrayList<>();
-		this.errorLoad = this.createError(errorLoad);
 		this.errorMalformed = this.createError(errorMalformed);
 	}
 	
@@ -77,24 +74,8 @@ public abstract class AbstractConfig extends AbstractFile implements FileConfig 
 	}
 	
 	@Override
-	public void checkAccessability() {
-		if (!this.isAccessable()) {
-			throw GunGameErrorPresentException.create();
-		}
-	}
-	
-	@Override
 	public boolean isCreated() {
 		return this.config != null;
-	}
-	
-	@Override
-	public boolean isAccessable() {
-		if (!this.isCreated()) {
-			return false;
-		}
-		
-		return !super.handler.isErrorPresent(this.errorLoad);
 	}
 	
 	@Override

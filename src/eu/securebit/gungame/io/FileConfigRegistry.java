@@ -9,8 +9,6 @@ import eu.securebit.gungame.io.directories.RootDirectory;
 
 public interface FileConfigRegistry extends FileConfig {
 	
-	public static final String ERROR_MAIN = 				"Error-1300";
-	
 	public static final String ERROR_LOAD = 				"Error-1310";
 	
 	public static final String ERROR_FOLDER = 				"Error-1311";
@@ -21,12 +19,8 @@ public interface FileConfigRegistry extends FileConfig {
 	
 	public static final String ERROR_MALFORMED_ENTRIES = 	"Error-1314";
 	
-	public static LayoutError createErrorMain() {
-		return new LayoutError("In the file '.configregistry' occured an error!", RootDirectory.ERROR_MAIN);
-	}
-	
 	public static LayoutError createErrorLoad() {
-		return new LayoutError("The file '.configregistry' could not be loaded!", FileConfigRegistry.ERROR_MAIN);
+		return new LayoutError("The file '.configregistry' could not be loaded!", RootDirectory.ERROR_MAIN);
 	}
 	
 	public static LayoutError createErrorFolder() {
@@ -46,7 +40,7 @@ public interface FileConfigRegistry extends FileConfig {
 	}
 	
 	public static LayoutError createErrorMalformedEntries() {
-		return new LayoutErrorFixable("The entries in '.configregistry' are malformed!", FileConfigRegistry.ERROR_MAIN, () -> {
+		return new LayoutErrorFixable("The entries in '.configregistry' are malformed!", FileConfigRegistry.ERROR_LOAD, () -> {
 			// TODO delete file
 		});
 	}
