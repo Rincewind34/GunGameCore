@@ -13,7 +13,7 @@ import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 
-public abstract class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
+public class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
 	
 	public DisabledStateEdit(GunGame gungame) {
 		super(gungame);
