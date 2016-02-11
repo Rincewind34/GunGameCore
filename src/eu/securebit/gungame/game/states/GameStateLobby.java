@@ -88,6 +88,11 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	}
 	
 	@Override
+	protected String getMessageCountdownCancle() {
+		return this.getGame().getMessanger().getCountdownLobbyCancle(this.getGame().getPlayers().size(), this.getGame().getMinPlayerCount());
+	}
+	
+	@Override
 	protected void onCountdownStop() {
 		this.getGame().getManager().skip(2);
 	}

@@ -35,6 +35,11 @@ public class CraftMessanger extends AbstractInterpreter<FileMessages> implements
 	public String getCountdownEnd(int secondsLeft) {
 		return super.config.getCountdownEnd(secondsLeft);
 	}
+	
+	@Override
+	public String getCountdownLobbyCancle(int currentPlayers, int minimalPlayers) {
+		return super.config.getCountdownLobbyCancle(currentPlayers, minimalPlayers);
+	}
 
 	@Override
 	public String getMapTeleport() {

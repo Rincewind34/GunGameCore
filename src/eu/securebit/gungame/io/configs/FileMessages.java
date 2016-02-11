@@ -54,6 +54,8 @@ public interface FileMessages extends FileGunGameConfig {
 	
 	public abstract String getCountdownEnd(int secondsLeft);
 	
+	public abstract String getCountdownLobbyCancle(int currentPlayers, int minimalPlayers);
+	
 	public abstract String getMapTeleport();
 	
 	public abstract String getGracePeriodStarts();
@@ -70,6 +72,16 @@ public interface FileMessages extends FileGunGameConfig {
 	
 	public abstract String getRespawn(int level);
 	
-	public abstract String getMotD(String gamestate);
+	public abstract String getMotDLobbyJoin();
+	
+	public abstract String getMotDLobbyPremium();
+	
+	public abstract String getMotDLobbyStaff();
+	
+	public abstract String getMotDLobbySpawns();
+	
+	public abstract String getMotDLobbyIngame();
+	
+	public abstract String getMotDLobbyEnd();
 	
 }

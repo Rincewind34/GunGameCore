@@ -24,6 +24,8 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 		CraftFileMessages.defaults.add(new ConfigDefault("message.countdown.lobby", "&7The game starts in &e${time} &7seconds.", String.class));
 		CraftFileMessages.defaults.add(new ConfigDefault("message.countdown.grace", "&7The graceperiod ends in &e${time} &7seconds.", String.class));
 		CraftFileMessages.defaults.add(new ConfigDefault("message.countdown.end", "&cServer shutdown in ${time} seconds.", String.class));
+		CraftFileMessages.defaults.add(new ConfigDefault("message.countdown.lobby-cancle", "&cThere are not enough players to play this round (${current}/${minimal})",
+				String.class));
 		CraftFileMessages.defaults.add(new ConfigDefault("message.mapteleport", "&7All players have been teleported to the map.", String.class));
 		CraftFileMessages.defaults.add(new ConfigDefault("message.graceperiod.start", "&7All players are invulnerable for 15 seconds now.", String.class));
 		CraftFileMessages.defaults.add(new ConfigDefault("message.graceperiod.end", "&eDamage enabled - Fight!", String.class));
@@ -97,6 +99,17 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 		
 		String msg = super.config.getString("message.countdown.end");
 		msg = IOUtil.replace(msg, "time", secondsLeft);
+		
+		return IOUtil.prepare(this.getPrefix(), msg);
+	}
+	
+	@Override
+	public String getCountdownLobbyCancle(int currentPlayers, int minimalPlayers) {
+		this.checkAccessability();
+		
+		String msg = super.config.getString("message.countdown.lobby-cancle");
+		msg = IOUtil.replace(msg, "current", currentPlayers);
+		msg = IOUtil.replace(msg, "minimal", minimalPlayers);
 		
 		return IOUtil.prepare(this.getPrefix(), msg);
 	}
@@ -180,7 +193,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 	public void validate() {
 		for (ConfigDefault entry : CraftFileMessages.defaults) {
 			if (!entry.validate(super.config)) {
-				this.throwError(FileMessages.ERROR_MALFORMED);
+				super.handler.throwError(this.createError(FileMessages.ERROR_MALFORMED));
 				break;
 			}
 		}
