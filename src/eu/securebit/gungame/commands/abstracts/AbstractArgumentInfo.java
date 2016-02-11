@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.commands.CustomArgument;
-import eu.securebit.gungame.game.GunGame;
+import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
 
@@ -27,7 +27,7 @@ public abstract class AbstractArgumentInfo extends CustomArgument {
 		layout.line("Shows information about the current state");
 	}
 	
-	protected boolean executeCore(CommandSender sender, GunGame gungame) {
+	protected boolean executeCore(CommandSender sender, CraftGunGame gungame) {
 		InfoLayout layout = Main.layout();
 		layout.begin();
 		Util.stageInformation(layout, gungame);

@@ -4,17 +4,15 @@ import java.util.List;
 
 import org.bukkit.Location;
 
-import eu.securebit.gungame.interpreter.impl.CraftLocationManager;
-import eu.securebit.gungame.io.configs.FileGameConfig;
+import eu.securebit.gungame.interpreter.impl.CraftGunGameMap;
+import eu.securebit.gungame.io.configs.FileMap;
 
-public interface LocationManager extends Interpreter {
+public interface GunGameMap extends Interpreter {
 	
-	public static LocationManager create(FileGameConfig file) {
-		return new CraftLocationManager(file);
+	public static GunGameMap create(FileMap file) {
+		return new CraftGunGameMap(file);
 	}
 	
-	
-	public abstract void setLobbyLocation(Location lobby);
 	
 	public abstract void removeSpawnPoint(int spawnId);
 	
@@ -26,8 +24,6 @@ public interface LocationManager extends Interpreter {
 	
 	public abstract Location getSpawnPoint(int spawnId);
 
-	public abstract Location getLobbyLocation();
-	
 	public abstract List<Location> getSpawnPoints();
 	
 }

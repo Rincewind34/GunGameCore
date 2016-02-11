@@ -11,15 +11,15 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.game.GunGame;
+import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.listeners.ListenerEntityDeath;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
 
-public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
+public class GameStateGrace extends DefaultGameStateGrace<CraftGunGame> {
 	
-	public GameStateGrace(GunGame gungame) {
+	public GameStateGrace(CraftGunGame gungame) {
 		super(gungame, 15);
 		
 		this.getListeners().add(new ListenerEntityDeath(gungame));

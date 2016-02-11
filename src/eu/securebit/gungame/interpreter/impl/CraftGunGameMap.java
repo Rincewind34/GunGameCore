@@ -6,20 +6,15 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Location;
 
-import eu.securebit.gungame.interpreter.LocationManager;
-import eu.securebit.gungame.io.configs.FileGameConfig;
+import eu.securebit.gungame.interpreter.GunGameMap;
+import eu.securebit.gungame.io.configs.FileMap;
 
-public class CraftLocationManager extends AbstractInterpreter<FileGameConfig> implements LocationManager {
+public class CraftGunGameMap extends AbstractInterpreter<FileMap> implements GunGameMap {
 	
-	public CraftLocationManager(FileGameConfig file) {
+	public CraftGunGameMap(FileMap file) {
 		super(file);
 	}
 	
-	@Override
-	public void setLobbyLocation(Location lobby) {
-		super.config.setLocationLobby(lobby);
-	}
-
 	@Override
 	public void removeSpawnPoint(int spawnId) {
 		Map<Integer, Location> spawns = super.config.getSpawns();
@@ -64,17 +59,8 @@ public class CraftLocationManager extends AbstractInterpreter<FileGameConfig> im
 	}
 
 	@Override
-	public Location getLobbyLocation() {
-		return super.config.getLocationLobby();
-	}
-	
-	@Override
 	public List<Location> getSpawnPoints() {
 		return super.config.getSpawns().values().stream().collect(Collectors.toList());
-	}
-	
-	public FileGameConfig getFile() {
-		return super.config;
 	}
 	
 	private void calculteNextSpawnId() {

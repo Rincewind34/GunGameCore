@@ -5,13 +5,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 
-import eu.securebit.gungame.game.GunGame;
+import eu.securebit.gungame.game.CraftGunGame;
 
 public class ListenerPlayerChangeExp implements Listener {
 
-	private GunGame gungame;
+	private CraftGunGame gungame;
 	
-	public ListenerPlayerChangeExp(GunGame gungame) {
+	public ListenerPlayerChangeExp(CraftGunGame gungame) {
 		this.gungame = gungame;
 	}
 	

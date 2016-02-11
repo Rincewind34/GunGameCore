@@ -4,13 +4,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
-import eu.securebit.gungame.game.GunGame;
+import eu.securebit.gungame.game.CraftGunGame;
 
 public class ListenerEntityDeath implements Listener {
 	
-	private GunGame gungame;
+	private CraftGunGame gungame;
 	
-	public ListenerEntityDeath(GunGame gungame) {
+	public ListenerEntityDeath(CraftGunGame gungame) {
 		this.gungame = gungame;
 	}
 	

@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
 
@@ -29,7 +30,7 @@ public class Util {
 		return input ? ((!invert ? "+" : "-") + "true"  + (!invert ? "+" : "-")) : ((!invert ? "-" : "+") + "false" + (!invert ? "-" : "+"));
 	}
 	
-	public static void stageInformation(InfoLayout layout, GunGame gungame) {
+	public static void stageInformation(InfoLayout layout, CraftGunGame gungame) {
 		layout.category("Server");
 		layout.line("Core$-Version: " + InfoLayout.replaceKeys(Main.instance().getDescription().getVersion()));
 		layout.line("Frame$-Name: " + InfoLayout.replaceKeys(Main.instance().getFrame().getName()));

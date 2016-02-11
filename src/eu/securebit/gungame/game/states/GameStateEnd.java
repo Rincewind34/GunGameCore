@@ -9,13 +9,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.util.CoreMessages;
 
-public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
+public class GameStateEnd extends DefaultGameStateEnd<CraftGunGame> {
 	
-	public GameStateEnd(GunGame gungame) {
+	public GameStateEnd(CraftGunGame gungame) {
 		super(gungame, gungame.getLocationManager().getLobbyLocation(), 20);
 		
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);

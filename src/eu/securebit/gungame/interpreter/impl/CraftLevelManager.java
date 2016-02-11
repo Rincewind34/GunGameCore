@@ -92,8 +92,4 @@ public class CraftLevelManager extends AbstractInterpreter<FileLevels> implement
 		return super.config.getLevels().size();
 	}
 	
-	public FileLevels getFile() {
-		return super.config;
-	}
-	
 }

@@ -10,14 +10,14 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.util.Vector;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.game.GunGame;
+import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 
 public class ListenerPlayerRespawn implements Listener {
 	
-	private GunGame gungame;
+	private CraftGunGame gungame;
 	
-	public ListenerPlayerRespawn(GunGame gungame) {
+	public ListenerPlayerRespawn(CraftGunGame gungame) {
 		this.gungame = gungame;
 	}
 	

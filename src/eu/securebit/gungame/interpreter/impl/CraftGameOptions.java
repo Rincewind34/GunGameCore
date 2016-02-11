@@ -39,8 +39,4 @@ public class CraftGameOptions extends AbstractInterpreter<FileOptions> implement
 		return super.config.isLevelResetAfterDeath();
 	}
 
-	public FileOptions getFile() {
-		return super.config;
-	}
-	
 }

@@ -2,13 +2,13 @@ package eu.securebit.gungame.interpreter;
 
 import org.bukkit.entity.Player;
 
-import eu.securebit.gungame.game.GunGame;
+import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.interpreter.impl.CraftGunGameScoreboard;
 import eu.securebit.gungame.io.configs.FileScoreboard;
 
 public interface GunGameScoreboard extends Interpreter {
 	
-	public static GunGameScoreboard create(FileScoreboard file, GunGame gungame) {
+	public static GunGameScoreboard create(FileScoreboard file, CraftGunGame gungame) {
 		return new CraftGunGameScoreboard(gungame, file);
 	}
 	

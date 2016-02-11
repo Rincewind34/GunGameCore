@@ -17,6 +17,7 @@ import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameReflectException;
 import eu.securebit.gungame.game.GameInterface;
+import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
 import eu.securebit.gungame.game.states.GameStateEnd;
@@ -24,7 +25,7 @@ import eu.securebit.gungame.game.states.GameStateGrace;
 import eu.securebit.gungame.game.states.GameStateIngame;
 import eu.securebit.gungame.game.states.GameStateLobby;
 import eu.securebit.gungame.game.states.GameStateSpawns;
-import eu.securebit.gungame.interpreter.LocationManager;
+import eu.securebit.gungame.interpreter.GunGameMap;
 import eu.securebit.gungame.io.configs.FileGameConfig;
 import eu.securebit.gungame.io.directories.RootDirectory;
 
@@ -47,11 +48,11 @@ public class Core {
 	}
 	
 	public static GunGame createNewGameInstance(FileGameConfig config, String name, GameInterface gameInterface) {
-		GunGame game = new GunGame(config, name, gameInterface, Core.getErrorHandler());		
+		CraftGunGame game = new CraftGunGame(config, name, gameInterface, Core.getErrorHandler());		
 		
 		boolean ready = game.isReady();
 		
-		GameStateManager<GunGame> manager = new CraftGameStateManager<>(Main.instance());
+		GameStateManager<CraftGunGame> manager = new CraftGameStateManager<>(Main.instance());
 		
 		try {
 			manager.initGame(game);
@@ -85,7 +86,7 @@ public class Core {
 		
 		List<World> worlds = new ArrayList<>();
 		
-		LocationManager locations = game.getLocationManager();
+		GunGameMap locations = game.getLocationManager();
 		
 		if (ready) {
 			locations.getLobbyLocation().getWorld().setAutoSave(false);
@@ -137,7 +138,7 @@ public class Core {
 	private static GameState newStateInstance(Class<? extends GameState> state, GunGame gungame)
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		
-		return state.getConstructor(GunGame.class).newInstance(gungame);
+		return state.getConstructor(CraftGunGame.class).newInstance(gungame);
 	}
 	
 }

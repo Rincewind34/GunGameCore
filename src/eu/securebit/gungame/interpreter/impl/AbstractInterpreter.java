@@ -9,7 +9,7 @@ public class AbstractInterpreter<T extends FileGunGameConfig> implements Interpr
 	protected T config;
 	
 	public AbstractInterpreter(T config) {
-		if (!config.isAccessable()) {
+		if (!config.isReady()) {
 			throw GunGameInterpretException.create(config);
 		}
 		
@@ -19,6 +19,10 @@ public class AbstractInterpreter<T extends FileGunGameConfig> implements Interpr
 	@Override
 	public boolean wasSuccessful() {
 		return this.config != null;
+	}
+	
+	public T getConfig() {
+		return this.config;
 	}
 	
 }

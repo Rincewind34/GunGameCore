@@ -8,14 +8,14 @@ import lib.securebit.game.defaults.DefaultGameStateDisabled;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GameCheck;
-import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 
-public class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
+public class DisabledStateEdit extends DefaultGameStateDisabled<CraftGunGame> {
 	
-	public DisabledStateEdit(GunGame gungame) {
+	public DisabledStateEdit(CraftGunGame gungame) {
 		super(gungame);
 		
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, CoreMessages.maintendanceJoin());

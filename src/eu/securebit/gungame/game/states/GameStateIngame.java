@@ -11,7 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.game.GunGame;
+import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.listeners.ListenerEntityDeath;
 import eu.securebit.gungame.listeners.ListenerPlayerDeath;
@@ -19,9 +19,9 @@ import eu.securebit.gungame.listeners.ListenerPlayerRespawn;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
 
-public class GameStateIngame extends DefaultGameStateIngame<GunGame> {
+public class GameStateIngame extends DefaultGameStateIngame<CraftGunGame> {
 	
-	public GameStateIngame(GunGame gungame) {
+	public GameStateIngame(CraftGunGame gungame) {
 		super(gungame);
 		
 		this.getListeners().add(new ListenerPlayerDeath(gungame));

@@ -10,7 +10,7 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.exception.GunGameScoreboardException;
-import eu.securebit.gungame.game.GunGame;
+import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.interpreter.GunGameScoreboard;
 import eu.securebit.gungame.io.configs.FileScoreboard;
@@ -19,9 +19,9 @@ public class CraftGunGameScoreboard extends AbstractInterpreter<FileScoreboard> 
 	
 	private Scoreboard board;
 	
-	private GunGame gungame;
+	private CraftGunGame gungame;
 	
-	public CraftGunGameScoreboard(GunGame gungame, FileScoreboard file) {
+	public CraftGunGameScoreboard(CraftGunGame gungame, FileScoreboard file) {
 		super(file);
 		
 		this.gungame = gungame;
@@ -137,10 +137,6 @@ public class CraftGunGameScoreboard extends AbstractInterpreter<FileScoreboard> 
 	@Override
 	public boolean isEnabled() {
 		return super.config.isScoreboardEnabled();
-	}
-	
-	public FileScoreboard getFile() {
-		return super.config;
 	}
 	
 	private void checkEnabled() {
