@@ -30,6 +30,20 @@ public enum ColorSet {
 		layout.colorPositiv = "§f";
 		layout.colorNegative = "§c";
 		layout.colorImportant = "§b";
+	}),
+	UNICORN((layout) -> {
+		layout.colorPrimary = "§7";
+		layout.colorSecondary = "§d";
+		layout.colorPositiv = "§f";
+		layout.colorNegative = "§e";
+		layout.colorImportant = "§5";
+	}),
+	BIO((layout) -> {
+		layout.colorPrimary = "§8";
+		layout.colorSecondary = "§2";
+		layout.colorPositiv = "§e";
+		layout.colorNegative = "§4";
+		layout.colorImportant = "§a";
 	});
 	
 	
