@@ -1,6 +1,7 @@
 package eu.securebit.gungame.io.abstracts;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
+import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.ioutil.FileType;
 
 public interface SimpleFile {
@@ -12,6 +13,8 @@ public interface SimpleFile {
 	public abstract boolean isReady();
 	
 	public abstract boolean isCreated();
+	
+	public abstract ThrownError createError(String errorId);
 	
 	public abstract FileType getFileType();
 	

@@ -56,17 +56,17 @@ public class CraftFileScoreboard extends CraftFileGunGameConfig implements FileS
 	public void validate() {
 		for (ConfigDefault entry : CraftFileScoreboard.defaults) {
 			if (!entry.validate(super.config)) {
-				this.throwError(FileScoreboard.ERROR_MALFORMED);
+				super.handler.throwError(this.createError(FileScoreboard.ERROR_MALFORMED));
 				break;
 			}
 		}
 		
 		if (super.config.getString("scoreboard.title").length() >= 64) {
-			this.throwError(FileScoreboard.ERROR_TITLE);
+			super.handler.throwError(this.createError(FileScoreboard.ERROR_TITLE));
 		}
 		
 		if (!super.config.getString("scoreboard.format").contains("${player}")) {
-			this.throwError(FileScoreboard.ERROR_FORMAT);
+			super.handler.throwError(this.createError(FileScoreboard.ERROR_FORMAT));
 		}
 	}
 	

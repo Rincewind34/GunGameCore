@@ -104,13 +104,13 @@ public class CraftFileLevels extends CraftFileGunGameConfig implements FileLevel
 	public void validate() {
 		for (ConfigDefault entry : CraftFileLevels.defaults) {
 			if (!entry.validate(super.config)) {
-				this.throwError(FileLevels.ERROR_MALFORMED);
+				super.handler.throwError(this.createError(FileLevels.ERROR_MALFORMED));
 				break;
 			}
 		}
 		
 		if (this.getLevelCount() < 1) {
-			this.throwError(FileLevels.ERROR_LEVELCOUNT);
+			super.handler.throwError(this.createError(FileLevels.ERROR_LEVELCOUNT));
 		}
 	}
 	

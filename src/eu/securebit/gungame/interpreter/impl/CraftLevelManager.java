@@ -64,7 +64,7 @@ public class CraftLevelManager extends AbstractInterpreter<FileLevels> implement
 	
 	@Override
 	public int getLevelCount() {
-		return super.config.getLevelCount();
+		return super.config.getLevels().size();
 	}
 	
 	public FileLevels getFile() {

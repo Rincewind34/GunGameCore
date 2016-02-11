@@ -9,6 +9,7 @@ import org.yaml.snakeyaml.scanner.ScannerException;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
+import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.GunGameIOException;
 import eu.securebit.gungame.io.abstracts.FileConfig;
@@ -18,14 +19,14 @@ public abstract class AbstractConfig extends AbstractFile implements FileConfig 
 	
 	protected FileConfiguration config;
 	
-	private String errorLoad;
-	private String errorMalformed;
+	private ThrownError errorLoad;
+	private ThrownError errorMalformed;
 	
 	public AbstractConfig(File file, CraftErrorHandler handler, String errorMain, String errorLoad, String errorFolder, String errorCreate, String errorMalformed) {
 		super(file, handler, errorMain, errorFolder, errorCreate);
 		
-		this.errorLoad = errorLoad;
-		this.errorMalformed = errorMalformed;
+		this.errorLoad = this.createError(errorLoad);
+		this.errorMalformed = this.createError(errorMalformed);
 	}
 	
 	@Override
@@ -42,7 +43,7 @@ public abstract class AbstractConfig extends AbstractFile implements FileConfig 
 					ex.printStackTrace();
 				}
 				
-				this.throwError(this.errorMalformed);
+				super.handler.throwError(this.errorMalformed);
 			} finally {
 				this.validate();
 			}
@@ -83,7 +84,7 @@ public abstract class AbstractConfig extends AbstractFile implements FileConfig 
 			return false;
 		}
 		
-		return !this.handler.isErrorPresent(this.errorLoad);
+		return !super.handler.isErrorPresent(this.errorLoad);
 	}
 	
 	@Override

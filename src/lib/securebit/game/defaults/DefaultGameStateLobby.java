@@ -173,7 +173,7 @@ public abstract class DefaultGameStateLobby<G extends Game<? extends GamePlayer>
 	
 	protected void onCountdownStop() {
 		if (this.minPl > this.getGame().getPlayers().size()) {
-			//TODO Message
+			this.getGame().broadcastMessage(this.getMessageCountdownCancle());
 		} else {
 			this.getGame().getManager().next();
 		}
@@ -186,6 +186,8 @@ public abstract class DefaultGameStateLobby<G extends Game<? extends GamePlayer>
 	protected abstract String getMessageNotJoinable();
 
 	protected abstract String getMessageCountdown(int secondsLeft);
+	
+	protected abstract String getMessageCountdownCancle();
 	
 	@EventHandler
 	public final void onInteract(PlayerInteractEvent event) {

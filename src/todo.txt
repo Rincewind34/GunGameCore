@@ -35,3 +35,11 @@ Version-1.4 (Chat)
 Version-1.5 (Stats)
 - stats
 - commandlist (Befehle werden bei bestimmten Ereignissen automatisch ausgeführt)
+
+====
+/gungame server
+/gungame spawns list
+/gungame levels info
+/gungame levels delete all
+/gungame debug [on|off]
+/gungame option <option> [value] //Keine value gibt die gegenwärtige value aus.

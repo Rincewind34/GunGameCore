@@ -1,8 +1,10 @@
 package eu.securebit.gungame.game;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import lib.securebit.InfoLayout;
 import lib.securebit.game.impl.CraftGame;
 
 import org.bukkit.GameMode;
@@ -12,6 +14,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.errorhandling.ErrorHandler;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.interpreter.GameOptions;
 import eu.securebit.gungame.interpreter.GunGameScoreboard;
@@ -28,6 +31,7 @@ import eu.securebit.gungame.io.configs.FileMessages;
 import eu.securebit.gungame.io.configs.FileOptions;
 import eu.securebit.gungame.io.configs.FileScoreboard;
 import eu.securebit.gungame.io.directories.RootDirectory;
+import eu.securebit.gungame.util.Warnings;
 
 public class GunGame extends CraftGame<GunGamePlayer> {
 
@@ -47,11 +51,15 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 	
 	private List<GameCheck> checks;
 	
-	public GunGame(FileGameConfig config, String name, GameInterface gameInterface) {
+	private ErrorHandler errorHandler;
+	
+	public GunGame(FileGameConfig config, String name, GameInterface gameInterface, ErrorHandler errorHandler) {
 		super(Main.instance());
 		
 		this.name = name;
 		this.gameInterface = gameInterface;
+		this.errorHandler = errorHandler;
+		this.checks = new ArrayList<>();
 		
 		RootDirectory root = Main.instance().getRootDirectory();
 		
@@ -93,8 +101,6 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 		
 		this.checks.add(new GameCheck(this, "config-file") {
 			
-			private ThrownError error = Main.instance().getErrorHandler().getCause(FileGameConfig.ERROR_SPAWNID);
-			
 			@Override
 			public boolean check() {
 				return GunGame.this.config.isReady();
@@ -102,12 +108,20 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 			
 			@Override
 			public String getFixPosibility() {
-				return "Try */gungame fix " + this.error.getParsedObjectId() + "*";
+				ThrownError error = this.getError();
+				
+				return "Try */gungame fix " + InfoLayout.replaceKeys(error.getParsedObjectId()) + "* to fix the error";
 			}
 			
 			@Override
 			public String getFailCause() {
-				return this.error.getParsedObjectId() + " (" + this.error.getParsedMessage() + ")";
+				ThrownError error = this.getError();
+				
+				return InfoLayout.replaceKeys(error.getParsedObjectId()) + " (" + InfoLayout.replaceKeys(error.getParsedMessage()) + ")";
+			}
+			
+			private ThrownError getError() {
+				return Main.instance().getErrorHandler().getCause(GunGame.this.config.createError(FileGameConfig.ERROR_MAIN));
 			}
 			
 		});
@@ -167,7 +181,7 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 		if (this.config.isAccessable()) {
 			this.config.setMuted(mute);
 		} else {
-			// TODO Warning
+			this.errorHandler.throwError(Warnings.WARNING_GAME_MUTE, FileGameConfig.ERROR_LOAD);
 		}
 	}
 	
@@ -175,7 +189,7 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 		if (this.config != null) {
 			this.config.setEditMode(value);
 		} else {
-			// TODO
+			this.errorHandler.throwError(Warnings.WARNING_GAME_EDITMODE, FileGameConfig.ERROR_LOAD);
 		}
 	}
 	

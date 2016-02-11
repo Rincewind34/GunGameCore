@@ -21,6 +21,8 @@ public interface Messanger extends Interpreter {
 	
 	public abstract String getCountdownEnd(int secondsLeft);
 	
+	public abstract String getCountdownLobbyCancle(int currentPlayers, int minimalPlayers);
+	
 	public abstract String getMapTeleport();
 	
 	public abstract String getGracePeriodStarts();

@@ -183,6 +183,13 @@ public class InfoLayout {
 		return text;
 	}
 	
+	public static String undoKeys(String text) {
+		text = text.replace("$1", "+");
+		text = text.replace("$2", "-");
+		text = text.replace("$3", "*");
+		
+		return text;
+	}
 	
 	@SuppressWarnings("serial")
 	public static class FormatException extends RuntimeException {

@@ -80,7 +80,7 @@ public class CraftFileOptions extends CraftFileGunGameConfig implements FileOpti
 	public void validate() {
 		for (ConfigDefault entry : CraftFileOptions.defaults) {
 			if (!entry.validate(super.config)) {
-				this.throwError(FileOptions.ERROR_MALFORMED);
+				super.handler.throwError(this.createError(FileOptions.ERROR_MALFORMED));
 				break;
 			}
 		}

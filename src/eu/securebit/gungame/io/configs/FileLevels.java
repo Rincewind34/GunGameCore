@@ -1,5 +1,7 @@
 package eu.securebit.gungame.io.configs;
 
+import java.util.Map;
+
 import org.bukkit.inventory.ItemStack;
 
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
@@ -48,12 +50,8 @@ public interface FileLevels extends FileGunGameConfig {
 	}
 	
 	
-	public abstract void setLevel(int level, ItemStack[] items);
+	public abstract void setLevels(Map<Integer, ItemStack[]> levels);
 	
-	public abstract boolean delete();
-	
-	public abstract int getLevelCount();
-	
-	public abstract ItemStack[] getLevel(int level);
+	public abstract Map<Integer, ItemStack[]> getLevels();
 
 }

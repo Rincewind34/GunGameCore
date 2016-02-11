@@ -47,7 +47,7 @@ public class Core {
 	}
 	
 	public static GunGame createNewGameInstance(FileGameConfig config, String name, GameInterface gameInterface) {
-		GunGame game = new GunGame(config, name, gameInterface);		
+		GunGame game = new GunGame(config, name, gameInterface, Core.getErrorHandler());		
 		
 		boolean ready = game.isReady();
 		

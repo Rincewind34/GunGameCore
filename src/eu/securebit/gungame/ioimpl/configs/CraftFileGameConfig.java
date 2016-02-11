@@ -45,7 +45,8 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	
 	public CraftFileGameConfig(File file, CraftErrorHandler handler, World world) {
 		super(file, handler,
-				FileGameConfig.ERROR_MAIN, FileGameConfig.ERROR_LOAD, FileGameConfig.ERROR_FOLDER, FileGameConfig.ERROR_CREATE, FileGameConfig.ERROR_MALFORMED, "gameconfig");
+				FileGameConfig.ERROR_MAIN, FileGameConfig.ERROR_LOAD, FileGameConfig.ERROR_FOLDER, FileGameConfig.ERROR_CREATE, FileGameConfig.ERROR_MALFORMED,
+				"gameconfig");
 		
 		ConfigUtil.setLocation("location.lobby", world.getSpawnLocation(), CraftFileGameConfig.defaults);
 	}
@@ -63,21 +64,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 		
 		return super.config.getBoolean("muted");
 	}
-
-	@Override
-	public boolean isSpawn(int id) {
-		this.checkAccessability();
-		
-		for (String entry : super.config.getStringList("location.spawns")) {
-			int spawnId = NumberConversions.toInt(DataUtil.getFromCSV(entry, 0));
-			if (spawnId == id) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-
+	
 	@Override
 	public int getStartLevel() {
 		this.checkAccessability();
@@ -146,44 +133,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 		
 		return null;
 	}
-
-	@Override
-	public List<Location> getSpawns() {
-		this.checkAccessability();
-		
-		List<Location> spawns = new ArrayList<>();
-		
-		for (String entry : super.config.getStringList("location.spawns")) {
-			Location loc = this.readSpawnLocation(entry).getValue();
-			if (loc == null) {
-				continue;
-			}
-			
-			spawns.add(loc);
-		}
-		
-		return spawns;
-	}
 	
-	@Override
-	public Map<Integer, Location> getSpawnsMap() {
-		this.checkAccessability();
-		
-		Map<Integer, Location> spawns = new HashMap<>();
-		
-		for (String spawn : super.config.getStringList("location.spawns")) {
-			Entry<Integer, Location> entry = this.readSpawnLocation(spawn);
-			
-			if (entry.getValue() == null) {
-				continue;
-			}
-			
-			spawns.put(entry.getKey(), entry.getValue());
-		}
-		
-		return spawns;
-	}
-
 	@Override
 	public void setEditMode(boolean enabled) {
 		this.checkAccessability();
@@ -215,64 +165,82 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 		ConfigUtil.setLocation(super.config, "location.lobby", loc);
 		this.save();
 	}
-
+	
 	@Override
-	public void resetAllSpawns() {
-		this.checkAccessability();
-		
-		super.config.set("location.spawns", Arrays.asList());
-		super.config.set("last-spawn-id", 0);
+	public void addDefaults() {
+		for (ConfigDefault entry : CraftFileGameConfig.defaults) {
+			super.config.addDefault(entry.getPath(), entry.getValue());
+		}
+	}
+	
+	@Override
+	public void setNextSpawnId(int nextId) {
+		super.config.set("next-spawn-id", nextId);
 		this.save();
 	}
 
 	@Override
-	public boolean removeSpawn(int id) {
-		this.checkAccessability();
+	public void setSpawns(Map<Integer, Location> spawns) {
+		List<String> list = new ArrayList<>();
 		
-		boolean success = false;
-		List<String> spawnList = new ArrayList<>();
+		for (Entry<Integer, Location> entry : spawns.entrySet()) {
+			list.add(this.createCSV(entry));
+		}
 		
-		for (String entry : super.config.getStringList("location.spawns")) {
-			if (NumberConversions.toInt(DataUtil.getFromCSV(entry, 0)) == id) {
-				success = true;
+		super.config.set("location.spawns", spawns);
+		this.save();
+	}
+
+	@Override
+	public int getNextSpawnId() {
+		return super.config.getInt("next-spawn-id");
+	}
+
+	@Override
+	public Map<Integer, Location> getSpawns() {
+		List<String> list = super.config.getStringList("location.spawns");
+		Map<Integer, Location> spawns = new HashMap<>();
+		
+		for (String csv : list) {
+			spawns.put(this.readSpawnLocation(csv).getKey(), this.readSpawnLocation(csv).getValue());
+		}
+		
+		return spawns;
+	}
+	
+	@Override
+	public void validate() {
+		for (ConfigDefault entry : CraftFileGameConfig.defaults) {
+			if (!entry.validate(super.config)) {
+				super.handler.throwError(this.createError(FileGameConfig.ERROR_MALFORMED));
+				break;
+			}
+		}
+		
+		{
+			int nextId = this.getNextSpawnId();
+			
+			if (this.getSpawns().containsKey(nextId)) {
+				super.handler.throwError(this.createError(FileGameConfig.ERROR_SPAWNID));
+			}
+		} {
+			FileLevels fileLevels = Core.getRootDirectory().getLevelsFile(this.getFileLevelsLocation());
+			
+			if (fileLevels.isAccessable()) {
+				int startLevel = super.config.getInt("start-level");
+				int levelCount = fileLevels.getLevels().size();
+				
+				if (startLevel < 1) {
+					super.handler.throwError(this.createError(FileGameConfig.ERROR_LEVELCOUNT_SMALLER));
+				}
+				
+				if (startLevel > levelCount) {
+					super.handler.throwError(this.createError(FileGameConfig.ERROR_LEVELCOUNT_GREATER));
+				}
 			} else {
-				spawnList.add(entry);
+				// TODO WARNING
 			}
 		}
-		
-		if (success) {
-			super.config.set("location.spawns", spawnList);
-			
-			if (id < super.config.getInt("next-spawn-id")) {
-				super.config.set("next-spawn-id", id);
-			}
-			
-			this.save();
-		}
-		
-		return success;
-	}
-
-	@Override
-	public int addSpawn(Location loc) {
-		this.checkAccessability();
-		
-		int nextId = super.config.getInt("next-spawn-id");
-		List<String> spawnList = super.config.getStringList("location.spawns");
-		
-		spawnList.add(DataUtil.toCSV(nextId, loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch()));
-		super.config.set("location.spawns", spawnList);
-		
-		int newId = 0;
-		
-		while (this.isSpawn(newId)) {
-			newId = newId + 1;
-		}
-		
-		super.config.set("next-spawn-id", newId);
-		this.save();
-		
-		return nextId;
 	}
 	
 	private Entry<Integer, Location> readSpawnLocation(String csv) {
@@ -310,47 +278,14 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 		};
 	}
 	
-	@Override
-	public void addDefaults() {
-		for (ConfigDefault entry : CraftFileGameConfig.defaults) {
-			super.config.addDefault(entry.getPath(), entry.getValue());
-		}
-	}
-	
-	@Override
-	public void validate() {
-		for (ConfigDefault entry : CraftFileGameConfig.defaults) {
-			if (!entry.validate(super.config)) {
-				this.throwError(FileGameConfig.ERROR_MALFORMED);
-				break;
-			}
-		}
-		
-		{
-			int nextId = super.config.getInt("next-spawn-id");
-			
-			if (this.isSpawn(nextId)) {
-				this.throwError(FileGameConfig.ERROR_SPAWNID);
-			}
-		} {
-			FileLevels fileLevels = Core.getRootDirectory().getLevelsFile(this.getFileLevelsLocation());
-			
-			if (fileLevels.isAccessable()) {
-				int startLevel = super.config.getInt("start-level");
-				int levelCount = fileLevels.getLevelCount();
-				
-				if (startLevel < 1) {
-					this.throwError(FileGameConfig.ERROR_LEVELCOUNT_SMALLER);
-				}
-				
-				if (startLevel > levelCount) {
-					this.throwError(FileGameConfig.ERROR_LEVELCOUNT_GREATER);
-				}
-			} else {
-				// TODO WARNING
-			}
-		}
-
+	private String createCSV(Entry<Integer, Location> entry) {
+		return DataUtil.toCSV(entry.getKey()
+				, entry.getValue().getWorld().getName()
+				, entry.getValue().getX()
+				, entry.getValue().getY()
+				, entry.getValue().getZ()
+				, entry.getValue().getYaw()
+				, entry.getValue().getPitch());
 	}
 
 }

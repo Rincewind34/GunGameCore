@@ -1,6 +1,8 @@
 package eu.securebit.gungame.interpreter.impl;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.bukkit.Location;
 
@@ -20,17 +22,35 @@ public class CraftLocationManager extends AbstractInterpreter<FileGameConfig> im
 
 	@Override
 	public void removeSpawnPoint(int spawnId) {
-		super.config.removeSpawn(spawnId);
+		Map<Integer, Location> spawns = super.config.getSpawns();
+		spawns.remove(spawnId);
+		
+		super.config.setSpawns(spawns);
+		this.calculteNextSpawnId();
 	}
 
 	@Override
 	public boolean containsSpawn(int spawnId) {
-		return super.config.isSpawn(spawnId);
+		for (int targetId : super.config.getSpawns().keySet()) {
+			if (targetId == spawnId) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	@Override
 	public int addSpawnPoint(Location spawnPoint) {
-		return super.config.addSpawn(spawnPoint);
+		int nextId = super.config.getNextSpawnId();
+		
+		Map<Integer, Location> spawns = super.config.getSpawns();
+		spawns.put(nextId, spawnPoint);
+		
+		super.config.setSpawns(spawns);
+		this.calculteNextSpawnId();
+		
+		return nextId;
 	}
 
 	@Override
@@ -40,7 +60,7 @@ public class CraftLocationManager extends AbstractInterpreter<FileGameConfig> im
 
 	@Override
 	public Location getSpawnPoint(int spawnId) {
-		return super.config.getSpawnById(spawnId);
+		return super.config.getSpawns().get(spawnId);
 	}
 
 	@Override
@@ -50,11 +70,21 @@ public class CraftLocationManager extends AbstractInterpreter<FileGameConfig> im
 	
 	@Override
 	public List<Location> getSpawnPoints() {
-		return super.config.getSpawns();
+		return super.config.getSpawns().values().stream().collect(Collectors.toList());
 	}
 	
 	public FileGameConfig getFile() {
 		return super.config;
+	}
+	
+	private void calculteNextSpawnId() {
+		int newId = 0;
+		
+		while (this.containsSpawn(newId)) {
+			newId = newId + 1;
+		}
+		
+		super.config.setNextSpawnId(newId);
 	}
 
 }

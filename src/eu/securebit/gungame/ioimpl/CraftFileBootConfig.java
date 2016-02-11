@@ -55,7 +55,7 @@ public class CraftFileBootConfig extends AbstractConfig implements FileBootConfi
 	@Override
 	public void validate() {
 		if (!super.config.isString("path-frame-file") || !super.config.isString("path-boot-folder") || !super.config.isString("color-set")) {
-			this.throwError(FileBootConfig.ERROR_MALFORMED);
+			super.handler.throwError(FileBootConfig.ERROR_MALFORMED);
 		}
 	}
 

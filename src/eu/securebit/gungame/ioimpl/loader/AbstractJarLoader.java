@@ -15,13 +15,13 @@ public class AbstractJarLoader<T> {
 	private File jar;
 	private Class<T> mainClassType;
 	
-	public AbstractJarLoader(File frameJar, Class<T> mainClassType) throws GunGameJarException, IOException {
+	public AbstractJarLoader(File frameJar, Class<T> mainClassType) throws IOException {
 		this.jar = IOUtil.checkJarFile(frameJar);
 		this.mainClassType = mainClassType;
 	}
 	
 	@SuppressWarnings("unchecked")
-	protected final T loadJar() throws GunGameJarException, MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+	protected final T loadJar() throws MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		URL[] array = { this.jar.toURI().toURL() };
 		ClassLoader parent = Main.class.getClassLoader();
 		URLClassLoader classloader = URLClassLoader.newInstance(array, parent);

@@ -88,12 +88,12 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 	@Override
 	public void validate() {
 		if (!super.config.isList("files")) {
-			this.throwError(FileConfigRegistry.ERROR_MALFORMED_STRUCTURE);
+			super.handler.throwError(FileConfigRegistry.ERROR_MALFORMED_STRUCTURE);
 		}
 		
 		for (String element : this.getEntries()) {
 			if (this.util.split(element).length != 2) {
-				this.throwError(FileConfigRegistry.ERROR_MALFORMED_ENTRIES);
+				super.handler.throwError(FileConfigRegistry.ERROR_MALFORMED_ENTRIES);
 			}
 		}
 	}

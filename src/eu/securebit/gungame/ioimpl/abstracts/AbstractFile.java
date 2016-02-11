@@ -15,23 +15,23 @@ public abstract class AbstractFile implements SimpleFile {
 	
 	protected CraftErrorHandler handler;
 	
-	private String errorMain;
-	private String errorFileType;
-	private String errorCreate;
+	private ThrownError errorMain;
+	private ThrownError errorFileType;
+	private ThrownError errorCreate;
 	
 	public AbstractFile(File file, CraftErrorHandler handler, String errorMain, String errorFileType, String errorCreate) {
 		this.file = file;
 		this.handler = handler;
 		
-		this.errorMain = errorMain;
-		this.errorFileType = errorFileType;
-		this.errorCreate = errorCreate;
+		this.errorMain = this.createError(errorMain);
+		this.errorFileType = this.createError(errorFileType);
+		this.errorCreate = this.createError(errorCreate);
 	}
 	
 	@Override
 	public void create() {
 		if (this.file.exists() && !this.getFileType().checkFile(this.file)) {
-			this.throwError(this.errorFileType);
+			this.handler.throwError(this.errorFileType);
 			return;
 		}
 		
@@ -43,7 +43,7 @@ public abstract class AbstractFile implements SimpleFile {
 					e.printStackTrace();
 				}
 				
-				this.throwError(this.errorCreate);
+				this.handler.throwError(this.errorCreate);
 				return;
 			}
 		}
@@ -70,19 +70,20 @@ public abstract class AbstractFile implements SimpleFile {
 		return this.handler;
 	}
 	
-	protected void throwError(String error) {
-		this.handler.throwError(new ThrownError(error, IOUtil.preparePath(this.file.getAbsolutePath())));
+	@Override
+	public ThrownError createError(String errorId) {
+		return new ThrownError(errorId, IOUtil.preparePath(this.file.getAbsolutePath()));
 	}
 	
-	protected String getErrorMain() {
+	protected ThrownError getErrorMain() {
 		return this.errorMain;
 	}
 	
-	protected String getErrorFileType() {
+	protected ThrownError getErrorFileType() {
 		return this.errorFileType;
 	}
 	
-	protected String getErrorCreate() {
+	protected ThrownError getErrorCreate() {
 		return this.errorCreate;
 	}
 	

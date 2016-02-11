@@ -1,6 +1,5 @@
 package eu.securebit.gungame.io.configs;
 
-import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Location;
@@ -75,17 +74,29 @@ public interface FileGameConfig extends FileGunGameConfig {
 	}
 	
 	
+	public abstract void setEditMode(boolean enabled);
+	
+	public abstract void setMuted(boolean muted);
+	
+	public abstract void setStartLevel(int level);
+	
+	public abstract void setLocationLobby(Location loc);
+	
+	public abstract void setNextSpawnId(int nextId);
+	
+	public abstract void setSpawns(Map<Integer, Location> spawns);
+	
 	public abstract boolean isEditMode();
 	
 	public abstract boolean isMuted();
-	
-	public abstract boolean isSpawn(int id);
 	
 	public abstract int getStartLevel();
 	
 	public abstract int getMinPlayers();
 	
 	public abstract int getMaxPlayers();
+	
+	public abstract int getNextSpawnId();
 	
 	public abstract String getFileLevelsLocation();
 	
@@ -99,22 +110,6 @@ public interface FileGameConfig extends FileGunGameConfig {
 	
 	public abstract Location getSpawnById(int id);
 	
-	public abstract List<Location> getSpawns();
-	
-	public abstract Map<Integer, Location> getSpawnsMap();
-	
-	public abstract void setEditMode(boolean enabled);
-	
-	public abstract void setMuted(boolean muted);
-	
-	public abstract void setStartLevel(int level);
-	
-	public abstract void setLocationLobby(Location loc);
-	
-	public abstract void resetAllSpawns();
-	
-	public abstract boolean removeSpawn(int id);
-	
-	public abstract int addSpawn(Location loc);
+	public abstract Map<Integer, Location> getSpawns();
 	
 }

@@ -29,7 +29,7 @@ public abstract class GameCheck {
 			}
 			
 			if (this.getFixPosibility() != null) {
-				layout.line("  *Fix* :"  + this.getFixPosibility());
+				layout.line("  *Fix*: "  + this.getFixPosibility());
 			}
 		}
 	}
