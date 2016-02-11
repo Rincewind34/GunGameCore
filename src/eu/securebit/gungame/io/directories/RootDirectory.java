@@ -11,6 +11,7 @@ import eu.securebit.gungame.io.abstracts.Directory;
 import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 import eu.securebit.gungame.io.configs.FileGameConfig;
 import eu.securebit.gungame.io.configs.FileLevels;
+import eu.securebit.gungame.io.configs.FileMap;
 import eu.securebit.gungame.io.configs.FileMessages;
 import eu.securebit.gungame.io.configs.FileOptions;
 import eu.securebit.gungame.io.configs.FileScoreboard;
@@ -93,6 +94,12 @@ public interface RootDirectory extends Directory {
 	public abstract FileOptions getOptionsFile(String relativPath);
 	
 	public abstract FileOptions getOptionsFile(File file);
+	
+	public abstract FileMap getMapFile(String directory, String name);
+	
+	public abstract FileMap getMapFile(String relativPath);
+	
+	public abstract FileMap getMapFile(File file);
 	
 	public abstract FileGameConfig getGameConfigFile(String directory, String name, World lobbyWorld);
 	

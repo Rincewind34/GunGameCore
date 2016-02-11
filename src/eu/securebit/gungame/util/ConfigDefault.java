@@ -1,5 +1,7 @@
 package eu.securebit.gungame.util;
 
+import java.util.List;
+
 import org.bukkit.configuration.file.FileConfiguration;
 
 import eu.securebit.gungame.exception.GunGameIOException;
@@ -37,6 +39,8 @@ public class ConfigDefault {
 			return config.isDouble(this.path);
 		} else if (this.type == boolean.class) {
 			return config.isBoolean(this.path);
+		} else if (this.type == List.class) {
+			return config.isList(this.path);
 		} else {
 			throw new GunGameIOException("Unknown type '" + this.type.getName() + "'!");
 		}

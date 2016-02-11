@@ -15,6 +15,7 @@ import eu.securebit.gungame.io.abstracts.FileConfig;
 import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 import eu.securebit.gungame.io.configs.FileGameConfig;
 import eu.securebit.gungame.io.configs.FileLevels;
+import eu.securebit.gungame.io.configs.FileMap;
 import eu.securebit.gungame.io.configs.FileMessages;
 import eu.securebit.gungame.io.configs.FileOptions;
 import eu.securebit.gungame.io.configs.FileScoreboard;
@@ -26,6 +27,7 @@ import eu.securebit.gungame.ioimpl.CraftFileConfigRegistry;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractDirectory;
 import eu.securebit.gungame.ioimpl.configs.CraftFileGameConfig;
 import eu.securebit.gungame.ioimpl.configs.CraftFileLevels;
+import eu.securebit.gungame.ioimpl.configs.CraftFileMap;
 import eu.securebit.gungame.ioimpl.configs.CraftFileMessages;
 import eu.securebit.gungame.ioimpl.configs.CraftFileOptions;
 import eu.securebit.gungame.ioimpl.configs.CraftFileScoreboard;
@@ -131,6 +133,21 @@ public class CraftRootDirectory extends AbstractDirectory implements RootDirecto
 	@Override
 	public FileOptions getOptionsFile(File file) {
 		return this.createFileConfig(this.getIdentifyableFile(new CraftFileOptions(file, this.handler)));
+	}
+	
+	@Override
+	public FileMap getMapFile(String path, String name) {
+		return this.getMapFile(this.createFromRelativDatas(path, name));
+	}
+	
+	@Override
+	public FileMap getMapFile(String relativPath) {
+		return this.getMapFile(this.createFromRelativDatas(relativPath));
+	}
+
+	@Override
+	public FileMap getMapFile(File file) {
+		return this.createFileConfig(this.getIdentifyableFile(new CraftFileMap(file, this.handler)));
 	}
 	
 	@Override

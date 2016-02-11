@@ -40,8 +40,6 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 		this.getDefaults().add(new ConfigDefault("start-level", 1, int.class));
 		this.getDefaults().add(new ConfigDefault("game.playercount.minimal", 1, int.class));
 		this.getDefaults().add(new ConfigDefault("game.playercount.maximal", 3, int.class));
-		this.getDefaults().add(new ConfigDefault("location.spawns", Arrays.asList(), null));
-		this.getDefaults().add(new ConfigDefault("next-spawn-id", 0, int.class));
 		
 		ConfigUtil.setLocation("game.lobby", world.getSpawnLocation(), this.getDefaults());
 	}
@@ -117,19 +115,6 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	}
 	
 	@Override
-	public Location getSpawnById(int id) {
-		this.checkAccessability();
-		
-		for (String entry : super.config.getStringList("location.spawns")) {
-			if (NumberConversions.toInt(DataUtil.getFromCSV(entry, 0)) == id) {
-				return this.readSpawnLocation(entry).getValue();
-			}
-		}
-		
-		return null;
-	}
-	
-	@Override
 	public void setEditMode(boolean enabled) {
 		this.checkAccessability();
 		
@@ -162,41 +147,6 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	}
 	
 	@Override
-	public void setNextSpawnId(int nextId) {
-		super.config.set("next-spawn-id", nextId);
-		this.save();
-	}
-
-	@Override
-	public void setSpawns(Map<Integer, Location> spawns) {
-		List<String> list = new ArrayList<>();
-		
-		for (Entry<Integer, Location> entry : spawns.entrySet()) {
-			list.add(this.createCSV(entry));
-		}
-		
-		super.config.set("location.spawns", spawns);
-		this.save();
-	}
-
-	@Override
-	public int getNextSpawnId() {
-		return super.config.getInt("next-spawn-id");
-	}
-
-	@Override
-	public Map<Integer, Location> getSpawns() {
-		List<String> list = super.config.getStringList("location.spawns");
-		Map<Integer, Location> spawns = new HashMap<>();
-		
-		for (String csv : list) {
-			spawns.put(this.readSpawnLocation(csv).getKey(), this.readSpawnLocation(csv).getValue());
-		}
-		
-		return spawns;
-	}
-	
-	@Override
 	public void validate() {
 		{
 			int nextId = this.getNextSpawnId();
@@ -224,49 +174,4 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 		}
 	}
 	
-	private Entry<Integer, Location> readSpawnLocation(String csv) {
-		int id = NumberConversions.toInt(DataUtil.getFromCSV(csv, 0));
-		String worldName = DataUtil.getFromCSV(csv, 1);
-		
-		World world = Bukkit.getWorld(worldName);
-		
-		if (world == null) {
-			throw GunGameIOException.unknownWorld(worldName);
-		}
-		
-		double x = NumberConversions.toDouble(DataUtil.getFromCSV(csv, 2));
-		double y = NumberConversions.toDouble(DataUtil.getFromCSV(csv, 3));
-		double z = NumberConversions.toDouble(DataUtil.getFromCSV(csv, 4));
-		float yaw = NumberConversions.toFloat(DataUtil.getFromCSV(csv, 5));
-		float pitch = NumberConversions.toFloat(DataUtil.getFromCSV(csv, 6));
-		
-		return new Entry<Integer, Location>() {
-			
-			@Override
-			public Location setValue(Location value) {
-				throw new UnsupportedOperationException();
-			}
-			
-			@Override
-			public Location getValue() {
-				return new Location(world, x, y, z, yaw, pitch);
-			}
-			
-			@Override
-			public Integer getKey() {
-				return id;
-			}
-		};
-	}
-	
-	private String createCSV(Entry<Integer, Location> entry) {
-		return DataUtil.toCSV(entry.getKey()
-				, entry.getValue().getWorld().getName()
-				, entry.getValue().getX()
-				, entry.getValue().getY()
-				, entry.getValue().getZ()
-				, entry.getValue().getYaw()
-				, entry.getValue().getPitch());
-	}
-
 }

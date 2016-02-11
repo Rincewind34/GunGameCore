@@ -1,7 +1,5 @@
 package eu.securebit.gungame.io.configs;
 
-import java.util.Map;
-
 import org.bukkit.Location;
 
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
@@ -82,10 +80,6 @@ public interface FileGameConfig extends FileGunGameConfig {
 	
 	public abstract void setLocationLobby(Location loc);
 	
-	public abstract void setNextSpawnId(int nextId);
-	
-	public abstract void setSpawns(Map<Integer, Location> spawns);
-	
 	public abstract boolean isEditMode();
 	
 	public abstract boolean isMuted();
@@ -96,8 +90,6 @@ public interface FileGameConfig extends FileGunGameConfig {
 	
 	public abstract int getMaxPlayers();
 	
-	public abstract int getNextSpawnId();
-	
 	public abstract String getFileLevelsLocation();
 	
 	public abstract String getFileMessagesLocation();
@@ -107,9 +99,5 @@ public interface FileGameConfig extends FileGunGameConfig {
 	public abstract String getFileOptionsLocation();
 	
 	public abstract Location getLocationLobby();
-	
-	public abstract Location getSpawnById(int id);
-	
-	public abstract Map<Integer, Location> getSpawns();
 	
 }
