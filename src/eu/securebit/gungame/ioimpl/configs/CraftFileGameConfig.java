@@ -6,9 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
-import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.io.configs.FileGameConfig;
-import eu.securebit.gungame.io.configs.FileLevels;
 import eu.securebit.gungame.ioutil.ConfigUtil;
 import eu.securebit.gungame.util.ConfigDefault;
 
@@ -25,7 +23,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 		this.getDefaults().add(new ConfigDefault("game.file.messages", dataFolder + "messages.yml", String.class));
 		this.getDefaults().add(new ConfigDefault("game.file.scoreboard", dataFolder + "scoreboard.yml", String.class));
 		this.getDefaults().add(new ConfigDefault("game.file.options", dataFolder + "options.yml", String.class));
-		this.getDefaults().add(new ConfigDefault("start-level", 1, int.class));
+		this.getDefaults().add(new ConfigDefault("game.file.map", dataFolder + "map.yml", String.class));
 		this.getDefaults().add(new ConfigDefault("game.playercount.minimal", 1, int.class));
 		this.getDefaults().add(new ConfigDefault("game.playercount.maximal", 3, int.class));
 		
@@ -44,13 +42,6 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 		this.checkReady();
 		
 		return super.config.getBoolean("muted");
-	}
-	
-	@Override
-	public int getStartLevel() {
-		this.checkReady();
-		
-		return super.config.getInt("start-level");
 	}
 	
 	@Override
@@ -96,6 +87,13 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	}
 	
 	@Override
+	public String getFileMapLocation() {
+		this.checkReady();
+		
+		return super.config.getString("file.map");
+	}
+	
+	@Override
 	public Location getLocationLobby() {
 		this.checkReady();
 		
@@ -119,14 +117,6 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	}
 	
 	@Override
-	public void setStartLevel(int level) {
-		this.checkReady();
-		
-		super.config.set("start-level", level);
-		this.save();
-	}
-
-	@Override
 	public void setLocationLobby(Location loc) {
 		this.checkReady();
 		
@@ -134,32 +124,32 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 		this.save();
 	}
 	
-	@Override
-	public void validate() {
-		{
-			int nextId = this.getNextSpawnId();
-			
-			if (this.getSpawns().containsKey(nextId)) {
-				super.handler.throwError(this.createError(FileGameConfig.ERROR_SPAWNID));
-			}
-		} {
-			FileLevels fileLevels = Core.getRootDirectory().getLevelsFile(this.getFileLevelsLocation());
-			
-			if (fileLevels.isAccessable()) {
-				int startLevel = super.config.getInt("start-level");
-				int levelCount = fileLevels.getLevels().size();
-				
-				if (startLevel < 1) {
-					super.handler.throwError(this.createError(FileGameConfig.ERROR_LEVELCOUNT_SMALLER));
-				}
-				
-				if (startLevel > levelCount) {
-					super.handler.throwError(this.createError(FileGameConfig.ERROR_LEVELCOUNT_GREATER));
-				}
-			} else {
-				// TODO WARNING
-			}
-		}
-	}
+//	@Override TODO remove
+//	public void validate() {
+//		{
+//			int nextId = this.getNextSpawnId();
+//			
+//			if (this.getSpawns().containsKey(nextId)) {
+//				super.handler.throwError(this.createError(FileGameConfig.ERROR_SPAWNID));
+//			}
+//		} {
+//			FileLevels fileLevels = Core.getRootDirectory().getLevelsFile(this.getFileLevelsLocation());
+//			
+//			if (fileLevels.isAccessable()) {
+//				int startLevel = super.config.getInt("start-level");
+//				int levelCount = fileLevels.getLevels().size();
+//				
+//				if (startLevel < 1) {
+//					super.handler.throwError(this.createError(FileGameConfig.ERROR_LEVELCOUNT_SMALLER));
+//				}
+//				
+//				if (startLevel > levelCount) {
+//					super.handler.throwError(this.createError(FileGameConfig.ERROR_LEVELCOUNT_GREATER));
+//				}
+//			} else {
+//				// TODO WARNING
+//			}
+//		}
+//	}
 	
 }

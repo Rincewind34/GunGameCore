@@ -51,7 +51,7 @@ public class ArgumentSpawns extends CustomArgument {
 			this.sendSuggestions(sender);
 			return true;
 		} else if (args[1].equalsIgnoreCase("add")) {
-			int createId = gungame.getLocationManager().addSpawnPoint(player.getLocation());
+			int createId = gungame.getMap().addSpawnPoint(player.getLocation());
 			sender.sendMessage(CoreMessages.spawnAdded(createId));
 			return true;
 		} else if (args[1].equalsIgnoreCase("tp")) {
@@ -63,9 +63,9 @@ public class ArgumentSpawns extends CustomArgument {
 			if (Util.isInt(args[2])) {
 				int id = NumberConversions.toInt(args[2]);
 				
-				if (gungame.getLocationManager().containsSpawn(id)) {
+				if (gungame.getMap().containsSpawn(id)) {
 					try {
-						player.teleport(gungame.getLocationManager().getSpawnPoint(id));
+						player.teleport(gungame.getMap().getSpawnPoint(id));
 					} catch (Exception ex) {
 						player.sendMessage(CoreMessages.worldNotFound("spawnworld"));
 					} finally {
@@ -87,8 +87,8 @@ public class ArgumentSpawns extends CustomArgument {
 			
 			if (Util.isInt(args[2])) {
 				int id = NumberConversions.toInt(args[2]);
-				if (gungame.getLocationManager().containsSpawn(id)) {
-					gungame.getLocationManager().removeSpawnPoint(id);
+				if (gungame.getMap().containsSpawn(id)) {
+					gungame.getMap().removeSpawnPoint(id);
 					player.sendMessage(CoreMessages.spawnRemoved(id));
 				} else {
 					player.sendMessage(CoreMessages.spawnNotExisting(id));

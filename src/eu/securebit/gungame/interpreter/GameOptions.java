@@ -16,10 +16,14 @@ public interface GameOptions extends Interpreter {
 	
 	public abstract void levelReset(boolean value);
 	
+	public abstract void setStartLevel(int level);
+	
 	public abstract boolean autoRespawn();
 	
 	public abstract boolean careNaturalDeath();
 	
 	public abstract boolean levelReset();
+	
+	public abstract int getStartLevel();
 	
 }

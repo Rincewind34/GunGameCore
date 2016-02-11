@@ -13,7 +13,7 @@ public class GunGamePlayer extends CraftGamePlayer {
 		super(player);
 		
 		this.gungame = gungame;
-		this.level = this.gungame.getStartLevel();
+		this.level = this.gungame.getOptions().getStartLevel();
 	}
 	
 	public void refreshLevel() {
@@ -23,7 +23,7 @@ public class GunGamePlayer extends CraftGamePlayer {
 	}
 	
 	public void resetLevel() {
-		this.level = this.gungame.getStartLevel();
+		this.level = this.gungame.getOptions().getStartLevel();
 		this.refreshLevel();
 	}
 	

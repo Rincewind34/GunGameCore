@@ -8,7 +8,7 @@ import eu.securebit.gungame.game.CraftGunGame;
 public class GameStateSpawns extends DefaultGameStateSpawns<CraftGunGame> {
 
 	public GameStateSpawns(CraftGunGame game) {
-		super(game, game.getLocationManager().getSpawnPoints(), SpawnSpreading.RANDOM, 1);
+		super(game, game.getMap().getSpawnPoints(), SpawnSpreading.RANDOM, 1);
 	}
 
 	@Override

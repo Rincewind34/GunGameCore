@@ -48,14 +48,14 @@ public class ArgumentLobby extends CustomArgument {
 		if (args.length == 2) {
 			if (args[1].equals("tp")) {
 				try {
-					player.teleport(gungame.getLocationManager().getLobbyLocation());
+					player.teleport(gungame.getLobbyLocation());
 				} catch (Exception ex) {
 					player.sendMessage(CoreMessages.worldNotFound("lobbyworld"));
 				} finally {
 					player.sendMessage(CoreMessages.lobbyTeleport());
 				}
 			} else if (args[1].equals("set")) {
-				gungame.getLocationManager().setLobbyLocation(player.getLocation());
+				gungame.setLobbyLocation(player.getLocation());
 				player.sendMessage(CoreMessages.lobbySet());
 			} else {
 				return false;

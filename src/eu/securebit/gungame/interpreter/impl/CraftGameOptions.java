@@ -23,7 +23,12 @@ public class CraftGameOptions extends AbstractInterpreter<FileOptions> implement
 	public void levelReset(boolean value) {
 		super.config.setLevelResetAfterDeath(value);
 	}
-
+	
+	@Override
+	public void setStartLevel(int level) {
+		super.config.setStartLevel(level);
+	}
+	
 	@Override
 	public boolean autoRespawn() {
 		return super.config.isAutoRespawn();
@@ -37,6 +42,11 @@ public class CraftGameOptions extends AbstractInterpreter<FileOptions> implement
 	@Override
 	public boolean levelReset() {
 		return super.config.isLevelResetAfterDeath();
+	}
+	
+	@Override
+	public int getStartLevel() {
+		return super.config.getStartLevel();
 	}
 
 }

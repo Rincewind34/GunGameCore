@@ -1,10 +1,9 @@
 package eu.securebit.gungame.framework;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 
 import lib.securebit.command.ArgumentedCommand;
+import lib.securebit.game.Game;
 import lib.securebit.game.GameState;
 import lib.securebit.game.GameStateManager;
 import lib.securebit.game.impl.CraftGameStateManager;
@@ -16,8 +15,8 @@ import org.bukkit.plugin.Plugin;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameReflectException;
-import eu.securebit.gungame.game.GameInterface;
 import eu.securebit.gungame.game.CraftGunGame;
+import eu.securebit.gungame.game.GameInterface;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
 import eu.securebit.gungame.game.states.GameStateEnd;
@@ -25,7 +24,6 @@ import eu.securebit.gungame.game.states.GameStateGrace;
 import eu.securebit.gungame.game.states.GameStateIngame;
 import eu.securebit.gungame.game.states.GameStateLobby;
 import eu.securebit.gungame.game.states.GameStateSpawns;
-import eu.securebit.gungame.interpreter.GunGameMap;
 import eu.securebit.gungame.io.configs.FileGameConfig;
 import eu.securebit.gungame.io.directories.RootDirectory;
 
@@ -84,25 +82,11 @@ public class Core {
 			throw GunGameReflectException.fromOther(ex);
 		}
 		
-		List<World> worlds = new ArrayList<>();
+		Core.addMap(game, game.getLobbyLocation().getWorld(), ready);
 		
-		GunGameMap locations = game.getLocationManager();
-		
-		if (ready) {
-			locations.getLobbyLocation().getWorld().setAutoSave(false);
-		}
-		
-		worlds.add(locations.getLobbyLocation().getWorld());
-		game.registerWorld(locations.getLobbyLocation().getWorld());
-		
-		for (Location spawn : locations.getSpawnPoints()) {
-			if (!worlds.contains(spawn.getWorld())) {
-				if (game.isReady()) {
-					spawn.getWorld().setAutoSave(false);
-				}
-					
-				game.registerWorld(spawn.getWorld());
-				worlds.add(spawn.getWorld());
+		for (Location spawn : game.getMap().getSpawnPoints()) {
+			if (!game.containsWorld(spawn.getWorld())) {
+				Core.addMap(game, spawn.getWorld(), ready);
 			}
 		}
 		
@@ -139,6 +123,11 @@ public class Core {
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		
 		return state.getConstructor(CraftGunGame.class).newInstance(gungame);
+	}
+	
+	private static void addMap(Game<?> game, World world, boolean autoSave) {
+		game.registerWorld(world);
+		world.setAutoSave(autoSave);
 	}
 	
 }

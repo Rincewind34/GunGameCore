@@ -122,12 +122,8 @@ public class ArgumentLevels extends CustomArgument {
 				}
 				
 				for (int i = 0; i < count; i++) {
-					if (!gungame.getLevelManager().deleteHighestLevel()) {
-						player.sendMessage(CoreMessages.noLevelToRemove());
-						return true;
-					} else {
-						player.sendMessage(CoreMessages.levelDeleted(gungame.getLevelManager().getLevelCount() + 1));
-					}
+					gungame.getLevelManager().deleteHighestLevel();
+					player.sendMessage(CoreMessages.levelDeleted(gungame.getLevelManager().getLevelCount() + 1));
 				}
 			} else {
 				this.sendSuggestions(sender);

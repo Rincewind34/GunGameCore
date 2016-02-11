@@ -81,8 +81,4 @@ public class CraftMessanger extends AbstractInterpreter<FileMessages> implements
 		return super.config.getRespawn(level);
 	}
 	
-	public FileMessages getFile() {
-		return super.config;
-	}
-
 }

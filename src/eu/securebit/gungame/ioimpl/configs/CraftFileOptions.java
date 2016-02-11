@@ -1,8 +1,6 @@
 package eu.securebit.gungame.ioimpl.configs;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.io.configs.FileOptions;
@@ -16,6 +14,7 @@ public class CraftFileOptions extends CraftFileGunGameConfig implements FileOpti
 		this.getDefaults().add(new ConfigDefault("option.reset-level", false, boolean.class));
 		this.getDefaults().add(new ConfigDefault("option.autorespawn", true, boolean.class));
 		this.getDefaults().add(new ConfigDefault("option.care-natural-death", true, boolean.class));
+		this.getDefaults().add(new ConfigDefault("option.start-level", 1, int.class));
 	}
 	
 	@Override
@@ -38,7 +37,14 @@ public class CraftFileOptions extends CraftFileGunGameConfig implements FileOpti
 		
 		return super.config.getBoolean("option.care-natural-death");
 	}
-
+	
+	@Override
+	public int getStartLevel() {
+		this.checkReady();
+		
+		return super.config.getInt("option.start-level");
+	}
+	
 	@Override
 	public void setLevelResetAfterDeath(boolean enabled) {
 		this.checkReady();
@@ -64,13 +70,11 @@ public class CraftFileOptions extends CraftFileGunGameConfig implements FileOpti
 	}
 	
 	@Override
-	public void validate() {
-		for (ConfigDefault entry : CraftFileOptions.defaults) {
-			if (!entry.validate(super.config)) {
-				super.handler.throwError(this.createError(FileOptions.ERROR_MALFORMED));
-				break;
-			}
-		}
+	public void setStartLevel(int level) {
+		this.checkReady();
+		
+		super.config.set("option.start-level", level);
+		this.save();
 	}
 	
 }

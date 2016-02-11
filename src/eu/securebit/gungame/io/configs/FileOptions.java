@@ -34,16 +34,20 @@ public interface FileOptions extends FileGunGameConfig {
 	}
 	
 	
+	public abstract void setLevelResetAfterDeath(boolean enabled);
+	
+	public abstract void setAutoRespawn(boolean enabled);
+	
+	public abstract void setLevelDowngradeOnNaturalDeath(boolean enabled);
+	
+	public abstract void setStartLevel(int level);
+	
 	public abstract boolean isLevelResetAfterDeath();
 	
 	public abstract boolean isAutoRespawn();
 	
 	public abstract boolean isLevelDowngradeOnNaturalDeath();
 	
-	public abstract void setLevelResetAfterDeath(boolean enabled);
-	
-	public abstract void setAutoRespawn(boolean enabled);
-	
-	public abstract void setLevelDowngradeOnNaturalDeath(boolean enabled);
+	public abstract int getStartLevel();
 	
 }

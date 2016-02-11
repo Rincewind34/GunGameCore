@@ -1,8 +1,6 @@
 package eu.securebit.gungame.ioimpl.configs;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -17,28 +15,48 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 	public CraftFileMessages(File file, CraftErrorHandler handler) {
 		super(file, handler, FileMessages.ERROR_LOAD, FileMessages.ERROR_FOLDER, FileMessages.ERROR_CREATE, FileMessages.ERROR_MALFORMED, "messages");
 		
-		this.getDefaults().add(new ConfigDefault("message.prefix", "&7[&eGunGame&7]", String.class));
-		this.getDefaults().add(new ConfigDefault("message.player.join", "&e${player} &7joined the game.", String.class));
-		this.getDefaults().add(new ConfigDefault("message.player.quit", "&e${player} &7left the game.", String.class));
-		this.getDefaults().add(new ConfigDefault("message.player.serverquit", "&e${player} &7left the game.", String.class));
-		this.getDefaults().add(new ConfigDefault("message.countdown.lobby", "&7The game starts in &e${time} &7seconds.", String.class));
-		this.getDefaults().add(new ConfigDefault("message.countdown.grace", "&7The graceperiod ends in &e${time} &7seconds.", String.class));
-		this.getDefaults().add(new ConfigDefault("message.countdown.end", "&cServer shutdown in ${time} seconds.", String.class));
-		this.getDefaults().add(new ConfigDefault("message.countdown.lobby-cancle", "&cThere are not enough players to play this round (${current}/${minimal})",
-				String.class));
-		this.getDefaults().add(new ConfigDefault("message.mapteleport", "&7All players have been teleported to the map.", String.class));
-		this.getDefaults().add(new ConfigDefault("message.graceperiod.start", "&7All players are invulnerable for 15 seconds now.", String.class));
-		this.getDefaults().add(new ConfigDefault("message.graceperiod.end", "&eDamage enabled - Fight!", String.class));
-		this.getDefaults().add(new ConfigDefault("message.ingame.kill", "&e${victim} &7was killed by &e${killer}&7.", String.class));
-		this.getDefaults().add(new ConfigDefault("message.ingame.death", "&7The player &e${victim} &7died.", String.class));
-		this.getDefaults().add(new ConfigDefault("message.ingame.respawn", "&7You are now level &e${level}&7.", String.class));
-		this.getDefaults().add(new ConfigDefault("message.winner", "&e&lCongratulations! &r&e${winner} is the winner of this game!", String.class));
-		this.getDefaults().add(new ConfigDefault("motd.lobby.join", "Lobby", String.class));
-		this.getDefaults().add(new ConfigDefault("motd.lobby.full", "Lobby", String.class));
-		this.getDefaults().add(new ConfigDefault("motd.grace", "Grace", String.class));
-		this.getDefaults().add(new ConfigDefault("motd.ingame", "Ingame", String.class));
-		this.getDefaults().add(new ConfigDefault("motd.end", "Restarting", String.class));
-		this.getDefaults().add(new ConfigDefault("motd.maintendance", "Maintendance", String.class));
+		this.getDefaults().add(new ConfigDefault("message.prefix",
+				"&7[&eGunGame&7]", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.player.join",
+				"&e${player} &7joined the game.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.player.quit",
+				"&e${player} &7left the game.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.player.serverquit",
+				"&e${player} &7left the game.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.countdown.lobby",
+				"&7The game starts in &e${time} &7seconds.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.countdown.grace",
+				"&7The graceperiod ends in &e${time} &7seconds.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.countdown.end",
+				"&cServer shutdown in ${time} seconds.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.countdown.lobby-cancle",
+				"&cThere are not enough players to play this round (${current}/${minimal})", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.mapteleport",
+				"&7All players have been teleported to the map.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.graceperiod.start",
+				"&7All players are invulnerable for 15 seconds now.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.graceperiod.end",
+				"&eDamage enabled - Fight!", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.kill",
+				"&e${victim} &7was killed by &e${killer}&7.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.death",
+				"&7The player &e${victim} &7died.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.respawn",
+				"&7You are now level &e${level}&7.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.winner",
+				"&e&lCongratulations! &r&e${winner} is the winner of this game!", String.class));
+		this.getDefaults().add(new ConfigDefault("message.motd.lobby.join",
+				"Lobby", String.class));
+		this.getDefaults().add(new ConfigDefault("message.motd.lobby.full",
+				"Lobby", String.class));
+		this.getDefaults().add(new ConfigDefault("message.motd.grace",
+				"Grace", String.class));
+		this.getDefaults().add(new ConfigDefault("message.motd.ingame",
+				"Ingame", String.class));
+		this.getDefaults().add(new ConfigDefault("message.motd.end",
+				"Restarting", String.class));
+		this.getDefaults().add(new ConfigDefault("message.motd.maintendance",
+				"Maintendance", String.class));
 	}
 	
 	@Override
@@ -52,28 +70,28 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 	public String getJoinLobby() {
 		this.checkReady();
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.player.join"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.ingame.player.join"));
 	}
 
 	@Override
 	public String getQuitLobby() {
 		this.checkReady();
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.player.quit"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.ingame.player.quit"));
 	}
 	
 	@Override
 	public String getServerQuit() {
 		this.checkReady();
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.player.serverquit"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.ingame.player.serverquit"));
 	}
 
 	@Override
 	public String getCountdownLobby(int secondsLeft) {
 		this.checkReady();
 		
-		String msg = super.config.getString("message.countdown.lobby");
+		String msg = super.config.getString("message.ingame.countdown.lobby");
 		msg = IOUtil.replace(msg, "time", secondsLeft);
 		
 		return IOUtil.prepare(this.getPrefix(), msg);
@@ -83,7 +101,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 	public String getCountdownGrace(int secondsLeft) {
 		this.checkReady();
 		
-		String msg = super.config.getString("message.countdown.grace");
+		String msg = super.config.getString("message.ingame.countdown.grace");
 		msg = IOUtil.replace(msg, "time", secondsLeft);
 		
 		return IOUtil.prepare(this.getPrefix(), msg);
@@ -93,7 +111,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 	public String getCountdownEnd(int secondsLeft) {
 		this.checkReady();
 		
-		String msg = super.config.getString("message.countdown.end");
+		String msg = super.config.getString("message.ingame.countdown.end");
 		msg = IOUtil.replace(msg, "time", secondsLeft);
 		
 		return IOUtil.prepare(this.getPrefix(), msg);
@@ -103,7 +121,7 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 	public String getCountdownLobbyCancle(int currentPlayers, int minimalPlayers) {
 		this.checkReady();
 		
-		String msg = super.config.getString("message.countdown.lobby-cancle");
+		String msg = super.config.getString("message.ingame.countdown.lobby-cancle");
 		msg = IOUtil.replace(msg, "current", currentPlayers);
 		msg = IOUtil.replace(msg, "minimal", minimalPlayers);
 		
@@ -114,28 +132,28 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 	public String getMapTeleport() {
 		this.checkReady();
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.mapteleport"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.ingame.mapteleport"));
 	}
 
 	@Override
 	public String getGracePeriodStarts() {
 		this.checkReady();
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.graceperiod.start"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.ingame.graceperiod.start"));
 	}
 
 	@Override
 	public String getGracePeriodEnds() {
 		this.checkReady();
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.graceperiod.end"));
+		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.ingame.graceperiod.end"));
 	}
 
 	@Override
 	public String getWinner(Player player) {
 		this.checkReady();
 		
-		String msg = super.config.getString("message.winner");
+		String msg = super.config.getString("message.ingame.winner");
 		msg = IOUtil.replace(msg, "winner", player.getDisplayName());
 		
 		return IOUtil.prepare(this.getPrefix(), msg);
@@ -171,21 +189,47 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 		
 		return IOUtil.prepare(this.getPrefix(), msg);
 	}
-	
+
 	@Override
-	public String getMotD(String gamestate) {
-		// TODO motd
-		return null;
+	public String getMotDLobbyJoin() {
+		this.checkReady();
+		
+		return super.config.getString("message.motd.lobby.join");
 	}
 
 	@Override
-	public void validate() {
-		for (ConfigDefault entry : CraftFileMessages.defaults) {
-			if (!entry.validate(super.config)) {
-				super.handler.throwError(this.createError(FileMessages.ERROR_MALFORMED));
-				break;
-			}
-		}
+	public String getMotDLobbyPremium() {
+		this.checkReady();
+		
+		return super.config.getString("message.motd.lobby.premium");
+	}
+
+	@Override
+	public String getMotDLobbyStaff() {
+		this.checkReady();
+		
+		return super.config.getString("message.motd.lobby.staff");
+	}
+
+	@Override
+	public String getMotDLobbySpawns() {
+		this.checkReady();
+		
+		return super.config.getString("message.motd.spawns");
+	}
+
+	@Override
+	public String getMotDLobbyIngame() {
+		this.checkReady();
+		
+		return super.config.getString("message.motd.ingame");
+	}
+
+	@Override
+	public String getMotDLobbyEnd() {
+		this.checkReady();
+		
+		return super.config.getString("message.motd.end");
 	}
 	
 }

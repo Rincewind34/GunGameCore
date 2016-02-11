@@ -6,7 +6,6 @@ import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateLobby;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.CraftGunGame;
-import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
@@ -15,7 +14,7 @@ public class GameStateLobby extends DefaultGameStateLobby<CraftGunGame> {
 	
 	public GameStateLobby(CraftGunGame gungame) {
 		super(gungame,
-				gungame.getLocationManager().getLobbyLocation(),
+				gungame.getLobbyLocation(),
 				Permissions.premium(), Permissions.teammember(),
 				gungame.getMinPlayerCount(),
 				gungame.getSize(),

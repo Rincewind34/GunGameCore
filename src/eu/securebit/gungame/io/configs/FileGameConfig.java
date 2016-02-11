@@ -70,15 +70,11 @@ public interface FileGameConfig extends FileGunGameConfig {
 	
 	public abstract void setMuted(boolean muted);
 	
-	public abstract void setStartLevel(int level);
-	
 	public abstract void setLocationLobby(Location loc);
 	
 	public abstract boolean isEditMode();
 	
 	public abstract boolean isMuted();
-	
-	public abstract int getStartLevel();
 	
 	public abstract int getMinPlayers();
 	
@@ -91,6 +87,8 @@ public interface FileGameConfig extends FileGunGameConfig {
 	public abstract String getFileScoreboardLocation();
 	
 	public abstract String getFileOptionsLocation();
+	
+	public abstract String getFileMapLocation();
 	
 	public abstract Location getLocationLobby();
 	
