@@ -106,18 +106,21 @@ public class Main extends JavaPlugin {
 		
 		Main.layout.message(sender, "");
 		
-		String name = InfoLayout.replaceKeys(this.frame.getName());
-		String version = InfoLayout.replaceKeys(this.frame.getVersion());
-		
-		Main.layout.message(sender, "Enabling frame *" + name + "* version *" + version + "*...");
-		
-		if (this.enableFrame(sender)) {
-			Main.layout.message(sender, "+Frame enabled!+");
-		} else {
-			Main.layout.message(sender, "-Frame could not be enabled!-");
+		if (Core.isFrameLoaded()) {
+			String name = InfoLayout.replaceKeys(this.frame.getName());
+			String version = InfoLayout.replaceKeys(this.frame.getVersion());
+			
+			Main.layout.message(sender, "Enabling frame *" + name + "* version *" + version + "*...");
+			
+			if (this.enableFrame(sender)) {
+				Main.layout.message(sender, "+Frame enabled!+");
+			} else {
+				Main.layout.message(sender, "-Frame could not be enabled!-");
+			}
+			
+			Main.layout.message(sender, "");
 		}
 		
-		Main.layout.message(sender, "");
 		Main.layout.message(sender, "Initializing addonloading...");
 		
 		List<File> files = this.initAddonLoading(sender);
@@ -154,29 +157,32 @@ public class Main extends JavaPlugin {
 				}
 				
 				Main.layout.message(sender, "");
-				Main.layout.message(sender, "Enabling addons (" + loadedAddons.size() + ") ...");
 				
-				for (File file : loadedAddons.keySet()) {
-					Addon addon = loadedAddons.get(file);
+				if (loadedAddons.size() != 0) {
+					Main.layout.message(sender, "Enabling addons (" + loadedAddons.size() + ") ...");
 					
-					Main.layout.message(sender, "Enabling addon *" + InfoLayout.replaceKeys(addon.getName()) + "* version *" +
-							InfoLayout.replaceKeys(addon.getVersion()) + "*...");
-					
-					if (this.enableAddon(sender, addon, file)) {
-						enabledAddons.add(addon);
-						Main.layout.message(sender, "Addon enabled!");
-					} else {
-						Main.layout.message(sender, "Could not enable addon!");
+					for (File file : loadedAddons.keySet()) {
+						Addon addon = loadedAddons.get(file);
+						
+						Main.layout.message(sender, "Enabling addon *" + InfoLayout.replaceKeys(addon.getName()) + "* version *" +
+								InfoLayout.replaceKeys(addon.getVersion()) + "*...");
+						
+						if (this.enableAddon(sender, addon, file)) {
+							enabledAddons.add(addon);
+							Main.layout.message(sender, "Addon enabled!");
+						} else {
+							Main.layout.message(sender, "Could not enable addon!");
+						}
 					}
-				}
-				
-				status = Main.layout.colorPrimary + "[*" + enabledAddons.size() + "*" + 
-						Main.layout.colorPrimary + "/*" + loadedAddons.size() + "*" + Main.layout.colorPrimary + "]";
-				
-				if (loadedAddons.size() == enabledAddons.size()) {
-					Main.layout.message(sender, "+All addons enabled+ " + status + "+!+");
-				} else {
-					Main.layout.message(sender, "-Could not load all addons- " + status  + Main.layout.colorSecondary + "-!-");
+					
+					status = Main.layout.colorPrimary + "[*" + enabledAddons.size() + "*" + 
+							Main.layout.colorPrimary + "/*" + loadedAddons.size() + "*" + Main.layout.colorPrimary + "]";
+					
+					if (loadedAddons.size() == enabledAddons.size()) {
+						Main.layout.message(sender, "+All addons enabled+ " + status + "+!+");
+					} else {
+						Main.layout.message(sender, "-Could not load all addons- " + status  + Main.layout.colorSecondary + "-!-");
+					}
 				}
 			}
 		} else {
@@ -210,7 +216,7 @@ public class Main extends JavaPlugin {
 			}
 		}
 		
-		if (Core.isFrameEnabled()) {
+		if (Core.isFrameLoaded() && Core.isFrameEnabled()) {
 			Main.layout.message(sender, "Disabling frame...");
 			
 			try {
@@ -254,6 +260,7 @@ public class Main extends JavaPlugin {
 				}
 				
 				this.frame = null;
+				
 				this.handler.throwError(Frame.ERROR_LOAD_MAINCLASS);
 			} catch (Throwable ex) {
 				if (Main.DEBUG) {
@@ -278,7 +285,7 @@ public class Main extends JavaPlugin {
 				}
 				
 				if (this.rootDirectory.getBootFolder().getUsingFrameId() == this.frame.getFrameId()) {
-					Main.layout.message(sender, "§8================================");
+					Main.layout.message(sender, Main.layout.colorPrimary + "================================");
 					
 					FrameProperties properties = new FrameProperties(new File(this.rootDirectory.getBootFolder().getRelativPath()));
 					
@@ -292,7 +299,7 @@ public class Main extends JavaPlugin {
 						this.handler.throwError(Frame.ERROR_ENABLE);
 					}
 					
-					Main.layout.message(sender, "§8================================");
+					Main.layout.message(sender, Main.layout.colorPrimary + "================================");
 				} else {
 					this.handler.throwError(Frame.ERROR_ENABLE_ID);
 				}
