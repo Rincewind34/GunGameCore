@@ -8,22 +8,16 @@ import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameIOException;
 import eu.securebit.gungame.io.FileConfigRegistry;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractConfig;
+import eu.securebit.gungame.util.ConfigDefault;
 
 public class CraftFileConfigRegistry extends AbstractConfig implements FileConfigRegistry {
-	
-	private Util util;
 	
 	public CraftFileConfigRegistry(String path, CraftErrorHandler handler) {
 		super(new File(path, ".fileregistry"), handler,
 				FileConfigRegistry.ERROR_MAIN, FileConfigRegistry.ERROR_LOAD, FileConfigRegistry.ERROR_FOLDER,
 				FileConfigRegistry.ERROR_CREATE, FileConfigRegistry.ERROR_MALFORMED_STRUCTURE);
 		
-		this.util = this.new Util();
-	}
-	
-	@Override
-	public void addDefaults() {
-		super.config.addDefault("files", Arrays.asList());
+		this.getDefaults().add(new ConfigDefault("files", Arrays.asList(), null));
 	}
 	
 	@Override
@@ -43,7 +37,7 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 		List<String> entries = this.getEntries();
 		
 		for (String element : CraftFileConfigRegistry.this.getEntries()) {
-			if (this.util.split(element)[0].equals(file)) {
+			if (Util.split(element)[0].equals(file)) {
 				entries.remove(element);
 				break;
 			}
@@ -57,7 +51,7 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 		this.checkAccessability();
 		
 		for (String element : CraftFileConfigRegistry.this.getEntries()) {
-			if (this.util.split(element)[0].equals(file)) {
+			if (Util.split(element)[0].equals(file)) {
 				return true;
 			}
 		}
@@ -70,8 +64,8 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 		this.checkAccessability();
 		
 		for (String element : CraftFileConfigRegistry.this.getEntries()) {
-			if (this.util.split(element)[0].equals(file)) {
-				return this.util.split(element)[1];
+			if (Util.split(element)[0].equals(file)) {
+				return Util.split(element)[1];
 			}
 		}
 		
@@ -83,19 +77,6 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 		this.checkAccessability();
 		
 		return super.config.getStringList("files");
-	}
-	
-	@Override
-	public void validate() {
-		if (!super.config.isList("files")) {
-			super.handler.throwError(FileConfigRegistry.ERROR_MALFORMED_STRUCTURE);
-		}
-		
-		for (String element : this.getEntries()) {
-			if (this.util.split(element).length != 2) {
-				super.handler.throwError(FileConfigRegistry.ERROR_MALFORMED_ENTRIES);
-			}
-		}
 	}
 	
 	public void cleanUp() {
@@ -118,11 +99,11 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 	}
 	
 	
-	private class Util {
+	public static class Util {
 		
 		private static final String separator = "==";
 		
-		public String[] split(String element) {
+		public static String[] split(String element) {
 			return element.split(Util.separator);
 		}
 		

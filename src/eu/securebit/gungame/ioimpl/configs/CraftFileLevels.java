@@ -14,22 +14,10 @@ import eu.securebit.gungame.util.ConfigDefault;
 
 public class CraftFileLevels extends CraftFileGunGameConfig implements FileLevels {
 	
-	private static final List<ConfigDefault> defaults = new ArrayList<>();
-	
-	static {
-		CraftFileLevels.defaults.add(new ConfigDefault("levels", Arrays.asList(), null));
-	}
-	
-	
 	public CraftFileLevels(File file, CraftErrorHandler handler) {
 		super(file, handler, FileLevels.ERROR_MAIN, FileLevels.ERROR_LOAD, FileLevels.ERROR_FOLDER, FileLevels.ERROR_CREATE, FileLevels.ERROR_MALFORMED, "levels");
-	}
-	
-	@Override
-	public void addDefaults() {
-		for (ConfigDefault entry : CraftFileLevels.defaults) {
-			super.config.addDefault(entry.getPath(), entry.getValue());
-		}
+		
+		this.getDefaults().add(new ConfigDefault("levels", Arrays.asList(), null));
 	}
 	
 	@Override

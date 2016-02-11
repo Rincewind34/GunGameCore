@@ -24,31 +24,26 @@ import eu.securebit.gungame.util.ConfigDefault;
 
 public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileGameConfig {
 	
-	private static final List<ConfigDefault> defaults = new ArrayList<>();
-	
-	static {
-		String dataFolder = "data" + File.separator;
-		
-		CraftFileGameConfig.defaults.add(new ConfigDefault("editmode", true, boolean.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("muted", false, boolean.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("file.levels", dataFolder + "levels.yml", String.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("file.messages", dataFolder + "messages.yml", String.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("file.scoreboard", dataFolder + "scoreboard.yml", String.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("file.options", dataFolder + "options.yml", String.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("start-level", 1, int.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("playercount.minimal", 1, int.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("playercount.maximal", 3, int.class));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("location.spawns", Arrays.asList(), null));
-		CraftFileGameConfig.defaults.add(new ConfigDefault("next-spawn-id", 0, int.class));
-	}
-	
-	
 	public CraftFileGameConfig(File file, CraftErrorHandler handler, World world) {
 		super(file, handler,
 				FileGameConfig.ERROR_MAIN, FileGameConfig.ERROR_LOAD, FileGameConfig.ERROR_FOLDER, FileGameConfig.ERROR_CREATE, FileGameConfig.ERROR_MALFORMED,
 				"gameconfig");
 		
-		ConfigUtil.setLocation("location.lobby", world.getSpawnLocation(), CraftFileGameConfig.defaults);
+		String dataFolder = "data" + File.separator;
+		
+		this.getDefaults().add(new ConfigDefault("game.editmode", true, boolean.class));
+		this.getDefaults().add(new ConfigDefault("game.muted", false, boolean.class));
+		this.getDefaults().add(new ConfigDefault("game.file.levels", dataFolder + "levels.yml", String.class));
+		this.getDefaults().add(new ConfigDefault("game.file.messages", dataFolder + "messages.yml", String.class));
+		this.getDefaults().add(new ConfigDefault("game.file.scoreboard", dataFolder + "scoreboard.yml", String.class));
+		this.getDefaults().add(new ConfigDefault("game.file.options", dataFolder + "options.yml", String.class));
+		this.getDefaults().add(new ConfigDefault("start-level", 1, int.class));
+		this.getDefaults().add(new ConfigDefault("game.playercount.minimal", 1, int.class));
+		this.getDefaults().add(new ConfigDefault("game.playercount.maximal", 3, int.class));
+		this.getDefaults().add(new ConfigDefault("location.spawns", Arrays.asList(), null));
+		this.getDefaults().add(new ConfigDefault("next-spawn-id", 0, int.class));
+		
+		ConfigUtil.setLocation("game.lobby", world.getSpawnLocation(), this.getDefaults());
 	}
 	
 	@Override
@@ -167,13 +162,6 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	}
 	
 	@Override
-	public void addDefaults() {
-		for (ConfigDefault entry : CraftFileGameConfig.defaults) {
-			super.config.addDefault(entry.getPath(), entry.getValue());
-		}
-	}
-	
-	@Override
 	public void setNextSpawnId(int nextId) {
 		super.config.set("next-spawn-id", nextId);
 		this.save();
@@ -210,13 +198,6 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	
 	@Override
 	public void validate() {
-		for (ConfigDefault entry : CraftFileGameConfig.defaults) {
-			if (!entry.validate(super.config)) {
-				super.handler.throwError(this.createError(FileGameConfig.ERROR_MALFORMED));
-				break;
-			}
-		}
-		
 		{
 			int nextId = this.getNextSpawnId();
 			

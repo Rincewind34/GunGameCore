@@ -10,18 +10,13 @@ import eu.securebit.gungame.util.ConfigDefault;
 
 public class CraftFileOptions extends CraftFileGunGameConfig implements FileOptions {
 	
-	private static final List<ConfigDefault> defaults = new ArrayList<>();
-	
-	static {
-		CraftFileOptions.defaults.add(new ConfigDefault("option.reset-level", false, boolean.class));
-		CraftFileOptions.defaults.add(new ConfigDefault("option.autorespawn", true, boolean.class));
-		CraftFileOptions.defaults.add(new ConfigDefault("option.care-natural-death", true, boolean.class));
-	}
-	
-	
 	public CraftFileOptions(File file, CraftErrorHandler handler) {
 		super(file, handler,
 				FileOptions.ERROR_MAIN, FileOptions.ERROR_LOAD, FileOptions.ERROR_FOLDER, FileOptions.ERROR_CREATE, FileOptions.ERROR_MALFORMED, "options");
+		
+		this.getDefaults().add(new ConfigDefault("option.reset-level", false, boolean.class));
+		this.getDefaults().add(new ConfigDefault("option.autorespawn", true, boolean.class));
+		this.getDefaults().add(new ConfigDefault("option.care-natural-death", true, boolean.class));
 	}
 	
 	@Override
@@ -67,13 +62,6 @@ public class CraftFileOptions extends CraftFileGunGameConfig implements FileOpti
 		
 		super.config.set("option.care-natural-death", enabled);
 		this.save();
-	}
-	
-	@Override
-	public void addDefaults() {
-		for (ConfigDefault entry : CraftFileOptions.defaults) {
-			super.config.addDefault(entry.getPath(), entry.getValue());
-		}
 	}
 	
 	@Override

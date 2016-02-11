@@ -17,32 +17,35 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 	private static final List<ConfigDefault> defaults = new ArrayList<>();
 	
 	static {
-		CraftFileMessages.defaults.add(new ConfigDefault("message.prefix", "&7[&eGunGame&7]", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("message.player.join", "&e${player} &7joined the game.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("message.player.quit", "&e${player} &7left the game.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("message.player.serverquit", "&e${player} &7left the game.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("message.countdown.lobby", "&7The game starts in &e${time} &7seconds.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("message.countdown.grace", "&7The graceperiod ends in &e${time} &7seconds.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("message.countdown.end", "&cServer shutdown in ${time} seconds.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("message.countdown.lobby-cancle", "&cThere are not enough players to play this round (${current}/${minimal})",
-				String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("message.mapteleport", "&7All players have been teleported to the map.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("message.graceperiod.start", "&7All players are invulnerable for 15 seconds now.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("message.graceperiod.end", "&eDamage enabled - Fight!", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("message.ingame.kill", "&e${victim} &7was killed by &e${killer}&7.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("message.ingame.death", "&7The player &e${victim} &7died.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("message.ingame.respawn", "&7You are now level &e${level}&7.", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("message.winner", "&e&lCongratulations! &r&e${winner} is the winner of this game!", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("motd.lobby.join", "Lobby", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("motd.lobby.full", "Lobby", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("motd.grace", "Grace", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("motd.ingame", "Ingame", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("motd.end", "Restarting", String.class));
-		CraftFileMessages.defaults.add(new ConfigDefault("motd.maintendance", "Maintendance", String.class));
+		
 	}
 	
 	public CraftFileMessages(File file, CraftErrorHandler handler) {
-		super(file, handler, FileMessages.ERROR_MAIN, FileMessages.ERROR_LOAD, FileMessages.ERROR_FOLDER, FileMessages.ERROR_CREATE, FileMessages.ERROR_MALFORMED, "messages");
+		super(file, handler, FileMessages.ERROR_MAIN, FileMessages.ERROR_LOAD, FileMessages.ERROR_FOLDER, FileMessages.ERROR_CREATE, FileMessages.ERROR_MALFORMED,
+				"messages");
+		
+		this.getDefaults().add(new ConfigDefault("message.prefix", "&7[&eGunGame&7]", String.class));
+		this.getDefaults().add(new ConfigDefault("message.player.join", "&e${player} &7joined the game.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.player.quit", "&e${player} &7left the game.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.player.serverquit", "&e${player} &7left the game.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.countdown.lobby", "&7The game starts in &e${time} &7seconds.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.countdown.grace", "&7The graceperiod ends in &e${time} &7seconds.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.countdown.end", "&cServer shutdown in ${time} seconds.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.countdown.lobby-cancle", "&cThere are not enough players to play this round (${current}/${minimal})",
+				String.class));
+		this.getDefaults().add(new ConfigDefault("message.mapteleport", "&7All players have been teleported to the map.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.graceperiod.start", "&7All players are invulnerable for 15 seconds now.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.graceperiod.end", "&eDamage enabled - Fight!", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.kill", "&e${victim} &7was killed by &e${killer}&7.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.death", "&7The player &e${victim} &7died.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.ingame.respawn", "&7You are now level &e${level}&7.", String.class));
+		this.getDefaults().add(new ConfigDefault("message.winner", "&e&lCongratulations! &r&e${winner} is the winner of this game!", String.class));
+		this.getDefaults().add(new ConfigDefault("motd.lobby.join", "Lobby", String.class));
+		this.getDefaults().add(new ConfigDefault("motd.lobby.full", "Lobby", String.class));
+		this.getDefaults().add(new ConfigDefault("motd.grace", "Grace", String.class));
+		this.getDefaults().add(new ConfigDefault("motd.ingame", "Ingame", String.class));
+		this.getDefaults().add(new ConfigDefault("motd.end", "Restarting", String.class));
+		this.getDefaults().add(new ConfigDefault("motd.maintendance", "Maintendance", String.class));
 	}
 	
 	@Override
@@ -176,13 +179,6 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 		return IOUtil.prepare(this.getPrefix(), msg);
 	}
 	
-	@Override
-	public void addDefaults() {
-		for (ConfigDefault entry : CraftFileMessages.defaults) {
-			super.config.addDefault(entry.getPath(), entry.getValue());
-		}
-	}
-
 	@Override
 	public String getMotD(String gamestate) {
 		// TODO motd

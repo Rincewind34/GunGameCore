@@ -15,14 +15,17 @@ public class CraftFileScoreboard extends CraftFileGunGameConfig implements FileS
 	private static final List<ConfigDefault> defaults = new ArrayList<>();
 	
 	static {
-		CraftFileScoreboard.defaults.add(new ConfigDefault("scoreboard.enabled", true, boolean.class));
-		CraftFileScoreboard.defaults.add(new ConfigDefault("scoreboard.title", "&7===== &eGunGame &7=====", String.class));
-		CraftFileScoreboard.defaults.add(new ConfigDefault("scoreboard.format", "&7${player}", String.class));
+		
 	}
 	
 	public CraftFileScoreboard(File file, CraftErrorHandler handler) {
 		super(file, handler,
 				FileScoreboard.ERROR_MAIN, FileScoreboard.ERROR_LOAD, FileScoreboard.ERROR_FOLDER, FileScoreboard.ERROR_CREATE, FileScoreboard.ERROR_MALFORMED, "scoreboard");
+		
+		this.getDefaults().add(new ConfigDefault("scoreboard", "test", String.class)); //TODO remove
+		this.getDefaults().add(new ConfigDefault("scoreboard.enabled", true, boolean.class));
+		this.getDefaults().add(new ConfigDefault("scoreboard.title", "&7===== &eGunGame &7=====", String.class));
+		this.getDefaults().add(new ConfigDefault("scoreboard.format", "&7${player}", String.class));
 	}
 	
 	@Override
@@ -46,12 +49,6 @@ public class CraftFileScoreboard extends CraftFileGunGameConfig implements FileS
 		return super.config.getString("scoreboard.format");
 	}
 	
-	public void addDefaults() {
-		for (ConfigDefault entry : CraftFileScoreboard.defaults) {
-			super.config.addDefault(entry.getPath(), entry.getValue());
-		}
-	}
-
 	@Override
 	public void validate() {
 		for (ConfigDefault entry : CraftFileScoreboard.defaults) {

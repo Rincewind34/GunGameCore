@@ -186,6 +186,14 @@ public class CraftRootDirectory extends AbstractDirectory implements RootDirecto
 			this.configRegistry = new CraftFileConfigRegistry(this.getAbsolutPath(), this.handler);
 			this.configRegistry.create();
 			
+			if (this.configRegistry.isAccessable()) {
+				for (String element : this.configRegistry.getEntries()) {
+					if (CraftFileConfigRegistry.Util.split(element).length != 2) {
+						super.handler.throwError(FileConfigRegistry.ERROR_MALFORMED_ENTRIES);
+					}
+				}
+			}
+			
 			if (this.configRegistry.isReady()) {
 				((CraftFileConfigRegistry) this.configRegistry).cleanUp();
 			}
