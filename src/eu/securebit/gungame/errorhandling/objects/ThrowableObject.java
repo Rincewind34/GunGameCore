@@ -28,16 +28,25 @@ public abstract class ThrowableObject<T extends Layout> {
 		this.layout = (T) CraftErrorHandler.layouts.get(objectId);
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj != null && obj instanceof ThrowableObject<?>) {
+			return this.getParsedObjectId().equals(((ThrowableObject<?>) obj).getParsedObjectId());
+		} else {
+			return false;
+		}
+	}
+	
 	public String getObjectId() {
 		return this.objectId;
 	}
 	
 	public String getParsedMessage() {
-		return InfoLayout.replaceKeys(this.integrateVariables(this.layout.getMessage(), this.variables));
+		return this.integrateVariables(this.layout.getMessage(), this.variables);
 	}
 	
 	public String getParsedObjectId() {
-		return InfoLayout.replaceKeys(this.integrateVariables(this.objectId, this.variables));
+		return this.integrateVariables(this.objectId, this.variables);
 	}
 	
 	public T getLayout() {

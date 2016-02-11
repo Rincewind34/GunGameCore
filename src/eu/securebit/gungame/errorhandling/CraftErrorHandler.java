@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lib.securebit.InfoLayout;
+
 import org.bukkit.Bukkit;
 
 import eu.securebit.gungame.Main;
@@ -118,12 +120,12 @@ public class CraftErrorHandler implements ErrorHandler {
 	
 	@Override
 	public void throwError(String objectId) {
-		
+		this.throwError(objectId, (String) null);
 	}
 	
 	@Override
 	public void throwError(String objectId, String causeId) {
-		if (!CraftErrorHandler.layouts.containsKey(causeId)) {
+		if (!CraftErrorHandler.layouts.containsKey(objectId)) {
 			throw GunGameErrorHandlerException.unknownObjectID(objectId);
 		}
 		
@@ -151,7 +153,7 @@ public class CraftErrorHandler implements ErrorHandler {
 	@Override
 	public void throwError(ThrowableObject<?> object, String causeId) {
 		if (causeId == null) {
-			this.throwError(object);
+			this.throwError(object, (ThrownError) null);
 		} else {
 			this.throwError(object, this.parseError(causeId));
 		}
@@ -204,9 +206,13 @@ public class CraftErrorHandler implements ErrorHandler {
 		this.checkVars(object);
 		
 		if (!triggered) {
-			Main.layout().message(Bukkit.getConsoleSender(), String.format(object.getOccuredFormat(), object.getParsedObjectId(), object.getParsedMessage()));
+			Main.layout().message(Bukkit.getConsoleSender(), String.format(object.getOccuredFormat(),
+					InfoLayout.replaceKeys(object.getParsedObjectId()),
+					InfoLayout.replaceKeys(object.getParsedMessage())));
 		} else {
-			Main.layout().message(Bukkit.getConsoleSender(), String.format(object.getTriggeredFormat(), object.getParsedObjectId(), object.getParsedMessage()));
+			Main.layout().message(Bukkit.getConsoleSender(), String.format(object.getTriggeredFormat(),
+					InfoLayout.replaceKeys(object.getParsedObjectId()),
+					InfoLayout.replaceKeys(object.getParsedMessage())));
 		}
 		
 		if (cause != null) {
