@@ -126,7 +126,8 @@ public class ArgumentSpawns extends CustomArgument {
 		layout.line("you'll get back the generated id.");
 		layout.line("");
 		layout.line("*$-\"$- tp <id>*");
-		layout.line("Teleports you to the defined lobby location.");
+		layout.line("Teleports you to spawnpoint with the");
+		layout.line("given id.");
 		layout.line("");
 		layout.line("*$-\"$- remove <id>*");
 		layout.line("Removes the specified spawn by its id.");
