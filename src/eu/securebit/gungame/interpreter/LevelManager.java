@@ -16,7 +16,7 @@ public interface LevelManager extends Interpreter {
 
 	public abstract void equipPlayer(Player player, int levelId);
 
-	public abstract boolean deleteHighestLevel();
+	public abstract void deleteHighestLevel();
 
 	public abstract boolean exists(int levelId);
 
