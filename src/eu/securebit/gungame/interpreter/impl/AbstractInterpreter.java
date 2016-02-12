@@ -2,6 +2,7 @@ package eu.securebit.gungame.interpreter.impl;
 
 import eu.securebit.gungame.errorhandling.ErrorHandler;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
+import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.interpreter.Interpreter;
 import eu.securebit.gungame.io.configs.FileGunGameConfig;
 
@@ -57,6 +58,12 @@ public abstract class AbstractInterpreter<T extends FileGunGameConfig> implement
 	
 	public T getConfig() {
 		return this.config;
+	}
+	
+	public void checkSuccess() {
+		if (!this.wasSuccessful()) {
+			throw GunGameErrorPresentException.create();
+		}
 	}
 	
 }

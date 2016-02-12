@@ -3,7 +3,6 @@ package eu.securebit.gungame.ioimpl.configs;
 import java.io.File;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.io.configs.FileMessages;
@@ -88,106 +87,80 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 	}
 
 	@Override
-	public String getCountdownLobby(int secondsLeft) {
+	public String getCountdownLobby() {
 		this.checkReady();
 		
-		String msg = super.config.getString("message.ingame.countdown.lobby");
-		msg = IOUtil.replace(msg, "time", secondsLeft);
-		
-		return IOUtil.prepare(this.getPrefix(), msg);
+		return super.config.getString("message.ingame.countdown.lobby");
 	}
 
 	@Override
-	public String getCountdownGrace(int secondsLeft) {
+	public String getCountdownGrace() {
 		this.checkReady();
 		
-		String msg = super.config.getString("message.ingame.countdown.grace");
-		msg = IOUtil.replace(msg, "time", secondsLeft);
-		
-		return IOUtil.prepare(this.getPrefix(), msg);
+		return super.config.getString("message.ingame.countdown.grace");
 	}
 
 	@Override
-	public String getCountdownEnd(int secondsLeft) {
+	public String getCountdownEnd() {
 		this.checkReady();
 		
-		String msg = super.config.getString("message.ingame.countdown.end");
-		msg = IOUtil.replace(msg, "time", secondsLeft);
-		
-		return IOUtil.prepare(this.getPrefix(), msg);
+		return super.config.getString("message.ingame.countdown.end");
 	}
 	
 	@Override
-	public String getCountdownLobbyCancle(int currentPlayers, int minimalPlayers) {
+	public String getCountdownLobbyCancle() {
 		this.checkReady();
 		
-		String msg = super.config.getString("message.ingame.countdown.lobby-cancle");
-		msg = IOUtil.replace(msg, "current", currentPlayers);
-		msg = IOUtil.replace(msg, "minimal", minimalPlayers);
-		
-		return IOUtil.prepare(this.getPrefix(), msg);
+		return super.config.getString("message.ingame.countdown.lobby-cancle");
 	}
 
 	@Override
 	public String getMapTeleport() {
 		this.checkReady();
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.ingame.mapteleport"));
+		return super.config.getString("message.ingame.mapteleport");
 	}
 
 	@Override
 	public String getGracePeriodStarts() {
 		this.checkReady();
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.ingame.graceperiod.start"));
+		return super.config.getString("message.ingame.graceperiod.start");
 	}
 
 	@Override
 	public String getGracePeriodEnds() {
 		this.checkReady();
 		
-		return IOUtil.prepare(this.getPrefix(), super.config.getString("message.ingame.graceperiod.end"));
+		return super.config.getString("message.ingame.graceperiod.end");
 	}
 
 	@Override
-	public String getWinner(Player player) {
+	public String getWinner() {
 		this.checkReady();
 		
-		String msg = super.config.getString("message.ingame.winner");
-		msg = IOUtil.replace(msg, "winner", player.getDisplayName());
-		
-		return IOUtil.prepare(this.getPrefix(), msg);
+		return super.config.getString("message.ingame.winner");
 	}
 
 	@Override
-	public String getKillBroadcast(Player victim, Player killer) {
+	public String getKillBroadcast() {
 		this.checkReady();
 		
-		String msg =  super.config.getString("message.ingame.kill");
-		msg = IOUtil.replace(msg, "victim", victim.getDisplayName());
-		msg = IOUtil.replace(msg, "killer", killer.getDisplayName());
-		
-		return IOUtil.prepare(this.getPrefix(), msg);
+		return super.config.getString("message.ingame.kill");
 	}
 
 	@Override
-	public String getDeathBroadcast(Player victim) {
+	public String getDeathBroadcast() {
 		this.checkReady();
 		
-		String msg = super.config.getString("message.ingame.death");
-		msg = IOUtil.replace(msg, "victim", victim.getDisplayName());
-		
-		return IOUtil.prepare(this.getPrefix(), msg);
+		return super.config.getString("message.ingame.death");
 	}
 
 	@Override
-	public String getRespawn(int level) {
+	public String getRespawn() {
 		this.checkReady();
 		
-		String msg = super.config.getString("message.ingame.respawn");
-		msg = IOUtil.replace(msg, "level", level);
-		
-		return IOUtil.prepare(this.getPrefix(), msg);
+		return super.config.getString("message.ingame.respawn");
 	}
 
 	@Override

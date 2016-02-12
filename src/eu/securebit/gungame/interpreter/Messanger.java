@@ -24,6 +24,7 @@ public interface Messanger extends Interpreter {
 		return new CraftMessanger(file);
 	}
 	
+	
 	public abstract String getJoinLobby();
 	
 	public abstract String getQuitLobby();
@@ -51,5 +52,6 @@ public interface Messanger extends Interpreter {
 	public abstract String getDeathBroadcast(Player victim);
 	
 	public abstract String getRespawn(int level);
+	
 	
 }

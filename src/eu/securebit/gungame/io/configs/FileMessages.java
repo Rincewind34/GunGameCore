@@ -1,7 +1,5 @@
 package eu.securebit.gungame.io.configs;
 
-import org.bukkit.entity.Player;
-
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 
@@ -42,13 +40,13 @@ public interface FileMessages extends FileGunGameConfig {
 	
 	public abstract String getQuitLobby();
 	
-	public abstract String getCountdownLobby(int secondsLeft);
+	public abstract String getCountdownLobby();
 	
-	public abstract String getCountdownGrace(int secondsLeft);
+	public abstract String getCountdownGrace();
 	
-	public abstract String getCountdownEnd(int secondsLeft);
+	public abstract String getCountdownEnd();
 	
-	public abstract String getCountdownLobbyCancle(int currentPlayers, int minimalPlayers);
+	public abstract String getCountdownLobbyCancle();
 	
 	public abstract String getMapTeleport();
 	
@@ -58,13 +56,13 @@ public interface FileMessages extends FileGunGameConfig {
 	
 	public abstract String getServerQuit();
 	
-	public abstract String getWinner(Player player);
+	public abstract String getWinner();
 	
-	public abstract String getKillBroadcast(Player victim, Player killer);
+	public abstract String getKillBroadcast();
 	
-	public abstract String getDeathBroadcast(Player victim);
+	public abstract String getDeathBroadcast();
 	
-	public abstract String getRespawn(int level);
+	public abstract String getRespawn();
 	
 	public abstract String getMotDLobbyJoin();
 	
