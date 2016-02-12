@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
+import eu.securebit.gungame.interpreter.Messanger.GunGameMotD;
 import eu.securebit.gungame.listeners.ListenerEntityDeath;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
@@ -73,7 +74,7 @@ public class GameStateGrace extends DefaultGameStateGrace<CraftGunGame> {
 	
 	@Override
 	public String getMotD() {
-		return null; // TODO
+		return this.getGame().getMessanger().getMotD(GunGameMotD.GRACE);
 	}
 	
 	@Override

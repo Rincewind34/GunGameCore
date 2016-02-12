@@ -185,24 +185,31 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 	}
 
 	@Override
-	public String getMotDLobbySpawns() {
+	public String getMotDGrace() {
 		this.checkReady();
 		
-		return super.config.getString("message.motd.spawns");
+		return super.config.getString("message.motd.grace");
 	}
 
 	@Override
-	public String getMotDLobbyIngame() {
+	public String getMotDIngame() {
 		this.checkReady();
 		
 		return super.config.getString("message.motd.ingame");
 	}
 
 	@Override
-	public String getMotDLobbyEnd() {
+	public String getMotDEnd() {
 		this.checkReady();
 		
 		return super.config.getString("message.motd.end");
+	}
+	
+	@Override
+	public String getMotDMaintendance() {
+		this.checkReady();
+		
+		return super.config.getString("message.motd.maintendace");
 	}
 	
 }

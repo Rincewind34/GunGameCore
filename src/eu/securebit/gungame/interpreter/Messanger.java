@@ -53,5 +53,19 @@ public interface Messanger extends Interpreter {
 	
 	public abstract String getRespawn(int level);
 	
+	public abstract String getMotD(GunGameMotD motd);
+	
+	
+	public static enum GunGameMotD {
+		
+		LOBBY_JOIN,
+		LOBBY_PREMIUM,
+		LOBBY_STAFF,
+		GRACE,
+		INGAME,
+		END,
+		MAINTENDANCE;
+		
+	}
 	
 }

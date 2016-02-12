@@ -6,6 +6,7 @@ import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateLobby;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.CraftGunGame;
+import eu.securebit.gungame.interpreter.Messanger.GunGameMotD;
 import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
@@ -58,7 +59,13 @@ public class GameStateLobby extends DefaultGameStateLobby<CraftGunGame> {
 	
 	@Override
 	public String getMotD() {
-		return null; // TODO
+		if (this.canUserJoin()) {
+			return this.getGame().getMessanger().getMotD(GunGameMotD.LOBBY_JOIN);
+		} else if (this.canPremiumJoin()) {
+			return this.getGame().getMessanger().getMotD(GunGameMotD.LOBBY_PREMIUM);
+		} else {
+			return this.getGame().getMessanger().getMotD(GunGameMotD.LOBBY_STAFF);
+		}
 	}
 
 	@Override

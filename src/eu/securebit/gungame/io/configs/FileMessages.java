@@ -70,10 +70,12 @@ public interface FileMessages extends FileGunGameConfig {
 	
 	public abstract String getMotDLobbyStaff();
 	
-	public abstract String getMotDLobbySpawns();
+	public abstract String getMotDGrace();
 	
-	public abstract String getMotDLobbyIngame();
+	public abstract String getMotDIngame();
 	
-	public abstract String getMotDLobbyEnd();
+	public abstract String getMotDEnd();
+	
+	public abstract String getMotDMaintendance();
 	
 }

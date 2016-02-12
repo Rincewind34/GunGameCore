@@ -140,4 +140,26 @@ public class CraftMessanger extends AbstractInterpreter<FileMessages> implements
 		return super.config.getPrefix();
 	}
 
+	@Override
+	public String getMotD(GunGameMotD motd) {
+		switch (motd) {
+		case END:
+			return super.config.getMotDEnd();
+		case GRACE:
+			return super.config.getMotDGrace();
+		case INGAME:
+			return super.config.getMotDIngame();
+		case LOBBY_JOIN:
+			return super.config.getMotDLobbyJoin();
+		case LOBBY_PREMIUM:
+			return super.config.getMotDLobbyPremium();
+		case LOBBY_STAFF:
+			return super.config.getMotDLobbyStaff();
+		case MAINTENDANCE:
+			return super.config.getMotDMaintendance();
+		default:
+			return null;
+		}
+	}
+
 }

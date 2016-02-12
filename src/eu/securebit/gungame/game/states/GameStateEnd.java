@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
+import eu.securebit.gungame.interpreter.Messanger.GunGameMotD;
 import eu.securebit.gungame.util.CoreMessages;
 
 public class GameStateEnd extends DefaultGameStateEnd<CraftGunGame> {
@@ -76,7 +77,7 @@ public class GameStateEnd extends DefaultGameStateEnd<CraftGunGame> {
 	
 	@Override
 	public String getMotD() {
-		return null; // TODO
+		return this.getGame().getMessanger().getMotD(GunGameMotD.END);
 	}
 	
 	@Override
