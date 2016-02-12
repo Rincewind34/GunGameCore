@@ -54,4 +54,8 @@ public class Permissions {
 		return "gungame.command.gungame.mute";
 	}
 	
+	public static String commandGunGameError() {
+		return "gungame.command.gungame.error";
+	}
+	
 }

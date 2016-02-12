@@ -36,7 +36,7 @@ public abstract class AbstractConfig extends AbstractFile implements FileConfig 
 	public void create() {
 		super.create();
 		
-		if (!super.handler.isErrorPresent(this.getErrorMain())) {
+		if (!super.handler.isErrorPresent(this.getErrorLoad())) {
 			try {
 				this.config = YamlConfiguration.loadConfiguration(super.file);
 				

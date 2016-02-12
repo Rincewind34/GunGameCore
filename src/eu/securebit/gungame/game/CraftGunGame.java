@@ -16,13 +16,17 @@ import org.bukkit.util.Vector;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.ErrorHandler;
+import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.interpreter.GameOptions;
 import eu.securebit.gungame.interpreter.GunGameMap;
 import eu.securebit.gungame.interpreter.GunGameScoreboard;
+import eu.securebit.gungame.interpreter.Interpreter;
 import eu.securebit.gungame.interpreter.LevelManager;
 import eu.securebit.gungame.interpreter.Messanger;
+import eu.securebit.gungame.interpreter.impl.AbstractInterpreter;
 import eu.securebit.gungame.io.configs.FileGameConfig;
+import eu.securebit.gungame.io.configs.FileGunGameConfig;
 import eu.securebit.gungame.io.configs.FileLevels;
 import eu.securebit.gungame.io.configs.FileMap;
 import eu.securebit.gungame.io.configs.FileMessages;
@@ -54,6 +58,7 @@ public class CraftGunGame extends CraftGame<GunGamePlayer> implements GunGame {
 	public CraftGunGame(FileGameConfig config, String name, GameInterface gameInterface, ErrorHandler errorHandler) {
 		super(Main.instance());
 		
+		this.config = config;
 		this.name = name;
 		this.gameInterface = gameInterface;
 		this.errorHandler = errorHandler;
@@ -67,28 +72,17 @@ public class CraftGunGame extends CraftGame<GunGamePlayer> implements GunGame {
 		FileOptions fileOptions = root.getOptionsFile(config.getFileOptionsLocation());
 		FileMap fileMap = root.getMapFile(config.getFileMapLocation());
 		
+		this.levelManager = LevelManager.create(fileLevels);
+		this.messanger = Messanger.create(fileMessages);
+		this.board = GunGameScoreboard.create(fileScoreboard, this);
+		
 		if (fileLevels.isReady()) {
-			this.levelManager = LevelManager.create(fileLevels);
+			this.options = GameOptions.create(fileOptions, this.levelManager.getLevelCount());
 		}
 		
-		if (fileMessages.isReady()) {
-			this.messanger = Messanger.create(fileMessages);
-		}
+		this.map = GunGameMap.create(fileMap);
 		
-		if (fileScoreboard.isReady()) {
-			this.board = GunGameScoreboard.create(fileScoreboard, this);
-		}
-		
-		if (fileOptions.isReady()) {
-			this.options = GameOptions.create(fileOptions);
-		}
-		
-		if (config.isReady()) {
-			this.map = GunGameMap.create(fileMap);
-			this.config = config;
-		}
-		
-		if (this.board != null) {
+		if (this.board.wasSuccessful()) {
 			if (this.board.isEnabled()) {
 				if (this.board.exists()) {
 					this.board.delete();
@@ -98,32 +92,18 @@ public class CraftGunGame extends CraftGame<GunGamePlayer> implements GunGame {
 			}
 		}
 		
-		this.checks.add(new GameCheck(this, "config-file") {
-			
-			@Override
-			public boolean check() {
-				return CraftGunGame.this.config.isReady();
-			}
-			
-			@Override
-			public String getFixPosibility() {
-				ThrownError error = this.getError();
-				
-				return "Try */gungame fix " + InfoLayout.replaceKeys(error.getParsedObjectId()) + "* to fix the error";
-			}
-			
-			@Override
-			public String getFailCause() {
-				ThrownError error = this.getError();
-				
-				return InfoLayout.replaceKeys(error.getParsedObjectId()) + " (" + InfoLayout.replaceKeys(error.getParsedMessage()) + ")";
-			}
-			
-			private ThrownError getError() {
-				return Main.instance().getErrorHandler().getCause(CraftGunGame.this.config.createError(FileGameConfig.ERROR_LOAD));
-			}
-			
-		});
+		this.checks.add(new ConfigCheck(config));
+		this.checks.add(new ConfigCheck(fileMessages));
+		this.checks.add(new ConfigCheck(fileLevels));
+		this.checks.add(new ConfigCheck(fileScoreboard));
+		this.checks.add(new ConfigCheck(fileOptions));
+		this.checks.add(new ConfigCheck(fileMap));
+		this.checks.add(new SimpleCheck());
+		this.checks.add(new InterpreterCheck(this.messanger));
+		this.checks.add(new InterpreterCheck(this.levelManager));
+		this.checks.add(new InterpreterCheck(this.board));
+		this.checks.add(new InterpreterCheck(this.options));
+		this.checks.add(new InterpreterCheck(this.map));
 	}
 	
 	@Override
@@ -233,28 +213,6 @@ public class CraftGunGame extends CraftGame<GunGamePlayer> implements GunGame {
 		}
 		
 		return true;
-		
-//		if (!((CraftLevelManager) this.levelManager).getConfig().isReady()) {
-//			return false;
-//		}
-//		
-//		if (!((CraftMessanger) this.messanger).getConfig().isReady()) {
-//			return false;
-//		}
-//		
-//		if (!((CraftGunGameScoreboard) this.board).getConfig().isReady()) {
-//			return false;
-//		}
-//		
-//		if (!((CraftGameOptions) this.options).getConfig().isReady()) {
-//			return false;
-//		}
-//		
-//		if (this.getMap().getSpawnPointCount() < 1) {
-//			return false;
-//		}
-//		
-//		return !this.isEditMode();
 	}
 	
 	@Override
@@ -310,6 +268,103 @@ public class CraftGunGame extends CraftGame<GunGamePlayer> implements GunGame {
 	@Override
 	public List<GameCheck> getChecks() {
 		return Collections.unmodifiableList(this.checks);
+	}
+	
+	private class ConfigCheck extends ErrorCheck {
+		
+		private FileGunGameConfig config;
+		
+		public ConfigCheck(FileGunGameConfig config) {
+			super(config.getIdentifier() + "-file", config.getErrorLoad());
+			
+			this.config = config;
+		}
+		
+		@Override
+		public boolean check() {
+			return this.config.isReady();
+		}
+		
+	}
+	
+	private class InterpreterCheck extends ErrorCheck {
+		
+		private Interpreter interpreter;
+		
+		public InterpreterCheck(Interpreter interpreter) {
+			super(((AbstractInterpreter<?>) interpreter).getConfig().getIdentifier() + "-interpreter", interpreter.getErrorMain());
+			
+			this.interpreter = interpreter;
+		}
+		
+		@Override
+		public boolean check() {
+			return this.interpreter.isInterpreted();
+		}
+		
+	}
+	
+	private abstract class ErrorCheck extends GameCheck {
+		
+		private ThrownError error;
+		
+		public ErrorCheck(String name, ThrownError error) {
+			super(CraftGunGame.this, name);
+			
+			this.error = error;
+		}
+		
+		@Override
+		public boolean check() {
+			return !CraftGunGame.this.errorHandler.isErrorPresent(this.error);
+		}
+		
+		@Override
+		public String getFixPosibility() {
+			if (this.error.getLayout() instanceof LayoutErrorFixable) {
+				return "Try */gungame fix " + InfoLayout.replaceKeys(this.error.getParsedObjectId()) + "* to fix the error!";
+			} else {
+				return null;
+			}
+		}
+		
+		@Override
+		public String getFailCause() {
+			System.out.println(this.error.getParsedMessage());
+			
+			ThrownError cause = CraftGunGame.this.errorHandler.getCause(this.error);
+			
+			return InfoLayout.replaceKeys(cause.getParsedObjectId()) + " (" + InfoLayout.replaceKeys(cause.getParsedMessage()) + ")";
+		}
+		
+	}
+	
+	private class SimpleCheck extends GameCheck {
+
+		public SimpleCheck() {
+			super(CraftGunGame.this, null);
+		}
+		
+		@Override
+		public void stageStatus(InfoLayout layout) {
+			layout.line("");
+		}
+
+		@Override
+		public boolean check() {
+			return true;
+		}
+
+		@Override
+		public String getFailCause() {
+			return null;
+		}
+
+		@Override
+		public String getFixPosibility() {
+			return null;
+		}
+		
 	}
 
 }

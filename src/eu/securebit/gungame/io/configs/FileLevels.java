@@ -17,8 +17,6 @@ public interface FileLevels extends FileGunGameConfig {
 	
 	public static final String ERROR_MALFORMED = 		"Error-7313-VAR0";
 	
-	public static final String ERROR_LEVELCOUNT = 		"Error-7320-VAR0";
-	
 	public static LayoutError createErrorLoad() {
 		return new LayoutError("The levelsfile 'VAR0' could not be loaded!");
 	}
@@ -37,10 +35,6 @@ public interface FileLevels extends FileGunGameConfig {
 		return new LayoutErrorFixable("The levelsfile 'VAR0' is malformed!", FileLevels.ERROR_LOAD, () -> {
 			// TODO fix path / delete
 		});
-	}
-	
-	public static LayoutError createErrorLevelCount() {
-		return new LayoutError("The levelcount in the levelsfile 'VAR0' has to be greater than 0!", FileLevels.ERROR_MAIN);
 	}
 	
 	

@@ -1,8 +1,7 @@
 package eu.securebit.gungame.errorhandling;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import lib.securebit.InfoLayout;
@@ -21,10 +20,16 @@ import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.errorhandling.objects.Warning;
 import eu.securebit.gungame.exception.GunGameErrorHandlerException;
 import eu.securebit.gungame.framework.Frame;
+import eu.securebit.gungame.interpreter.GameOptions;
+import eu.securebit.gungame.interpreter.GunGameMap;
+import eu.securebit.gungame.interpreter.GunGameScoreboard;
+import eu.securebit.gungame.interpreter.LevelManager;
+import eu.securebit.gungame.interpreter.Messanger;
 import eu.securebit.gungame.io.FileBootConfig;
 import eu.securebit.gungame.io.FileConfigRegistry;
 import eu.securebit.gungame.io.configs.FileGameConfig;
 import eu.securebit.gungame.io.configs.FileLevels;
+import eu.securebit.gungame.io.configs.FileMap;
 import eu.securebit.gungame.io.configs.FileMessages;
 import eu.securebit.gungame.io.configs.FileOptions;
 import eu.securebit.gungame.io.configs.FileScoreboard;
@@ -69,33 +74,47 @@ public class CraftErrorHandler implements ErrorHandler {
 		CraftErrorHandler.layouts.put(Frame.ERROR_LOAD_MAINCLASS, Frame.createErrorLoadMainclass());
 		CraftErrorHandler.layouts.put(Frame.ERROR_ENABLE, Frame.createErrorEnable());
 		CraftErrorHandler.layouts.put(Frame.ERROR_ENABLE_ID, Frame.createErrorEnableId());
-		CraftErrorHandler.layouts.put(FileMessages.ERROR_LOAD, FileMessages.createErrorLoad());
-		CraftErrorHandler.layouts.put(FileMessages.ERROR_FOLDER, FileMessages.createErrorFolder());
-		CraftErrorHandler.layouts.put(FileMessages.ERROR_CREATE, FileMessages.createErrorCreate());
-		CraftErrorHandler.layouts.put(FileMessages.ERROR_MALFORMED, FileMessages.createErrorMalformed());
 		CraftErrorHandler.layouts.put(FileGameConfig.ERROR_LOAD, FileGameConfig.createErrorLoad());
 		CraftErrorHandler.layouts.put(FileGameConfig.ERROR_FOLDER, FileGameConfig.createErrorFolder());
 		CraftErrorHandler.layouts.put(FileGameConfig.ERROR_CREATE, FileGameConfig.createErrorCreate());
 		CraftErrorHandler.layouts.put(FileGameConfig.ERROR_MALFORMED, FileGameConfig.createErrorMalformed());
-		CraftErrorHandler.layouts.put(FileGameConfig.ERROR_SPAWNID, FileGameConfig.createErrorSpawnId());
-		CraftErrorHandler.layouts.put(FileGameConfig.ERROR_LEVELCOUNT, FileGameConfig.createErrorLevelCount());
-		CraftErrorHandler.layouts.put(FileGameConfig.ERROR_LEVELCOUNT_SMALLER, FileGameConfig.createErrorLevelCountSmaller());
-		CraftErrorHandler.layouts.put(FileGameConfig.ERROR_LEVELCOUNT_GREATER, FileGameConfig.createErrorLevelCountGreater());
+		CraftErrorHandler.layouts.put(FileMessages.ERROR_LOAD, FileMessages.createErrorLoad());
+		CraftErrorHandler.layouts.put(FileMessages.ERROR_FOLDER, FileMessages.createErrorFolder());
+		CraftErrorHandler.layouts.put(FileMessages.ERROR_CREATE, FileMessages.createErrorCreate());
+		CraftErrorHandler.layouts.put(FileMessages.ERROR_MALFORMED, FileMessages.createErrorMalformed());
+		CraftErrorHandler.layouts.put(Messanger.ERROR_MAIN, Messanger.createErrorMain());
+		CraftErrorHandler.layouts.put(Messanger.ERROR_INTERPRET, Messanger.createErrorInterpret());
 		CraftErrorHandler.layouts.put(FileLevels.ERROR_LOAD, FileLevels.createErrorLoad());
 		CraftErrorHandler.layouts.put(FileLevels.ERROR_FOLDER, FileLevels.createErrorFolder());
 		CraftErrorHandler.layouts.put(FileLevels.ERROR_CREATE, FileLevels.createErrorCreate());
 		CraftErrorHandler.layouts.put(FileLevels.ERROR_MALFORMED, FileLevels.createErrorMalformed());
-		CraftErrorHandler.layouts.put(FileLevels.ERROR_LEVELCOUNT, FileLevels.createErrorLevelCount());
+		CraftErrorHandler.layouts.put(LevelManager.ERROR_MAIN, LevelManager.createErrorMain());
+		CraftErrorHandler.layouts.put(LevelManager.ERROR_INTERPRET, LevelManager.createErrorInterpret());
+		CraftErrorHandler.layouts.put(LevelManager.ERROR_LEVELCOUNT, LevelManager.createErrorLevelCount());
 		CraftErrorHandler.layouts.put(FileScoreboard.ERROR_LOAD, FileScoreboard.createErrorLoad());
 		CraftErrorHandler.layouts.put(FileScoreboard.ERROR_FOLDER, FileScoreboard.createErrorFolder());
 		CraftErrorHandler.layouts.put(FileScoreboard.ERROR_CREATE, FileScoreboard.createErrorCreate());
 		CraftErrorHandler.layouts.put(FileScoreboard.ERROR_MALFORMED, FileScoreboard.createErrorMalformed());
-		CraftErrorHandler.layouts.put(FileScoreboard.ERROR_TITLE, FileScoreboard.createErrorTitle());
-		CraftErrorHandler.layouts.put(FileScoreboard.ERROR_FORMAT, FileScoreboard.createErrorFormat());
+		CraftErrorHandler.layouts.put(GunGameScoreboard.ERROR_MAIN, GunGameScoreboard.createErrorMain());
+		CraftErrorHandler.layouts.put(GunGameScoreboard.ERROR_INTERPRET, GunGameScoreboard.createErrorInterpret());
+		CraftErrorHandler.layouts.put(GunGameScoreboard.ERROR_TITLE, GunGameScoreboard.createErrorTitle());
+		CraftErrorHandler.layouts.put(GunGameScoreboard.ERROR_FORMAT, GunGameScoreboard.createErrorFormat());
 		CraftErrorHandler.layouts.put(FileOptions.ERROR_LOAD, FileOptions.createErrorLoad());
 		CraftErrorHandler.layouts.put(FileOptions.ERROR_FOLDER, FileOptions.createErrorFolder());
 		CraftErrorHandler.layouts.put(FileOptions.ERROR_CREATE, FileOptions.createErrorCreate());
 		CraftErrorHandler.layouts.put(FileOptions.ERROR_MALFORMED, FileOptions.createErrorMalformed());
+		CraftErrorHandler.layouts.put(GameOptions.ERROR_MAIN, GameOptions.createErrorMain());
+		CraftErrorHandler.layouts.put(GameOptions.ERROR_INTERPRET, GameOptions.createErrorInterpret());
+		CraftErrorHandler.layouts.put(GameOptions.ERROR_LEVELCOUNT_SMALLER, GameOptions.createErrorLevelCountSmaller());
+		CraftErrorHandler.layouts.put(GameOptions.ERROR_LEVELCOUNT_GREATER, GameOptions.createErrorLevelCountGreater());
+		CraftErrorHandler.layouts.put(FileMap.ERROR_LOAD, FileMap.createErrorLoad());
+		CraftErrorHandler.layouts.put(FileMap.ERROR_FOLDER, FileMap.createErrorFolder());
+		CraftErrorHandler.layouts.put(FileMap.ERROR_CREATE, FileMap.createErrorCreate());
+		CraftErrorHandler.layouts.put(FileMap.ERROR_MALFORMED, FileMap.createErrorMalformed());
+		CraftErrorHandler.layouts.put(GunGameMap.ERROR_MAIN, GunGameMap.createErrorMain());
+		CraftErrorHandler.layouts.put(GunGameMap.ERROR_INTERPRET, GunGameMap.createErrorInterpret());
+		CraftErrorHandler.layouts.put(GunGameMap.ERROR_SPAWNID, GunGameMap.createErrorSpawnId());
+		CraftErrorHandler.layouts.put(GunGameMap.ERROR_SPAWNCOUNT, GunGameMap.createErrorSpawnCount());
 		CraftErrorHandler.layouts.put(Addon.ERROR_INIT, Addon.createErrorInit());
 		CraftErrorHandler.layouts.put(Addon.ERROR_LOAD, Addon.createErrorLoad());
 		CraftErrorHandler.layouts.put(Addon.ERROR_ENABLE, Addon.createErrorEnable());
@@ -105,10 +124,10 @@ public class CraftErrorHandler implements ErrorHandler {
 		CraftErrorHandler.layouts.put(Addon.ERROR_ENABLE_FRAME_INCOMPATIBLE, Addon.createErrorFrameIncompatible());
 	}
 	
-	private List<ThrownError> thrownErrors;
+	private Map<ThrownError, ThrownError> thrownErrors;
 	
 	public CraftErrorHandler() {
-		this.thrownErrors = new ArrayList<>();
+		this.thrownErrors = new HashMap<>();
 	}
 	
 	@Override
@@ -166,7 +185,13 @@ public class CraftErrorHandler implements ErrorHandler {
 	public boolean isErrorPresent(ThrownError error) {
 		this.checkVars(error);
 		
-		return this.thrownErrors.contains(error);
+		for (ThrownError target : this.thrownErrors.keySet()) {
+			if (target.equals(error)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	@Override
@@ -180,19 +205,24 @@ public class CraftErrorHandler implements ErrorHandler {
 			throw GunGameErrorHandlerException.unpresentError(error.getParsedObjectId());
 		}
 		
-		ThrownError selectedError = null;
-		
-		for (ThrownError targetError : this.thrownErrors) {
-			if (error.getLayout().getSuperErrors().contains(targetError)) {
-				selectedError = targetError;
+		for (ThrownError targetError : this.thrownErrors.keySet()) {
+			for (String superError : targetError.getLayout().getSuperErrors()) {
+				if (error.equals(new ThrownError(superError, targetError.getVariables()))) {
+					return this.getCause(targetError);
+				}
 			}
 		}
 		
-		if (selectedError == null) {
-			return error;
+		if (this.thrownErrors.get(error) != null) {
+			return this.getCause(this.thrownErrors.get(error));
 		} else {
-			return this.getCause(selectedError);
+			return error;
 		}
+	}
+	
+	@Override
+	public Map<ThrownError, ThrownError> getErrors() {
+		return Collections.unmodifiableMap(this.thrownErrors);
 	}
 	
 	private void throwError(ThrowableObject<?> object, ThrownError cause, boolean triggered) {
@@ -211,12 +241,13 @@ public class CraftErrorHandler implements ErrorHandler {
 		if (cause != null) {
 			this.checkVars(cause);
 			
-			Main.layout().message(Bukkit.getConsoleSender(), String.format(object.getOccuredFormat(), cause.getParsedObjectId(), cause.getParsedMessage()));
+			Main.layout().message(Bukkit.getConsoleSender(), String.format(object.getCausesFormat(), 
+					InfoLayout.replaceKeys(cause.getParsedObjectId()), InfoLayout.replaceKeys(cause.getParsedMessage())));
 		}
 		
 		if (object instanceof ThrownError) {
-			if (!this.thrownErrors.contains(object)) {
-				this.thrownErrors.add((ThrownError) object);
+			if (!this.thrownErrors.containsKey(object)) {
+				this.thrownErrors.put((ThrownError) object, cause);
 			}
 			
 			for (String superId : ((LayoutError) object.getLayout()).getSuperErrors()) {
@@ -246,5 +277,5 @@ public class CraftErrorHandler implements ErrorHandler {
 			throw GunGameErrorHandlerException.unknownObjectID(errorId);
 		}
 	}
-	
+
 }

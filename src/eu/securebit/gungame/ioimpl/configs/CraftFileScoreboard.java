@@ -1,8 +1,6 @@
 package eu.securebit.gungame.ioimpl.configs;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.bukkit.ChatColor;
 
@@ -40,17 +38,6 @@ public class CraftFileScoreboard extends CraftFileGunGameConfig implements FileS
 		this.checkReady();
 		
 		return super.config.getString("scoreboard.format");
-	}
-	
-	@Override
-	public void validate() {
-		if (super.config.getString("scoreboard.title").length() >= 64) {
-			super.handler.throwError(this.createError(FileScoreboard.ERROR_TITLE));
-		}
-		
-		if (!super.config.getString("scoreboard.format").contains("${player}")) {
-			super.handler.throwError(this.createError(FileScoreboard.ERROR_FORMAT));
-		}
 	}
 	
 }

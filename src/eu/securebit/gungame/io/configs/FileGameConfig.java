@@ -7,21 +7,15 @@ import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 
 public interface FileGameConfig extends FileGunGameConfig {
 	
-	public static final String ERROR_LOAD = 				"Error-7210-VAR0";
+	public static final String ERROR_LOAD = 				"Error-7110-VAR0";
 	
-	public static final String ERROR_FOLDER = 				"Error-7211-VAR0";
+	public static final String ERROR_FOLDER = 				"Error-7111-VAR0";
 	
-	public static final String ERROR_CREATE = 				"Error-7212-VAR0";
+	public static final String ERROR_CREATE = 				"Error-7112-VAR0";
 
-	public static final String ERROR_MALFORMED = 			"Error-7213-VAR0";
+	public static final String ERROR_MALFORMED = 			"Error-7113-VAR0";
 	
-	public static final String ERROR_SPAWNID = 				"Error-7220-VAR0";
 	
-	public static final String ERROR_LEVELCOUNT = 			"Error-7230-VAR0";
-	
-	public static final String ERROR_LEVELCOUNT_GREATER = 	"Error-7231-VAR0";
-	
-	public static final String ERROR_LEVELCOUNT_SMALLER = 	"Error-7232-VAR0";
 	
 	public static LayoutError createErrorLoad() {
 		return new LayoutError("The gameconfigfile 'VAR0' could not be loaded!");
@@ -40,28 +34,6 @@ public interface FileGameConfig extends FileGunGameConfig {
 	public static LayoutError createErrorMalformed() {
 		return new LayoutErrorFixable("The gameconfigfile 'VAR0' is malformed!", FileGameConfig.ERROR_LOAD, () -> {
 			// TODO fix path
-		});
-	}
-	
-	public static LayoutError createErrorSpawnId() {
-		return new LayoutErrorFixable("The next-spawn-id in the gameconfigfile 'VAR0' is already in use!", FileGameConfig.ERROR_MAIN, () -> {
-			// TODO recalculte nextspawnid
-		});
-	}
-	
-	public static LayoutError createErrorLevelCount() {
-		return new LayoutError("The startlevel in the gameconfigfile 'VAR0' is invalid!", FileGameConfig.ERROR_MAIN);
-	}
-	
-	public static LayoutError createErrorLevelCountGreater() {
-		return new LayoutErrorFixable("The startlevel in the gameconfigfile 'VAR0' has to be greater than 0!", FileGameConfig.ERROR_LEVELCOUNT, () -> {
-			// TODO change value to 1
-		});
-	}
-	
-	public static LayoutError createErrorLevelCountSmaller() {
-		return new LayoutErrorFixable("The startlevel in the gameconfigfile 'VAR0' has to be smaller than levelcount!", FileGameConfig.ERROR_LEVELCOUNT, () -> {
-			// TODO change value to [<levelcount> - 1]
 		});
 	}
 	

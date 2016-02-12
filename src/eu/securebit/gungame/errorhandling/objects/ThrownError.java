@@ -2,7 +2,6 @@ package eu.securebit.gungame.errorhandling.objects;
 
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 
-
 public class ThrownError extends ThrowableObject<LayoutError> {
 	
 	public ThrownError(String errorId) {
@@ -12,7 +11,7 @@ public class ThrownError extends ThrowableObject<LayoutError> {
 	public ThrownError(String errorId, String... variables) {
 		super(errorId, variables);
 	}
-
+	
 	@Override
 	public ThrowableObjectType getObjectType() {
 		return ThrowableObjectType.ERROR;
@@ -31,6 +30,15 @@ public class ThrownError extends ThrowableObject<LayoutError> {
 	@Override
 	public String getCausesFormat() {
 		return "-=> caused by: %s (%s)-";
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj != null && obj instanceof ThrownError) {
+			return this.getParsedObjectId().equals(((ThrownError) obj).getParsedObjectId());
+		} else {
+			return false;
+		}
 	}
 	
 }

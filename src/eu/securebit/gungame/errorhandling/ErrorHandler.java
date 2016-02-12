@@ -1,5 +1,7 @@
 package eu.securebit.gungame.errorhandling;
 
+import java.util.Map;
+
 import eu.securebit.gungame.errorhandling.objects.ThrowableObject;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
 
@@ -22,5 +24,7 @@ public interface ErrorHandler {
 	public abstract ThrownError getCause(String errorId);
 	
 	public abstract ThrownError getCause(ThrownError error);
+	
+	public abstract Map<ThrownError, ThrownError> getErrors();
 	
 }

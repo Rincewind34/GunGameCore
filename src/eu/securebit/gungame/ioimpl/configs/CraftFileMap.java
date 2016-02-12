@@ -34,7 +34,7 @@ public class CraftFileMap extends CraftFileGunGameConfig implements FileMap {
 	public void setNextSpawnId(int nextId) {
 		this.checkReady();
 		
-		super.config.set("next-spawn-id", nextId);
+		super.config.set("map.next-spawn-id", nextId);
 		this.save();
 	}
 
@@ -48,7 +48,7 @@ public class CraftFileMap extends CraftFileGunGameConfig implements FileMap {
 			list.add(this.createCSV(entry));
 		}
 		
-		super.config.set("location.spawns", spawns);
+		super.config.set("map.location.spawns", spawns);
 		this.save();
 	}
 
@@ -56,7 +56,7 @@ public class CraftFileMap extends CraftFileGunGameConfig implements FileMap {
 	public int getNextSpawnId() {
 		this.checkReady();
 		
-		return super.config.getInt("next-spawn-id");
+		return super.config.getInt("map.next-spawn-id");
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class CraftFileMap extends CraftFileGunGameConfig implements FileMap {
 	public Map<Integer, Location> getSpawns() {
 		this.checkReady();
 		
-		List<String> list = super.config.getStringList("location.spawns");
+		List<String> list = super.config.getStringList("map.location.spawns");
 		Map<Integer, Location> spawns = new HashMap<>();
 		
 		for (String csv : list) {

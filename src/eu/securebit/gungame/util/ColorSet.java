@@ -42,7 +42,7 @@ public enum ColorSet {
 		layout.colorPrimary = "§8";
 		layout.colorSecondary = "§2";
 		layout.colorPositiv = "§e";
-		layout.colorNegative = "§4";
+		layout.colorNegative = "§7";
 		layout.colorImportant = "§a";
 	});
 	

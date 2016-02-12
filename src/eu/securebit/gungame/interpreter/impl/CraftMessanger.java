@@ -8,7 +8,7 @@ import eu.securebit.gungame.io.configs.FileMessages;
 public class CraftMessanger extends AbstractInterpreter<FileMessages> implements Messanger {
 	
 	public CraftMessanger(FileMessages file) {
-		super(file);
+		super(file, Messanger.ERROR_MAIN, Messanger.ERROR_INTERPRET);
 	}
 	
 	@Override

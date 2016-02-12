@@ -41,7 +41,7 @@ public class Util {
 		layout.line("Online: " + gungame.getPlayers().size());
 		layout.line("Muted: " + Util.parseBoolean(gungame.isMuted(), layout));
 		layout.category("Config");
-		layout.line("Spawns: " + gungame.getLocationManager().getSpawnPointCount());
+		layout.line("Spawns: " + gungame.getMap().getSpawnPointCount());
 		layout.line("Levels: " + gungame.getLevelManager().getLevelCount());
 		layout.category("Detail");
 		

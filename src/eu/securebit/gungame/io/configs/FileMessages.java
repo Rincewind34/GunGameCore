@@ -7,13 +7,13 @@ import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 
 public interface FileMessages extends FileGunGameConfig {
 	
-	public static final String ERROR_LOAD = 			"Error-7110-VAR0";
+	public static final String ERROR_LOAD = 			"Error-7210-VAR0";
 	
-	public static final String ERROR_FOLDER =			"Error-7111-VAR0";
+	public static final String ERROR_FOLDER =			"Error-7211-VAR0";
 	
-	public static final String ERROR_CREATE = 			"Error-7112-VAR0";
+	public static final String ERROR_CREATE = 			"Error-7212-VAR0";
 	
-	public static final String ERROR_MALFORMED = 		"Error-7113-VAR0";
+	public static final String ERROR_MALFORMED = 		"Error-7213-VAR0";
 	
 	public static LayoutError createErrorLoad() {
 		return new LayoutError("The messagefile 'VAR0' could not be loaded!");

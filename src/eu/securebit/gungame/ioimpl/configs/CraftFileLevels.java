@@ -4,9 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
-import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
@@ -20,13 +18,6 @@ public class CraftFileLevels extends CraftFileGunGameConfig implements FileLevel
 		super(file, handler, FileLevels.ERROR_LOAD, FileLevels.ERROR_FOLDER, FileLevels.ERROR_CREATE, FileLevels.ERROR_MALFORMED, "levels");
 		
 		this.getDefaults().add(new ConfigDefault("levels", Arrays.asList(), List.class));
-	}
-	
-	@Override
-	public void validate() {
-		if (this.getLevels().size()	 < 1) {
-			super.handler.throwError(this.createError(FileLevels.ERROR_LEVELCOUNT));
-		}
 	}
 	
 	@Override

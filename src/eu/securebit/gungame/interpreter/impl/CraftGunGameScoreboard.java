@@ -22,10 +22,20 @@ public class CraftGunGameScoreboard extends AbstractInterpreter<FileScoreboard> 
 	private CraftGunGame gungame;
 	
 	public CraftGunGameScoreboard(CraftGunGame gungame, FileScoreboard file) {
-		super(file);
+		super(file, GunGameScoreboard.ERROR_MAIN, GunGameScoreboard.ERROR_INTERPRET);
 		
 		this.gungame = gungame;
 		this.board = Bukkit.getScoreboardManager().getMainScoreboard();
+		
+		if (this.wasSuccessful()) {
+			if (super.config.getScoreboardTitle().length() >= 64) {
+				this.getErrorHandler().throwError(this.createError(GunGameScoreboard.ERROR_TITLE));
+			}
+			
+			if (!super.config.getScoreboardFormat().contains("${player}")) {
+				this.getErrorHandler().throwError(this.createError(GunGameScoreboard.ERROR_FORMAT));
+			}
+		}
 	}
 	
 	private String getFormat() {

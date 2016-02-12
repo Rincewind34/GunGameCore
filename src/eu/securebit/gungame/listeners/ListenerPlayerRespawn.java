@@ -25,7 +25,7 @@ public class ListenerPlayerRespawn implements Listener {
 	public void onRespawnIngame(PlayerRespawnEvent event) {
 		GunGamePlayer player = this.gungame.getPlayer(event.getPlayer());
 		
-		List<Location> spawns = this.gungame.getLocationManager().getSpawnPoints();
+		List<Location> spawns = this.gungame.getMap().getSpawnPoints();
 		event.setRespawnLocation(spawns.get(Main.random().nextInt(spawns.size())));
 		
 		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {

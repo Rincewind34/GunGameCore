@@ -13,10 +13,6 @@ public interface FileScoreboard extends FileGunGameConfig {
 	
 	public static final String ERROR_MALFORMED = 		"Error-7413-VAR0";
 	
-	public static final String ERROR_TITLE = 			"Error-7420-VAR0";
-	
-	public static final String ERROR_FORMAT = 			"Error-7430-VAR0";
-	
 	public static LayoutError createErrorLoad() {
 		return new LayoutError("The scoreboardfile 'VAR0' could not be loaded!");
 	}
@@ -35,16 +31,6 @@ public interface FileScoreboard extends FileGunGameConfig {
 		return new LayoutErrorFixable("The scoreboardfile 'VAR0' is malformed!", FileScoreboard.ERROR_LOAD, () -> {
 			// TODO fix path
 		});
-	}
-	
-	public static LayoutError createErrorTitle() {
-		return new LayoutErrorFixable("The title given by the scoreboardfile 'VAR0' has to be shorter than 64 characters!", FileScoreboard.ERROR_MAIN, () -> {
-			// TODO substring
-		});
-	}
-	
-	public static LayoutError createErrorFormat() {
-		return new LayoutError("The format given by the scoreboardfile 'VAR0' has to contain '§{player}'!", FileScoreboard.ERROR_MAIN);
 	}
 	
 	

@@ -32,4 +32,13 @@ public class TempError extends ThrowableObject<LayoutTemporyError> {
 		return "=> caused by: -%s- (%s)";
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj != null && obj instanceof ThrowableObject<?>) {
+			return this.getParsedObjectId().equals(((ThrowableObject<?>) obj).getParsedObjectId());
+		} else {
+			return false;
+		}
+	}
+	
 }

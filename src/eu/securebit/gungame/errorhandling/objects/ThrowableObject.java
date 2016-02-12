@@ -37,6 +37,11 @@ public abstract class ThrowableObject<T extends Layout> {
 		}
 	}
 	
+	@Override
+	public String toString() {
+		return this.getParsedObjectId();
+	}
+	
 	public String getObjectId() {
 		return this.objectId;
 	}

@@ -34,77 +34,77 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	public boolean isEditMode() {
 		this.checkReady();
 		
-		return super.config.getBoolean("editmode");
+		return super.config.getBoolean("game.editmode");
 	}
 	
 	@Override
 	public boolean isMuted() {
 		this.checkReady();
 		
-		return super.config.getBoolean("muted");
+		return super.config.getBoolean("game.muted");
 	}
 	
 	@Override
 	public int getMinPlayers() {
 		this.checkReady();
 		
-		return super.config.getInt("playercount.minimal");
+		return super.config.getInt("game.playercount.minimal");
 	}
 	
 	@Override
 	public int getMaxPlayers() {
 		this.checkReady();
 		
-		return super.config.getInt("playercount.maximal");
+		return super.config.getInt("game.playercount.maximal");
 	}
 	
 	@Override
 	public String getFileLevelsLocation() {
 		this.checkReady();
 		
-		return super.config.getString("file.levels");
+		return super.config.getString("game.file.levels");
 	}
 	
 	@Override
 	public String getFileMessagesLocation() {
 		this.checkReady();
 		
-		return super.config.getString("file.messages");
+		return super.config.getString("game.file.messages");
 	}
 
 	@Override
 	public String getFileScoreboardLocation() {
 		this.checkReady();
 		
-		return super.config.getString("file.scoreboard");
+		return super.config.getString("game.file.scoreboard");
 	}
 	
 	@Override
 	public String getFileOptionsLocation() {
 		this.checkReady();
 		
-		return super.config.getString("file.options");
+		return super.config.getString("game.file.options");
 	}
 	
 	@Override
 	public String getFileMapLocation() {
 		this.checkReady();
 		
-		return super.config.getString("file.map");
+		return super.config.getString("game.file.map");
 	}
 	
 	@Override
 	public Location getLocationLobby() {
 		this.checkReady();
 		
-		return ConfigUtil.getLocation(super.config, "location.lobby");
+		return ConfigUtil.getLocation(super.config, "game.lobby");
 	}
 	
 	@Override
 	public void setEditMode(boolean enabled) {
 		this.checkReady();
 		
-		super.config.set("editmode", enabled);
+		super.config.set("game.editmode", enabled);
 		this.save();
 	}
 	
@@ -112,7 +112,7 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	public void setMuted(boolean muted) {
 		this.checkReady();
 		
-		super.config.set("muted", muted);
+		super.config.set("game.muted", muted);
 		this.save();
 	}
 	
@@ -120,36 +120,8 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	public void setLocationLobby(Location loc) {
 		this.checkReady();
 		
-		ConfigUtil.setLocation(super.config, "location.lobby", loc);
+		ConfigUtil.setLocation(super.config, "game.lobby", loc);
 		this.save();
 	}
-	
-//	@Override TODO remove
-//	public void validate() {
-//		{
-//			int nextId = this.getNextSpawnId();
-//			
-//			if (this.getSpawns().containsKey(nextId)) {
-//				super.handler.throwError(this.createError(FileGameConfig.ERROR_SPAWNID));
-//			}
-//		} {
-//			FileLevels fileLevels = Core.getRootDirectory().getLevelsFile(this.getFileLevelsLocation());
-//			
-//			if (fileLevels.isAccessable()) {
-//				int startLevel = super.config.getInt("start-level");
-//				int levelCount = fileLevels.getLevels().size();
-//				
-//				if (startLevel < 1) {
-//					super.handler.throwError(this.createError(FileGameConfig.ERROR_LEVELCOUNT_SMALLER));
-//				}
-//				
-//				if (startLevel > levelCount) {
-//					super.handler.throwError(this.createError(FileGameConfig.ERROR_LEVELCOUNT_GREATER));
-//				}
-//			} else {
-//				// TODO WARNING
-//			}
-//		}
-//	}
 	
 }

@@ -14,7 +14,13 @@ import eu.securebit.gungame.io.configs.FileLevels;
 public class CraftLevelManager extends AbstractInterpreter<FileLevels> implements LevelManager {
 	
 	public CraftLevelManager(FileLevels file) {
-		super(file);
+		super(file, LevelManager.ERROR_MAIN, LevelManager.ERROR_INTERPRET);
+		
+		if (this.wasSuccessful()) {
+			if (this.getLevelCount() < 1) {
+				this.getErrorHandler().throwError(this.createError(LevelManager.ERROR_LEVELCOUNT));
+			}
+		}
 	}
 	
 	@Override

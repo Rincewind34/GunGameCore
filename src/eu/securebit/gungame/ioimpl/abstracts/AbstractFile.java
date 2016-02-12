@@ -75,15 +75,19 @@ public abstract class AbstractFile implements SimpleFile {
 		return new ThrownError(errorId, IOUtil.preparePath(this.file.getAbsolutePath()));
 	}
 	
-	protected ThrownError getErrorMain() {
+	@Override
+	public ThrownError getErrorLoad() {
 		return this.errorLoad;
 	}
 	
-	protected ThrownError getErrorFileType() {
+	@Override
+	public ThrownError getErrorFileType() {
 		return this.errorFileType;
 	}
 	
-	protected ThrownError getErrorCreate() {
+	
+	@Override
+	public ThrownError getErrorCreate() {
 		return this.errorCreate;
 	}
 	

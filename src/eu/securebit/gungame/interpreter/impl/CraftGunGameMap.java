@@ -12,7 +12,19 @@ import eu.securebit.gungame.io.configs.FileMap;
 public class CraftGunGameMap extends AbstractInterpreter<FileMap> implements GunGameMap {
 	
 	public CraftGunGameMap(FileMap file) {
-		super(file);
+		super(file, GunGameMap.ERROR_MAIN, GunGameMap.ERROR_INTERPRET);
+		
+		if (this.wasSuccessful()) {
+			int nextId = super.config.getNextSpawnId();
+			
+			if (super.config.getSpawns().containsKey(nextId)) {
+				this.getErrorHandler().throwError(this.createError(GunGameMap.ERROR_SPAWNID));
+			}
+			
+			if (super.config.getSpawns().size() < 1) {
+				this.getErrorHandler().throwError(this.createError(GunGameMap.ERROR_SPAWNCOUNT));
+			}
+		}
 	}
 	
 	@Override

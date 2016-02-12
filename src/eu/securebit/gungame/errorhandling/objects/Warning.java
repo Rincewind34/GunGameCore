@@ -32,5 +32,14 @@ public class Warning extends ThrowableObject<LayoutWarning> {
 		return "=> caused by: *%s* (%s)";
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj != null && obj instanceof ThrowableObject<?>) {
+			return this.getParsedObjectId().equals(((ThrowableObject<?>) obj).getParsedObjectId());
+		} else {
+			return false;
+		}
+	}
+	
 }
 
