@@ -48,6 +48,12 @@ public interface FileOptions extends FileGunGameConfig {
 	
 	public abstract boolean isLevelDowngradeOnNaturalDeath();
 	
+	public abstract boolean isPremiumKickEnabled();
+	
 	public abstract int getStartLevel();
+	
+	public abstract int getLobbyCountdownLength();
+	
+	public abstract int getLobbyPremiumSlots();
 	
 }

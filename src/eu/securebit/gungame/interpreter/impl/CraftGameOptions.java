@@ -66,8 +66,23 @@ public class CraftGameOptions extends AbstractInterpreter<FileOptions> implement
 	}
 	
 	@Override
+	public boolean premiumKick() {
+		return super.config.isPremiumKickEnabled();
+	}
+	
+	@Override
 	public int getStartLevel() {
 		return super.config.getStartLevel();
+	}
+
+	@Override
+	public int getPremiumSlots() {
+		return super.config.getLobbyPremiumSlots();
+	}
+
+	@Override
+	public int getCountdownLength() {
+		return super.config.getLobbyCountdownLength();
 	}
 
 }

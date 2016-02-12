@@ -19,9 +19,9 @@ public class GameStateLobby extends DefaultGameStateLobby<CraftGunGame> {
 				Permissions.premium(), Permissions.teammember(),
 				gungame.getMinPlayerCount(),
 				gungame.getSize(),
-				120, // TODO config lobbycountdownlength
-				0, //TODO config premiumSlots
-				true, true); //TODO config premiumKick
+				gungame.getOptions().getCountdownLength(),
+				gungame.getOptions().getPremiumSlots(),
+				true, gungame.getOptions().premiumKick());
 		
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, gungame.getMessanger().getJoinLobby());
 		this.getSettings().setValue(StateSettings.MESSAGE_QUIT, gungame.getMessanger().getQuitLobby());

@@ -59,6 +59,12 @@ public interface GameOptions extends Interpreter {
 	
 	public abstract boolean levelReset();
 	
+	public abstract boolean premiumKick();
+	
 	public abstract int getStartLevel();
+	
+	public abstract int getPremiumSlots();
+	
+	public abstract int getCountdownLength();
 	
 }

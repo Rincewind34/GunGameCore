@@ -15,6 +15,9 @@ public class CraftFileOptions extends CraftFileGunGameConfig implements FileOpti
 		this.getDefaults().add(new ConfigDefault("option.autorespawn", true, boolean.class));
 		this.getDefaults().add(new ConfigDefault("option.care-natural-death", true, boolean.class));
 		this.getDefaults().add(new ConfigDefault("option.start-level", 1, int.class));
+		this.getDefaults().add(new ConfigDefault("option.lobby.premium-kick", true, boolean.class));
+		this.getDefaults().add(new ConfigDefault("option.lobby.premium-slots", 0, int.class));
+		this.getDefaults().add(new ConfigDefault("option.lobby.countdown-length", 120, int.class));
 	}
 	
 	@Override
@@ -29,6 +32,13 @@ public class CraftFileOptions extends CraftFileGunGameConfig implements FileOpti
 		this.checkReady();
 		
 		return super.config.getBoolean("option.autorespawn");
+	}
+	
+	@Override
+	public boolean isPremiumKickEnabled() {
+		this.checkReady();
+		
+		return super.config.getBoolean("option.lobby.premium-kick");
 	}
 
 	@Override
@@ -75,6 +85,20 @@ public class CraftFileOptions extends CraftFileGunGameConfig implements FileOpti
 		
 		super.config.set("option.start-level", level);
 		this.save();
+	}
+
+	@Override
+	public int getLobbyCountdownLength() {
+		this.checkReady();
+		
+		return super.config.getInt("option.lobby.countdown-length");
+	}
+
+	@Override
+	public int getLobbyPremiumSlots() {
+		this.checkReady();
+	
+		return super.config.getInt("option.lobby.premium-slots");
 	}
 	
 }
