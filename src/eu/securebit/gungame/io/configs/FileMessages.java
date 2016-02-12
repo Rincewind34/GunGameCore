@@ -78,4 +78,16 @@ public interface FileMessages extends FileGunGameConfig {
 	
 	public abstract String getMotDMaintendance();
 	
+	public abstract String getKickGameRunning();
+	
+	public abstract String getKickPremium();
+	
+	public abstract String getKickStaff();
+	
+	public abstract String getKickLobbyFull();
+	
+	public abstract String getKickNotJoinable();
+	
+	public abstract String getKickMaintendance();
+	
 }

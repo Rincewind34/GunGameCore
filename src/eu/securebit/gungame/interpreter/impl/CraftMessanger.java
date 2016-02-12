@@ -162,4 +162,46 @@ public class CraftMessanger extends AbstractInterpreter<FileMessages> implements
 		}
 	}
 
+	@Override
+	public String getKickGameRunning() {
+		this.checkSuccess();
+		
+		return super.config.getKickGameRunning();
+	}
+
+	@Override
+	public String getKickPremium() {
+		this.checkSuccess();
+		
+		return super.config.getKickPremium();
+	}
+
+	@Override
+	public String getKickStaff() {
+		this.checkSuccess();
+		
+		return super.config.getKickStaff();
+	}
+
+	@Override
+	public String getKickLobbyFull() {
+		this.checkSuccess();
+		
+		return super.config.getKickLobbyFull();
+	}
+
+	@Override
+	public String getKickNotJoinable() {
+		this.checkSuccess();
+		
+		return super.config.getKickNotJoinable();
+	}
+
+	@Override
+	public String getKickMaintendance() {
+		this.checkSuccess();
+		
+		return super.config.getKickMaintendance();
+	}
+
 }

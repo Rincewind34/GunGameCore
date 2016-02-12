@@ -10,7 +10,7 @@ public interface Messanger extends Interpreter {
 	
 	public static final String ERROR_MAIN = 				"Error-7220-VAR0";
 	
-	public static final String ERROR_INTERPRET = 				"Error-7221-VAR0";
+	public static final String ERROR_INTERPRET = 			"Error-7221-VAR0";
 	
 	public static LayoutError createErrorMain() {
 		return new LayoutError("An error occured while interpreting the messages-file 'VAR0'!");
@@ -54,6 +54,18 @@ public interface Messanger extends Interpreter {
 	public abstract String getRespawn(int level);
 	
 	public abstract String getMotD(GunGameMotD motd);
+	
+	public abstract String getKickGameRunning();
+	
+	public abstract String getKickPremium();
+	
+	public abstract String getKickStaff();
+	
+	public abstract String getKickLobbyFull();
+	
+	public abstract String getKickNotJoinable();
+	
+	public abstract String getKickMaintendance();
 	
 	
 	public static enum GunGameMotD {

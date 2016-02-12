@@ -7,7 +7,6 @@ import lib.securebit.game.defaults.DefaultGameStateLobby;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.interpreter.Messanger.GunGameMotD;
-import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
 
@@ -71,9 +70,9 @@ public class GameStateLobby extends DefaultGameStateLobby<CraftGunGame> {
 	@Override
 	protected String getKickMessage(int levelKicked) {
 		if (levelKicked == 1) {
-			return CoreMessages.lobbyKickPremium();
+			return this.getGame().getMessanger().getKickPremium();
 		} else if (levelKicked == 2) {
-			return CoreMessages.lobbyKickStaffMember();
+			return this.getGame().getMessanger().getKickStaff();
 		} else {
 			throw new RuntimeException("Unknown kicklevel!");
 		}
@@ -81,12 +80,12 @@ public class GameStateLobby extends DefaultGameStateLobby<CraftGunGame> {
 
 	@Override
 	protected String getMessageServerFull() {
-		return CoreMessages.lobbyFull();
+		return this.getGame().getMessanger().getKickLobbyFull();
 	}
 
 	@Override
 	protected String getMessageNotJoinable() {
-		return CoreMessages.serverNotJoinable();
+		return this.getGame().getMessanger().getKickNotJoinable();
 	}
 
 	@Override

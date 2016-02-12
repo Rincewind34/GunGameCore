@@ -12,7 +12,6 @@ import eu.securebit.gungame.Main;
 import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.interpreter.Messanger.GunGameMotD;
-import eu.securebit.gungame.util.CoreMessages;
 
 public class GameStateEnd extends DefaultGameStateEnd<CraftGunGame> {
 	
@@ -82,7 +81,7 @@ public class GameStateEnd extends DefaultGameStateEnd<CraftGunGame> {
 	
 	@Override
 	protected String getMessageNotJoinable() {
-		return CoreMessages.serverNotJoinable();
+		return this.getGame().getMessanger().getKickNotJoinable();
 	}
 
 	@Override

@@ -80,7 +80,7 @@ public class DisabledStateEdit extends DefaultGameStateDisabled<CraftGunGame> {
 
 	@Override
 	protected String getMaintenanceKickMessage() {
-		return CoreMessages.maintendanceKick();
+		return this.getGame().getMessanger().getKickMaintendance();
 	}
 
 	@Override

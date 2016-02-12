@@ -4,28 +4,6 @@ import eu.securebit.gungame.Main;
 
 public class CoreMessages {
 	
-	/* TODO's */
-	
-	public static String lobbyKickPremium() {  //TODO config
-		return Main.layout().format("\\pre-You were kicked by a premiummember!");
-	}
-	
-	public static String lobbyKickStaffMember() {  //TODO config
-		return Main.layout().format("\\pre-You were kicked by a staffmember!-");
-	}
-	
-	public static String lobbyFull() {  //TODO config
-		return Main.layout().format("\\pre-The server is full!-");
-	}
-	
-	public static String serverNotJoinable() { //TODO config
-		return Main.layout().format("\\pre-The server is not joinable!-");
-	}
-	
-	public static String maintendanceKick() {
-		return Main.layout().format("\\preThe server is currently under maintenance, please visit us later!"); // TODO Config (User-Message)
-	}
-	
 	public static String wrongMode(String mode) {
 		return Main.layout().format("\\pre-You cannot execute that in the- *" + mode + "*-!-");
 	}

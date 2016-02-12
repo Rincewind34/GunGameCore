@@ -56,6 +56,18 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 				"Restarting", String.class));
 		this.getDefaults().add(new ConfigDefault("message.motd.maintendance",
 				"Maintendance", String.class));
+		this.getDefaults().add(new ConfigDefault("message.kick.game-running",
+				"The game is already running!", String.class));
+		this.getDefaults().add(new ConfigDefault("message.kick.premium",
+				"You were kicked by a premiummember!", String.class));
+		this.getDefaults().add(new ConfigDefault("message.kick.staff",
+				"You were kicked by a staffmember!", String.class));
+		this.getDefaults().add(new ConfigDefault("message.kick.lobby-full",
+				"The server is full!", String.class));
+		this.getDefaults().add(new ConfigDefault("message.kick.not-joinable",
+				"The server is not joinable!", String.class));
+		this.getDefaults().add(new ConfigDefault("message.kick.maintendance",
+				"The server is currently under maintenance, please visit us later!", String.class));
 	}
 	
 	@Override
@@ -210,6 +222,48 @@ public class CraftFileMessages extends CraftFileGunGameConfig implements FileMes
 		this.checkReady();
 		
 		return super.config.getString("message.motd.maintendace");
+	}
+
+	@Override
+	public String getKickGameRunning() {
+		this.checkReady();
+		
+		return super.config.getString("message.kick.game-running");
+	}
+
+	@Override
+	public String getKickPremium() {
+		this.checkReady();
+		
+		return super.config.getString("message.kick.premium");
+	}
+
+	@Override
+	public String getKickStaff() {
+		this.checkReady();
+		
+		return super.config.getString("message.kick.staff");
+	}
+
+	@Override
+	public String getKickLobbyFull() {
+		this.checkReady();
+		
+		return super.config.getString("message.kick.lobby-full");
+	}
+
+	@Override
+	public String getKickNotJoinable() {
+		this.checkReady();
+		
+		return super.config.getString("message.kick.not-joinable");
+	}
+
+	@Override
+	public String getKickMaintendance() {
+		this.checkReady();
+		
+		return super.config.getString("message.kick.maintendance");
 	}
 	
 }

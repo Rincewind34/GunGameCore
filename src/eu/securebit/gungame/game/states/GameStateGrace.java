@@ -94,6 +94,7 @@ public class GameStateGrace extends DefaultGameStateGrace<CraftGunGame> {
 	@Override
 	protected void onQuit(Player player) {
 		super.onQuit(player);
+		
 		Util.startCalculation(player, 2, this.getGame());
 	}
 	
