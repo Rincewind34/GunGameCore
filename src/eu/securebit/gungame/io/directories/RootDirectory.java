@@ -62,7 +62,11 @@ public interface RootDirectory extends Directory {
 	
 	public abstract void setColorSet(ColorSet colorset);
 	
+	public abstract void setDebugMode(boolean debug);
+	
 	public abstract boolean isFramePresent();
+	
+	public abstract boolean isDebugMode();
 	
 	public abstract AddonDirectory getAddonDirectory();
 	

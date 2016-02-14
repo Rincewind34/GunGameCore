@@ -11,7 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.game.CraftGunGame;
+import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.interpreter.Messanger.GunGameMotD;
 import eu.securebit.gungame.listeners.ListenerEntityDeath;
@@ -20,9 +20,9 @@ import eu.securebit.gungame.listeners.ListenerPlayerRespawn;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
 
-public class GameStateIngame extends DefaultGameStateIngame<CraftGunGame> {
+public class GameStateIngame extends DefaultGameStateIngame<GunGame> {
 	
-	public GameStateIngame(CraftGunGame gungame) {
+	public GameStateIngame(GunGame gungame) {
 		super(gungame);
 		
 		this.getListeners().add(new ListenerPlayerDeath(gungame));
@@ -37,7 +37,7 @@ public class GameStateIngame extends DefaultGameStateIngame<CraftGunGame> {
 
 	@Override
 	public void start() {
-		this.getGame().playConsoleMessage(Main.layout().format("Entering gamephase: *Ingame*"));
+		this.getGame().playConsoleDebugMessage("Entering gamephase: *Ingame*", Main.layout());
 		super.start();
 		
 		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {
@@ -53,7 +53,7 @@ public class GameStateIngame extends DefaultGameStateIngame<CraftGunGame> {
 			this.getGame().getScoreboard().clearFromPlayers();
 		}
 		
-		this.getGame().playConsoleMessage(Main.layout().format("Leaving gamephase: *Ingame*"));
+		this.getGame().playConsoleDebugMessage("Leaving gamephase: *Ingame*", Main.layout());
 	}
 	
 	@Override

@@ -53,6 +53,7 @@ public class CommandGunGame extends ArgumentedCommand implements DefaultExecutor
 		this.registerArgument("lobby", new ArgumentLobby());
 		this.registerArgument("errors", new ArgumentError());
 		this.registerArgument("server", new ArgumentServer());
+		this.registerArgument("debug", new ArgumentDebug());
 	}
 
 	@Override

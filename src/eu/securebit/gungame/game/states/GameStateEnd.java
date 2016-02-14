@@ -9,13 +9,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.game.CraftGunGame;
+import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.interpreter.Messanger.GunGameMotD;
 
-public class GameStateEnd extends DefaultGameStateEnd<CraftGunGame> {
+public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 	
-	public GameStateEnd(CraftGunGame gungame) {
+	public GameStateEnd(GunGame gungame) {
 		super(gungame, gungame.getLobbyLocation(), 20);
 		
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, null);
@@ -24,7 +24,7 @@ public class GameStateEnd extends DefaultGameStateEnd<CraftGunGame> {
 
 	@Override
 	public void start() {
-		this.getGame().playConsoleMessage(Main.layout().format("Entering gamephase: *End*"));
+		this.getGame().playConsoleDebugMessage("Entering gamephase: *End*", Main.layout());
 		
 		super.start();
 		
@@ -49,7 +49,7 @@ public class GameStateEnd extends DefaultGameStateEnd<CraftGunGame> {
 	public void stop() {
 		super.stop();
 		
-		this.getGame().playConsoleMessage(Main.layout().format("Leaving gamephase: *End*"));
+		this.getGame().playConsoleDebugMessage("Leaving gamephase: *End*", Main.layout());
 	}
 	
 	@Override

@@ -8,15 +8,15 @@ import lib.securebit.game.defaults.DefaultGameStateDisabled;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GameCheck;
+import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.interpreter.Messanger.GunGameMotD;
 import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 
-public class DisabledStateEdit extends DefaultGameStateDisabled<CraftGunGame> {
+public class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
 	
-	public DisabledStateEdit(CraftGunGame gungame) {
+	public DisabledStateEdit(GunGame gungame) {
 		super(gungame);
 		
 		this.getSettings().setValue(StateSettings.MESSAGE_JOIN, CoreMessages.maintendanceJoin());
@@ -25,14 +25,14 @@ public class DisabledStateEdit extends DefaultGameStateDisabled<CraftGunGame> {
 	
 	@Override
 	public void start() {
-		this.getGame().playConsoleMessage(Main.layout().format("Entering gamephase: *Edit*"));
+		this.getGame().playConsoleDebugMessage("Entering gamephase: *Edit*", Main.layout());
 		super.start();
 	}
 	
 	@Override
 	public void stop() {
 		super.stop();
-		this.getGame().playConsoleMessage(Main.layout().format("Leaving gamephase: *Edit*"));
+		this.getGame().playConsoleDebugMessage("Leaving gamephase: *Edit*", Main.layout());
 	}
 	
 	@Override

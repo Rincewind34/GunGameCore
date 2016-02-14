@@ -15,7 +15,6 @@ import org.bukkit.plugin.Plugin;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameReflectException;
-import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GameInterface;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
@@ -46,11 +45,12 @@ public class Core {
 	}
 	
 	public static GunGame createNewGameInstance(FileGameConfig config, String name, GameInterface gameInterface) {
-		CraftGunGame game = new CraftGunGame(config, name, gameInterface, Core.getErrorHandler());		
+		GunGame game = new GunGame(config, name, gameInterface, Core.getErrorHandler());		
+		game.setDebugMode(Main.DEBUG);
 		
 		boolean ready = game.isReady();
 		
-		GameStateManager<CraftGunGame> manager = new CraftGameStateManager<>(Main.instance());
+		GameStateManager<GunGame> manager = new CraftGameStateManager<>(Main.instance());
 		
 		try {
 			manager.initGame(game);
@@ -92,6 +92,8 @@ public class Core {
 		
 		manager.create(ready);
 		
+		Main.instance().getGames().add(game);
+		
 		return game;
 	}
 	
@@ -122,7 +124,7 @@ public class Core {
 	private static GameState newStateInstance(Class<? extends GameState> state, GunGame gungame)
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		
-		return state.getConstructor(CraftGunGame.class).newInstance(gungame);
+		return state.getConstructor(GunGame.class).newInstance(gungame);
 	}
 	
 	private static void addMap(Game<?> game, World world, boolean autoSave) {

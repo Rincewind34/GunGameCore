@@ -2,6 +2,7 @@ package lib.securebit.game;
 
 import java.util.List;
 
+import lib.securebit.InfoLayout;
 import lib.securebit.game.mapreset.MapReset;
 import lib.securebit.game.util.PingResult;
 
@@ -20,7 +21,11 @@ public interface Game<P extends GamePlayer> extends Listener {
 	
 	public abstract void mute(boolean mute);
 	
+	public abstract void setDebugMode(boolean mode);
+	
 	public abstract void playConsoleMessage(String msg);
+	
+	public abstract void playConsoleDebugMessage(String msg, InfoLayout layout);
 	
 	public abstract void joinPlayer(P player);
 	
@@ -40,11 +45,15 @@ public interface Game<P extends GamePlayer> extends Listener {
 	
 	public abstract boolean isMuted();
 	
+	public abstract boolean isDebugMode();
+	
 	public abstract boolean containsWorld(World world);
 	
 	public abstract boolean containsWorld(String world);
 	
 	public abstract boolean containsPlayer(Player player);
+	
+	public abstract String getName();
 	
 	public abstract Plugin getPlugin();
 	

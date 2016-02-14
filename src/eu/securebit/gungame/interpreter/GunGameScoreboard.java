@@ -7,7 +7,7 @@ import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.GunGameFixException;
-import eu.securebit.gungame.game.CraftGunGame;
+import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.interpreter.impl.CraftGunGameScoreboard;
 import eu.securebit.gungame.io.configs.FileScoreboard;
 
@@ -49,7 +49,7 @@ public interface GunGameScoreboard extends Interpreter {
 		return new LayoutError("The format given by the scoreboardfile 'VAR0' has to contain '§{player}'!", GunGameScoreboard.ERROR_MAIN);
 	}
 	
-	public static GunGameScoreboard create(FileScoreboard file, CraftGunGame gungame) {
+	public static GunGameScoreboard create(FileScoreboard file, GunGame gungame) {
 		return new CraftGunGameScoreboard(gungame, file);
 	}
 	

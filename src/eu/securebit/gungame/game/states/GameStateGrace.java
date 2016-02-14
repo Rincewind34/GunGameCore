@@ -11,16 +11,16 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.game.CraftGunGame;
+import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.interpreter.Messanger.GunGameMotD;
 import eu.securebit.gungame.listeners.ListenerEntityDeath;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
 
-public class GameStateGrace extends DefaultGameStateGrace<CraftGunGame> {
+public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 	
-	public GameStateGrace(CraftGunGame gungame) {
+	public GameStateGrace(GunGame gungame) {
 		super(gungame, 15);
 		
 		this.getListeners().add(new ListenerEntityDeath(gungame));
@@ -33,7 +33,7 @@ public class GameStateGrace extends DefaultGameStateGrace<CraftGunGame> {
 
 	@Override
 	public void start() {
-		this.getGame().playConsoleMessage(Main.layout().format("Entering gamephase: *Grace*"));
+		this.getGame().playConsoleDebugMessage("Entering gamephase: *Grace*", Main.layout());
 		
 		for (GunGamePlayer player : this.getGame().getPlayers()) {
 			player.refreshLevel();
@@ -59,7 +59,7 @@ public class GameStateGrace extends DefaultGameStateGrace<CraftGunGame> {
 		super.stop();
 		
 		this.getGame().broadcastMessage(this.getGame().getMessanger().getGracePeriodEnds());
-		this.getGame().playConsoleMessage(Main.layout().format("Leaving gamephase: *Grace*"));
+		this.getGame().playConsoleDebugMessage("Leaving gamephase: *Grace*", Main.layout());
 	}
 	
 	@Override

@@ -100,11 +100,11 @@ public class CoreMessages {
 	}
 	
 	public static String alreadyMuted() {
-		return Main.layout().format("\\preThe game is already muted!");
+		return Main.layout().format("\\pre-The game is already muted!-");
 	}
 	
 	public static String alreadyUnmuted() {
-		return Main.layout().format("\\preThe game is already unmuted!");
+		return Main.layout().format("\\pre-The game is already unmuted!-");
 	}
 	
 	public static String gamestateSkiped() {
@@ -143,6 +143,18 @@ public class CoreMessages {
 	
 	public static String unknownCommandArgument(String arg) {
 		return Main.layout().format("\\pre-The argument '" + arg + "' is unknown!-");
+	}
+	
+	public static String debugModeSwitch(String muteState) {
+		return Main.layout().format("\\preTurned mute to: *" + muteState + "*!");
+	}
+	
+	public static String debugModeActive() {
+		return Main.layout().format("\\pre-The system is already in the debugmode!-");
+	}
+	
+	public static String debugModeInactive() {
+		return Main.layout().format("\\pre-The game is already unmuted!-");
 	}
 	
 }

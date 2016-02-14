@@ -62,4 +62,8 @@ public class Permissions {
 		return "gungame.command.gungame.server";
 	}
 	
+	public static String commandGunGameDebug() {
+		return "gungame.command.gungame.debug";
+	}
+	
 }

@@ -6,7 +6,7 @@ import lib.securebit.game.GameStateManager;
 import org.bukkit.command.CommandSender;
 
 import eu.securebit.gungame.commands.CustomArgument;
-import eu.securebit.gungame.game.CraftGunGame;
+import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
 import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
@@ -28,7 +28,7 @@ public abstract class AbstractArgumentSkip extends CustomArgument {
 		layout.line("Skips the current gamestate and jumps to the next.");
 	}
 	
-	protected boolean executeCore(CommandSender sender, CraftGunGame gungame) {
+	protected boolean executeCore(CommandSender sender, GunGame gungame) {
 		if (!gungame.isFileReady()) {
 			sender.sendMessage(CoreMessages.gamefileNotPresent(gungame.getFileGameConfig()));
 			return true;

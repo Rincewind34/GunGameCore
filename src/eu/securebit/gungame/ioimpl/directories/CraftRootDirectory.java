@@ -86,8 +86,18 @@ public class CraftRootDirectory extends AbstractDirectory implements RootDirecto
 	}
 	
 	@Override
+	public void setDebugMode(boolean debug) {
+		this.bootConfig.setDebugMode(debug);
+	}
+	
+	@Override
 	public boolean isFramePresent() {
 		return this.frame != null;
+	}
+	
+	@Override
+	public boolean isDebugMode() {
+		return this.bootConfig.isDebugMode();
 	}
 	
 	@Override

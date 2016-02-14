@@ -24,6 +24,7 @@ import eu.securebit.gungame.exception.GunGameJarException;
 import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.framework.Frame;
 import eu.securebit.gungame.framework.Frame.FrameProperties;
+import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.io.directories.AddonDirectory;
 import eu.securebit.gungame.io.directories.BootDirectory;
 import eu.securebit.gungame.io.directories.RootDirectory;
@@ -33,11 +34,13 @@ import eu.securebit.gungame.ioimpl.directories.CraftRootDirectory;
 import eu.securebit.gungame.ioimpl.loader.CraftAddonLoader;
 import eu.securebit.gungame.ioimpl.loader.CraftFrameLoader;
 import eu.securebit.gungame.ioutil.IOUtil;
+import eu.securebit.gungame.util.Util;
 
 public class Main extends JavaPlugin {
 	
-	public static final boolean DEBUG = true; // Switch debug & release mode
 	public static final String PREFIX_CORE = "System";
+	
+	public static boolean DEBUG = true;
 	
 	private static Main instance;
 	private static InfoLayout layout;
@@ -57,6 +60,8 @@ public class Main extends JavaPlugin {
 	
 	private Frame frame;
 	private List<Addon> addons;
+	
+	private List<GunGame> games;
 	
 	private ArgumentedCommand command;
 	
@@ -78,6 +83,7 @@ public class Main extends JavaPlugin {
 		Main.layout.message(sender, "Running version: " + InfoLayout.replaceKeys(this.getDescription().getVersion()));
 		Main.layout.message(sender, "");
 		
+		this.games = new ArrayList<>();
 		this.handler = new CraftErrorHandler();
 		
 		this.command = new CommandGunGame();
@@ -192,6 +198,9 @@ public class Main extends JavaPlugin {
 		
 		Main.layout.message(sender, "");
 		Main.layout.message(sender, "+Core initialized!+");
+		
+		this.setDebugMode(this.rootDirectory.isDebugMode());
+		Main.layout.message(sender, "Debug$-Mode: " + Util.parseBoolean(Main.DEBUG, Main.layout));
 	}
 	
 	@Override
@@ -231,6 +240,16 @@ public class Main extends JavaPlugin {
 		}
 	}
 	
+	public void setDebugMode(boolean debug) {
+		Main.DEBUG = debug;
+		
+		for (GunGame game : this.games) {
+			game.setDebugMode(debug);
+		}
+		
+		this.rootDirectory.setDebugMode(debug);
+	}
+	
 	public Frame getFrame() {
 		return this.frame;
 	}
@@ -249,6 +268,10 @@ public class Main extends JavaPlugin {
 	
 	public List<Addon> getAddons() {
 		return Collections.unmodifiableList(this.addons);
+	}
+	
+	public List<GunGame> getGames() {
+		return this.games;
 	}
 	
 	private boolean loadFrame(ConsoleCommandSender sender) {

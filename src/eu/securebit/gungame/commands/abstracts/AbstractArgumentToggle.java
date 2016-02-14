@@ -5,7 +5,7 @@ import lib.securebit.InfoLayout;
 import org.bukkit.command.CommandSender;
 
 import eu.securebit.gungame.commands.CustomArgument;
-import eu.securebit.gungame.game.CraftGunGame;
+import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
 import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
@@ -27,7 +27,7 @@ public abstract class AbstractArgumentToggle extends CustomArgument {
 		layout.line("Toggles between EditMode / GameMode.");
 	}
 	
-	protected boolean executeCore(CommandSender sender, CraftGunGame gungame) {
+	protected boolean executeCore(CommandSender sender, GunGame gungame) {
 		if (gungame.getManager().getCurrent() instanceof DisabledStateEdit) {
 			gungame.setEditMode(false);
 			

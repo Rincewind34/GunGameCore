@@ -49,6 +49,10 @@ public interface FileBootConfig extends FileIdentifyable, FileConfig {
 	
 	public abstract void setColorSet(String colorset);
 	
+	public abstract void setDebugMode(boolean debug);
+	
+	public abstract boolean isDebugMode();
+	
 	public abstract String getBootFolder();
 	
 	public abstract String getFrameJar();

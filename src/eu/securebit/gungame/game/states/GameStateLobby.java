@@ -5,14 +5,14 @@ import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateLobby;
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.game.CraftGunGame;
+import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.interpreter.Messanger.GunGameMotD;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
 
-public class GameStateLobby extends DefaultGameStateLobby<CraftGunGame> {
+public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 	
-	public GameStateLobby(CraftGunGame gungame) {
+	public GameStateLobby(GunGame gungame) {
 		super(gungame,
 				gungame.getLobbyLocation(),
 				Permissions.premium(), Permissions.teammember(),
@@ -28,14 +28,14 @@ public class GameStateLobby extends DefaultGameStateLobby<CraftGunGame> {
 
 	@Override
 	public void start() {
-		this.getGame().playConsoleMessage(Main.layout().format("Entering gamephase: *Lobby*"));
+		this.getGame().playConsoleDebugMessage("Entering gamephase: *Lobby*", Main.layout());
 		
 		super.start();
 	}
 
 	@Override
 	public void stop() {
-		this.getGame().playConsoleMessage(Main.layout().format("Leaving gamephase: *Lobby*"));
+		this.getGame().playConsoleDebugMessage("Leaving gamephase: *Lobby*", Main.layout());
 		
 		super.stop();
 	}

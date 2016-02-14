@@ -17,6 +17,7 @@ public class CraftFileBootConfig extends AbstractConfig implements FileBootConfi
 		this.getDefaults().add(new ConfigDefault("path-frame-file", "frames/frame.jar", String.class));
 		this.getDefaults().add(new ConfigDefault("path-boot-folder", "frames/bootfolder", String.class));
 		this.getDefaults().add(new ConfigDefault("color-set", ColorSet.DEFAULT.toString(), String.class));
+		this.getDefaults().add(new ConfigDefault("debug-mode", false, boolean.class));
 	}
 	
 
@@ -26,6 +27,21 @@ public class CraftFileBootConfig extends AbstractConfig implements FileBootConfi
 		
 		super.config.set("color-set", colorset);
 		this.save();
+	}
+	
+	@Override
+	public void setDebugMode(boolean debug) {
+		this.checkReady();
+		
+		super.config.set("debug-mode", debug);
+		this.save();
+	}
+	
+	@Override
+	public boolean isDebugMode() {
+		this.checkReady();
+		
+		return this.config.getBoolean("debug-mode");
 	}
 	
 	@Override

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import lib.securebit.InfoLayout;
 import lib.securebit.game.Game;
 import lib.securebit.game.GamePlayer;
 import lib.securebit.game.GameStateManager;
@@ -33,13 +34,17 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	private GameStateManager<?> manager;
 	
 	private boolean muted;
+	private boolean debug;
 	
-	public CraftGame(Plugin plugin) {
+	private String name;
+	
+	public CraftGame(Plugin plugin, String name) {
 		this.plugin = plugin;
+		this.name = name;
 		
+		this.manager = null;
 		this.players = new ArrayList<>();
 		this.worlds = new ArrayList<>();
-		this.manager = null;
 		
 		this.mapReset = new SimpleMapReset();
 	}
@@ -71,9 +76,25 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	}
 	
 	@Override
+	public void setDebugMode(boolean mode) {
+		this.debug = mode;
+	}
+	
+	@Override
 	public void playConsoleMessage(String msg) {
 		if (!this.isMuted()) {
-			Bukkit.getConsoleSender().sendMessage(msg);
+			if (msg.matches("^.+\\[.+\\] .+")) {
+				msg = msg.replaceFirst("^.+\\[.+\\] ", "");
+			}
+			
+			Bukkit.getConsoleSender().sendMessage(this.name + ": " + msg);
+		}
+	}
+	
+	@Override
+	public void playConsoleDebugMessage(String msg, InfoLayout layout) {
+		if (!this.debug && !this.muted) {
+			layout.message(Bukkit.getConsoleSender(), this.name + ": " + "{" + msg + "}");
 		}
 	}
 	
@@ -158,6 +179,11 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	public boolean isMuted() {
 		return this.muted;
 	}
+	
+	@Override
+	public boolean isDebugMode() {
+		return this.debug;
+	}
 
 	@Override
 	public boolean containsWorld(World world) {
@@ -188,6 +214,11 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public String getName() {
+		return this.name;
 	}
 	
 	@Override

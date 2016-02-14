@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.addonsystem.Addon;
-import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
 
@@ -39,7 +38,7 @@ public class Util {
 		return input ? ((!invert ? "+" : "-") + "true"  + (!invert ? "+" : "-")) : ((!invert ? "-" : "+") + "false" + (!invert ? "-" : "+"));
 	}
 	
-	public static void stageInformation(InfoLayout layout, CraftGunGame gungame) {
+	public static void stageInformation(InfoLayout layout, GunGame gungame) {
 		layout.category("Gerneral");
 		layout.line("Running: " + Util.parseBoolean(!(gungame.getManager().getCurrent() instanceof DisabledStateEdit), layout));
 		layout.line("Phase: " + gungame.getManager().getCurrent().getName());

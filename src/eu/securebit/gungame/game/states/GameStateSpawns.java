@@ -3,11 +3,11 @@ package eu.securebit.gungame.game.states;
 import lib.securebit.InfoLayout;
 import lib.securebit.game.GamePlayer;
 import lib.securebit.game.defaults.DefaultGameStateSpawns;
-import eu.securebit.gungame.game.CraftGunGame;
+import eu.securebit.gungame.game.GunGame;
 
-public class GameStateSpawns extends DefaultGameStateSpawns<CraftGunGame> {
+public class GameStateSpawns extends DefaultGameStateSpawns<GunGame> {
 
-	public GameStateSpawns(CraftGunGame game) {
+	public GameStateSpawns(GunGame game) {
 		super(game, game.getMap().getSpawnPoints(), SpawnSpreading.RANDOM, 1);
 	}
 
