@@ -49,7 +49,7 @@ public class GameStateIngame extends DefaultGameStateIngame<CraftGunGame> {
 	public void stop() {
 		super.stop();
 		
-		if (this.getGame().getScoreboard().isEnabled()) { //TODO use bitboard
+		if (this.getGame().getScoreboard().isEnabled()) {
 			this.getGame().getScoreboard().clearFromPlayers();
 		}
 		
@@ -76,7 +76,7 @@ public class GameStateIngame extends DefaultGameStateIngame<CraftGunGame> {
 	@Override
 	protected String onLogin(Player player) {
 		if (!player.hasPermission(Permissions.joinIngame())) {
-			return "The game is already running!"; //TODO Message
+			return this.getGame().getMessanger().getKickGameRunning();
 		} else {
 			return null;
 		}

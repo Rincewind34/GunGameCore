@@ -9,6 +9,10 @@ public interface Interpreter {
 	
 	public abstract boolean isInterpreted();
 	
+	public abstract String getName();
+	
+	public abstract String getFailCause();
+	
 	public abstract ThrownError getErrorMain();
 	
 	public abstract ThrownError getErrorInterpret();

@@ -1,7 +1,9 @@
 package eu.securebit.gungame.io;
 
+import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
+import eu.securebit.gungame.exception.GunGameFixException;
 import eu.securebit.gungame.io.abstracts.FileConfig;
 import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 import eu.securebit.gungame.io.directories.RootDirectory;
@@ -21,9 +23,13 @@ public interface FileBootConfig extends FileIdentifyable, FileConfig {
 	}
 	
 	public static LayoutError createErrorFolder() {
-		return new LayoutErrorFixable("The file 'bootconfig.yml' is a directory!", FileBootConfig.ERROR_LOAD, () -> {
-			// TODO delete
-		});
+		return new LayoutErrorFixable("The file 'bootconfig.yml' is a directory!", FileBootConfig.ERROR_LOAD, (variables) -> {
+			if (variables.length == 0) {
+				Main.instance().getRootDirectory().deleteBootConfig();
+			} else {
+				throw GunGameFixException.variables();
+			}
+		}, true, "This fix will delete the directory 'bootconfig.yml'.");
 	}
 	
 	public static LayoutError createErrorCreate() {
@@ -31,11 +37,17 @@ public interface FileBootConfig extends FileIdentifyable, FileConfig {
 	}
 	
 	public static LayoutError createErrorMalformed() {
-		return new LayoutErrorFixable("The file 'bootconfig.yml' is malformed!", FileBootConfig.ERROR_LOAD, () -> {
-			// TODO delete
-		});
+		return new LayoutErrorFixable("The file 'bootconfig.yml' is malformed!", FileBootConfig.ERROR_LOAD, (variables) -> {
+			if (variables.length == 0) {
+				Main.instance().getRootDirectory().deleteBootConfig();
+			} else {
+				throw GunGameFixException.variables();
+			}
+		}, true, "This fix will delete the directory 'bootconfig.yml'.");
 	}
 	
+	
+	public abstract void setColorSet(String colorset);
 	
 	public abstract String getBootFolder();
 	

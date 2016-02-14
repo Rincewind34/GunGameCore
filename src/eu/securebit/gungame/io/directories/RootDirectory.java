@@ -4,9 +4,7 @@ import java.io.File;
 
 import org.bukkit.World;
 
-import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
-import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.io.abstracts.Directory;
 import eu.securebit.gungame.io.abstracts.FileIdentifyable;
 import eu.securebit.gungame.io.configs.FileGameConfig;
@@ -15,6 +13,7 @@ import eu.securebit.gungame.io.configs.FileMap;
 import eu.securebit.gungame.io.configs.FileMessages;
 import eu.securebit.gungame.io.configs.FileOptions;
 import eu.securebit.gungame.io.configs.FileScoreboard;
+import eu.securebit.gungame.util.ColorSet;
 
 public interface RootDirectory extends Directory {
 	
@@ -35,9 +34,7 @@ public interface RootDirectory extends Directory {
 	}
 	
 	public static LayoutError createErrorFile() {
-		return new LayoutErrorFixable("The rootdirectory is a file", RootDirectory.ERROR_MAIN, () -> {
-			Main.instance().getDataFolder().delete();
-		});
+		return new LayoutError("The rootdirectory is a file", RootDirectory.ERROR_MAIN);
 	}
 	
 	public static LayoutError createErrorCreate() {
@@ -49,25 +46,29 @@ public interface RootDirectory extends Directory {
 	}
 	
 	public static LayoutError createErrorFrameExists() {
-		return new LayoutErrorFixable("The framepath given by the bootconfig is empty!", RootDirectory.ERROR_FRAME, () -> {
-			// TODO search for frame
-		});
+		return new LayoutError("The framepath given by the bootconfig is empty!", RootDirectory.ERROR_FRAME); // TODO fix as framesearch
 	}
 	
 	public static LayoutError createErrorFrameNojar() {
-		return new LayoutErrorFixable("The framepath given by the bootconfig is not a jarfile!", RootDirectory.ERROR_FRAME, () -> {
-			// TODO search for valid frame
-		});
+		return new LayoutError("The framepath given by the bootconfig is not a jarfile!", RootDirectory.ERROR_FRAME); // TODO fix as framesearch
 	}
 	
 	
 	public abstract void resolveColorSet();
+	
+	public abstract void deleteBootConfig();
+	
+	public abstract void deleteConfigRegistry();
+	
+	public abstract void setColorSet(ColorSet colorset);
 	
 	public abstract boolean isFramePresent();
 	
 	public abstract AddonDirectory getAddonDirectory();
 	
 	public abstract BootDirectory getBootFolder();
+	
+	public abstract File getFile(String path);
 	
 	public abstract File getFrameJar();
 	

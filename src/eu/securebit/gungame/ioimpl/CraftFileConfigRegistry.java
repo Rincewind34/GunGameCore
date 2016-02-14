@@ -73,6 +73,11 @@ public class CraftFileConfigRegistry extends AbstractConfig implements FileConfi
 	}
 	
 	@Override
+	public String getAbsolutePath() {
+		return super.file.getAbsolutePath();
+	}
+	
+	@Override
 	public List<String> getEntries() {
 		this.checkReady();
 		

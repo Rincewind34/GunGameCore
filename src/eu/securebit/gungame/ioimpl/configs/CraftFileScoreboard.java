@@ -13,10 +13,17 @@ public class CraftFileScoreboard extends CraftFileGunGameConfig implements FileS
 	public CraftFileScoreboard(File file, CraftErrorHandler handler) {
 		super(file, handler, FileScoreboard.ERROR_LOAD, FileScoreboard.ERROR_FOLDER, FileScoreboard.ERROR_CREATE, FileScoreboard.ERROR_MALFORMED, "scoreboard");
 		
-		this.getDefaults().add(new ConfigDefault("scoreboard", "test", String.class)); //TODO remove
 		this.getDefaults().add(new ConfigDefault("scoreboard.enabled", true, boolean.class));
 		this.getDefaults().add(new ConfigDefault("scoreboard.title", "&7===== &eGunGame &7=====", String.class));
 		this.getDefaults().add(new ConfigDefault("scoreboard.format", "&7${player}", String.class));
+	}
+	
+	@Override
+	public void setScoreboardTitle(String title) {
+		this.checkReady();
+		
+		super.config.set("scoreboard.title", title);
+		this.save();
 	}
 	
 	@Override

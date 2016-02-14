@@ -38,9 +38,9 @@ public abstract class AbstractFile implements SimpleFile {
 		if (!this.file.exists()) {
 			try {
 				this.getFileType().createFile(this.file);
-			} catch (Exception e) {
+			} catch (Exception ex) {
 				if (Main.DEBUG) {
-					e.printStackTrace();
+					ex.printStackTrace();
 				}
 				
 				this.handler.throwError(this.errorCreate);
@@ -64,6 +64,16 @@ public abstract class AbstractFile implements SimpleFile {
 		
 		return !this.handler.isErrorPresent(this.errorLoad);
 	}
+	
+	@Override
+	public String getFailCause() {
+		return this.handler.getCause(this.errorLoad).getParsedObjectId();
+	}
+	
+	@Override
+	public String getName() {
+		return this.file.getName();
+	}
 
 	@Override
 	public CraftErrorHandler getErrorHandler() {
@@ -84,7 +94,6 @@ public abstract class AbstractFile implements SimpleFile {
 	public ThrownError getErrorFileType() {
 		return this.errorFileType;
 	}
-	
 	
 	@Override
 	public ThrownError getErrorCreate() {

@@ -117,6 +117,122 @@ public class CraftGunGame extends CraftGame<GunGamePlayer> implements GunGame {
 	}
 	
 	@Override
+	public void setEditMode(boolean value) {
+		if (this.config.isReady()) {
+			this.config.setEditMode(value);
+		} else {
+			this.errorHandler.throwError(Warnings.WARNING_GAME_EDITMODE, FileGameConfig.ERROR_LOAD);
+		}
+	}
+	
+	@Override
+	public void initWinner(GunGamePlayer player) {
+		this.winner = player;
+	}
+	
+	@Override
+	public void calculateGameState() {
+		this.playConsoleMessage(Main.layout().format("Calculating..."));
+		
+		if (this.getPlayers().size() == 1) {
+			this.playConsoleMessage(Main.layout().format("Skiping all phases!"));
+			this.getManager().skipAll();
+		}
+		
+		if (this.getPlayers().size() == 0) {
+			this.playConsoleMessage(Main.layout().format("Shutdown!"));
+			
+			this.gameInterface.initShutdown();
+		}
+	}
+	
+	@Override
+	public void setLobbyLocation(Location lobby) {
+		this.config.setLocationLobby(lobby);
+	}
+	
+	@Override
+	public boolean isEditMode() {
+		return this.config.isEditMode();
+	}
+	
+	@Override
+	public boolean isFileReady() {
+		return this.config.isReady();
+	}
+	
+	@Override
+	public boolean isReady() {
+		for (GameCheck check : this.checks) {
+			if (!check.check()) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	@Override
+	public int getMinPlayerCount() {
+		return this.config.getMinPlayers();
+	}
+	
+	@Override
+	public String getName() {
+		return this.name;
+	}
+	
+	@Override
+	public Location getLobbyLocation() {
+		return this.config.getLocationLobby();
+	}
+	
+	@Override
+	public FileGameConfig getFileGameConfig() {
+		return this.config;
+	}
+	
+	@Override
+	public GunGameScoreboard getScoreboard() {
+		return this.board;
+	}
+	
+	@Override
+	public Messanger getMessanger() {
+		return this.messanger;
+	}
+	
+	@Override
+	public LevelManager getLevelManager() {
+		return this.levelManager;
+	}
+	
+	@Override
+	public GameOptions getOptions() {
+		return this.options;
+	}
+	
+	@Override
+	public GunGameMap getMap() {
+		return this.map;
+	}
+	
+	@Override
+	public GameInterface getInterface() {
+		return this.gameInterface;
+	}
+	
+	@Override
+	public GunGamePlayer getWinner() {
+		return this.winner;
+	}
+	
+	@Override
+	public List<GameCheck> getChecks() {
+		return Collections.unmodifiableList(this.checks);
+	}
+	
+	@Override
 	public void quitPlayer(Player player) {
 		if (this.winner == this.getPlayer(player)) {
 			this.winner = null;
@@ -164,111 +280,6 @@ public class CraftGunGame extends CraftGame<GunGamePlayer> implements GunGame {
 		}
 	}
 	
-	@Override
-	public void setEditMode(boolean value) {
-		if (this.config != null) {
-			this.config.setEditMode(value);
-		} else {
-			this.errorHandler.throwError(Warnings.WARNING_GAME_EDITMODE, FileGameConfig.ERROR_LOAD);
-		}
-	}
-	
-	@Override
-	public void initWinner(GunGamePlayer player) {
-		this.winner = player;
-	}
-	
-	@Override
-	public void calculateGameState() {
-		this.playConsoleMessage(Main.layout().format("Calculating..."));
-		
-		if (this.getPlayers().size() == 1) {
-			this.playConsoleMessage(Main.layout().format("Skiping all phases!"));
-			this.getManager().skipAll();
-		}
-		
-		if (this.getPlayers().size() == 0) {
-			this.playConsoleMessage(Main.layout().format("Shutdown!"));
-			
-			this.gameInterface.initShutdown();
-		}
-	}
-	
-	@Override
-	public void setLobbyLocation(Location lobby) {
-		this.config.setLocationLobby(lobby);
-	}
-	
-	@Override
-	public boolean isEditMode() {
-		return this.config.isEditMode();
-	}
-	
-	@Override
-	public boolean isReady() {
-		for (GameCheck check : this.checks) {
-			if (!check.check()) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	@Override
-	public int getMinPlayerCount() {
-		return this.config.getMinPlayers();
-	}
-	
-	@Override
-	public String getName() {
-		return this.name;
-	}
-	
-	@Override
-	public Location getLobbyLocation() {
-		return this.config.getLocationLobby();
-	}
-	
-	@Override
-	public GunGameScoreboard getScoreboard() {
-		return this.board;
-	}
-	
-	@Override
-	public Messanger getMessanger() {
-		return this.messanger;
-	}
-	
-	@Override
-	public LevelManager getLevelManager() {
-		return this.levelManager;
-	}
-	
-	@Override
-	public GameOptions getOptions() {
-		return this.options;
-	}
-	
-	@Override
-	public GunGameMap getMap() {
-		return this.map;
-	}
-	
-	@Override
-	public GameInterface getInterface() {
-		return this.gameInterface;
-	}
-	
-	@Override
-	public GunGamePlayer getWinner() {
-		return this.winner;
-	}
-	
-	@Override
-	public List<GameCheck> getChecks() {
-		return Collections.unmodifiableList(this.checks);
-	}
 	
 	private class ConfigCheck extends ErrorCheck {
 		
@@ -330,8 +341,6 @@ public class CraftGunGame extends CraftGame<GunGamePlayer> implements GunGame {
 		
 		@Override
 		public String getFailCause() {
-			System.out.println(this.error.getParsedMessage());
-			
 			ThrownError cause = CraftGunGame.this.errorHandler.getCause(this.error);
 			
 			return InfoLayout.replaceKeys(cause.getParsedObjectId()) + " (" + InfoLayout.replaceKeys(cause.getParsedMessage()) + ")";

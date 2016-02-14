@@ -1,26 +1,41 @@
 package eu.securebit.gungame.errorhandling.layouts;
 
+import java.util.function.Consumer;
 
 public class LayoutErrorFixable extends LayoutError {
 	
-	private Runnable action;
+	private Consumer<String[]> action;
 	
-	public LayoutErrorFixable(String message, Runnable action) {
-		this(message, action, new String[0]);
+	private String description;
+	
+	private boolean confirm;
+	
+	public LayoutErrorFixable(String message, Consumer<String[]> action) {
+		this(message, action, false, null, new String[0]);
 	}
 	
-	public LayoutErrorFixable(String message, String superError, Runnable action) {
-		this(message, action, new String[] { superError });
+	public LayoutErrorFixable(String message, String superError, Consumer<String[]> action, boolean confirm, String description) {
+		this(message, action, confirm, description, new String[] { superError });
 	}
 	
-	public LayoutErrorFixable(String message, Runnable action, String... superError) {
+	public LayoutErrorFixable(String message, Consumer<String[]> action, boolean confirm, String description, String... superError) {
 		super(message, superError);
 		
 		this.action = action;
+		this.confirm = confirm;
+		this.description = description;
 	}
 	
-	public void fix() {
-		this.action.run();
+	public void fix(String[] variables) {
+		this.action.accept(variables);
 	}
-
+	
+	public boolean withConfirm() {
+		return this.confirm;
+	}
+	
+	public String getDescription() {
+		return this.description;
+	}
+		
 }

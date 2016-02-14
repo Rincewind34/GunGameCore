@@ -2,8 +2,11 @@ package eu.securebit.gungame.interpreter;
 
 import org.bukkit.entity.Player;
 
+import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
+import eu.securebit.gungame.exception.GunGameErrorPresentException;
+import eu.securebit.gungame.exception.GunGameFixException;
 import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.interpreter.impl.CraftGunGameScoreboard;
 import eu.securebit.gungame.io.configs.FileScoreboard;
@@ -27,9 +30,19 @@ public interface GunGameScoreboard extends Interpreter {
 	}
 	
 	public static LayoutError createErrorTitle() {
-		return new LayoutErrorFixable("The title given by the scoreboardfile 'VAR0' has to be shorter than 64 characters!", GunGameScoreboard.ERROR_MAIN, () -> {
-			// TODO substring
-		});
+		return new LayoutErrorFixable("The title given by the scoreboardfile 'VAR0' has to be shorter than 64 characters!", GunGameScoreboard.ERROR_MAIN, (variables) -> {
+			if (variables.length == 1) {
+				FileScoreboard scoreboard = Main.instance().getRootDirectory().getScoreboardFile(variables[0]);
+				
+				if (scoreboard.isReady()) {
+					scoreboard.setScoreboardTitle(scoreboard.getScoreboardTitle().substring(0, 64));
+				} else {
+					throw GunGameErrorPresentException.create();
+				}
+			} else {
+				throw GunGameFixException.variables();
+			}
+		}, false, "This fix will trim the title to 64 chars in the map-file 'VAR0'.");
 	}
 	
 	public static LayoutError createErrorFormat() {

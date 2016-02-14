@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.bukkit.Location;
 
+import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
+import eu.securebit.gungame.exception.GunGameErrorPresentException;
+import eu.securebit.gungame.exception.GunGameFixException;
 import eu.securebit.gungame.interpreter.impl.CraftGunGameMap;
 import eu.securebit.gungame.io.configs.FileMap;
 
@@ -28,9 +31,25 @@ public interface GunGameMap extends Interpreter {
 	}
 	
 	public static LayoutError createErrorSpawnId() {
-		return new LayoutErrorFixable("The next-spawn-id in the map-file 'VAR0' is already in use!", GunGameMap.ERROR_MAIN, () -> {
-			// TODO recalculte nextspawnid
-		});
+		return new LayoutErrorFixable("The next-spawn-id in the map-file 'VAR0' is already in use!", GunGameMap.ERROR_MAIN, (variables) -> {
+			if (variables.length == 1) {
+				FileMap map = Main.instance().getRootDirectory().getMapFile(variables[0]);
+				
+				if (map.isReady()) {
+					int newId = 0;
+					
+					while (map.getSpawns().containsKey(newId)) {
+						newId = newId + 1;
+					}
+					
+					map.setNextSpawnId(newId);
+				} else {
+					throw GunGameErrorPresentException.create();
+				}
+			} else {
+				throw GunGameFixException.variables();
+			}
+		}, false, "This fix will recalculate the next-spawn-id in the map-file 'VAR0'.");
 	}
 	
 	public static LayoutError createErrorSpawnCount() {

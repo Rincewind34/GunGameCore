@@ -18,7 +18,7 @@ public class ArgumentSpawns extends CustomArgument {
 
 	@Override
 	public String getSyntax() {
-		return "/gungame spawns";
+		return "/gungame spawns {add|tp|remove} ...";
 	}
 
 	@Override
@@ -46,6 +46,11 @@ public class ArgumentSpawns extends CustomArgument {
 		}
 		
 		GunGame gungame = Main.instance().getFrame().getGame(player);
+		
+		if (!gungame.getMap().wasSuccessful()) {
+			player.sendMessage(CoreMessages.interprete(gungame.getMap()));
+			return true;
+		}
 		
 		if (args.length <= 1) {
 			this.sendSuggestions(sender);

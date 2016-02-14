@@ -54,6 +54,8 @@ public abstract class AbstractConfig extends AbstractFile implements FileConfig 
 			} finally {
 				for (ConfigDefault entry : this.defaults) {
 					if (!entry.validate(this.config)) {
+						System.out.println(entry.getPath());
+						
 						super.handler.throwError(this.errorMalformed);
 						break;
 					}

@@ -69,7 +69,7 @@ public class GameStateGrace extends DefaultGameStateGrace<CraftGunGame> {
 	
 	@Override
 	public void updateScoreboard(GamePlayer player) {
-		// TODO
+		
 	}
 	
 	@Override
@@ -85,7 +85,7 @@ public class GameStateGrace extends DefaultGameStateGrace<CraftGunGame> {
 	@Override
 	protected String onLogin(Player player) {
 		if (!player.hasPermission(Permissions.joinIngame())) {
-			return "The game is already running!"; //TODO Message
+			return this.getGame().getMessanger().getKickGameRunning();
 		} else {
 			return null;
 		}

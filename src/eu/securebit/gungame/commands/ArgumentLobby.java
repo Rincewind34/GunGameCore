@@ -45,6 +45,11 @@ public class ArgumentLobby extends CustomArgument {
 		
 		GunGame gungame = Main.instance().getFrame().getGame(player);
 		
+		if (!gungame.isFileReady()) {
+			player.sendMessage(CoreMessages.gamefileNotPresent(gungame.getFileGameConfig()));
+			return true;
+		}
+		
 		if (args.length == 2) {
 			if (args[1].equals("tp")) {
 				try {

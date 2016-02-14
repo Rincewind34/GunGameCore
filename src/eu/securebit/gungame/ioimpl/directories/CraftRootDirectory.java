@@ -71,6 +71,21 @@ public class CraftRootDirectory extends AbstractDirectory implements RootDirecto
 	}
 	
 	@Override
+	public void deleteBootConfig() {
+		IOUtil.delete(new File(this.bootConfig.getAbsolutePath()));
+	}
+	
+	@Override
+	public void deleteConfigRegistry() {
+		IOUtil.delete(new File(this.configRegistry.getAbsolutePath()));
+	}
+	
+	@Override
+	public void setColorSet(ColorSet colorset) {
+		this.bootConfig.setColorSet(colorset.toString());
+	}
+	
+	@Override
 	public boolean isFramePresent() {
 		return this.frame != null;
 	}
@@ -183,6 +198,17 @@ public class CraftRootDirectory extends AbstractDirectory implements RootDirecto
 		}
 		
 		return this.frame;
+	}
+	
+	@Override
+	public File getFile(String path) {
+		File file = this.createFromRelativDatas(path);
+		
+		if (file.exists()) {
+			return file;
+		} else {
+			return new File(path);
+		}
 	}
 
 	@Override

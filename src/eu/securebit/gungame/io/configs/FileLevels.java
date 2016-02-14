@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
 
+import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
+import eu.securebit.gungame.exception.GunGameFixException;
+import eu.securebit.gungame.ioutil.IOUtil;
 
 public interface FileLevels extends FileGunGameConfig {
 	
@@ -22,9 +25,13 @@ public interface FileLevels extends FileGunGameConfig {
 	}
 	
 	public static LayoutError createErrorFolder() {
-		return new LayoutErrorFixable("The levelsfile 'VAR0' is a directory!", FileLevels.ERROR_LOAD, () -> {
-			// TODO fix path
-		});
+		return new LayoutErrorFixable("The levelsfile 'VAR0' is a directory!", FileLevels.ERROR_LOAD, (variables) -> {
+			if (variables.length == 1) {
+				IOUtil.delete(Main.instance().getRootDirectory().getFile(variables[0]));
+			} else {
+				throw GunGameFixException.variables();
+			}
+		}, true, "This fix will delete the directory 'VAR0'.");
 	}
 	
 	public static LayoutError createErrorCreate() {
@@ -32,9 +39,13 @@ public interface FileLevels extends FileGunGameConfig {
 	}
 	
 	public static LayoutError createErrorMalformed() {
-		return new LayoutErrorFixable("The levelsfile 'VAR0' is malformed!", FileLevels.ERROR_LOAD, () -> {
-			// TODO fix path / delete
-		});
+		return new LayoutErrorFixable("The levelsfile 'VAR0' is malformed!", FileLevels.ERROR_LOAD, (variables) -> {
+			if (variables.length == 1) {
+				IOUtil.delete(Main.instance().getRootDirectory().getFile(variables[0]));
+			} else {
+				throw GunGameFixException.variables();
+			}
+		}, true, "This fix will delete the file 'VAR0'.");
 	}
 	
 	

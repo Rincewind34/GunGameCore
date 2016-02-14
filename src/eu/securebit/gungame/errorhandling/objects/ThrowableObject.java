@@ -5,7 +5,7 @@ import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.errorhandling.layouts.Layout;
 import eu.securebit.gungame.exception.GunGameErrorHandlerException;
 
-public abstract class ThrowableObject<T extends Layout> {
+public abstract class ThrowableObject<T extends Layout> implements Comparable<ThrownError> {
 	
 	private String objectId;
 	
@@ -26,6 +26,11 @@ public abstract class ThrowableObject<T extends Layout> {
 		this.objectId = objectId;
 		this.variables = variables;
 		this.layout = (T) CraftErrorHandler.layouts.get(objectId);
+	}
+	
+	@Override
+	public int compareTo(ThrownError o) {
+		return this.getParsedObjectId().compareTo(o.getParsedObjectId());
 	}
 	
 	@Override

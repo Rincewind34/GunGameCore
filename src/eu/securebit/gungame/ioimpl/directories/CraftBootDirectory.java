@@ -36,10 +36,16 @@ public class CraftBootDirectory extends AbstractDirectory implements BootDirecto
 		this.bootDataConfig.set("id", id);
 		
 		try {
+			this.frameId = id;
 			this.bootDataConfig.save(this.bootDataFile);
 		} catch (IOException ex) {
 			throw GunGameIOException.fromOther(ex);
 		}
+	}
+	
+	@Override
+	public void deleteBootData() {
+		this.bootDataFile.delete();
 	}
 	
 	@Override

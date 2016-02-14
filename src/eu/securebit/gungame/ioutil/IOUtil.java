@@ -97,4 +97,16 @@ public class IOUtil {
 		return path;
 	}
 	
+	public static void delete(File file) {
+		if (file.isDirectory()) {
+			for (File target : file.listFiles()) {
+				IOUtil.delete(target);
+			}
+			
+			file.delete();
+		} else {
+			file.delete();
+		}
+	}
+	
 }

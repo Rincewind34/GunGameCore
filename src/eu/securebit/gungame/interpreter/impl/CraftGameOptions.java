@@ -3,6 +3,7 @@ package eu.securebit.gungame.interpreter.impl;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.interpreter.GameOptions;
 import eu.securebit.gungame.io.configs.FileOptions;
+import eu.securebit.gungame.util.Warnings;
 
 public class CraftGameOptions extends AbstractInterpreter<FileOptions> implements GameOptions {
 	
@@ -26,10 +27,10 @@ public class CraftGameOptions extends AbstractInterpreter<FileOptions> implement
 		super(file, GameOptions.ERROR_MAIN, GameOptions.ERROR_INTERPRET);
 		
 		if (this.wasSuccessful()) {
-			// TODO warning
+			this.getErrorHandler().throwError(Warnings.WARNING_OPTIONS, cause);
 		}
 	}
-
+	
 	@Override
 	public void autoRespawn(boolean value) {
 		super.config.setAutoRespawn(value);

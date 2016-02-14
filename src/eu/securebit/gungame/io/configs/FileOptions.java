@@ -1,7 +1,10 @@
 package eu.securebit.gungame.io.configs;
 
+import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
+import eu.securebit.gungame.exception.GunGameFixException;
+import eu.securebit.gungame.ioutil.IOUtil;
 
 public interface FileOptions extends FileGunGameConfig {
 	
@@ -18,9 +21,13 @@ public interface FileOptions extends FileGunGameConfig {
 	}
 	
 	public static LayoutError createErrorFolder() {
-		return new LayoutErrorFixable("The optionsfile 'VAR0' is a directory!", FileOptions.ERROR_LOAD, () -> {
-			// TODO fix path
-		});
+		return new LayoutErrorFixable("The optionsfile 'VAR0' is a directory!", FileOptions.ERROR_LOAD, (variables) -> {
+			if (variables.length == 1) {
+				IOUtil.delete(Main.instance().getRootDirectory().getFile(variables[0]));
+			} else {
+				throw GunGameFixException.variables();
+			}
+		}, true, "This fix will delete the directory 'VAR0'.");
 	}
 	
 	public static LayoutError createErrorCreate() {
@@ -28,9 +35,13 @@ public interface FileOptions extends FileGunGameConfig {
 	}
 	
 	public static LayoutError createErrorMalformed() {
-		return new LayoutErrorFixable("The optionsfile 'VAR0' is malformed!", FileOptions.ERROR_LOAD, () -> {
-			// TODO fix path
-		});
+		return new LayoutErrorFixable("The optionsfile 'VAR0' is malformed!", FileOptions.ERROR_LOAD, (variables) -> {
+			if (variables.length == 1) {
+				IOUtil.delete(Main.instance().getRootDirectory().getFile(variables[0]));
+			} else {
+				throw GunGameFixException.variables();
+			}
+		}, true, "This fix will delete the file 'VAR0'.");
 	}
 	
 	

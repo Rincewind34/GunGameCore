@@ -67,7 +67,7 @@ public class ArgumentHelp extends CustomArgument {
 			
 			layout.begin();
 			layout.category("Argument: " + name);
-			layout.line("*Syntax:* " + argument.getSyntax());
+			layout.line("*Syntax:* " + InfoLayout.replaceKeys(argument.getSyntax()));
 			layout.line("*Permission:* " + argument.getPermission());
 			layout.line("");
 			argument.stageInformation(layout);

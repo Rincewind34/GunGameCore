@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.commands.CustomArgument;
 import eu.securebit.gungame.game.CraftGunGame;
+import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 import eu.securebit.gungame.util.Util;
 
@@ -28,6 +29,11 @@ public abstract class AbstractArgumentInfo extends CustomArgument {
 	}
 	
 	protected boolean executeCore(CommandSender sender, CraftGunGame gungame) {
+		if (!gungame.isFileReady()) {
+			sender.sendMessage(CoreMessages.gamefileNotPresent(gungame.getFileGameConfig()));
+			return true;
+		}
+		
 		InfoLayout layout = Main.layout();
 		layout.begin();
 		Util.stageInformation(layout, gungame);

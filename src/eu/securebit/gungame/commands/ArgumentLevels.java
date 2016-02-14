@@ -28,7 +28,7 @@ public class ArgumentLevels extends CustomArgument {
 
 	@Override
 	public String getSyntax() {
-		return "/gungame levels {load|save|delete}";
+		return "/gungame levels {load|save|delete} ...";
 	}
 
 	@Override
@@ -56,6 +56,11 @@ public class ArgumentLevels extends CustomArgument {
 		}
 		
 		GunGame gungame = Main.instance().getFrame().getGame(player);
+		
+		if (!gungame.getLevelManager().wasSuccessful()) {
+			player.sendMessage(CoreMessages.interprete(gungame.getLevelManager()));
+			return true;
+		}
 		
 		if (args.length == 1) {
 			this.sendSuggestions(player);
@@ -162,9 +167,9 @@ public class ArgumentLevels extends CustomArgument {
 		layout.line("one level.");
 		layout.line("");
 		layout.line("*Examples (There are 6 levels already created)*");
-		layout.line("  /gg save §8=> §7Creates the 7'th level.");
-		layout.line("  /gg save 5 §8=> §7Overrides the 5'th level.");
-		layout.line("  /gg delete §8=> §7Deletes level 6.");
-		layout.line("  /gg delete 3 §8=> §7Deletes the levels 6, 5 and 4.");
+		layout.line("  /gg save " + layout.colorPrimary + "=> " + layout.colorSecondary + "Creates the 7'th level.");
+		layout.line("  /gg save 5 " + layout.colorPrimary + "=> " + layout.colorSecondary + "Overrides the 5'th level.");
+		layout.line("  /gg delete " + layout.colorPrimary + "=> " + layout.colorSecondary + "Deletes level 6.");
+		layout.line("  /gg delete 3 " + layout.colorPrimary + "=> " + layout.colorSecondary + "Deletes the levels 6, 5 and 4.");
 	}
 }

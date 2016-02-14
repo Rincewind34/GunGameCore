@@ -71,7 +71,7 @@ public class GameStateEnd extends DefaultGameStateEnd<CraftGunGame> {
 	
 	@Override
 	public void updateScoreboard(GamePlayer player) {
-		// TODO
+		
 	}
 	
 	@Override

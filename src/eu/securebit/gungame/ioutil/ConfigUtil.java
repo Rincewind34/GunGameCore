@@ -17,8 +17,8 @@ public class ConfigUtil {
 		config.set(path + ".x", loc.getX());
 		config.set(path + ".y", loc.getY());
 		config.set(path + ".z", loc.getZ());
-		config.set(path + ".yaw", loc.getYaw());
-		config.set(path + ".pitch", loc.getPitch());
+		config.set(path + ".yaw", (double) loc.getYaw());
+		config.set(path + ".pitch", (double) loc.getPitch());
 	}
 	
 	public static void setLocation(String path, Location loc, List<ConfigDefault> defaults) {
@@ -26,8 +26,8 @@ public class ConfigUtil {
 		defaults.add(new ConfigDefault(path + ".x", loc.getX(), double.class));
 		defaults.add(new ConfigDefault(path + ".y", loc.getY(), double.class));
 		defaults.add(new ConfigDefault(path + ".z", loc.getZ(), double.class));
-		defaults.add(new ConfigDefault(path + ".yaw", loc.getYaw(), double.class));
-		defaults.add(new ConfigDefault(path + ".pitch", loc.getPitch(), double.class));
+		defaults.add(new ConfigDefault(path + ".yaw", (double) loc.getYaw(), double.class));
+		defaults.add(new ConfigDefault(path + ".pitch", (double) loc.getPitch(), double.class));
 	}
 	
 	public static Location getLocation(FileConfiguration config, String path) {

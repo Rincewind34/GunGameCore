@@ -1,6 +1,9 @@
 package eu.securebit.gungame.util;
 
+import lib.securebit.InfoLayout;
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.interpreter.Interpreter;
+import eu.securebit.gungame.io.configs.FileGameConfig;
 
 public class CoreMessages {
 	
@@ -126,6 +129,16 @@ public class CoreMessages {
 	
 	public static String frameDisabled() {
 		return Main.layout().format("\\pre-The frame is not enabled!-");
+	}
+	
+	public static String interprete(Interpreter interpreter) {
+		return Main.layout().format("\\pre-The interpreter " + interpreter.getName() + " should have been successful! (Cause: " + 
+				InfoLayout.replaceKeys(interpreter.getFailCause()) + ")-");
+	}
+	
+	public static String gamefileNotPresent(FileGameConfig config) {
+		return Main.layout().format("\\pre-The gameconfig " + config.getName() + " should have been loaded! (Cause: " + 
+				InfoLayout.replaceKeys(config.getFailCause()) + ")-");
 	}
 	
 }

@@ -53,7 +53,7 @@ public class GameStateLobby extends DefaultGameStateLobby<CraftGunGame> {
 	
 	@Override
 	public void updateScoreboard(GamePlayer player) {
-		// TODO
+		
 	}
 	
 	@Override

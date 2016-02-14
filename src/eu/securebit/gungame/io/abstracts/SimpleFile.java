@@ -14,6 +14,10 @@ public interface SimpleFile {
 	
 	public abstract boolean isReady();
 	
+	public abstract String getFailCause();
+	
+	public abstract String getName();
+	
 	public abstract ThrownError getErrorLoad();
 	
 	public abstract ThrownError getErrorFileType();

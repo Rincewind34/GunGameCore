@@ -2,6 +2,7 @@ package eu.securebit.gungame;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -208,7 +209,6 @@ public class Main extends JavaPlugin {
 						ex.printStackTrace();
 					}
 					
-//					this.printError(ex, "disabling addon"); // TODO TmpError
 					continue;
 				}
 				
@@ -225,11 +225,9 @@ public class Main extends JavaPlugin {
 				if (Main.DEBUG) {
 					ex.printStackTrace();
 				}
-				
-//				this.printError(ex, "disabling frame"); // TODO TmpError
+			} finally {
+				Main.layout.message(sender, "Frame disabled!");
 			}
-			
-			Main.layout.message(sender, "Frame disabled!");
 		}
 	}
 	
@@ -247,6 +245,10 @@ public class Main extends JavaPlugin {
 	
 	public RootDirectory getRootDirectory() {
 		return this.rootDirectory;
+	}
+	
+	public List<Addon> getAddons() {
+		return Collections.unmodifiableList(this.addons);
 	}
 	
 	private boolean loadFrame(ConsoleCommandSender sender) {

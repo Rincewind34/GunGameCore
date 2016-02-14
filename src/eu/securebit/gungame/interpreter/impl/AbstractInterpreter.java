@@ -37,6 +37,16 @@ public abstract class AbstractInterpreter<T extends FileGunGameConfig> implement
 	}
 	
 	@Override
+	public String getName() {
+		return this.config.getIdentifier();
+	}
+	
+	@Override
+	public String getFailCause() {
+		return this.handler.getCause(this.errorMain).getParsedObjectId();
+	}
+	
+	@Override
 	public ThrownError getErrorMain() {
 		return this.errorMain;
 	}

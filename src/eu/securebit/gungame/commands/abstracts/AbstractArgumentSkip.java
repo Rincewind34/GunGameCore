@@ -29,6 +29,11 @@ public abstract class AbstractArgumentSkip extends CustomArgument {
 	}
 	
 	protected boolean executeCore(CommandSender sender, CraftGunGame gungame) {
+		if (!gungame.isFileReady()) {
+			sender.sendMessage(CoreMessages.gamefileNotPresent(gungame.getFileGameConfig()));
+			return true;
+		}
+		
 		GameStateManager<?> manager = gungame.getManager();
 		
 		if (!(manager.getCurrent() instanceof DisabledStateEdit)) {

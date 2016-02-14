@@ -1,5 +1,13 @@
 package eu.securebit.gungame.util;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import lib.securebit.InfoLayout;
 import lib.securebit.game.GameState;
 
@@ -7,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.addonsystem.Addon;
 import eu.securebit.gungame.game.CraftGunGame;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
@@ -31,22 +40,38 @@ public class Util {
 	}
 	
 	public static void stageInformation(InfoLayout layout, CraftGunGame gungame) {
-		layout.category("Server");
-		layout.line("Core$-Version: " + InfoLayout.replaceKeys(Main.instance().getDescription().getVersion()));
-		layout.line("Frame$-Name: " + InfoLayout.replaceKeys(Main.instance().getFrame().getName()));
-		layout.line("Frame$-Version: " + InfoLayout.replaceKeys(Main.instance().getFrame().getVersion()));
 		layout.category("Gerneral");
 		layout.line("Running: " + Util.parseBoolean(!(gungame.getManager().getCurrent() instanceof DisabledStateEdit), layout));
 		layout.line("Phase: " + gungame.getManager().getCurrent().getName());
 		layout.line("Online: " + gungame.getPlayers().size());
 		layout.line("Muted: " + Util.parseBoolean(gungame.isMuted(), layout));
-		layout.category("Config");
+		layout.line("");
+		layout.line("*Game*");
 		layout.line("Spawns: " + gungame.getMap().getSpawnPointCount());
 		layout.line("Levels: " + gungame.getLevelManager().getLevelCount());
 		layout.category("Detail");
 		
 		GameState current = gungame.getManager().getCurrent();
 		current.stageInformation(layout);
+		
+		layout.barrier();
+	}
+	
+	public static void stageServerInformation(InfoLayout layout) {
+		layout.category("General");
+		layout.line("Core$-Version: " + InfoLayout.replaceKeys(Main.instance().getDescription().getVersion()));
+		layout.line("Frame$-Name: " + InfoLayout.replaceKeys(Main.instance().getFrame().getName()));
+		layout.line("Frame$-Version: " + InfoLayout.replaceKeys(Main.instance().getFrame().getVersion()));
+		layout.line("");
+		layout.line("*Addons*");
+		
+		for (Addon addon : Main.instance().getAddons()) {
+			layout.line("  $-" + InfoLayout.replaceKeys(addon.getName()) + " > " + InfoLayout.replaceKeys(addon.getVersion()));
+		}
+		
+		if (Main.instance().getAddons().size() == 0) {
+			layout.line(" $-$- None $-$-");
+		}
 		
 		layout.barrier();
 	}
@@ -74,6 +99,27 @@ public class Util {
 		} else {
 			return path;
 		}
+	}
+	
+	public static <K extends Comparable<? super K>, V> Map<K, V> sortByKey(Map<K, V> map) {
+		List<Entry<K, V>> list = new LinkedList<>(map.entrySet());
+		
+		Collections.sort(list, new Comparator<Map.Entry<K, V>>() {
+			
+			@Override
+			public int compare(Map.Entry<K, V> o1, Map.Entry<K, V> o2) {
+				return o1.getKey().compareTo(o2.getKey());
+			}
+			
+		});
+
+		Map<K, V> result = new LinkedHashMap<K, V>();
+		
+		for (Entry<K, V> entry : list) {
+			result.put(entry.getKey(), entry.getValue());
+		}
+		
+		return result;
 	}
 	
 }

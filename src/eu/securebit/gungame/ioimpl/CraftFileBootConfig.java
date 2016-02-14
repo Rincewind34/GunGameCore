@@ -19,6 +19,15 @@ public class CraftFileBootConfig extends AbstractConfig implements FileBootConfi
 		this.getDefaults().add(new ConfigDefault("color-set", ColorSet.DEFAULT.toString(), String.class));
 	}
 	
+
+	@Override
+	public void setColorSet(String colorset) {
+		this.checkReady();
+		
+		super.config.set("color-set", colorset);
+		this.save();
+	}
+	
 	@Override
 	public String getBootFolder() {
 		this.checkReady();

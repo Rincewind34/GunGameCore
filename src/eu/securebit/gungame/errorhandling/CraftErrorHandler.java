@@ -12,9 +12,7 @@ import eu.securebit.gungame.Main;
 import eu.securebit.gungame.addonsystem.Addon;
 import eu.securebit.gungame.errorhandling.layouts.Layout;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
-import eu.securebit.gungame.errorhandling.layouts.LayoutTemporyError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutWarning;
-import eu.securebit.gungame.errorhandling.objects.TempError;
 import eu.securebit.gungame.errorhandling.objects.ThrowableObject;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.errorhandling.objects.Warning;
@@ -137,6 +135,15 @@ public class CraftErrorHandler implements ErrorHandler {
 	
 	@Override
 	public void throwError(String objectId, String causeId) {
+		if (causeId == null) {
+			this.throwError(objectId, (ThrownError) null);
+		} else {
+			this.throwError(objectId, this.parseError(causeId));
+		}
+	}
+	
+	@Override
+	public void throwError(String objectId, ThrownError cause) {
 		if (!CraftErrorHandler.layouts.containsKey(objectId)) {
 			throw GunGameErrorHandlerException.unknownObjectID(objectId);
 		}
@@ -146,15 +153,13 @@ public class CraftErrorHandler implements ErrorHandler {
 		
 		if (layout instanceof LayoutError) {
 			obj = new ThrownError(objectId);
-		} else if (layout instanceof LayoutTemporyError) {
-			obj = new TempError(objectId);
 		} else if (layout instanceof LayoutWarning) {
 			obj = new Warning(objectId);
 		} else {
 			throw GunGameErrorHandlerException.layoutType(objectId);
 		}
 		
-		this.throwError(obj, causeId);
+		this.throwError(obj, cause);
 	}
 	
 	@Override
@@ -195,6 +200,44 @@ public class CraftErrorHandler implements ErrorHandler {
 	}
 	
 	@Override
+	public ThrownError getTrigger(String errorId) {
+		return this.getTrigger(this.parseError(errorId));
+	}
+	
+	@Override
+	public ThrownError getTrigger(ThrownError error) {
+		for (ThrownError targetError : this.thrownErrors.keySet()) {
+			for (String superError : targetError.getLayout().getSuperErrors()) {
+				if (error.equals(new ThrownError(superError, targetError.getVariables()))) {
+					return targetError;
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public ThrownError getTriggerCause(String errorId) {
+		return this.getTriggerCause(this.parseError(errorId));
+	}
+	
+	@Override
+	public ThrownError getTriggerCause(ThrownError error) {
+		if (!this.isErrorPresent(error)) {
+			throw GunGameErrorHandlerException.unpresentError(error.getParsedObjectId());
+		}
+		
+		for (String superError : error.getLayout().getSuperErrors()) {
+			if (this.isErrorPresent(new ThrownError(superError, error.getVariables()))) {
+				return new ThrownError(superError, error.getVariables());
+			}
+		}
+		
+		return null;
+	}
+	
+	@Override
 	public ThrownError getCause(String errorId) {
 		return this.getCause(this.parseError(errorId));
 	}
@@ -205,18 +248,14 @@ public class CraftErrorHandler implements ErrorHandler {
 			throw GunGameErrorHandlerException.unpresentError(error.getParsedObjectId());
 		}
 		
-		for (ThrownError targetError : this.thrownErrors.keySet()) {
-			for (String superError : targetError.getLayout().getSuperErrors()) {
-				if (error.equals(new ThrownError(superError, targetError.getVariables()))) {
-					return this.getCause(targetError);
-				}
-			}
-		}
-		
-		if (this.thrownErrors.get(error) != null) {
-			return this.getCause(this.thrownErrors.get(error));
+		if (this.getTrigger(error) != null) {
+			return this.getCause(this.getTrigger(error));
 		} else {
-			return error;
+			if (this.thrownErrors.get(error) != null) {
+				return this.getCause(this.thrownErrors.get(error));
+			} else {
+				return error;
+			}
 		}
 	}
 	

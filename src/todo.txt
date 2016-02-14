@@ -37,7 +37,6 @@ Version-1.5 (Stats)
 - commandlist (Befehle werden bei bestimmten Ereignissen automatisch ausgeführt)
 
 ====
-/gungame server
 /gungame spawns list
 /gungame levels info
 /gungame levels delete all
