@@ -16,16 +16,6 @@ import eu.securebit.gungame.util.Util;
 
 public class ArgumentLevels extends CustomArgument {
 
-	private final String descLoad;
-	private final String descSave;
-	private final String descDelete;
-	
-	public ArgumentLevels() {
-		this.descLoad = "";
-		this.descSave = "";
-		this.descDelete = "";
-	}
-
 	@Override
 	public String getSyntax() {
 		return "/gungame levels {load|save|delete|info} ...";
@@ -130,6 +120,13 @@ public class ArgumentLevels extends CustomArgument {
 					gungame.getLevelManager().deleteHighestLevel();
 					player.sendMessage(CoreMessages.levelDeleted(gungame.getLevelManager().getLevelCount() + 1));
 				}
+			} else if (args[1].equals("info")) {
+				if (args.length != 2) {
+					player.sendMessage(CoreMessages.syntax("/gungame levels info"));
+					return true;
+				}
+				
+				player.sendMessage(CoreMessages.levelsCount(gungame.getLevelManager().getLevelCount()));
 			} else {
 				this.sendSuggestions(sender);
 			}
@@ -142,9 +139,10 @@ public class ArgumentLevels extends CustomArgument {
 
 	private void sendSuggestions(CommandSender sender) {
 		Main.layout().begin();
-		Main.layout().suggestion("gungame levels load <id>", this.descLoad);
-		Main.layout().suggestion("gungame levels save [id]", this.descSave);
-		Main.layout().suggestion("gungame levels delete [count = 1]", this.descDelete);
+		Main.layout().line("gungame levels load <id>");
+		Main.layout().line("gungame levels save [id]");
+		Main.layout().line("gungame levels delete [count = 1]");
+		Main.layout().line("gungame levels info");
 		Main.layout().commit(sender);
 	}
 
@@ -165,6 +163,9 @@ public class ArgumentLevels extends CustomArgument {
 		layout.line("Deletes {count} levels from the levellist. If the ");
 		layout.line("parameter is not present, the command will delete");
 		layout.line("one level.");
+		layout.line("");
+		layout.line("*$-\"$- info");
+		layout.line("Prints an info about the levels in the game.");
 		layout.line("");
 		layout.line("*Examples (There are 6 levels already created)*");
 		layout.line("  /gg save " + layout.colorPrimary + "=> " + layout.colorSecondary + "Creates the 7'th level.");
