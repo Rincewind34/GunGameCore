@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
 
 public class ArgumentHelp extends CustomArgument {
@@ -35,6 +36,7 @@ public class ArgumentHelp extends CustomArgument {
 	@Override
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
 		InfoLayout layout = Main.layout();
+		
 		if (args.length == 1) {
 			layout.begin();
 			layout.category("Commands");
@@ -59,7 +61,7 @@ public class ArgumentHelp extends CustomArgument {
 			String name = args[1];		
 			
 			if (!this.handle.getArguments().containsKey(name)) {
-				layout.message(sender, "-There is no argument with the name '" + InfoLayout.replaceKeys(name) + "'.*");
+				sender.sendMessage(CoreMessages.unknownCommandArgument(name));
 				return true;
 			}
 			

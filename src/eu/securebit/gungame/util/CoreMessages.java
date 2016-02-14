@@ -12,7 +12,7 @@ public class CoreMessages {
 	}
 	
 	public static String syntax(String syntax) {
-		return Main.layout().format("\\pre-Syntax: " + syntax + "-");
+		return Main.layout().format("\\pre-Syntax: " + InfoLayout.replaceKeys(syntax) + "-");
 	}
 	
 	public static String invalidNumber(String input) {
@@ -33,10 +33,6 @@ public class CoreMessages {
 	
 	public static String spawnAdded(int spawnId) {
 		return Main.layout().format("\\pre*Success!* New spawn with id '*" + spawnId + "*' added.");
-	}
-
-	public static String commandHelp() {
-		return Main.layout().format("\\pre*/gungame* for the help!");
 	}
 	
 	public static String permission(String permission) {
@@ -139,6 +135,14 @@ public class CoreMessages {
 	public static String gamefileNotPresent(FileGameConfig config) {
 		return Main.layout().format("\\pre-The gameconfig " + config.getName() + " should have been loaded! (Cause: " + 
 				InfoLayout.replaceKeys(config.getFailCause()) + ")-");
+	}
+	
+	public static String levelsCount(int count) {
+		return Main.layout().format("\\preThere are *" + count + "* levels registered!");
+	}
+	
+	public static String unknownCommandArgument(String arg) {
+		return Main.layout().format("\\pre-The argument '" + arg + "' is unknown!-");
 	}
 	
 }

@@ -113,6 +113,11 @@ public class ArgumentSpawns extends CustomArgument {
 				Main.layout().message(player, "Registered ids: " + ids.substring(0, ids.length() - 2));
 				return true;
 			} else if (args.length == 3) {
+				if (!args[2].equals("-w")) {
+					sender.sendMessage(CoreMessages.syntax("/gungame spawns list [-w]"));
+					return true;
+				}
+				
 				InfoLayout layout = Main.layout();
 				
 				layout.begin();
@@ -126,7 +131,7 @@ public class ArgumentSpawns extends CustomArgument {
 				layout.commit(player);
 				return true;
 			} else {
-				sender.sendMessage(CoreMessages.syntax("/gungame spawns list [-l]"));
+				sender.sendMessage(CoreMessages.syntax("/gungame spawns list [-w]"));
 				return true;
 			}
 		} else {
@@ -143,6 +148,7 @@ public class ArgumentSpawns extends CustomArgument {
 		Main.layout().line("/gungame spawns add");
 		Main.layout().line("/gungame spawns tp <id>");
 		Main.layout().line("/gungame spawns remove <id>");
+		Main.layout().line("/gungame spawns list [-w]");
 		Main.layout().line("");
 		Main.layout().line("Type */gungame help spawns* for further information.");
 		Main.layout().barrier();
@@ -164,5 +170,7 @@ public class ArgumentSpawns extends CustomArgument {
 		layout.line("");
 		layout.line("*$-\"$- remove <id>*");
 		layout.line("Removes the specified spawn by its id.");
+		layout.line("*$-\"$- list [$-w]*");
+		layout.line("Lists all registered spawns. By giving the flag $-w the ouput will contain the world of each spawn.");
 	}
 }

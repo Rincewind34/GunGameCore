@@ -64,7 +64,7 @@ public class InfoLayout {
 	}
 	
 	public void barrier() {
-		this.barrier(25);
+		this.barrier(45);
 	}
 	
 	public void barrier(int count) {
