@@ -18,7 +18,7 @@ public class ArgumentSpawns extends CustomArgument {
 
 	@Override
 	public String getSyntax() {
-		return "/gungame spawns {add|tp|remove} ...";
+		return "/gungame spawns {add|tp|remove|list} ...";
 	}
 
 	@Override
@@ -92,6 +92,7 @@ public class ArgumentSpawns extends CustomArgument {
 			
 			if (Util.isInt(args[2])) {
 				int id = NumberConversions.toInt(args[2]);
+				
 				if (gungame.getMap().containsSpawn(id)) {
 					gungame.getMap().removeSpawnPoint(id);
 					player.sendMessage(CoreMessages.spawnRemoved(id));
@@ -100,6 +101,33 @@ public class ArgumentSpawns extends CustomArgument {
 				}
 			} else {
 				player.sendMessage(CoreMessages.invalidNumber(args[2]));
+			}
+		} else if (args[1].equalsIgnoreCase("list")) {
+			if (args.length == 2) {
+				String ids = "";
+				
+				for (int spawnId : gungame.getMap().getSpawnPointIds()) {
+					ids = ids + Integer.toString(spawnId) + ", ";
+				}
+				
+				Main.layout().message(player, "Registered ids: " + ids.substring(0, ids.length() - 2));
+				return true;
+			} else if (args.length == 3) {
+				InfoLayout layout = Main.layout();
+				
+				layout.begin();
+				layout.category("Spawns");
+				
+				for (int spawnId : gungame.getMap().getSpawnPointIds()) {
+					layout.line("  $-" + Integer.toString(spawnId) + " (World: " + gungame.getMap().getSpawnPoint(spawnId).getWorld().getName() + ")");
+				}
+				
+				layout.barrier();
+				layout.commit(player);
+				return true;
+			} else {
+				sender.sendMessage(CoreMessages.syntax("/gungame spawns list [-l]"));
+				return true;
 			}
 		} else {
 			this.sendSuggestions(sender);

@@ -69,7 +69,12 @@ public class CraftGunGameMap extends AbstractInterpreter<FileMap> implements Gun
 	public Location getSpawnPoint(int spawnId) {
 		return super.config.getSpawns().get(spawnId);
 	}
-
+	
+	@Override
+	public List<Integer> getSpawnPointIds() {
+		return super.config.getSpawns().keySet().stream().collect(Collectors.toList());
+	}
+	
 	@Override
 	public List<Location> getSpawnPoints() {
 		return super.config.getSpawns().values().stream().collect(Collectors.toList());

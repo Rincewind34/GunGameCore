@@ -70,7 +70,9 @@ public interface GunGameMap extends Interpreter {
 	public abstract int getSpawnPointCount();
 	
 	public abstract Location getSpawnPoint(int spawnId);
-
+	
+	public abstract List<Integer> getSpawnPointIds();
+	
 	public abstract List<Location> getSpawnPoints();
 	
 }
