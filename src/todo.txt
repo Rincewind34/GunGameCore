@@ -37,6 +37,6 @@ Version-1.5 (Stats)
 - commandlist (Befehle werden bei bestimmten Ereignissen automatisch ausgeführt)
 
 ====
-/gungame levels delete all
 /gungame debug [on|off]
 /gungame option <option> [value] //Keine value gibt die gegenwärtige value aus.
+countdowngrace config

@@ -105,14 +105,16 @@ public class ArgumentLevels extends CustomArgument {
 				int count = 1; // default
 				
 				if (args.length == 3) {
-					if (Util.isInt(args[2])) {
+					if (args[2].equalsIgnoreCase("all")) {
+						count = gungame.getLevelManager().getLevelCount();
+					} else if (Util.isInt(args[2])) {
 						count = NumberConversions.toInt(args[2]);
 					} else {
 						player.sendMessage(CoreMessages.invalidNumber(args[2]));
 						return true;
 					}
 				} else if (args.length != 2) {
-					player.sendMessage(CoreMessages.syntax("/gungame levels delete [count = 1]"));
+					player.sendMessage(CoreMessages.syntax("/gungame levels delete {[count = 1]|all}"));
 					return true;
 				}
 				
@@ -141,7 +143,7 @@ public class ArgumentLevels extends CustomArgument {
 		Main.layout().begin();
 		Main.layout().line("gungame levels load <id>");
 		Main.layout().line("gungame levels save [id]");
-		Main.layout().line("gungame levels delete [count = 1]");
+		Main.layout().line("gungame levels delete {[count = 1]|all}");
 		Main.layout().line("gungame levels info");
 		Main.layout().commit(sender);
 	}
@@ -159,12 +161,13 @@ public class ArgumentLevels extends CustomArgument {
 		layout.line("is not present, the level will be added to the");
 		layout.line("current levellist.");
 		layout.line("");
-		layout.line("*$-\"$- delete [count]*");
+		layout.line("*$-\"$- delete {[count]|all}*");
 		layout.line("Deletes {count} levels from the levellist. If the ");
 		layout.line("parameter is not present, the command will delete");
-		layout.line("one level.");
+		layout.line("one level. If you use 'delete all', all levels will be");
+		layout.line("deleted.");
 		layout.line("");
-		layout.line("*$-\"$- info");
+		layout.line("*$-\"$- info*");
 		layout.line("Prints an info about the levels in the game.");
 		layout.line("");
 		layout.line("*Examples (There are 6 levels already created)*");
@@ -172,5 +175,6 @@ public class ArgumentLevels extends CustomArgument {
 		layout.line("  /gg save 5 " + layout.colorPrimary + "=> " + layout.colorSecondary + "Overrides the 5'th level.");
 		layout.line("  /gg delete " + layout.colorPrimary + "=> " + layout.colorSecondary + "Deletes level 6.");
 		layout.line("  /gg delete 3 " + layout.colorPrimary + "=> " + layout.colorSecondary + "Deletes the levels 6, 5 and 4.");
+		layout.line("  /gg delete all " + layout.colorPrimary + "=> " + layout.colorSecondary + "Deletes all six levels.");
 	}
 }
