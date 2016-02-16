@@ -7,6 +7,7 @@ import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.exception.GunGameFixException;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.io.directories.RootDirectory;
 
 public enum ColorSet {
@@ -59,7 +60,7 @@ public enum ColorSet {
 	public static LayoutError createErrorEntry() {
 		return new LayoutErrorFixable("The colorset given from the bootconfig is invalid", ColorSet.ERROR_MAIN, (variables) -> {
 			if (variables.length == 0) {
-				Main.instance().getRootDirectory().setColorSet(ColorSet.DEFAULT);;
+				Core.getRootDirectory().setColorSet(ColorSet.DEFAULT);;
 			} else {
 				throw GunGameFixException.variables();
 			}

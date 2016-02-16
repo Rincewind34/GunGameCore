@@ -285,7 +285,13 @@ public class CraftErrorHandler implements ErrorHandler {
 		}
 		
 		if (object instanceof ThrownError) {
-			if (!this.thrownErrors.containsKey(object)) {
+			addError : {
+				for (ThrownError error : this.thrownErrors.keySet()) {
+					if (error.equals(object)) {
+						break addError;
+					}
+				}
+				
 				this.thrownErrors.put((ThrownError) object, cause);
 			}
 			

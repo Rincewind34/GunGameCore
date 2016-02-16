@@ -15,7 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
-import eu.securebit.gungame.addonsystem.Addon;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
 
@@ -56,27 +56,8 @@ public class Util {
 		layout.barrier();
 	}
 	
-	public static void stageServerInformation(InfoLayout layout) {
-		layout.category("General");
-		layout.line("Core$-Version: " + InfoLayout.replaceKeys(Main.instance().getDescription().getVersion()));
-		layout.line("Frame$-Name: " + InfoLayout.replaceKeys(Main.instance().getFrame().getName()));
-		layout.line("Frame$-Version: " + InfoLayout.replaceKeys(Main.instance().getFrame().getVersion()));
-		layout.line("");
-		layout.line("*Addons*");
-		
-		for (Addon addon : Main.instance().getAddons()) {
-			layout.line("  $-" + InfoLayout.replaceKeys(addon.getName()) + " > " + InfoLayout.replaceKeys(addon.getVersion()));
-		}
-		
-		if (Main.instance().getAddons().size() == 0) {
-			layout.line(" $-$- None $-$-");
-		}
-		
-		layout.barrier();
-	}
-	
 	public static void startCalculation(Player player, int delay, GunGame gungame) {
-		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {
+		Bukkit.getScheduler().runTaskLater(Core.getPlugin(), () -> {
 			if (player == null || Bukkit.getPlayerExact(player.getName()) == null) {
 				gungame.calculateGameState();
 			} else {

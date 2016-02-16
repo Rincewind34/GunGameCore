@@ -1,11 +1,6 @@
 package eu.securebit.gungame;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import lib.securebit.InfoLayout;
@@ -15,26 +10,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import eu.securebit.gungame.addonsystem.Addon;
-import eu.securebit.gungame.addonsystem.Addon.AddonProperties;
 import eu.securebit.gungame.commands.CommandGunGame;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
-import eu.securebit.gungame.exception.GunGameJarException;
-import eu.securebit.gungame.framework.Core;
-import eu.securebit.gungame.framework.Frame;
-import eu.securebit.gungame.framework.Frame.FrameProperties;
-import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.io.directories.AddonDirectory;
 import eu.securebit.gungame.io.directories.BootDirectory;
 import eu.securebit.gungame.io.directories.RootDirectory;
-import eu.securebit.gungame.io.loader.AddonLoader;
-import eu.securebit.gungame.io.loader.FrameLoader;
 import eu.securebit.gungame.ioimpl.directories.CraftRootDirectory;
-import eu.securebit.gungame.ioimpl.loader.CraftAddonLoader;
-import eu.securebit.gungame.ioimpl.loader.CraftFrameLoader;
-import eu.securebit.gungame.ioutil.IOUtil;
-import eu.securebit.gungame.util.Util;
 
 public class Main extends JavaPlugin {
 	
@@ -58,10 +40,7 @@ public class Main extends JavaPlugin {
 		return Main.random;
 	}
 	
-	private Frame frame;
-	private List<Addon> addons;
-	
-	private List<GunGame> games;
+	private Session session;
 	
 	private ArgumentedCommand command;
 	
@@ -83,175 +62,39 @@ public class Main extends JavaPlugin {
 		Main.layout.message(sender, "Running version: " + InfoLayout.replaceKeys(this.getDescription().getVersion()));
 		Main.layout.message(sender, "");
 		
-		this.games = new ArrayList<>();
 		this.handler = new CraftErrorHandler();
 		
 		this.command = new CommandGunGame();
 		this.command.create();
 		
-		Main.layout.message(sender, "Loading files...");
+		Main.layout.message(sender, "Creating filestructure...");
 		this.rootDirectory = new CraftRootDirectory(new File("plugins" + File.separator + "GunGame"), this.handler);
 		this.rootDirectory.create();
 		
 		if (this.rootDirectory.isReady()) {
-			Main.layout.message(sender, "Files loaded!");
+			Main.layout.message(sender, "Created!");
 		} else {
-			Main.layout.message(sender, "Could not load all files!");
+			Main.layout.message(sender, "Could not create the filestructure!");
 		}
 		
 		Main.layout.message(sender, "");
 		
 		this.rootDirectory.resolveColorSet();
 		
-		Main.layout.message(sender, "Loading frame...");
-		
-		if (this.loadFrame(sender)) {
-			Main.layout.message(sender, "Frame loaded!");
-		} else {
-			Main.layout.message(sender, "Frame could not be loaded!");
-		}
-		
+		Main.layout.message(sender, "Creating session...");
+		this.createSession();
+	
+		Main.layout.message(sender, "Booting...");
 		Main.layout.message(sender, "");
-		
-		if (Core.isFrameLoaded()) {
-			String name = InfoLayout.replaceKeys(this.frame.getName());
-			String version = InfoLayout.replaceKeys(this.frame.getVersion());
-			
-			Main.layout.message(sender, "Enabling frame *" + name + "* version *" + version + "*...");
-			
-			if (this.enableFrame(sender)) {
-				Main.layout.message(sender, "+Frame enabled!+");
-			} else {
-				Main.layout.message(sender, "-Frame could not be enabled!-");
-			}
-			
-			Main.layout.message(sender, "");
-		}
-		
-		Main.layout.message(sender, "Initializing addonloading...");
-		
-		List<File> files = this.initAddonLoading(sender);
-		
-		if (files != null) {
-			if (files.size() == 0) {
-				Main.layout.message(sender, "No addons found!");
-			} else {
-				Main.layout.message(sender, "Loadings addons (" + files.size() + ")...");
-				
-				Map<File, Addon> loadedAddons = new HashMap<>();
-				List<Addon> enabledAddons = new ArrayList<>();
-				
-				for (File file : files) {
-					Main.layout.message(sender, "Loading addon (file: " + InfoLayout.replaceKeys(file.getPath()) + ")...");
-					
-					Addon addon = this.loadAddon(sender, file);
-					
-					if (addon != null) {
-						loadedAddons.put(file, addon);
-						Main.layout.message(sender, "Could load addon!");
-					} else {
-						Main.layout.message(sender, "Addon loaded!");
-					}
-				}
-				
-				String status = Main.layout.colorPrimary + "[*" + loadedAddons.size() + "*" + 
-						Main.layout.colorPrimary + "/*" + files.size() + "*" + Main.layout.colorPrimary + "]";
-				
-				if (files.size() == loadedAddons.size()) {
-					Main.layout.message(sender, "+All addons loaded+ " + status + "+!+");
-				} else {
-					Main.layout.message(sender, "-Could not load all addons- " + status  + Main.layout.colorSecondary + "-!-");
-				}
-				
-				Main.layout.message(sender, "");
-				
-				if (loadedAddons.size() != 0) {
-					Main.layout.message(sender, "Enabling addons (" + loadedAddons.size() + ") ...");
-					
-					for (File file : loadedAddons.keySet()) {
-						Addon addon = loadedAddons.get(file);
-						
-						Main.layout.message(sender, "Enabling addon *" + InfoLayout.replaceKeys(addon.getName()) + "* version *" +
-								InfoLayout.replaceKeys(addon.getVersion()) + "*...");
-						
-						if (this.enableAddon(sender, addon, file)) {
-							enabledAddons.add(addon);
-							Main.layout.message(sender, "Addon enabled!");
-						} else {
-							Main.layout.message(sender, "Could not enable addon!");
-						}
-					}
-					
-					status = Main.layout.colorPrimary + "[*" + enabledAddons.size() + "*" + 
-							Main.layout.colorPrimary + "/*" + loadedAddons.size() + "*" + Main.layout.colorPrimary + "]";
-					
-					if (loadedAddons.size() == enabledAddons.size()) {
-						Main.layout.message(sender, "+All addons enabled+ " + status + "+!+");
-					} else {
-						Main.layout.message(sender, "-Could not load all addons- " + status  + Main.layout.colorSecondary + "-!-");
-					}
-				}
-			}
-		} else {
-			Main.layout.message(sender, "Initialization cancled!");
-		}
+		this.session.boot();
 		
 		Main.layout.message(sender, "");
 		Main.layout.message(sender, "+Core initialized!+");
-		
-		this.setDebugMode(this.rootDirectory.isDebugMode());
-		Main.layout.message(sender, "Debug$-Mode: " + Util.parseBoolean(Main.DEBUG, Main.layout));
 	}
 	
 	@Override
 	public void onDisable() {
-		ConsoleCommandSender sender = Bukkit.getConsoleSender();
-		
-		if (this.addons != null) {
-			for (Addon addon : this.addons) {
-				Main.layout.message(sender, "Disabling addon '" + InfoLayout.replaceKeys(addon.getName()) + "'...");
-				
-				try {
-					addon.disable();
-				} catch (Throwable ex) {
-					if (Main.DEBUG) {
-						ex.printStackTrace();
-					}
-					
-					continue;
-				}
-				
-				Main.layout.message(sender, "Addon disabled!");
-			}
-		}
-		
-		if (Core.isFrameLoaded() && Core.isFrameEnabled()) {
-			Main.layout.message(sender, "Disabling frame...");
-			
-			try {
-				this.frame.disable();
-			} catch (Throwable ex) {
-				if (Main.DEBUG) {
-					ex.printStackTrace();
-				}
-			} finally {
-				Main.layout.message(sender, "Frame disabled!");
-			}
-		}
-	}
-	
-	public void setDebugMode(boolean debug) {
-		Main.DEBUG = debug;
-		
-		for (GunGame game : this.games) {
-			game.setDebugMode(debug);
-		}
-		
-		this.rootDirectory.setDebugMode(debug);
-	}
-	
-	public Frame getFrame() {
-		return this.frame;
+		this.session.shutdown();
 	}
 	
 	public ArgumentedCommand getCommand() {
@@ -266,132 +109,30 @@ public class Main extends JavaPlugin {
 		return this.rootDirectory;
 	}
 	
-	public List<Addon> getAddons() {
-		return Collections.unmodifiableList(this.addons);
+	public Session getSession() {
+		return this.session;
 	}
 	
-	public List<GunGame> getGames() {
-		return this.games;
-	}
-	
-	private boolean loadFrame(ConsoleCommandSender sender) {
-		if (this.rootDirectory.isFramePresent()) {
-			try {
-				FrameLoader loader = new CraftFrameLoader(this.rootDirectory.getFrameJar());
-				this.frame = loader.load();
-			} catch (GunGameJarException ex) {
-				if (Main.DEBUG) {
-					ex.printStackTrace();
-				}
-				
-				this.frame = null;
-				
-				this.handler.throwError(Frame.ERROR_LOAD_MAINCLASS);
-			} catch (Throwable ex) {
-				if (Main.DEBUG) {
-					ex.printStackTrace();
-				}
-				
-				this.frame = null;
-				this.handler.throwError(Frame.ERROR_LOAD);
-			}
-		} else {
-			this.handler.throwError(Frame.ERROR_LOAD, RootDirectory.ERROR_FRAME);
-		}
-		
-		return Core.isFrameLoaded();
-	}
-	
-	private boolean enableFrame(ConsoleCommandSender sender) {
-		if (Core.isFrameLoaded()) {
-			if (this.rootDirectory.getBootFolder().isReady()) {
-				if (this.rootDirectory.getBootFolder().getUsingFrameId() == 0) {
-					this.rootDirectory.getBootFolder().setUsingFrameId(this.frame.getFrameId());
-				}
-				
-				if (this.rootDirectory.getBootFolder().getUsingFrameId() == this.frame.getFrameId()) {
-					Main.layout.message(sender, Main.layout.colorPrimary + "================================");
-					
-					FrameProperties properties = new FrameProperties(new File(this.rootDirectory.getBootFolder().getRelativPath()));
-					
-					try {
-						this.frame.enable(properties);
-					} catch (Throwable ex) {
-						if (Main.DEBUG) {
-							ex.printStackTrace();
-						}
-						
-						this.handler.throwError(Frame.ERROR_ENABLE);
-					}
-					
-					Main.layout.message(sender, Main.layout.colorPrimary + "================================");
-				} else {
-					this.handler.throwError(Frame.ERROR_ENABLE_ID);
-				}
-			} else {
-				this.handler.throwError(Frame.ERROR_ENABLE, BootDirectory.ERROR_MAIN);
-			}
-		} else {
-			this.handler.throwError(Frame.ERROR_ENABLE, Frame.ERROR_LOAD);
-		}
-		
-		return Core.isFrameEnabled();
-	}
-	
-	private List<File> initAddonLoading(ConsoleCommandSender sender) {
+	private void createSession() {
+		BootDirectory bootDir = this.rootDirectory.getBootFolder();
 		AddonDirectory addonDir = this.rootDirectory.getAddonDirectory();
 		
-		if (addonDir.isReady()) {
-			return addonDir.getAddonFiles();
+		boolean debug = this.rootDirectory.isDebugMode();
+		
+		if (this.rootDirectory.isFramePresent()) {
+			if (addonDir.isReady()) {
+				this.session = new CraftSession(this.rootDirectory.getFrameJar(), addonDir.getAddonFiles(), bootDir, this.handler, debug);
+			} else {
+				this.session = new CraftSession(this.rootDirectory.getFrameJar(), new ThrownError(AddonDirectory.ERROR_MAIN), bootDir, this.handler, debug);
+			}
 		} else {
-			this.handler.throwError(Addon.ERROR_INIT, AddonDirectory.ERROR_MAIN);
-		}
-		
-		return null;
-	}
-	
-	private Addon loadAddon(ConsoleCommandSender sender, File file) {
-		try {
-			AddonLoader loader = new CraftAddonLoader(file);
-			return loader.load();
-		} catch (Throwable ex) {
-			if (Main.DEBUG) {
-				ex.printStackTrace();
-			}
+			ThrownError error = new ThrownError(RootDirectory.ERROR_FRAME);
 			
-			this.handler.throwError(new ThrownError(Addon.ERROR_LOAD, IOUtil.preparePath(file.getPath())));
-			return null;
-		}
-	}
-	
-	private boolean enableAddon(ConsoleCommandSender sender, Addon addon, File file) {
-		for (String plugin : addon.getDependencies()) {
-			if (Bukkit.getPluginManager().getPlugin(plugin) == null || !Bukkit.getPluginManager().getPlugin(plugin).isEnabled()) {
-				this.handler.throwError(new ThrownError(Addon.ERROR_ENABLE_DEPENCIES, IOUtil.preparePath(file.getPath()), plugin));
-				return false;
+			if (addonDir.isReady()) {
+				this.session = new CraftSession(error, addonDir.getAddonFiles(), bootDir, this.handler, debug);
+			} else {
+				this.session = new CraftSession(error, new ThrownError(AddonDirectory.ERROR_MAIN), bootDir, this.handler, debug);
 			}
-		}
-		
-		if (addon.requiresFrame() && !Core.isFrameEnabled()) {
-			this.handler.throwError(new ThrownError(Addon.ERROR_ENABLE_FRAME_REQUIRED, IOUtil.preparePath(file.getPath())), Frame.ERROR_ENABLE);
-			return false;
-		} else if (Core.isFrameEnabled() && addon.getIncompatibleFrames().contains(this.frame.getFrameId())) {
-			this.handler.throwError(new ThrownError(Addon.ERROR_ENABLE_FRAME_INCOMPATIBLE, IOUtil.preparePath(file.getPath())));
-			return false;
-		}
-		
-		AddonProperties properties = new AddonProperties(new File(this.rootDirectory.getBootFolder().getRelativPath()));
-		
-		try {
-			addon.enable(properties);
-			return true;
-		} catch (Throwable ex) {
-			if (Main.DEBUG) {
-				ex.printStackTrace();
-			}
-			
-			this.handler.throwError(new ThrownError(Addon.ERROR_ENABLE, IOUtil.preparePath(file.getPath())));
-			return false;
 		}
 	}
 	

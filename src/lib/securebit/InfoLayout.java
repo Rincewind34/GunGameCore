@@ -44,11 +44,11 @@ public class InfoLayout {
 		Bukkit.broadcastMessage(this.format("\\pre" + text));
 	}
 
-	public synchronized void begin() {
+	public void begin() {
 		this.transaction.clear();
 	}
 
-	public synchronized void commit(CommandSender cs) {
+	public void commit(CommandSender cs) {
 		while (this.transaction.size() > 0) {
 			cs.sendMessage(this.format(this.transaction.remove(0))); // FIFO (first in, first out)
 		}

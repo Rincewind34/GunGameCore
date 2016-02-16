@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.interpreter.Messanger.GunGameMotD;
@@ -40,7 +41,7 @@ public class GameStateIngame extends DefaultGameStateIngame<GunGame> {
 		this.getGame().playConsoleDebugMessage("Entering gamephase: *Ingame*", Main.layout());
 		super.start();
 		
-		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {
+		Bukkit.getScheduler().runTaskLater(Core.getPlugin(), () -> {
 			this.getGame().calculateGameState();
 		}, 5L);
 	}

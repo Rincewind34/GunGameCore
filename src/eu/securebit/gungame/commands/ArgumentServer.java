@@ -6,8 +6,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.util.Permissions;
-import eu.securebit.gungame.util.Util;
 
 public class ArgumentServer extends CustomArgument {
 
@@ -35,7 +35,7 @@ public class ArgumentServer extends CustomArgument {
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
 		InfoLayout layout = Main.layout();
 		layout.begin();
-		Util.stageServerInformation(layout);
+		Core.getSession().stageInformation(layout);
 		layout.commit(sender);
 		
 		return true;

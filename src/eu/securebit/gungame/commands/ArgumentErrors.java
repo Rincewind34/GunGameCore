@@ -12,9 +12,10 @@ import org.bukkit.command.CommandSender;
 import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.util.Permissions;
 
-public class ArgumentError extends CustomArgument {
+public class ArgumentErrors extends CustomArgument {
 
 	@Override
 	public void stageInformation(InfoLayout layout) {
@@ -78,7 +79,7 @@ public class ArgumentError extends CustomArgument {
 			}
 			
 			if (this.getSorter(args).equals("name")) {
-				for (ThrownError error : Main.instance().getErrorHandler().getErrors().keySet()) {
+				for (ThrownError error : Core.getErrorHandler().getErrors().keySet()) {
 					errors.add(error);
 				}
 				
@@ -86,8 +87,8 @@ public class ArgumentError extends CustomArgument {
 			} else if (this.getSorter(args).equals("tree")) {
 				withTrigger = true;
 				
-				for (ThrownError error : Main.instance().getErrorHandler().getErrors().keySet()) {
-					if (Main.instance().getErrorHandler().getTrigger(error) == null) {
+				for (ThrownError error : Core.getErrorHandler().getErrors().keySet()) {
+					if (Core.getErrorHandler().getTrigger(error) == null) {
 						errors.add(error);
 						this.stageTrigger(error, errors);
 					}
@@ -96,17 +97,17 @@ public class ArgumentError extends CustomArgument {
 				return false;
 			}
 		} else {
-			for (ThrownError error : Main.instance().getErrorHandler().getErrors().keySet()) {
+			for (ThrownError error : Core.getErrorHandler().getErrors().keySet()) {
 				errors.add(error);
 			}
 		}
 		
 		for (ThrownError error : errors) {
-			layout.line(this.getOutput(error, withTrigger ? Main.instance().getErrorHandler().getTrigger(error) != null : false, false, args));
+			layout.line(this.getOutput(error, withTrigger ? Core.getErrorHandler().getTrigger(error) != null : false, false, args));
 			
 			if (this.isFlagPresent("c", args) || this.isFlagPresent("a", args)) {
-				if (Main.instance().getErrorHandler().getErrors().get(error) != null) {
-					layout.line(this.getOutput(Main.instance().getErrorHandler().getErrors().get(error), false, true, args));
+				if (Core.getErrorHandler().getErrors().get(error) != null) {
+					layout.line(this.getOutput(Core.getErrorHandler().getErrors().get(error), false, true, args));
 				}
 			}
 		}
@@ -117,7 +118,7 @@ public class ArgumentError extends CustomArgument {
 			
 			boolean printNone = true;
 			
-			for (ThrownError error : Main.instance().getErrorHandler().getErrors().keySet()) {
+			for (ThrownError error : Core.getErrorHandler().getErrors().keySet()) {
 				if (error.getLayout() instanceof LayoutErrorFixable) {
 					layout.line(this.getOutput(error, false, false, args));
 					printNone = false;
@@ -137,7 +138,7 @@ public class ArgumentError extends CustomArgument {
 	private int getErrorIndex(ThrownError error) {
 		int index = 0;
 		
-		for (ThrownError target : Main.instance().getErrorHandler().getErrors().keySet()) {
+		for (ThrownError target : Core.getErrorHandler().getErrors().keySet()) {
 			if (error.equals(target)) {
 				return index;
 			} else {
@@ -208,7 +209,7 @@ public class ArgumentError extends CustomArgument {
 	}
 	
 	private void stageTrigger(ThrownError error, List<ThrownError> errors) {
-		ThrownError triggerCause = Main.instance().getErrorHandler().getTriggerCause(error);
+		ThrownError triggerCause = Core.getErrorHandler().getTriggerCause(error);
 		
 		if (triggerCause != null) {
 			errors.add(triggerCause);

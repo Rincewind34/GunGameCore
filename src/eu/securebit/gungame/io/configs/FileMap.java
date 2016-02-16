@@ -5,10 +5,10 @@ import java.util.Map;
 
 import org.bukkit.Location;
 
-import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.exception.GunGameFixException;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.ioutil.IOUtil;
 
 public interface FileMap extends FileGunGameConfig {
@@ -28,7 +28,7 @@ public interface FileMap extends FileGunGameConfig {
 	public static LayoutError createErrorFolder() {
 		return new LayoutErrorFixable("The levelsfile 'VAR0' is a directory!", FileMap.ERROR_LOAD, (variables) -> {
 			if (variables.length == 1) {
-				IOUtil.delete(Main.instance().getRootDirectory().getFile(variables[0]));
+				IOUtil.delete(Core.getRootDirectory().getFile(variables[0]));
 			} else {
 				throw GunGameFixException.variables();
 			}
@@ -42,7 +42,7 @@ public interface FileMap extends FileGunGameConfig {
 	public static LayoutError createErrorMalformed() {
 		return new LayoutErrorFixable("The levelsfile 'VAR0' is malformed!", FileMap.ERROR_LOAD, (variables) -> {
 			if (variables.length == 1) {
-				IOUtil.delete(Main.instance().getRootDirectory().getFile(variables[0]));
+				IOUtil.delete(Core.getRootDirectory().getFile(variables[0]));
 			} else {
 				throw GunGameFixException.variables();
 			}

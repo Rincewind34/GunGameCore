@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.interpreter.Messanger.GunGameMotD;
@@ -49,7 +50,7 @@ public class GameStateGrace extends DefaultGameStateGrace<GunGame> {
 		
 		this.getGame().broadcastMessage(this.getGame().getMessanger().getGracePeriodStarts());
 		
-		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {
+		Bukkit.getScheduler().runTaskLater(Core.getPlugin(), () -> {
 			this.getGame().calculateGameState();
 		}, 5L);
 	}

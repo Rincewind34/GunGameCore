@@ -2,10 +2,10 @@ package eu.securebit.gungame.io.directories;
 
 import java.io.File;
 
-import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.exception.GunGameFixException;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.io.abstracts.Directory;
 import eu.securebit.gungame.ioutil.IOUtil;
 
@@ -32,7 +32,7 @@ public interface BootDirectory extends Directory {
 	public static LayoutError createErrorFile() {
 		return new LayoutErrorFixable("The bootfolder is a file!", BootDirectory.ERROR_MAIN, (variables) -> {
 			if (variables.length == 0) {
-				IOUtil.delete(new File(Main.instance().getRootDirectory().getBootFolder().getAbsolutPath()));
+				IOUtil.delete(new File(Core.getRootDirectory().getBootFolder().getAbsolutPath()));
 			} else {
 				throw GunGameFixException.variables();
 			}
@@ -46,7 +46,7 @@ public interface BootDirectory extends Directory {
 	public static LayoutError createErrorBootdataFolder() {
 		return new LayoutErrorFixable("The '.bootdata.yml' in the bootfolder is a directory!", BootDirectory.ERROR_MAIN, (variables) -> {
 			if (variables.length == 0) {
-				Main.instance().getRootDirectory().getBootFolder().deleteBootData();
+				Core.getRootDirectory().getBootFolder().deleteBootData();
 			} else {
 				throw GunGameFixException.variables();
 			}
@@ -60,7 +60,7 @@ public interface BootDirectory extends Directory {
 	public static LayoutError createErrorBootdataMalformed() {
 		return new LayoutErrorFixable("The '.bootdata.yml' in the bootfolder is malformed!", BootDirectory.ERROR_MAIN, (variables) -> {
 			if (variables.length == 0) {
-				Main.instance().getRootDirectory().getBootFolder().deleteBootData();
+				Core.getRootDirectory().getBootFolder().deleteBootData();
 			} else {
 				throw GunGameFixException.variables();
 			}

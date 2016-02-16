@@ -5,19 +5,24 @@ import java.util.Collections;
 import java.util.List;
 
 import lib.securebit.InfoLayout;
+import lib.securebit.game.GameState;
 import lib.securebit.game.impl.CraftGame;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
+import eu.securebit.gungame.GameBuilder;
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.StateRegistry;
 import eu.securebit.gungame.errorhandling.ErrorHandler;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.interpreter.GameOptions;
 import eu.securebit.gungame.interpreter.GunGameMap;
 import eu.securebit.gungame.interpreter.GunGameScoreboard;
@@ -54,14 +59,14 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 	private ErrorHandler errorHandler;
 	
 	public GunGame(FileGameConfig config, String name, GameInterface gameInterface, ErrorHandler errorHandler) {
-		super(Main.instance(), name);
+		super(Core.getPlugin(), name);
 		
 		this.config = config;
 		this.gameInterface = gameInterface;
 		this.errorHandler = errorHandler;
 		this.checks = new ArrayList<>();
 		
-		RootDirectory root = Main.instance().getRootDirectory();
+		RootDirectory root = Core.getRootDirectory();
 		
 		FileLevels fileLevels = root.getLevelsFile(config.getFileLevelsLocation());
 		FileMessages fileMessages = root.getMessagesFile(config.getFileMessagesLocation());
@@ -89,6 +94,19 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 			}
 		}
 		
+		if (config.isReady()) {
+			this.mute(config.isMuted());
+			this.registerWorld(config.getLocationLobby().getWorld());
+		}
+		
+		if (this.map.wasSuccessful()) {
+			for (Location spawn : this.map.getSpawnPoints()) {
+				if (!this.containsWorld(spawn.getWorld())) {
+					this.registerWorld(spawn.getWorld());
+				}
+			}
+		}
+		
 		this.checks.add(new ConfigCheck(config));
 		this.checks.add(new ConfigCheck(fileMessages));
 		this.checks.add(new ConfigCheck(fileLevels));
@@ -101,6 +119,12 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 		this.checks.add(new InterpreterCheck(this.board));
 		this.checks.add(new InterpreterCheck(this.options));
 		this.checks.add(new InterpreterCheck(this.map));
+		
+		boolean isReady = this.isReady();
+		
+		for (World world : this.getWorlds()) {
+			world.setAutoSave(!isReady);
+		}
 	}
 	
 	@Override
@@ -173,8 +197,12 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 		if (this.getPlayers().size() == 0) {
 			this.playConsoleDebugMessage("Shutdown!", Main.layout());
 			
-			this.gameInterface.initShutdown();
+			this.gameInterface.shutdown();
 		}
+	}
+	
+	public void shutdown() {
+		Core.getSession().shutdownGame(this.getName());
 	}
 	
 	public void setLobbyLocation(Location lobby) {
@@ -233,6 +261,26 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 	
 	public GameInterface getInterface() {
 		return this.gameInterface;
+	}
+	
+	public GameBuilder toBuilder() {
+		GameBuilder builder = new GameBuilder();
+		builder.setConfig(this.config);
+		builder.setGameInterface(this.gameInterface);
+		builder.setHandler(this.errorHandler);
+		builder.setName(this.getName());
+		
+		StateRegistry registry = new StateRegistry();
+		registry.clear();
+		registry.setDisabledStateClass(this.getManager().getDisabledState().getClass());
+		
+		for (GameState state : this.getManager().getAll()) {
+			registry.add(state.getClass());
+		}
+		
+		builder.setStateRegistry(registry);
+		
+		return builder;
 	}
 	
 	public GunGamePlayer getWinner() {

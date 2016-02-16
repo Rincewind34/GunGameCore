@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.util.Permissions;
 
 public class CommandGunGame extends ArgumentedCommand implements DefaultExecutor {
@@ -41,7 +42,7 @@ public class CommandGunGame extends ArgumentedCommand implements DefaultExecutor
 	 */
 	
 	public CommandGunGame() {
-		super("gungame", new LayoutCommandSettings(Main.layout()), Main.instance());
+		super("gungame", new LayoutCommandSettings(Main.layout()), Core.getPlugin());
 		
 		this.setAliases("gg");
 		this.setDescription("GunGame's main command.");
@@ -51,14 +52,14 @@ public class CommandGunGame extends ArgumentedCommand implements DefaultExecutor
 		this.registerArgument("spawns", new ArgumentSpawns());
 		this.registerArgument("levels", new ArgumentLevels());
 		this.registerArgument("lobby", new ArgumentLobby());
-		this.registerArgument("errors", new ArgumentError());
+		this.registerArgument("errors", new ArgumentErrors());
 		this.registerArgument("server", new ArgumentServer());
 		this.registerArgument("debug", new ArgumentDebug());
 	}
 
 	@Override
 	public boolean onExecute(CommandSender sender, Command cmd, String label, String[] args) {
-		PluginDescriptionFile desc = Main.instance().getDescription();
+		PluginDescriptionFile desc = Core.getPlugin().getDescription();
 		
 		Main.layout().begin();
 		Main.layout().barrier();

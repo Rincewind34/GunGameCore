@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.bukkit.entity.Player;
 
-import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.exception.GunGameFixException;
@@ -36,16 +35,11 @@ public abstract class Frame {
 	public static LayoutError createErrorEnableId() {
 		return new LayoutErrorFixable("The frameid in the given bootfolder does not match the id of the loaded frame!", Frame.ERROR_ENABLE, (variables) -> {
 			if (variables.length == 0) {
-				IOUtil.delete(new File(Main.instance().getRootDirectory().getBootFolder().getAbsolutPath()));
+				IOUtil.delete(new File(Core.getRootDirectory().getBootFolder().getAbsolutPath()));
 			} else {
 				throw GunGameFixException.variables();
 			}
 		}, true, "This fix will delete the bootfolder to let the frame create a new configuration.");
-	}
-	
-	
-	public static Frame instance() {
-		return Main.instance().getFrame();
 	}
 	
 	

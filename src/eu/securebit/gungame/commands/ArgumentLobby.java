@@ -6,7 +6,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import eu.securebit.gungame.Main;
 import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.util.CoreMessages;
@@ -33,17 +32,17 @@ public class ArgumentLobby extends CustomArgument {
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
 		Player player = (Player) sender;
 		
-		if (!Core.isFrameEnabled()) {
+		if (!Core.getSession().isFrameEnabled()) {
 			player.sendMessage(CoreMessages.frameDisabled());
 			return true;
 		}
 		
-		if (!Main.instance().getFrame().isInGame(player)) {
+		if (!Core.getSession().getFrame().isInGame(player)) {
 			player.sendMessage(CoreMessages.notInGame());
 			return true;
 		}
 		
-		GunGame gungame = Main.instance().getFrame().getGame(player);
+		GunGame gungame = Core.getSession().getFrame().getGame(player);
 		
 		if (!gungame.isFileReady()) {
 			player.sendMessage(CoreMessages.gamefileNotPresent(gungame.getFileGameConfig()));

@@ -35,17 +35,17 @@ public class ArgumentLevels extends CustomArgument {
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
 		Player player = (Player) sender;
 		
-		if (!Core.isFrameEnabled()) {
+		if (!Core.getSession().isFrameEnabled()) {
 			player.sendMessage(CoreMessages.frameDisabled());
 			return true;
 		}
 		
-		if (!Main.instance().getFrame().isInGame(player)) {
+		if (!Core.getSession().getFrame().isInGame(player)) {
 			player.sendMessage(CoreMessages.notInGame());
 			return true;
 		}
 		
-		GunGame gungame = Main.instance().getFrame().getGame(player);
+		GunGame gungame = Core.getSession().getFrame().getGame(player);
 		
 		if (!gungame.getLevelManager().wasSuccessful()) {
 			player.sendMessage(CoreMessages.interprete(gungame.getLevelManager()));

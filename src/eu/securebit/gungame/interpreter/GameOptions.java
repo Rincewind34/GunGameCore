@@ -1,11 +1,11 @@
 package eu.securebit.gungame.interpreter;
 
-import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.GunGameFixException;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.interpreter.impl.CraftGameOptions;
 import eu.securebit.gungame.io.configs.FileOptions;
 
@@ -30,7 +30,7 @@ public interface GameOptions extends Interpreter {
 	public static LayoutError createErrorLevelCountGreater() {
 		return new LayoutErrorFixable("The startlevel in the options-file 'VAR0' has to be greater than 0!", GameOptions.ERROR_MAIN, (variables) -> {
 			if (variables.length == 1) {
-				FileOptions options = Main.instance().getRootDirectory().getOptionsFile(variables[0]);
+				FileOptions options = Core.getRootDirectory().getOptionsFile(variables[0]);
 				
 				if (options.isReady()) {
 					options.setStartLevel(1);
@@ -46,7 +46,7 @@ public interface GameOptions extends Interpreter {
 	public static LayoutError createErrorLevelCountSmaller() {
 		return new LayoutErrorFixable("The startlevel in the options-file 'VAR0' has to be smaller than levelcount!", GameOptions.ERROR_MAIN, (variables) -> {
 			if (variables.length == 1) {
-				FileOptions options = Main.instance().getRootDirectory().getOptionsFile(variables[0]);
+				FileOptions options = Core.getRootDirectory().getOptionsFile(variables[0]);
 				
 				if (options.isReady()) {
 					options.setStartLevel(1);

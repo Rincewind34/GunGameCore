@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.util.Vector;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 
@@ -28,7 +29,7 @@ public class ListenerPlayerRespawn implements Listener {
 		List<Location> spawns = this.gungame.getMap().getSpawnPoints();
 		event.setRespawnLocation(spawns.get(Main.random().nextInt(spawns.size())));
 		
-		Bukkit.getScheduler().runTaskLater(Main.instance(), () -> {
+		Bukkit.getScheduler().runTaskLater(Core.getPlugin(), () -> {
 			player.refreshLevel();
 			player.getHandle().setVelocity(new Vector(0, 0, 0));
 			

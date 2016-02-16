@@ -6,18 +6,8 @@ import org.bukkit.entity.Player;
 public class ServerInterface implements GameInterface {
 
 	@Override
-	public void initShutdown() {
+	public void shutdown() {
 		Bukkit.shutdown();
-	}
-
-	@Override
-	public void initReload() {
-		Bukkit.reload();
-	}
-
-	@Override
-	public void initRestart() {
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
 	}
 	
 	@Override

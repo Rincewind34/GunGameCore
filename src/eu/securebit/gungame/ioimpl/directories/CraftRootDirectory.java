@@ -254,39 +254,38 @@ public class CraftRootDirectory extends AbstractDirectory implements RootDirecto
 			this.bootConfig = new CraftFileBootConfig(this.getAbsolutPath(), this.handler);
 			this.bootConfig.create();
 			
-			this.addonDirectory = new CraftAddonDirectory(new File(this.getAbsolutPath(), "addons"), this.handler);
-			this.addonDirectory.create();
-			
 			if (this.bootConfig.isReady()) {
-				this.registerFile(this.bootConfig);
+				if (this.configRegistry.isReady()) {
+					this.registerFile(this.bootConfig);
+				}
 				
 				this.bootDirectory = new CraftBootDirectory(new File(this.getAbsolutPath(), this.bootConfig.getBootFolder()), this.handler);
 				this.bootDirectory.create();
-			
+				
 				File frame = this.createFromRelativDatas(this.bootConfig.getFrameJar());
 				
 				if (!frame.exists()) {
 					this.handler.throwError(RootDirectory.ERROR_FRAME_EXIST);
-					return;
-				}
-				
-				if (frame.isDirectory()) {
+				} else if (frame.isDirectory()) {
 					this.handler.throwError(RootDirectory.ERROR_FRAME_NOJAR);
 					return;
+				} else {
+					try {
+						IOUtil.checkJarFile(frame);
+					} catch (Exception ex) {
+						this.handler.throwError(RootDirectory.ERROR_FRAME_NOJAR);
+						return;
+					}
+					
+					this.frame = frame;
 				}
-				
-				try {
-					IOUtil.checkJarFile(frame);
-				} catch (Exception ex) {
-					this.handler.throwError(RootDirectory.ERROR_FRAME_NOJAR);
-					return;
-				}
-				
-				this.frame = frame;
 			} else {
 				this.handler.throwError(BootDirectory.ERROR_MAIN);
 				this.handler.throwError(RootDirectory.ERROR_FRAME);
 			}
+			
+			this.addonDirectory = new CraftAddonDirectory(new File(this.getAbsolutPath(), "addons"), this.handler);
+			this.addonDirectory.create();
 		}
 	}
 	

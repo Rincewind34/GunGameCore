@@ -2,11 +2,11 @@ package eu.securebit.gungame.interpreter;
 
 import org.bukkit.entity.Player;
 
-import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.GunGameFixException;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.interpreter.impl.CraftGunGameScoreboard;
 import eu.securebit.gungame.io.configs.FileScoreboard;
@@ -32,7 +32,7 @@ public interface GunGameScoreboard extends Interpreter {
 	public static LayoutError createErrorTitle() {
 		return new LayoutErrorFixable("The title given by the scoreboardfile 'VAR0' has to be shorter than 64 characters!", GunGameScoreboard.ERROR_MAIN, (variables) -> {
 			if (variables.length == 1) {
-				FileScoreboard scoreboard = Main.instance().getRootDirectory().getScoreboardFile(variables[0]);
+				FileScoreboard scoreboard = Core.getRootDirectory().getScoreboardFile(variables[0]);
 				
 				if (scoreboard.isReady()) {
 					scoreboard.setScoreboardTitle(scoreboard.getScoreboardTitle().substring(0, 64));
