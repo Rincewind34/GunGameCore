@@ -395,6 +395,7 @@ public class CraftSession implements Session {
 		builder.setHandler(this.handler);
 		
 		GunGame gungame = builder.build();
+		gungame.setDebugMode(this.debugMode);
 		
 		this.games.put(name, gungame);
 		

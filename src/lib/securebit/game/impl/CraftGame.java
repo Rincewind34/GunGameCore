@@ -94,7 +94,7 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	@Override
 	public void playConsoleDebugMessage(String msg, InfoLayout layout) {
 		if (!this.debug && !this.muted) {
-			layout.message(Bukkit.getConsoleSender(), this.name + ": " + "{" + msg + "}");
+			Bukkit.getConsoleSender().sendMessage(layout.format(this.name + ": " + layout.colorPrimary + "{" + layout.colorSecondary + msg + layout.colorPrimary + "}"));
 		}
 	}
 	
