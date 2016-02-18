@@ -22,8 +22,6 @@ public class Main extends JavaPlugin {
 	
 	public static final String PREFIX_CORE = "System";
 	
-	public static boolean DEBUG = true;
-	
 	private static Main instance;
 	private static InfoLayout layout;
 	private static Random random;

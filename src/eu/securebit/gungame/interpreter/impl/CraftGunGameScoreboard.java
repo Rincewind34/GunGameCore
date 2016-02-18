@@ -8,8 +8,8 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-import eu.securebit.gungame.Main;
 import eu.securebit.gungame.exception.GunGameScoreboardException;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.interpreter.GunGameScoreboard;
@@ -56,7 +56,7 @@ public class CraftGunGameScoreboard extends AbstractInterpreter<FileScoreboard> 
 				try {
 					obj.getScore(format.replace("${player}", target.getHandle().getDisplayName())).setScore(target.getLevel());
 				} catch (Exception ex) {
-					if (Main.DEBUG) {
+					if (Core.getSession().isDebugMode()) {
 						System.err.println("Error occured while set the score of the player " + target.getHandle().getName() + " as " + target.getHandle().getDisplayName());
 						ex.printStackTrace();
 					}

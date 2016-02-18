@@ -2,10 +2,10 @@ package eu.securebit.gungame.ioimpl.abstracts;
 
 import java.io.File;
 
-import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.ErrorHandler;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.io.abstracts.SimpleFile;
 import eu.securebit.gungame.ioutil.IOUtil;
 
@@ -39,7 +39,7 @@ public abstract class AbstractFile implements SimpleFile {
 			try {
 				this.getFileType().createFile(this.file);
 			} catch (Exception ex) {
-				if (Main.DEBUG) {
+				if (Core.getSession().isDebugMode()) {
 					ex.printStackTrace();
 				}
 				

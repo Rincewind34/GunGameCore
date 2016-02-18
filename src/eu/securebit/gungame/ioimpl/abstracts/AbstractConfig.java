@@ -9,10 +9,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
-import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.ErrorHandler;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.exception.GunGameIOException;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.io.abstracts.FileConfig;
 import eu.securebit.gungame.ioutil.FileType;
 import eu.securebit.gungame.util.ConfigDefault;
@@ -46,7 +46,7 @@ public abstract class AbstractConfig extends AbstractFile implements FileConfig 
 				
 				this.save();
 			} catch (ScannerException ex) {
-				if (Main.DEBUG) {
+				if (Core.getSession().isDebugMode()) {
 					ex.printStackTrace();
 				}
 				

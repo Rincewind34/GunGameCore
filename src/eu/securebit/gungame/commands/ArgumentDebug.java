@@ -5,7 +5,6 @@ import lib.securebit.InfoLayout;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import eu.securebit.gungame.Main;
 import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.util.CoreMessages;
 import eu.securebit.gungame.util.Permissions;
@@ -37,7 +36,7 @@ public class ArgumentDebug extends CustomArgument {
 		String debugMode;
 		
 		if (args.length == 1) {
-			debugMode = Main.DEBUG ? "off" : "on";
+			debugMode = Core.getSession().isDebugMode() ? "off" : "on";
 		} else if (args.length == 2) {
 			debugMode = args[1].toLowerCase();
 		} else {
@@ -45,14 +44,14 @@ public class ArgumentDebug extends CustomArgument {
 		}
 		
 		if (debugMode.equals("on")) {
-			if (!Main.DEBUG) {
+			if (!Core.getSession().isDebugMode()) {
 				Core.getSession().setDebugMode(true);
 			} else {
 				sender.sendMessage(CoreMessages.debugModeActive());
 				return true;
 			}
 		} else if (debugMode.equals("off")) {
-			if (Main.DEBUG) {
+			if (Core.getSession().isDebugMode()) {
 				Core.getSession().setDebugMode(false);
 			} else {
 				sender.sendMessage(CoreMessages.debugModeInactive());

@@ -7,9 +7,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
-import eu.securebit.gungame.Main;
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
 import eu.securebit.gungame.exception.GunGameIOException;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.io.directories.BootDirectory;
 import eu.securebit.gungame.ioimpl.abstracts.AbstractDirectory;
 
@@ -85,7 +85,7 @@ public class CraftBootDirectory extends AbstractDirectory implements BootDirecto
 					try {
 						this.bootDataConfig.save(this.bootDataFile);
 					} catch (IOException ex) {
-						if (Main.DEBUG) {
+						if (Core.getSession().isDebugMode()) {
 							ex.printStackTrace();
 						}
 						
@@ -96,7 +96,7 @@ public class CraftBootDirectory extends AbstractDirectory implements BootDirecto
 				
 				this.frameId = this.bootDataConfig.getInt("id");
 			} catch (ScannerException ex) {
-				if (Main.DEBUG) {
+				if (Core.getSession().isDebugMode()) {
 					ex.printStackTrace();
 				}
 				

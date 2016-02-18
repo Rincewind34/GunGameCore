@@ -489,7 +489,7 @@ public class CraftSession implements Session {
 			addon.enable(new AddonProperties(new File(this.bootFolder.getRelativPath())));
 			return true;
 		} catch (Throwable ex) {
-			if (Main.DEBUG) {
+			if (Core.getSession().isDebugMode()) {
 				ex.printStackTrace();
 			}
 			

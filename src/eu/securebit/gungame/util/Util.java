@@ -14,7 +14,6 @@ import lib.securebit.game.GameState;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import eu.securebit.gungame.Main;
 import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.states.DisabledStateEdit;
@@ -62,7 +61,7 @@ public class Util {
 				gungame.calculateGameState();
 			} else {
 				if (delay >= 100L) {
-					if (Main.DEBUG) {
+					if (Core.getSession().isDebugMode()) {
 						System.err.println("Unable to handle disconnect of player " + player.getName());
 					}
 				}
