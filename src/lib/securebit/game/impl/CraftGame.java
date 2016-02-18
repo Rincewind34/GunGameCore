@@ -9,6 +9,8 @@ import lib.securebit.game.Game;
 import lib.securebit.game.GamePlayer;
 import lib.securebit.game.GameStateManager;
 import lib.securebit.game.GameStateManager.GameStateException;
+import lib.securebit.game.events.PlayerGameJoinEvent;
+import lib.securebit.game.events.PlayerGameQuitEvent;
 import lib.securebit.game.mapreset.MapReset;
 import lib.securebit.game.mapreset.SimpleMapReset;
 import lib.securebit.game.util.PingResult;
@@ -102,6 +104,8 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	public void joinPlayer(P player) {
 		this.players.add(player);
 		
+		Bukkit.getPluginManager().callEvent(new PlayerGameJoinEvent(player.getHandle(), this));
+		
 		if (this.manager.isCreated()) {
 			((CraftGameState<?>) this.manager.getCurrent()).onJoin(player.getHandle());
 		}
@@ -109,6 +113,8 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 
 	@Override
 	public void quitPlayer(Player player) {
+		Bukkit.getPluginManager().callEvent(new PlayerGameQuitEvent(player, this));
+		
 		if (this.manager.isCreated()) {
 			((CraftGameState<?>) this.manager.getCurrent()).onQuit(player);
 		}
