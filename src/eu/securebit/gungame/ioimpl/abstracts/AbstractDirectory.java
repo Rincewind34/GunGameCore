@@ -2,13 +2,13 @@ package eu.securebit.gungame.ioimpl.abstracts;
 
 import java.io.File;
 
-import eu.securebit.gungame.errorhandling.CraftErrorHandler;
+import eu.securebit.gungame.errorhandling.ErrorHandler;
 import eu.securebit.gungame.io.abstracts.Directory;
 import eu.securebit.gungame.ioutil.FileType;
 
 public abstract class AbstractDirectory extends AbstractFile implements Directory {
 	
-	public AbstractDirectory(File file, CraftErrorHandler handler, String errorMain, String errorFile, String errorCreate) {
+	public AbstractDirectory(File file, ErrorHandler handler, String errorMain, String errorFile, String errorCreate) {
 		super(file, handler, errorMain, errorFile, errorCreate);
 	}
 

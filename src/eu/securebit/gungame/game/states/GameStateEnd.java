@@ -56,7 +56,7 @@ public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 	public void unload() {
 		super.unload();
 		
-		this.getGame().getInterface().shutdown();
+		this.getGame().shutdown();
 	}
 	
 	@Override

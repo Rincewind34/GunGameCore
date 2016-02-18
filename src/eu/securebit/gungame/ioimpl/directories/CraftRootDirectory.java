@@ -81,6 +81,22 @@ public class CraftRootDirectory extends AbstractDirectory implements RootDirecto
 	}
 	
 	@Override
+	public void deleteFile(String directory, String name) {
+		this.deleteFile(this.createFromRelativDatas(directory, name));
+	}
+	
+	@Override
+	public void deleteFile(String relativPath) {
+		this.deleteFile(this.createFromRelativDatas(relativPath));
+	}
+	
+	@Override
+	public void deleteFile(File file) {
+		this.savedFiles.remove(file.getAbsolutePath());
+		file.delete();
+	}
+	
+	@Override
 	public void setColorSet(ColorSet colorset) {
 		this.bootConfig.setColorSet(colorset.toString());
 	}

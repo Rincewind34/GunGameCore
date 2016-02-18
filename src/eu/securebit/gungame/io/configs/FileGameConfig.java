@@ -18,8 +18,6 @@ public interface FileGameConfig extends FileGunGameConfig {
 
 	public static final String ERROR_MALFORMED = 			"Error-7113-VAR0";
 	
-	
-	
 	public static LayoutError createErrorLoad() {
 		return new LayoutError("The gameconfigfile 'VAR0' could not be loaded!");
 	}

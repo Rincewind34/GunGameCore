@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import lib.securebit.InfoLayout;
-import lib.securebit.game.GamePlayer;
 
 import org.bukkit.Bukkit;
 
@@ -251,8 +250,8 @@ public class CraftSession implements Session {
 	public void shutdownGame(String name) {
 		GunGame gungame = this.getGame(name);
 		
-		for (GamePlayer player : gungame.getPlayers()) {
-			gungame.quitPlayer(player.getHandle());
+		while (!gungame.getPlayers().isEmpty()) {
+			gungame.quitPlayer(gungame.getPlayers().get(0).getHandle());
 		}
 		
 		gungame.getManager().destroy();

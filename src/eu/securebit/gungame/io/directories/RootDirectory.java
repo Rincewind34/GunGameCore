@@ -64,6 +64,12 @@ public interface RootDirectory extends Directory {
 	
 	public abstract void setDebugMode(boolean debug);
 	
+	public abstract void deleteFile(String directory, String name);
+	
+	public abstract void deleteFile(String relativPath);
+	
+	public abstract void deleteFile(File file);
+	
 	public abstract boolean isFramePresent();
 	
 	public abstract boolean isDebugMode();

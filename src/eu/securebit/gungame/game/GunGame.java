@@ -202,7 +202,7 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 	}
 	
 	public void shutdown() {
-		Core.getSession().shutdownGame(this.getName());
+		this.gameInterface.shutdown();
 	}
 	
 	public void setLobbyLocation(Location lobby) {
@@ -257,10 +257,6 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 	
 	public GunGameMap getMap() {
 		return this.map;
-	}
-	
-	public GameInterface getInterface() {
-		return this.gameInterface;
 	}
 	
 	public GameBuilder toBuilder() {
