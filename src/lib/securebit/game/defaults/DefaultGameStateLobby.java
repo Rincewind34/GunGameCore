@@ -157,7 +157,7 @@ public abstract class DefaultGameStateLobby<G extends Game<? extends GamePlayer>
 		
 		if (this.minPl <= this.getGame().getPlayers().size()) {
 			if (!this.countdown.isRunning()) {
-				this.countdown.restart();
+				this.countdown.start();
 			}
 		}
 	}

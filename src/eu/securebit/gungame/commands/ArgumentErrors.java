@@ -31,8 +31,8 @@ public class ArgumentErrors extends CustomArgument {
 		layout.line("");
 		layout.line("*Examples:*");
 		layout.line("  /gg errors $-m");
-		layout.line("  /gg errors $-i $-s");
-		layout.line("  /gg errors $-s $-f $-c");
+		layout.line("  /gg errors $-i $-s name");
+		layout.line("  /gg errors $-s tree $-f $-c");
 	}
 
 	@Override

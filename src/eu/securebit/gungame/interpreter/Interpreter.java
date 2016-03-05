@@ -7,7 +7,7 @@ public interface Interpreter {
 	
 	public abstract boolean wasSuccessful();
 	
-	public abstract boolean isInterpreted();
+	public abstract boolean isFinished();
 	
 	public abstract String getName();
 	

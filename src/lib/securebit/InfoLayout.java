@@ -158,7 +158,7 @@ public class InfoLayout {
 			}
 			
 			if (s != null) {
-				throw new FormatException("The statment '" + s + "' is uncomplet!");
+				throw new FormatException("The statment '" + s + "' is uncomplet in '" + text + "'!");
 			} else {
 				throw new FormatException("An expected error!");
 			}

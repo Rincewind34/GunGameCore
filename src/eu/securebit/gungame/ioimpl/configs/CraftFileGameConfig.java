@@ -2,10 +2,12 @@ package eu.securebit.gungame.ioimpl.configs;
 
 import java.io.File;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
+import eu.securebit.gungame.exception.GunGameIOException;
 import eu.securebit.gungame.io.configs.FileGameConfig;
 import eu.securebit.gungame.ioutil.ConfigUtil;
 import eu.securebit.gungame.util.ConfigDefault;
@@ -26,8 +28,15 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 		this.getDefaults().add(new ConfigDefault("game.file.map", dataFolder + "map.yml", String.class));
 		this.getDefaults().add(new ConfigDefault("game.playercount.minimal", 1, int.class));
 		this.getDefaults().add(new ConfigDefault("game.playercount.maximal", 3, int.class));
+		this.getDefaults().add(new ConfigDefault("game.world", world.getName(), String.class));
 		
-		ConfigUtil.setLocation("game.lobby", world.getSpawnLocation(), this.getDefaults());
+		Location lobby = world.getSpawnLocation();
+		
+		this.getDefaults().add(new ConfigDefault("game.lobby.x", lobby.getX(), double.class));
+		this.getDefaults().add(new ConfigDefault("game.lobby.y", lobby.getY(), double.class));
+		this.getDefaults().add(new ConfigDefault("game.lobby.z", lobby.getZ(), double.class));
+		this.getDefaults().add(new ConfigDefault("game.lobby.yaw", lobby.getYaw(), double.class));
+		this.getDefaults().add(new ConfigDefault("game.lobby.pitch", lobby.getPitch(), double.class));
 	}
 	
 	@Override
@@ -94,10 +103,29 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 	}
 	
 	@Override
+	public String getArenaWorld() {
+		this.checkReady();
+		
+		return super.config.getString("game.file.map");
+	}
+	
+	@Override
 	public Location getLocationLobby() {
 		this.checkReady();
 		
-		return ConfigUtil.getLocation(super.config, "game.lobby");
+		World world = Bukkit.getWorld(this.getArenaWorld());
+		
+		if (world == null) {
+			throw GunGameIOException.unknownWorld(this.getArenaWorld());
+		}
+		
+		double x = super.config.getDouble("game.lobby.x");
+		double y = super.config.getDouble("game.lobby.y");
+		double z = super.config.getDouble("game.lobby.z");
+		float yaw = (float) super.config.getDouble("game.lobby.yaw");
+		float pitch = (float) super.config.getDouble("game.lobby.pitch");
+		
+		return new Location(world, x, y, z, yaw, pitch);
 	}
 	
 	@Override
@@ -123,5 +151,5 @@ public class CraftFileGameConfig extends CraftFileGunGameConfig implements FileG
 		ConfigUtil.setLocation(super.config, "game.lobby", loc);
 		this.save();
 	}
-	
+
 }

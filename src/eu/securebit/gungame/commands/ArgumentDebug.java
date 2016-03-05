@@ -46,6 +46,7 @@ public class ArgumentDebug extends CustomArgument {
 		if (debugMode.equals("on")) {
 			if (!Core.getSession().isDebugMode()) {
 				Core.getSession().setDebugMode(true);
+				Core.getRootDirectory().setDebugMode(true);
 			} else {
 				sender.sendMessage(CoreMessages.debugModeActive());
 				return true;
@@ -53,6 +54,7 @@ public class ArgumentDebug extends CustomArgument {
 		} else if (debugMode.equals("off")) {
 			if (Core.getSession().isDebugMode()) {
 				Core.getSession().setDebugMode(false);
+				Core.getRootDirectory().setDebugMode(false);
 			} else {
 				sender.sendMessage(CoreMessages.debugModeInactive());
 				return true;

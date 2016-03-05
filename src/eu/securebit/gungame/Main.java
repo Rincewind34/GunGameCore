@@ -93,6 +93,8 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		this.session.shutdown();
+		
+		Main.instance = null;
 	}
 	
 	public ArgumentedCommand getCommand() {

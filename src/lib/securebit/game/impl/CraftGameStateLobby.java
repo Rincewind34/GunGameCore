@@ -47,6 +47,7 @@ public abstract class CraftGameStateLobby<G extends Game<? extends GamePlayer>> 
 		super.onJoin(player);
 		
 		this.getGame().resetPlayer(player);
+		
 		player.teleport(this.lobby);
 	}
 	

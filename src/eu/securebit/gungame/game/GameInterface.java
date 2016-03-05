@@ -8,4 +8,6 @@ public interface GameInterface {
 	
 	public abstract void kickPlayer(Player player, String cause);
 	
+	public abstract void closeRescources();
+	
 }

@@ -8,13 +8,12 @@ import lib.securebit.InfoLayout;
 import lib.securebit.game.GameState;
 import lib.securebit.game.impl.CraftGame;
 
-import org.bukkit.GameMode;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.util.Vector;
 
 import eu.securebit.gungame.GameBuilder;
 import eu.securebit.gungame.Main;
@@ -22,6 +21,7 @@ import eu.securebit.gungame.StateRegistry;
 import eu.securebit.gungame.errorhandling.ErrorHandler;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
 import eu.securebit.gungame.errorhandling.objects.ThrownError;
+import eu.securebit.gungame.errorhandling.objects.Warning;
 import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.interpreter.GameOptions;
 import eu.securebit.gungame.interpreter.GunGameMap;
@@ -58,6 +58,8 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 	
 	private ErrorHandler errorHandler;
 	
+	private World world;
+	
 	public GunGame(FileGameConfig config, String name, GameInterface gameInterface, ErrorHandler errorHandler) {
 		super(Core.getPlugin(), name);
 		
@@ -80,9 +82,9 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 		
 		if (fileLevels.isReady()) {
 			this.options = GameOptions.create(fileOptions, this.levelManager.getLevelCount());
+		} else {
+			this.options = GameOptions.create(fileOptions, fileLevels.getErrorLoad());
 		}
-		
-		this.map = GunGameMap.create(fileMap);
 		
 		if (this.board.wasSuccessful()) {
 			if (this.board.isEnabled()) {
@@ -94,9 +96,22 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 			}
 		}
 		
-		if (config.isReady()) {
+		if (this.config.isReady()) {
 			this.mute(config.isMuted());
-			this.registerWorld(config.getLocationLobby().getWorld());
+			
+			String worldName = this.config.getArenaWorld();
+			
+			if (Bukkit.getWorld(worldName) != null) {
+				this.errorHandler.throwError(new Warning(Warnings.WARNING_GAME_WORLD));
+			} else {
+				try {
+					Bukkit.createWorld(new WorldCreator(this.config.getName()).type(WorldType.FLAT));
+				} catch (Exception ex) {
+					
+				}
+			}
+			
+			this.world = Bukkit.getWorld(worldName);
 		}
 		
 		if (this.map.wasSuccessful()) {
@@ -148,18 +163,10 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 	
 	@Override
 	public void resetPlayer(Player player) {
-		player.setGameMode(GameMode.SURVIVAL);
-		player.setHealth(20.0);
-		player.setVelocity(new Vector(0, 0, 0));
-		player.setFoodLevel(20);
-		player.setExp(0.0F);
-		player.setLevel(0);
-		player.setFireTicks(0);
-		player.getInventory().clear();
-		player.getInventory().setArmorContents(new ItemStack[] { null, null, null, null });
+		super.resetPlayer(player);
 		
-		for (PotionEffect effect : player.getActivePotionEffects()) {
-			player.removePotionEffect(effect.getType());
+		if (this.board.isEnabled()) {
+			player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		}
 	}
 	
@@ -170,15 +177,23 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 		if (this.config.isReady()) {
 			this.config.setMuted(mute);
 		} else {
-			this.errorHandler.throwError(Warnings.WARNING_GAME_MUTE, FileGameConfig.ERROR_LOAD);
+			this.errorHandler.throwError(new Warning(Warnings.WARNING_GAME_MUTE, this.getName()), this.config.getErrorLoad());
 		}
+	}
+	
+	public void shutdown() {
+		this.gameInterface.shutdown();
+	}
+	
+	public void closeRescources() {
+		this.gameInterface.closeRescources();
 	}
 	
 	public void setEditMode(boolean value) {
 		if (this.config.isReady()) {
 			this.config.setEditMode(value);
 		} else {
-			this.errorHandler.throwError(Warnings.WARNING_GAME_EDITMODE, FileGameConfig.ERROR_LOAD);
+			this.errorHandler.throwError(new Warning(Warnings.WARNING_GAME_EDITMODE, this.getName()), this.config.getErrorLoad());
 		}
 	}
 	
@@ -197,12 +212,8 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 		if (this.getPlayers().size() == 0) {
 			this.playConsoleDebugMessage("Shutdown!", Main.layout());
 			
-			this.gameInterface.shutdown();
+			this.shutdown();
 		}
-	}
-	
-	public void shutdown() {
-		this.gameInterface.shutdown();
 	}
 	
 	public void setLobbyLocation(Location lobby) {
@@ -317,7 +328,7 @@ public class GunGame extends CraftGame<GunGamePlayer> {
 		
 		@Override
 		public boolean check() {
-			return this.interpreter.isInterpreted();
+			return this.interpreter.isFinished();
 		}
 		
 	}

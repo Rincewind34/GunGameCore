@@ -3,9 +3,11 @@ package eu.securebit.gungame.interpreter;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 
 import eu.securebit.gungame.errorhandling.layouts.LayoutError;
 import eu.securebit.gungame.errorhandling.layouts.LayoutErrorFixable;
+import eu.securebit.gungame.errorhandling.objects.ThrownError;
 import eu.securebit.gungame.exception.GunGameErrorPresentException;
 import eu.securebit.gungame.exception.GunGameFixException;
 import eu.securebit.gungame.framework.Core;
@@ -56,8 +58,12 @@ public interface GunGameMap extends Interpreter {
 		return new LayoutError("The map-file 'VAR0' has to contain at least one spawnpoint!", GunGameMap.ERROR_MAIN);
 	}
 	
-	public static GunGameMap create(FileMap file) {
-		return new CraftGunGameMap(file);
+	public static GunGameMap create(FileMap file, World world) {
+		return new CraftGunGameMap(file, world);
+	}
+	
+	public static GunGameMap create(FileMap file, ThrownError failCause) {
+		return new CraftGunGameMap(file, failCause);
 	}
 	
 	

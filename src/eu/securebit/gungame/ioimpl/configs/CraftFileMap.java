@@ -8,13 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.util.NumberConversions;
 
 import eu.securebit.gungame.errorhandling.CraftErrorHandler;
-import eu.securebit.gungame.exception.GunGameIOException;
 import eu.securebit.gungame.io.configs.FileMap;
 import eu.securebit.gungame.ioutil.DataUtil;
 import eu.securebit.gungame.util.ConfigDefault;
@@ -48,7 +45,7 @@ public class CraftFileMap extends CraftFileGunGameConfig implements FileMap {
 			list.add(this.createCSV(entry));
 		}
 		
-		super.config.set("map.location.spawns", spawns);
+		super.config.set("map.location.spawns", list);
 		this.save();
 	}
 
@@ -89,19 +86,12 @@ public class CraftFileMap extends CraftFileGunGameConfig implements FileMap {
 	
 	private Entry<Integer, Location> readSpawnLocation(String csv) {
 		int id = NumberConversions.toInt(DataUtil.getFromCSV(csv, 0));
-		String worldName = DataUtil.getFromCSV(csv, 1);
 		
-		World world = Bukkit.getWorld(worldName);
-		
-		if (world == null) {
-			throw GunGameIOException.unknownWorld(worldName);
-		}
-		
-		double x = NumberConversions.toDouble(DataUtil.getFromCSV(csv, 2));
-		double y = NumberConversions.toDouble(DataUtil.getFromCSV(csv, 3));
-		double z = NumberConversions.toDouble(DataUtil.getFromCSV(csv, 4));
-		float yaw = NumberConversions.toFloat(DataUtil.getFromCSV(csv, 5));
-		float pitch = NumberConversions.toFloat(DataUtil.getFromCSV(csv, 6));
+		double x = NumberConversions.toDouble(DataUtil.getFromCSV(csv, 1));
+		double y = NumberConversions.toDouble(DataUtil.getFromCSV(csv, 2));
+		double z = NumberConversions.toDouble(DataUtil.getFromCSV(csv, 3));
+		float yaw = NumberConversions.toFloat(DataUtil.getFromCSV(csv, 4));
+		float pitch = NumberConversions.toFloat(DataUtil.getFromCSV(csv, 5));
 		
 		return new Entry<Integer, Location>() {
 			
@@ -112,7 +102,7 @@ public class CraftFileMap extends CraftFileGunGameConfig implements FileMap {
 			
 			@Override
 			public Location getValue() {
-				return new Location(world, x, y, z, yaw, pitch);
+				return new Location(null, x, y, z, yaw, pitch);
 			}
 			
 			@Override
@@ -123,13 +113,12 @@ public class CraftFileMap extends CraftFileGunGameConfig implements FileMap {
 	}
 	
 	private String createCSV(Entry<Integer, Location> entry) {
-		return DataUtil.toCSV(entry.getKey()
-				, entry.getValue().getWorld().getName()
-				, entry.getValue().getX()
-				, entry.getValue().getY()
-				, entry.getValue().getZ()
-				, entry.getValue().getYaw()
-				, entry.getValue().getPitch());
+		return DataUtil.toCSV(entry.getKey(),
+				entry.getValue().getX(),
+				entry.getValue().getY(),
+				entry.getValue().getZ(),
+				entry.getValue().getYaw(),
+				entry.getValue().getPitch());
 	}
 
 }

@@ -5,10 +5,12 @@ import lib.securebit.game.GamePlayer;
 import lib.securebit.game.Settings.StateSettings;
 import lib.securebit.game.defaults.DefaultGameStateEnd;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import eu.securebit.gungame.Main;
+import eu.securebit.gungame.framework.Core;
 import eu.securebit.gungame.game.GunGame;
 import eu.securebit.gungame.game.GunGamePlayer;
 import eu.securebit.gungame.interpreter.Messanger.GunGameMotD;
@@ -56,7 +58,7 @@ public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 	public void unload() {
 		super.unload();
 		
-		this.getGame().shutdown();
+		GameStateEnd.startShutdown(1, this.getGame());
 	}
 	
 	@Override
@@ -88,5 +90,21 @@ public class GameStateEnd extends DefaultGameStateEnd<GunGame> {
 	@EventHandler
 	private void onRespawn(PlayerRespawnEvent event) {
 		event.setRespawnLocation(this.getGame().getLobbyLocation());
+	}
+	
+	private static void startShutdown(int delay, GunGame gungame) {
+		Bukkit.getScheduler().runTaskLater(Core.getPlugin(), () -> {
+			if (!gungame.getManager().isCreated()) {
+				gungame.shutdown();
+			} else {
+				if (delay >= 100L) {
+					if (Core.getSession().isDebugMode()) {
+						System.err.println("Unable to shutdown game '" + gungame.getName() + "'!");
+					}
+				}
+				
+				GameStateEnd.startShutdown(delay + 1, gungame);
+			}
+		}, delay);
 	}
 }

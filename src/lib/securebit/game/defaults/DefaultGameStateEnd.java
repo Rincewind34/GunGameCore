@@ -88,7 +88,7 @@ public abstract class DefaultGameStateEnd<G extends Game<? extends GamePlayer>> 
 	}
 	
 	protected void onCountdownStop() {
-		this.getGame().getManager().setRunning(false);
+		this.getGame().getManager().destroy();
 	}
 	
 	protected abstract String getMessageNotJoinable();

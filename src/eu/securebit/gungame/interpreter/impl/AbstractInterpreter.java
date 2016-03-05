@@ -32,7 +32,7 @@ public abstract class AbstractInterpreter<T extends FileGunGameConfig> implement
 	}
 	
 	@Override
-	public boolean isInterpreted() {
+	public boolean isFinished() {
 		return !this.handler.isErrorPresent(this.errorMain);
 	}
 	

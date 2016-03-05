@@ -50,27 +50,6 @@ public class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
 		for (GameCheck check : this.getGame().getChecks()) {
 			check.stageStatus(layout);
 		}
-//		
-//		this.stageFileData("config$-file", CustomFrame.instance().getFileConfig(), layout);
-//		this.stageFileData("messages$-file", CustomFrame.instance().getFileMessages(), layout);
-//		this.stageFileData("levels$-file", CustomFrame.instance().getFileLevels(), layout);
-//		this.stageFileData("scoreboard$-file", CustomFrame.instance().getFileScoreboard(), layout);
-//
-//		layout.line("");
-//
-//		if (CustomFrame.instance().getFileConfig().getSpawns().size() < 1) {
-//			layout.line("spawns: " + Util.parseBoolean(false, layout));
-//			layout.line("  $- You have to set at least one spawn location!");
-//		} else {
-//			layout.line("spawns: " + Util.parseBoolean(true, layout));
-//		}
-//
-//		if (CustomFrame.instance().getFileConfig().isEditMode()) {
-//			layout.line("value: " + Util.parseBoolean(true, layout, true));
-//			layout.line("  $- Turn the value 'EditMode' in 'config.yml' to *false*!");
-//		} else {
-//			layout.line("value: " + Util.parseBoolean(false, layout, true));
-//		}
 	}
 	
 	@Override
@@ -97,13 +76,5 @@ public class DisabledStateEdit extends DefaultGameStateDisabled<GunGame> {
 	protected void onQuit(Player player) {
 		super.onQuit(player);
 	}
-
-//	private void stageFileData(String name, FileConfig config, InfoLayout layout) {
-//		if (config.isReady()) {
-//			layout.line(name + ": " + Util.parseBoolean(true, layout));
-//		} else {
-//			layout.line(name + ": " + Util.parseBoolean(false, layout));
-//		}
-//	}
-
+	
 }

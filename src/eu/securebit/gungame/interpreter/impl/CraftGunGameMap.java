@@ -5,14 +5,20 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 
+import eu.securebit.gungame.exception.GunGameException;
 import eu.securebit.gungame.interpreter.GunGameMap;
 import eu.securebit.gungame.io.configs.FileMap;
 
 public class CraftGunGameMap extends AbstractInterpreter<FileMap> implements GunGameMap {
 	
-	public CraftGunGameMap(FileMap file) {
+	private World world;
+
+	public CraftGunGameMap(FileMap file, World world) {
 		super(file, GunGameMap.ERROR_MAIN, GunGameMap.ERROR_INTERPRET);
+		
+		this.world = world;
 		
 		if (this.wasSuccessful()) {
 			int nextId = super.config.getNextSpawnId();
@@ -49,6 +55,10 @@ public class CraftGunGameMap extends AbstractInterpreter<FileMap> implements Gun
 
 	@Override
 	public int addSpawnPoint(Location spawnPoint) {
+		if (spawnPoint.getWorld() != null && !spawnPoint.getWorld().equals(this.world)) {
+			throw GunGameException.invalidWorld(this.world.getName());
+		}
+		
 		int nextId = super.config.getNextSpawnId();
 		
 		Map<Integer, Location> spawns = super.config.getSpawns();
@@ -67,7 +77,7 @@ public class CraftGunGameMap extends AbstractInterpreter<FileMap> implements Gun
 
 	@Override
 	public Location getSpawnPoint(int spawnId) {
-		return super.config.getSpawns().get(spawnId);
+		return this.prepareLocation(super.config.getSpawns().get(spawnId));
 	}
 	
 	@Override
@@ -77,7 +87,13 @@ public class CraftGunGameMap extends AbstractInterpreter<FileMap> implements Gun
 	
 	@Override
 	public List<Location> getSpawnPoints() {
-		return super.config.getSpawns().values().stream().collect(Collectors.toList());
+		List<Location> spawnPoints = super.config.getSpawns().values().stream().collect(Collectors.toList());
+		
+		for (Location spawnPoint : spawnPoints) {
+			this.prepareLocation(spawnPoint);
+		}
+		
+		return spawnPoints;
 	}
 	
 	private void calculteNextSpawnId() {
@@ -88,6 +104,11 @@ public class CraftGunGameMap extends AbstractInterpreter<FileMap> implements Gun
 		}
 		
 		super.config.setNextSpawnId(newId);
+	}
+	
+	private Location prepareLocation(Location input) {
+		input.setWorld(this.world);
+		return input;
 	}
 
 }

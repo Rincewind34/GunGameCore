@@ -14,5 +14,11 @@ public class ServerInterface implements GameInterface {
 	public void kickPlayer(Player player, String cause) {
 		player.kickPlayer(cause);
 	}
+	
+	@Override
+	public void closeRescources() {
+		
+	}
+	
 
 }

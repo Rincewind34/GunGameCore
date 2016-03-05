@@ -71,6 +71,8 @@ public interface FileGameConfig extends FileGunGameConfig {
 	
 	public abstract String getFileMapLocation();
 	
+	public abstract String getArenaWorld();
+	
 	public abstract Location getLocationLobby();
 	
 }

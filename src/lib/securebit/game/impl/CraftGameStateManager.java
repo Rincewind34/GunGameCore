@@ -48,7 +48,7 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 	@Override
 	public void next(int count, boolean startStates) {
 		if (!this.created) {
-			throw new GameStateException("The manager was already created!");
+			throw new GameStateException("The manager was not created!");
 		}
 		
 		if (count <= 0) {
@@ -94,7 +94,7 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 	@Override
 	public void skip(int count) {
 		if (!this.created) {
-			throw new GameStateException("The manager was already created!");
+			throw new GameStateException("The manager was not created!");
 		}
 		
 		if (count <= 0) {
@@ -119,7 +119,7 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 	@Override
 	public void skipAll() {
 		if (!this.created) {
-			throw new GameStateException("The manager was already created!");
+			throw new GameStateException("The manager was not created!");
 		}
 		
 		this.skip(this.getSize() - 1 - this.index);
@@ -128,7 +128,7 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 	@Override
 	public void setRunning(boolean running) {
 		if (!this.created) {
-			throw new GameStateException("The manager was already created!");
+			throw new GameStateException("The manager was not created!");
 		}
 		
 		if (this.isRunning() == running) {
@@ -214,7 +214,7 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 			this.plugin.getServer().getPluginManager().registerEvents(this.game, this.plugin);
 			this.setRunning(running, false);
 		} else {
-			throw new GameStateException("The manager was already created!");
+			throw new GameStateException("The manager is already created!");
 		}
 	}
 
@@ -226,7 +226,7 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 	@Override
 	public boolean isRunning() {
 		if (!this.created) {
-			throw new GameStateException("The manager was already created!");
+			throw new GameStateException("The manager was not created!");
 		}
 		
 		return this.index != -1;
@@ -260,7 +260,7 @@ public class CraftGameStateManager<G extends Game<?>> implements GameStateManage
 	@Override
 	public GameState getCurrent() {
 		if (!this.created) {
-			throw new GameStateException("The manager was already created!");
+			throw new GameStateException("The manager was not created!");
 		}
 		
 		if (this.index == -1) {

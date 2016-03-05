@@ -217,8 +217,8 @@ public class CraftSession implements Session {
 	
 	@Override
 	public void shutdown(Output output) {
-		for (String name : this.games.keySet()) {
-			this.shutdownGame(name);
+		while (!this.games.isEmpty()) {
+			this.shutdownGame(this.games.keySet().iterator().next());
 		}
 		
 		for (Addon addon : this.enabledAddons) {
@@ -254,7 +254,11 @@ public class CraftSession implements Session {
 			gungame.quitPlayer(gungame.getPlayers().get(0).getHandle());
 		}
 		
-		gungame.getManager().destroy();
+		gungame.closeRescources();
+		
+		if (gungame.getManager().isCreated()) {
+			gungame.getManager().destroy();
+		}
 		
 		this.games.remove(name);
 	}

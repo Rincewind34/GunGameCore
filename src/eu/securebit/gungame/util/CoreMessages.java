@@ -142,7 +142,7 @@ public class CoreMessages {
 	}
 	
 	public static String unknownCommandArgument(String arg) {
-		return Main.layout().format("\\pre-The argument '" + arg + "' is unknown!-");
+		return Main.layout().format("\\pre-The argument '" + InfoLayout.replaceKeys(arg) + "' is unknown!-");
 	}
 	
 	public static String debugModeSwitch(String muteState) {

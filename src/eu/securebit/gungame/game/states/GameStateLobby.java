@@ -16,8 +16,8 @@ public class GameStateLobby extends DefaultGameStateLobby<GunGame> {
 		super(gungame,
 				gungame.getLobbyLocation(),
 				Permissions.premium(), Permissions.teammember(),
-				gungame.getMinPlayerCount(),
 				gungame.getSize(),
+				gungame.getMinPlayerCount(),
 				gungame.getOptions().getCountdownLength(),
 				gungame.getOptions().getPremiumSlots(),
 				true, gungame.getOptions().premiumKick());

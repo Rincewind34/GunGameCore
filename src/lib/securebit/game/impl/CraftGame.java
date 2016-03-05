@@ -95,7 +95,7 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 	
 	@Override
 	public void playConsoleDebugMessage(String msg, InfoLayout layout) {
-		if (!this.debug && !this.muted) {
+		if (this.debug && !this.muted) {
 			Bukkit.getConsoleSender().sendMessage(layout.format(this.name + ": " + layout.colorPrimary + "{" + layout.colorSecondary + msg + layout.colorPrimary + "}"));
 		}
 	}
@@ -109,11 +109,25 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 		if (this.manager.isCreated()) {
 			((CraftGameState<?>) this.manager.getCurrent()).onJoin(player.getHandle());
 		}
+		
+		Player handle = player.getHandle();
+		
+		for (Player target : Bukkit.getOnlinePlayers()) {
+			handle.hidePlayer(target);
+			target.hidePlayer(handle);
+		}
+		
+		for (GamePlayer target : this.getPlayers()) {
+			handle.showPlayer(target.getHandle());
+			target.getHandle().showPlayer(handle);
+		}
 	}
 
 	@Override
 	public void quitPlayer(Player player) {
 		Bukkit.getPluginManager().callEvent(new PlayerGameQuitEvent(player, this));
+		
+		this.resetPlayer(player);
 		
 		if (this.manager.isCreated()) {
 			((CraftGameState<?>) this.manager.getCurrent()).onQuit(player);
@@ -125,6 +139,16 @@ public abstract class CraftGame<P extends GamePlayer> implements Game<P> {
 			if (iterator.next().getHandle().getName().equals(player.getName())) {
 				iterator.remove();
 			}
+		}
+		
+		for (Player target : Bukkit.getOnlinePlayers()) {
+			player.showPlayer(target);
+			target.showPlayer(player);
+		}
+		
+		for (GamePlayer target : this.getPlayers()) {
+			player.hidePlayer(target.getHandle());
+			target.getHandle().hidePlayer(player);
 		}
 	}
 	

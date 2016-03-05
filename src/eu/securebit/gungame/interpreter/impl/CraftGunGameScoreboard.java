@@ -25,7 +25,7 @@ public class CraftGunGameScoreboard extends AbstractInterpreter<FileScoreboard> 
 		super(file, GunGameScoreboard.ERROR_MAIN, GunGameScoreboard.ERROR_INTERPRET);
 		
 		this.gungame = gungame;
-		this.board = Bukkit.getScoreboardManager().getMainScoreboard();
+		this.board = Bukkit.getScoreboardManager().getNewScoreboard();
 		
 		if (this.wasSuccessful()) {
 			if (super.config.getScoreboardTitle().length() >= 64) {
@@ -133,6 +133,8 @@ public class CraftGunGameScoreboard extends AbstractInterpreter<FileScoreboard> 
 	@Override
 	public void refresh() {
 		for (GunGamePlayer player : this.gungame.getPlayers()) {
+			System.out.println(player.getHandle().getName());
+			
 			player.getHandle().setScoreboard(this.board);
 		}
 	}

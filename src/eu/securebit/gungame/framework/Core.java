@@ -2,6 +2,7 @@ package eu.securebit.gungame.framework;
 
 import lib.securebit.command.ArgumentedCommand;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 import eu.securebit.gungame.Main;
@@ -10,6 +11,10 @@ import eu.securebit.gungame.errorhandling.ErrorHandler;
 import eu.securebit.gungame.io.directories.RootDirectory;
 
 public class Core {
+	
+	public static void shutdown() {
+		Bukkit.getPluginManager().disablePlugin(Core.getPlugin());
+	}
 	
 	public static ArgumentedCommand getCommand() {
 		return Main.instance().getCommand();
